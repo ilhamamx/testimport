@@ -1,6 +1,7 @@
 import firebase from 'firebase/compat/app'
 import 'firebase/compat/firestore'
 
+//stagging firebase 
 const db = firebase
   .initializeApp(
     {
