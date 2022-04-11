@@ -1,4 +1,4 @@
-import db, { Timestamp,fetchDataTesting } from '../db';
+import db, { Timestamp } from '../db';
 
 describe('db connection', () => {
   Timestamp.fromDate(new Date());
