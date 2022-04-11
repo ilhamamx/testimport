@@ -72,3 +72,14 @@ You don’t have to ever use `eject`. The curated feature set is suitable for sm
 You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
 
 To learn React, check out the [React documentation](https://reactjs.org/).
+
+## Database Setting
+
+Firebase Database
+
+1. Create new firebase project 
+2. Create database firestore and Set region to asia-southeast1 
+3. Change Firestore rules "allow read, write: if false" to "allow read, write: if true"
+4. Create database Realtime and Set region to asia-southeast1 
+5. Change Realtime rules "read: false, write: false" to "read: true, write: true"
+6. Update Firebase plan to blaze/pay as you go
