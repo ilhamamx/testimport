@@ -83,3 +83,11 @@ Firebase Database
 4. Create database Realtime and Set region to asia-southeast1 
 5. Change Realtime rules "read: false, write: false" to "read: true, write: true"
 6. Update Firebase plan to blaze/pay as you go
+
+## Database Connection
+
+Firebase Database
+
+1. Go to Firebase Project Setting 
+2. Add App and Choose Web app 
+3. Copy FirebaseConfig source and paste to db/index.js
