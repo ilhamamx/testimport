@@ -73,6 +73,29 @@ You can learn more in the [Create React App documentation](https://facebook.gith
 
 To learn React, check out the [React documentation](https://reactjs.org/).
 
+
+## Translation i18next guide
+
+For any text translate, all will be place on 'public/locales/(language)'
+
+Using code to change language. Example
+``` 
+  const { t, i18n } = useTranslation();
+
+  function onButtonChangeLanguage(lng: string) {
+    i18n.changeLanguage(lng);
+  }
+```
+
+Using on element, can using any text element like <div>, <p> or else. Example :
+```
+........
+  <div> {t('Hello.World')} </div>
+........
+```
+
+Source : [i18next Documentation](https://www.i18next.com/translation-function/formatting)
+
 ## Database Setting
 
 Firebase Database

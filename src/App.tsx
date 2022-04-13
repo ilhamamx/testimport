@@ -26,7 +26,7 @@ function App() {
         >
           Learn React
         </a>
-        <a>Ini contoh penggunaan translate</a>
+        <p>Ini contoh penggunaan translate</p>
         <button onClick={() => changeLanguage('id')}>Change to id</button>
         <button onClick={() => changeLanguage('en')}>Change to en</button>
         <p>{t('Hello.World')}</p>

@@ -1,14 +1,17 @@
 import React, { Suspense } from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
-import App from './App';
+// import App from './App';
 import reportWebVitals from './reportWebVitals';
-import './translations/i18next';
+import './setup/translations/i18next';
+import {AppRoutes} from './app/routes/AppRoutes';
+
+import './resources/assets/sass/style.scss';
 
 ReactDOM.render(
   <React.StrictMode>
     <Suspense fallback={<div>Loading...</div>}>
-      <App />
+      <AppRoutes />
     </Suspense>
   </React.StrictMode>,
   document.getElementById('root')
