@@ -1,27 +1,29 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
-import {useState} from 'react'
-import * as Yup from 'yup'
-import clsx from 'clsx'
-import {Link} from 'react-router-dom'
-import {useFormik} from 'formik'
-import Button from '../../../../components/Button'
+import { useState } from "react";
+import * as Yup from "yup";
+import clsx from "clsx";
+import { Link } from "react-router-dom";
+import { FormikProvider, useFormik } from "formik";
+import Button from "../../../../components/Button";
+import Input from "../../../../components/Input";
+import { useTranslation } from "react-i18next";
 
 const loginSchema = Yup.object().shape({
   email: Yup.string()
-    .email('Wrong email format')
-    .min(3, 'Minimum 3 symbols')
-    .max(50, 'Maximum 50 symbols')
-    .required('Email is required'),
+    .email("Wrong email format")
+    .min(3, "Minimum 3 symbols")
+    .max(50, "Maximum 50 symbols")
+    .required("Email is required"),
   password: Yup.string()
-    .min(3, 'Minimum 3 symbols')
-    .max(50, 'Maximum 50 symbols')
-    .required('Password is required'),
-})
+    .min(3, "Minimum 3 symbols")
+    .max(50, "Maximum 50 symbols")
+    .required("Password is required"),
+});
 
 const initialValues = {
-  email: 'admin@demo.com',
-  password: 'demo',
-}
+  email: "admin@demo.com",
+  password: "demo",
+};
 
 /*
   Formik+YUP+Typescript:
@@ -30,26 +32,51 @@ const initialValues = {
 */
 
 export function Login() {
-  const [loading, setLoading] = useState(false)
+  const { t } = useTranslation();
+  const [loading, setLoading] = useState(false);
   const formik = useFormik({
     initialValues,
     validationSchema: loginSchema,
-    onSubmit: (values, {setStatus, setSubmitting}) => {
-      setLoading(true)
+    onSubmit: (values, { setStatus, setSubmitting }) => {
+      setLoading(true);
       setTimeout(() => {
-      //   login(values.email, values.password)
-      //     .then(({data: {api_token}}) => {
-      //       setLoading(false)
-      //       dispatch(auth.actions.login(api_token))
-      //     })
-      //     .catch(() => {
-      //       setLoading(false)
-      //       setSubmitting(false)
-      //       setStatus('The login detail is incorrect')
-      //     })
-      }, 1000)
+        //   login(values.email, values.password)
+        //     .then(({data: {api_token}}) => {
+        //       setLoading(false)
+        //       dispatch(auth.actions.login(api_token))
+        //     })
+        //     .catch(() => {
+        //       setLoading(false)
+        //       setSubmitting(false)
+        //       setStatus('The login detail is incorrect')
+        //     })
+      }, 1000);
     },
-  })
+  });
+
+  function emailValidation() {
+    const isInvalid = formik.touched.email && formik.errors.email;
+    const isValid = formik.touched.email && !formik.errors.email;
+    if (isValid) {
+      return `is-valid`;
+    }
+    if (isInvalid) {
+      return `is-invalid`;
+    }
+    return `is-valid`;
+  }
+
+  function passwordValidation() {
+    const isInvalid = formik.touched.password && formik.errors.password;
+    const isValid = formik.touched.password && !formik.errors.password;
+    if (isValid) {
+      return `is-valid`;
+    }
+    if (isInvalid) {
+      return `is-invalid`;
+    }
+    return `is-valid`;
+  }
 
   return (
     <form
@@ -60,11 +87,11 @@ export function Login() {
     >
       {/* begin::Heading */}
       <div className="text-center mb-10">
-        <h1 className="text-dark mb-3">Sign In to Metronic</h1>
+        <h1 className="text-dark mb-3">{t("Login.Info.SignIn")}</h1>
         <div className="text-gray-400 fw-bold fs-4">
-          New Here?{" "}
+          {t("Login.Info.Registration")}
           <Link to="/auth/registration" className="link-primary fw-bolder">
-            Create an Account
+            {t("Login.Link.Registration")}
           </Link>
         </div>
       </div>
@@ -86,22 +113,21 @@ export function Login() {
       {/* begin::Form group */}
       <div className="fv-row mb-10">
         <label className="form-label fs-6 fw-bolder text-dark">Email</label>
-        <input
+        <Input
+          data-testid="email"
           placeholder="Email"
           {...formik.getFieldProps("email")}
-          className={clsx(
-            "form-control form-control-lg form-control-solid",
-            { "is-invalid": formik.touched.email && formik.errors.email },
-            {
-              "is-valid": formik.touched.email && !formik.errors.email,
-            }
-          )}
+          formcontrol={"solid"}
+          isvalid={`${emailValidation()}`}
           type="email"
           name="email"
           autoComplete="off"
         />
         {formik.touched.email && formik.errors.email && (
-          <div className="fv-plugins-message-container">
+          <div
+            data-testid="emailerror"
+            className="fv-plugins-message-container"
+          >
             <span role="alert">{formik.errors.email}</span>
           </div>
         )}
@@ -123,27 +149,25 @@ export function Login() {
               className="link-primary fs-6 fw-bolder"
               style={{ marginLeft: "5px" }}
             >
-              Forgot Password ?
+              {t("Login.Link.ForgotPassword")}
             </Link>
             {/* end::Link */}
           </div>
         </div>
-        <input
+        <Input
+          data-testid="password"
           type="password"
           autoComplete="off"
+          formcontrollg="solid"
           {...formik.getFieldProps("password")}
-          className={clsx(
-            "form-control form-control-lg form-control-solid",
-            {
-              "is-invalid": formik.touched.password && formik.errors.password,
-            },
-            {
-              "is-valid": formik.touched.password && !formik.errors.password,
-            }
-          )}
+          formcontrol={"solid"}
+          isvalid={`${passwordValidation()}`}
         />
         {formik.touched.password && formik.errors.password && (
-          <div className="fv-plugins-message-container">
+          <div
+            data-testid="passworderror"
+            className="fv-plugins-message-container"
+          >
             <div className="fv-help-block">
               <span role="alert">{formik.errors.password}</span>
             </div>
@@ -169,16 +193,16 @@ export function Login() {
           )}
         </button> */}
         <Button
-          id='kt_sign_in_submit'
-          btnlg='primary'
+          id="kt_sign_in_submit"
+          btnlg="primary"
           type="submit"
           disabled={formik.isSubmitting || !formik.isValid}
         >
-          {!loading && <span className='indicator-label'>Continue</span>}
+          {!loading && <span className="indicator-label">Continue</span>}
           {loading && (
-            <span className='indicator-progress' style={{display: 'block'}}>
+            <span className="indicator-progress" style={{ display: "block" }}>
               Please wait...
-              <span className='spinner-border spinner-border-sm align-middle ms-2'></span>
+              <span className="spinner-border spinner-border-sm align-middle ms-2"></span>
             </span>
           )}
         </Button>

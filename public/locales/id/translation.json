@@ -1,5 +1,24 @@
 {
   "Hello": {
     "World": "Halo Dunia"
-  }
+  },
+  "Login.Error.WrongEmail": "Email yang dimasukkan salah",
+  "Login.Info.Registration": "Belum punya akun? Daftar disini",
+  "Login.Button.Login": "Masuk",
+  "Login.Info.SignIn": "Masuk ke 7days",
+  "Login.Info.Registration": "Belum punya akun? ",
+  "Login.Link.Registration": "Daftar Sekarang",
+  "Login.Input.User": "Email atau No. Handphone",
+  "Login.Input.Password": "Kata Sandi",
+  "Login.Link.ForgotPassword": "Lupa Kata Sandi?",
+  "Login.Checkbox.Rememberme": "Ingat saya",
+  "Login.Link.About": "Tentang",
+  "Login.Link.Products": "Produk",
+  "Login.Link.Contact Us": "Hubungi kami",
+  "Login.Error.WrongEmail": "Format email/No.Handphone anda salah ",
+  "Login.Error.EmptyEmail": "Email diperlukan",
+  "Login.Notif.UnregisteredUser": "Alamat email atau No. Handphone yang anda masukkan belum terdaftar",
+  "Login.Error.EmptyPassword": "Kata sandi diperlukan",
+  "Login.Notif.IncorrectUser": "Akun/Kata Sandi tidak valid",
+  "Login.Button.Login": "Masuk"
 }

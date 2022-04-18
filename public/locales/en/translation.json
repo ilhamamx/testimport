@@ -1,5 +1,24 @@
 {
   "Hello": {
     "World": "Hello World"
-  }
+  },
+  "Login.Error.WrongEmail": "Invalid email",
+  "Login.Info.Registration": "Dont have account? Create a new one",
+  "Login.Button.Login": "Login",
+  "Login.Info.SignIn": "Sign In to 7days",
+  "Login.Info.Registration": "New here? ",
+  "Login.Link.Registration": "Create an account",
+  "Login.Input.User": "Email or Phone Number",
+  "Login.Input.Password": "Password",
+  "Login.Link.ForgotPassword": "Forgot Password?",
+  "Login.Checkbox.Rememberme": "Remember me",
+  "Login.Link.About": "About",
+  "Login.Link.Products": "Products",
+  "Login.Link.Contact Us": "Contact Us",
+  "Login.Error.WrongEmail": "Wrong email/phone number format",
+  "Login.Error.EmptyEmail": "Email is required",
+  "Login.Notif.UnregisteredUser": "The email address or phone number you've entered doesn't match any account",
+  "Login.Error.EmptyPassword": "Password is required",
+  "Login.Notif.IncorrectUser": "Login detail is incorrect",
+  "Login.Button.Login": "Login"
 }
