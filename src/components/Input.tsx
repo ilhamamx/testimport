@@ -3,10 +3,13 @@ import React from "react";
 
 interface InputProps {
   /**
-   * form control from src/resources/assets/sass/core/components/forms/_form-control.scss
+   * form control of input defined with form-control from src/resources/assets/sass/core/components/forms/_form-control.scss
    */
   formcontrol?: "solid" | "transparent" | "white" | "flush";
 
+  /**
+   * validation of input, indicate that input of user is valid or invalid 
+   */
   isvalid?: "is-valid" | "is-invalid";
   /**
    * props for the input

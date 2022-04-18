@@ -112,7 +112,7 @@ export function Login() {
 
       {/* begin::Form group */}
       <div className="fv-row mb-10">
-        <label className="form-label fs-6 fw-bolder text-dark">Email</label>
+        <label className="form-label fs-6 fw-bolder text-dark">Email or No. Handphone</label>
         <Input
           data-testid="email"
           placeholder="Email"
