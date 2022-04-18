@@ -17,7 +17,7 @@ interface InputProps {
   [propName: string]: any;
 }
 
-function Input({ ...props }: InputProps) {
+function TextInput({ ...props }: InputProps) {
   function styleSelect(): string {
     if (props.formcontrol) {
       return `form-control form-control-bs form-control-${props.formcontrol}`;
@@ -36,4 +36,4 @@ function Input({ ...props }: InputProps) {
   return <input className={clsx(styleSelect(), validation())} {...props} />;
 }
 
-export default Input;
+export default TextInput;

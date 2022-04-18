@@ -5,7 +5,7 @@ import clsx from "clsx";
 import { Link } from "react-router-dom";
 import { FormikProvider, useFormik } from "formik";
 import Button from "../../../../components/Button";
-import Input from "../../../../components/TextInput";
+import TextInput from "../../../../components/TextInput";
 import { useTranslation } from "react-i18next";
 
 const loginSchema = Yup.object().shape({
@@ -111,7 +111,7 @@ export function Login() {
       {/* begin::Form group */}
       <div className="fv-row mb-10">
         <label className="form-label fs-6 fw-bolder text-dark">Email or No. Handphone</label>
-        <Input
+        <TextInput
           data-testid="email"
           placeholder="Email"
           {...formik.getFieldProps("email")}
@@ -152,7 +152,7 @@ export function Login() {
             {/* end::Link */}
           </div>
         </div>
-        <Input
+        <TextInput
           data-testid="password"
           type="password"
           autoComplete="off"
