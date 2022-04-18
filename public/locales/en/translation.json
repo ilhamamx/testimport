@@ -2,9 +2,6 @@
   "Hello": {
     "World": "Hello World"
   },
-  "Login.Error.WrongEmail": "Invalid email",
-  "Login.Info.Registration": "Dont have account? Create a new one",
-  "Login.Button.Login": "Login",
   "Login.Info.SignIn": "Sign In to 7days",
   "Login.Info.Registration": "New here? ",
   "Login.Link.Registration": "Create an account",

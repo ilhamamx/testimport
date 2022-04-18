@@ -1,6 +1,6 @@
 import { ComponentStory, ComponentMeta } from '@storybook/react';
 
-import Input from "../../components/Input";
+import Input from "../../components/TextInput";
 
 import "../../resources/assets/sass/style.scss";
 
@@ -17,7 +17,7 @@ Base.args = {};
 export const InputLogin = Template.bind({});
 InputLogin.args = {
   formcontrol: "solid",
-  isvalid: 'is-valid'
+  isvalid: true
 };
 
 

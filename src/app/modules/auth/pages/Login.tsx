@@ -5,7 +5,7 @@ import clsx from "clsx";
 import { Link } from "react-router-dom";
 import { FormikProvider, useFormik } from "formik";
 import Button from "../../../../components/Button";
-import Input from "../../../../components/Input";
+import Input from "../../../../components/TextInput";
 import { useTranslation } from "react-i18next";
 
 const loginSchema = Yup.object().shape({
@@ -58,24 +58,22 @@ export function Login() {
     const isInvalid = formik.touched.email && formik.errors.email;
     const isValid = formik.touched.email && !formik.errors.email;
     if (isValid) {
-      return `is-valid`;
+      return true;
     }
     if (isInvalid) {
-      return `is-invalid`;
+      return false;
     }
-    return `is-valid`;
   }
 
   function passwordValidation() {
     const isInvalid = formik.touched.password && formik.errors.password;
     const isValid = formik.touched.password && !formik.errors.password;
     if (isValid) {
-      return `is-valid`;
+      return true;
     }
     if (isInvalid) {
-      return `is-invalid`;
+      return false;
     }
-    return `is-valid`;
   }
 
   return (
@@ -118,7 +116,7 @@ export function Login() {
           placeholder="Email"
           {...formik.getFieldProps("email")}
           formcontrol={"solid"}
-          isvalid={`${emailValidation()}`}
+          isvalid={emailValidation()}
           type="email"
           name="email"
           autoComplete="off"
@@ -158,10 +156,9 @@ export function Login() {
           data-testid="password"
           type="password"
           autoComplete="off"
-          formcontrollg="solid"
           {...formik.getFieldProps("password")}
           formcontrol={"solid"}
-          isvalid={`${passwordValidation()}`}
+          isvalid={passwordValidation()}
         />
         {formik.touched.password && formik.errors.password && (
           <div

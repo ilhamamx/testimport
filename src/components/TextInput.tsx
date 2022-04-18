@@ -10,7 +10,7 @@ interface InputProps {
   /**
    * validation of input, indicate that input of user is valid or invalid 
    */
-  isvalid?: "is-valid" | "is-invalid";
+  isvalid?: true | false;
   /**
    * props for the input
    */
@@ -25,10 +25,13 @@ function Input({ ...props }: InputProps) {
     return `form-control`;
   }
   function validation(): string{
-    if(props.isvalid){
-      return `${props.isvalid}`;
+    if(props.isvalid === true){
+      return `is-valid`;
     }
-    return `${props.isvalid}`;
+    if(props.isvalid === false){
+      return `is-invalid`;
+    }
+    return `is-valid`;
   }
   return <input className={clsx(styleSelect(), validation())} {...props} />;
 }
