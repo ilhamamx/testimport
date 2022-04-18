@@ -20,6 +20,9 @@ interface ButtonProps {
   
 }
 
+/**
+ * Primary UI component for user interaction
+ */
 function Button({
   ...props
 }: ButtonProps) {

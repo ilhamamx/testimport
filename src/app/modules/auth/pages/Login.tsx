@@ -7,16 +7,14 @@ import { FormikProvider, useFormik } from "formik";
 import Button from "../../../../components/Button";
 import TextInput from "../../../../components/TextInput";
 import { useTranslation } from "react-i18next";
+import { phoneValidator } from "../../validators/InputValidator";
+import { useNavigate } from "react-router-dom";
+
 
 const loginSchema = Yup.object().shape({
   email: Yup.string()
-    .email("Wrong email format")
-    .min(3, "Minimum 3 symbols")
-    .max(50, "Maximum 50 symbols")
     .required("Email is required"),
   password: Yup.string()
-    .min(3, "Minimum 3 symbols")
-    .max(50, "Maximum 50 symbols")
     .required("Password is required"),
 });
 
@@ -33,6 +31,7 @@ const initialValues = {
 
 export function Login() {
   const { t } = useTranslation();
+  const nav = useNavigate();
   const [loading, setLoading] = useState(false);
   const formik = useFormik({
     initialValues,
@@ -40,41 +39,97 @@ export function Login() {
     onSubmit: (values, { setStatus, setSubmitting }) => {
       setLoading(true);
       setTimeout(() => {
-        //   login(values.email, values.password)
-        //     .then(({data: {api_token}}) => {
-        //       setLoading(false)
-        //       dispatch(auth.actions.login(api_token))
-        //     })
-        //     .catch(() => {
-        //       setLoading(false)
-        //       setSubmitting(false)
-        //       setStatus('The login detail is incorrect')
-        //     })
+        const formEmail = getEmailFromInput(values.email);
+        //TODO change login logic into firebase login logic
+          login(formEmail, values.password)
+            .then(
+              response => {
+                if (response) {
+                  setLoading(false);
+                  console.log("success login");
+                  console.log(response);
+                  nav("/dashboard");
+                } else {
+                  setLoading(false);
+                  setSubmitting(false);
+                  setStatus("The login detail is incorrect");
+                }
+              }
+            )
+            .catch(() => {
+              setLoading(false)
+              setSubmitting(false)
+              setStatus('The login detail is incorrect')
+            })
       }, 1000);
     },
   });
 
-  function emailValidation() {
-    const isInvalid = formik.touched.email && formik.errors.email;
-    const isValid = formik.touched.email && !formik.errors.email;
-    if (isValid) {
-      return true;
-    }
-    if (isInvalid) {
-      return false;
-    }
+  function getEmailFromInput(input: string){
+    const formatEmail = input.match(
+      /^\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}$/
+    )
+      ? input
+      : getEmailFromPhoneNumber(input.replaceAll(/[^0-9]/gi, ""));
+    return formatEmail;
   }
 
-  function passwordValidation() {
-    const isInvalid = formik.touched.password && formik.errors.password;
-    const isValid = formik.touched.password && !formik.errors.password;
-    if (isValid) {
-      return true;
+  //dummy function, should be replaced with actual get from firebase
+  function getEmailFromPhoneNumber(phone: string){
+    if(phoneValidator(phone) && phone === '6281234567891'){
+      return "test1@gmail.com"
     }
-    if (isInvalid) {
-      return false;
-    }
+    return ""
   }
+
+  //dummy function, should be replaced with actual login from firebase
+  function login(email: string, password: string){
+    const DUMMY_USER = [
+      {
+        id: "m1",
+        name: "tes1",
+        phone: "6281234567891",
+        email: "test1@gmail.com",
+        password: "123456"
+      },{
+        id: "m2",
+        name: "tes2",
+        phone: "6281234567892",
+        email: "test2@gmail.com",
+        password: "223456"
+      },{
+        id: "m3",
+        name: "tes3",
+        phone: "6281234567893",
+        email: "test3@gmail.com",
+        password: "323456"
+      }
+    ];
+    const respJson = DUMMY_USER.find(item => (item.phone === email || item.email === email) && item.password === password);
+    return Promise.resolve(respJson)
+  }
+
+  // function emailValidation() {
+  //   const isInvalid = formik.touched.email && formik.errors.email;
+  //   const isValid = formik.touched.email && !formik.errors.email;
+  //   if (isValid) {
+  //     return true;
+  //   }
+  //   if (isInvalid) {
+  //     return false;
+  //   }
+  // }
+
+  // function passwordValidation() {
+  //   const isInvalid = formik.touched.password && formik.errors.password;
+  //   const isValid = formik.touched.password && !formik.errors.password;
+  //   if (isValid) {
+  //     return true;
+  //   }
+  //   if (isInvalid) {
+  //     return false;
+  //   }
+  // }
 
   return (
     <form
@@ -99,14 +154,7 @@ export function Login() {
         <div className="mb-lg-15 alert alert-danger">
           <div className="alert-text font-weight-bold">{formik.status}</div>
         </div>
-      ) : (
-        <div className="mb-10 bg-light-info p-8 rounded">
-          <div className="text-info">
-            Use account <strong>admin@demo.com</strong> and password{" "}
-            <strong>demo</strong> to continue.
-          </div>
-        </div>
-      )}
+      ) : null}
 
       {/* begin::Form group */}
       <div className="fv-row mb-10">
@@ -116,10 +164,10 @@ export function Login() {
           placeholder="Email"
           {...formik.getFieldProps("email")}
           formcontrol={"solid"}
-          isvalid={emailValidation()}
           type="email"
           name="email"
           autoComplete="off"
+          id='login-email'
         />
         {formik.touched.email && formik.errors.email && (
           <div
@@ -158,14 +206,14 @@ export function Login() {
           autoComplete="off"
           {...formik.getFieldProps("password")}
           formcontrol={"solid"}
-          isvalid={passwordValidation()}
+          id='login-password'
         />
         {formik.touched.password && formik.errors.password && (
           <div
             data-testid="passworderror"
             className="fv-plugins-message-container"
           >
-            <div className="fv-help-block">
+            <div>
               <span role="alert">{formik.errors.password}</span>
             </div>
           </div>
@@ -173,24 +221,26 @@ export function Login() {
       </div>
       {/* end::Form group */}
 
+      {/* start::Remember me checkbox group */}
+      <div className="fv-row mb-10 mt-n5">
+        <div className="form-check form-check-custom form-check-solid">
+          <input
+            className="form-check-input"
+            type="checkbox"
+            value=""
+            id="login-remember"
+          />
+          <label className="form-check-label" htmlFor="login-remember">
+            Remember Me
+          </label>
+        </div>
+      </div>
+      {/* end::Remember me checkbox group */}
+
       {/* begin::Action */}
       <div className="text-center">
-        {/* <button
-          type='submit'
-          id='kt_sign_in_submit'
-          className='btn btn-lg btn-primary w-100 mb-5'
-          disabled={formik.isSubmitting || !formik.isValid}
-        >
-          {!loading && <span className='indicator-label'>Continue</span>}
-          {loading && (
-            <span className='indicator-progress' style={{display: 'block'}}>
-              Please wait...
-              <span className='spinner-border spinner-border-sm align-middle ms-2'></span>
-            </span>
-          )}
-        </button> */}
         <Button
-          id="kt_sign_in_submit"
+          id="login-button"
           btnlg="primary"
           type="submit"
           disabled={formik.isSubmitting || !formik.isValid}
