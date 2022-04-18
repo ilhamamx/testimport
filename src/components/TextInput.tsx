@@ -24,14 +24,14 @@ function TextInput({ ...props }: InputProps) {
     }
     return `form-control`;
   }
-  function validation(): string{
-    if(props.isvalid === true){
+  function validation(){
+    let valid = props.isvalid;
+    if(valid === true){
       return `is-valid`;
     }
-    if(props.isvalid === false){
-      return `is-invalid`;
+    if(valid === false){
+      return `is-invalid`
     }
-    return `is-valid`;
   }
   return <input className={clsx(styleSelect(), validation())} {...props} />;
 }
