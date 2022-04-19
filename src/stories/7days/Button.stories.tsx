@@ -23,8 +23,26 @@ export const Base = Template.bind({});
 Base.args = {
 };
 
-export const Login = Template.bind({});
-// More on args: https://storybook.js.org/docs/react/writing-stories/args
-Login.args = {
-  btnlg: 'primary'
+export const LoginSubmit = Template.bind({});
+LoginSubmit.args = {
+  id:"login-button",
+  btnlg:"primary",
+  type:"submit",
+  cName: 'w-100 mb-5',
+};
+
+export const ForgetPasswordSubmit = Template.bind({});
+ForgetPasswordSubmit.args = {
+  id:"fpassword-submit",
+  btnlg:"primary",
+  type:"submit",
+  cName:"fw-bolder me-4"
+};
+
+export const ForgetPasswordCancel = Template.bind({});
+ForgetPasswordCancel.args = {
+  id:"fpassword-submit",
+  btnlg:"light-primary",
+  type:"submit",
+  cName:"fw-bolder"
 };

@@ -9,7 +9,7 @@ interface ButtonProps {
   /**
    * light style color of the button with hover, defined with $theme-light-colors mapped in src/assets/sass/core/components/_variables.scss
    */
-  btnlg?: 'primary' | 'success' | 'info' | 'warning' |  'danger' | 'dark';
+  btnlg?: 'primary' | 'success' | 'info' | 'warning' |  'danger' | 'dark' | 'light-primary' | 'light-success' | 'light-info' | 'light-warning' | 'light-danger' | 'light-dark';
   /**
    * background style color of the button without hover, defined with $theme-colors mapped in src/assets/sass/core/components/_variables.scss
    */
