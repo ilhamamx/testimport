@@ -27,10 +27,6 @@ const AuthLayout = () => {
         )})`,
       }}
     >
-      <div className="d-flex flex-center-right flex-end p-2">
-        <button onClick={() => changeLanguage("id")}>ID</button>
-        <button onClick={() => changeLanguage("en")}>EN</button>
-      </div>
       {/* begin::Content */}
       <div className="d-flex flex-center flex-column flex-column-fluid p-10 pb-lg-20">
         {/* begin::Logo */}

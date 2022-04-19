@@ -16,10 +16,10 @@ const Template: ComponentStory<typeof TextInput> = (args) => (
 export const Base = Template.bind({});
 Base.args = {};
 
-export const InputLogin = Template.bind({});
-InputLogin.args = {
+export const InputText = Template.bind({});
+InputText.args = {
   formcontrol: "solid",
-  isvalid: true
+  isvalid: true,
 };
 
 

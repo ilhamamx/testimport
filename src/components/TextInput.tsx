@@ -8,7 +8,12 @@ interface InputProps {
   formcontrol?: "solid" | "transparent" | "white" | "flush";
 
   /**
-   * validation of input, indicate that input of user is valid or invalid 
+   * form control size of input defined with form-control from src/resources/assets/sass/core/vendor/plugins/_tagify.scss
+   */
+  formcontrolsize?: "lg" | "sm";
+
+  /**
+   * validation of input, indicate that input of user is valid or invalid
    */
   isvalid?: true | false;
   /**
@@ -17,20 +22,30 @@ interface InputProps {
   [propName: string]: any;
 }
 
-function TextInput({ ...props }: InputProps) {
+function TextInput({
+  isvalid,
+  formcontrol,
+  formcontrolsize,
+  ...props
+}: InputProps) {
   function styleSelect(): string {
-    if (props.formcontrol) {
-      return `form-control form-control-bs form-control-${props.formcontrol}`;
+    if (formcontrol) {
+      return `form-control form-control-${formcontrol}`;
+    }
+    if (formcontrolsize) {
+      if (formcontrol) {
+        return `form-control form-control-${formcontrolsize} form-control-${formcontrol}`;
+      }
+      return `form-control form-control-${formcontrolsize}`;
     }
     return `form-control`;
   }
-  function validation(){
-    let valid = props.isvalid;
-    if(valid === true){
+  function validation() {
+    if (isvalid === true) {
       return `is-valid`;
     }
-    if(valid === false){
-      return `is-invalid`
+    if (isvalid === false) {
+      return `is-invalid`;
     }
   }
   return <input className={clsx(styleSelect(), validation())} {...props} />;
