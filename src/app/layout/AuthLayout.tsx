@@ -48,13 +48,13 @@ export const AuthLayout = () => {
       <div className="d-flex flex-center flex-column-auto p-10">
         <div className="d-flex align-items-center fw-bold fs-6">
           <a href="#" className="text-muted text-hover-primary px-2">
-            {t("Login.Link.About")}
+            {t("Layout.Link.About")}
           </a>
           <a href="#" className="text-muted text-hover-primary px-2">
-            {t("Login.Link.Products")}
+            {t("Layout.Link.Products")}
           </a>
           <a href="#" className="text-muted text-hover-primary px-2">
-            {t("Login.Link.ContactUs")}
+            {t("Layout.Link.ContactUs")}
           </a>
         </div>
       </div>

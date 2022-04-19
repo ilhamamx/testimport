@@ -14,7 +14,7 @@ const initialValues = {
 const forgotPasswordSchema = Yup.object().shape({
   email: Yup.string()
     .email("ForgotPassword.Error.Email")
-    .required("Login.Error.EmptyEmail"),
+    .required("ForgotPassword.Error.EmailEntry"),
 });
 
 export function ForgotPassword() {
