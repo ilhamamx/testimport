@@ -2,6 +2,12 @@
   "Hello": {
     "World": "Hello World"
   },
+
+  "Layout.Link.About": "About",
+  "Layout.Link.Products": "Products",
+  "Layout.Link.ContactUs": "Contact Us",
+
+
   "Login.Info.SignIn": "Sign In to SevenDays",
   "Login.Info.Registration": "New here? ",
   "Login.Link.Registration": "Create an account",
@@ -9,15 +15,14 @@
   "Login.Input.Password": "Password",
   "Login.Link.ForgotPassword": "Forgot Password?",
   "Login.Checkbox.Rememberme": "Remember me",
-  "Login.Link.About": "About",
-  "Login.Link.Products": "Products",
-  "Login.Link.ContactUs": "Contact Us",
   "Login.Error.WrongEmail": "Wrong email/phone number format",
   "Login.Error.EmptyEmail": "Email or Phone Number is required",
   "Login.Error.EmptyPassword": "Password is required",
   "Login.Notif.IncorrectUser": "Login detail is incorrect",
   "Login.Button.Login": "Login",
   "Login.Button.Loading": "Please wait....",
+
+
   "ForgotPassword.Info.Header": "Forgot Password?",
   "ForgotPassword.Info.EmailEntry": "Enter your email to reset your password",
   "ForgotPassword.Error.EmailEntry": "Email is required",

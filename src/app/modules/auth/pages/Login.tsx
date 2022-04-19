@@ -147,7 +147,7 @@ export function Login() {
         </label>
         <TextInput
           data-testid="email"
-          placeholder="Email"
+          placeholder=""
           {...formik.getFieldProps("email")}
           formcontrol={"solid"}
           name="email"
