@@ -5,6 +5,7 @@ import {Link} from 'react-router-dom'
 import {useFormik} from 'formik'
 import TextInput from '../../../../components/TextInput'
 import Button from '../../../../components/Button'
+import { useTranslation } from 'react-i18next'
 
 const initialValues = {
   email: '',
@@ -12,11 +13,12 @@ const initialValues = {
 
 const forgotPasswordSchema = Yup.object().shape({
   email: Yup.string()
-    .email('Invalid email')
-    .required('Email is required'),
-})
+    .email("ForgotPassword.Error.Email")
+    .required("Login.Error.EmptyEmail"),
+});
 
 export function ForgotPassword() {
+  const { t } = useTranslation();
   const [loading, setLoading] = useState(false)
   const [hasErrors, setHasErrors] = useState<boolean | undefined>(undefined)
   const formik = useFormik({
@@ -46,7 +48,7 @@ export function ForgotPassword() {
           setHasErrors(true)
           setLoading(false)
           setSubmitting(false)
-          setStatus('The login detail is incorrect')
+          setStatus(`${t("Login.Notif.IncorrectUser")}`);
         }
       }, 1000)
     },
@@ -62,12 +64,12 @@ export function ForgotPassword() {
       >
         <div className="text-center mb-10">
           {/* begin::Title */}
-          <h1 className="text-dark mb-3">Forgot Password ?</h1>
+          <h1 className="text-dark mb-3">{t("ForgotPassword.Info.Header")}</h1>
           {/* end::Title */}
 
           {/* begin::Link */}
           <div className="text-gray-400 fw-bold fs-4">
-            Enter your email to reset your password.
+            {t("ForgotPassword.Info.EmailEntry")}
           </div>
           {/* end::Link */}
         </div>
@@ -76,8 +78,7 @@ export function ForgotPassword() {
         {hasErrors === true && (
           <div className="mb-lg-15 alert alert-danger">
             <div className="alert-text font-weight-bold">
-              Sorry, looks like there are some errors detected, please try
-              again.
+              {t("ForgotPassword.Notif.Error")}
             </div>
           </div>
         )}
@@ -85,7 +86,7 @@ export function ForgotPassword() {
         {hasErrors === false && (
           <div className="mb-10 bg-light-info p-8 rounded">
             <div className="text-info">
-              Sent password reset. Please check your email
+              {t("ForgotPassword.Notif.URLSent")}
             </div>
           </div>
         )}
@@ -94,7 +95,7 @@ export function ForgotPassword() {
         {/* begin::Form group */}
         <div className="fv-row mb-10">
           <label className="form-label fw-bolder text-gray-900 fs-6">
-            Email
+            {t("ForgotPassword.Input.Email")}
           </label>
           <TextInput
             data-testid="email"
@@ -109,7 +110,7 @@ export function ForgotPassword() {
           {formik.touched.email && formik.errors.email && (
             <div className="fv-plugins-message-container">
               <div>
-                <span role="alert">{formik.errors.email}</span>
+                <span role="alert">{t(`${formik.errors.email}`)}</span>
               </div>
             </div>
           )}
@@ -121,14 +122,16 @@ export function ForgotPassword() {
           <Button
             type="submit"
             id="fpassword-submit"
-            btnlg='primary'
+            btnlg="primary"
             cName="fw-bolder me-4"
             disabled={formik.isSubmitting || !formik.isValid}
           >
-            <span className="indicator-label">Submit</span>
+            <span className="indicator-label">
+              {t("ForgotPassword.Button.Submit")}
+            </span>
             {loading && (
               <span className="indicator-progress">
-                Please wait...
+                {t("Login.Button.Loading")}
                 <span className="spinner-border spinner-border-sm align-middle ms-2"></span>
               </span>
             )}
@@ -137,10 +140,10 @@ export function ForgotPassword() {
             <Button
               type="button"
               id="fpassword-cancel"
-              btnlg='light-primary'
+              btnlg="light-primary"
               cName="fw-bolder"
             >
-              Cancel
+              {t("ForgotPassword.Button.Cancel")}
             </Button>
           </Link>{" "}
         </div>

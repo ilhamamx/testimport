@@ -11,12 +11,20 @@
   "Login.Checkbox.Rememberme": "Remember me",
   "Login.Link.About": "About",
   "Login.Link.Products": "Products",
-  "Login.Link.Contact Us": "Contact Us",
+  "Login.Link.ContactUs": "Contact Us",
   "Login.Error.WrongEmail": "Wrong email/phone number format",
   "Login.Error.EmptyEmail": "Email is required",
   "Login.Notif.UnregisteredUser": "The email address or phone number you've entered doesn't match any account",
   "Login.Error.EmptyPassword": "Password is required",
   "Login.Notif.IncorrectUser": "Login detail is incorrect",
   "Login.Button.Login": "Login",
-  "Login.Button.Loading": "Please wait...."
+  "Login.Button.Loading": "Please wait....",
+  "ForgotPassword.Info.Header": "Forgot Password?",
+  "ForgotPassword.Info.EmailEntry": "Enter your email to reset your password",
+  "ForgotPassword.Input.Email": "Email",
+  "ForgotPassword.Button.Submit": "Submit",
+  "ForgotPassword.Button.Cancel": "Cancel",
+  "ForgotPassword.Error.Email": "Invalid Email",
+  "ForgotPassword.Notif.Error": "Sorry, looks like there are some errors detected, please try again",
+  "ForgotPassword.Notif.URLSent": "Sent password reset, please check your email"
 }

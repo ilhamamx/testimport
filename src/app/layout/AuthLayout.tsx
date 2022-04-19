@@ -54,7 +54,7 @@ export const AuthLayout = () => {
             {t("Login.Link.Products")}
           </a>
           <a href="#" className="text-muted text-hover-primary px-2">
-            {t('Login.Link.Contact Us')}
+            {t("Login.Link.ContactUs")}
           </a>
         </div>
       </div>

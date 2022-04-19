@@ -11,12 +11,20 @@
   "Login.Checkbox.Rememberme": "Ingat saya",
   "Login.Link.About": "Tentang",
   "Login.Link.Products": "Produk",
-  "Login.Link.Contact Us": "Hubungi kami",
+  "Login.Link.ContactUs": "Hubungi kami",
   "Login.Error.WrongEmail": "Format email/No.Handphone anda salah",
   "Login.Error.EmptyEmail": "Email diperlukan",
   "Login.Notif.UnregisteredUser": "Alamat email atau No. Handphone yang anda masukkan belum terdaftar",
   "Login.Error.EmptyPassword": "Kata sandi diperlukan",
   "Login.Notif.IncorrectUser": "Akun/Kata Sandi tidak valid",
   "Login.Button.Login": "Masuk",
-  "Login.Button.Loading": "Mohon tunggu...."
+  "Login.Button.Loading": "Mohon tunggu....",
+  "ForgotPassword.Info.Header": "Lupa Kata Sandi?",
+  "ForgotPassword.Info.EmailEntry": "Masukkan email untuk atur ulang sandi anda",
+  "ForgotPassword.Input.Email": "Email",
+  "ForgotPassword.Button.Submit": "Kirim",
+  "ForgotPassword.Button.Cancel": "Batal",
+  "ForgotPassword.Error.Email": "Format email anda salah",
+  "ForgotPassword.Notif.Error": "Maaf terjadi kesalahan, silahkan coba lagi",
+  "ForgotPassword.Notif.URLSent": "Link untuk melakukan perubahan kata sandi telah dikirim, silahkan cek email anda"
 }
