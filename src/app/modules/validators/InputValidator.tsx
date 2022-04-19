@@ -9,7 +9,7 @@ export function phoneValidator(phoneNumber:string){
 }
 
 export function emailValidator(email: string){
-    const emailRegex = /^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})$/;
+    const emailRegex = /^\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}$/;
     let isValidEmail = emailRegex.test(email!);
     if (!isValidEmail) {
       return false;
@@ -25,5 +25,3 @@ export function emailOrPhoneValidator(emailOrPhone: string){
     }
     return true;
 }
-
-export default {}

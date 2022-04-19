@@ -8,8 +8,8 @@
 import { FC } from "react";
 import { Routes, Route, BrowserRouter, Navigate } from "react-router-dom";
 
-import { AuthPage } from "../modules/auth/AuthLayout";
-import { PrivateRoutes } from "./PrivateRoutes";
+import { AuthRoutes } from "./AuthRoutes";
+import { Dashboard } from "../modules/auth/pages/Dashboard";
 
 /**
  * Base URL of the website.
@@ -19,12 +19,12 @@ import { PrivateRoutes } from "./PrivateRoutes";
 const { PUBLIC_URL } = process.env;
 
 const AppRoutes: FC = () => {
-  const isAuthored = false;
+  // const isAuthored = false;
   return (
     <BrowserRouter basename={PUBLIC_URL}>
       <Routes>
-        <Route path="auth/*" element={<AuthPage />} />
-        <Route path="/*" element={<PrivateRoutes />} />
+        <Route path="auth/*" element={<AuthRoutes />} />
+        <Route path="dashboard" element={<Dashboard />} />
         <Route path="*" element={<Navigate to="/auth" />} />
       </Routes>
     </BrowserRouter>

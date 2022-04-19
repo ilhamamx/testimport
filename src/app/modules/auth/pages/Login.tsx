@@ -2,7 +2,7 @@
 import { useState } from "react";
 import * as Yup from "yup";
 import { Link } from "react-router-dom";
-import { FormikProvider, useFormik } from "formik";
+import { useFormik } from "formik";
 import Button from "../../../../components/Button";
 import TextInput from "../../../../components/TextInput";
 import { useTranslation } from "react-i18next";
@@ -15,8 +15,8 @@ const loginSchema = Yup.object().shape({
 });
 
 const initialValues = {
-  email: "admin@demo.com",
-  password: "demo",
+  email: "",
+  password: "",
 };
 
 /*
@@ -107,24 +107,6 @@ export function Login() {
     return Promise.resolve(respJson);
   }
 
-  function emailValidation() {
-    if (formik.touched.email && !formik.errors.email) {
-      return true;
-    }
-    if (formik.touched.email && formik.errors.email) {
-      return false;
-    }
-  }
-
-  function passwordValidation() {
-    if (formik.touched.password && !formik.errors.password) {
-      return true;
-    }
-    if (formik.touched.password && formik.errors.password) {
-      return false;
-    }
-  }
-
   const [passwordShown, setPasswordShown] = useState(false);
   const togglePassword = () => {
     setPasswordShown(!passwordShown);
@@ -165,7 +147,6 @@ export function Login() {
           placeholder="Email"
           {...formik.getFieldProps("email")}
           formcontrol={"solid"}
-          isvalid={emailValidation()}
           type="email"
           name="email"
           autoComplete="off"
@@ -258,6 +239,7 @@ export function Login() {
           btnlg="primary"
           type="submit"
           disabled={formik.isSubmitting || !formik.isValid}
+          cName="w-100 mb-5"
         >
           {!loading && (
             <span className="indicator-label">{t("Login.Button.Login")}</span>

@@ -1,4 +1,5 @@
 import React from "react";
+import clsx from "clsx";
 
 interface ButtonProps {
   /**
@@ -14,6 +15,10 @@ interface ButtonProps {
    */
   btnbg?: 'white' | 'primary' | 'light' | 'secondary' | 'success' | 'info' | 'warning' |  'danger' | 'dark';
   /**
+   * className to be added to the button
+   */
+  cName?: string;
+  /**
    * props for the button
    */
   [propName: string]: any;
@@ -23,24 +28,28 @@ interface ButtonProps {
 /**
  * Primary UI component for user interaction
  */
-function Button({
+function Button({ 
+  btnbs,
+  btnlg,
+  btnbg,
+  cName,
   ...props
 }: ButtonProps) {
   function styleSelect(): string{
-    if(props.btnbs){
-      return `btn btn-${props.btnbs}`
+    if(btnbs){
+      return `btn btn-${btnbs}`
     }
-    if(props.btnlg){
-      return `btn btn-lg btn-${props.btnlg}`
+    if(btnlg){
+      return `btn btn-lg btn-${btnlg}`
     }
-    if(props.btnbg){
-      return `btn btn-bg-${props.btnbg}`
+    if(btnbg){
+      return `btn btn-bg-${btnbg}`
     }
     return `btn`
   }
   return (
     <button
-      className={styleSelect()}
+      className={clsx(styleSelect(), cName)}
       {...props}
     >
       {props.children}

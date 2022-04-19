@@ -1,16 +1,15 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import { useEffect } from "react";
-import { Outlet, Route, Routes } from "react-router-dom";
-import { Login } from "./pages/Login";
-import { toAbsoluteUrl } from "../../../resources/helpers/AssetHelpers";
+import { Outlet } from "react-router-dom";
+import { toAbsoluteUrl } from "../../resources/helpers/AssetHelpers";
 import { useTranslation } from "react-i18next";
 
-const AuthLayout = () => {
+export const AuthLayout = () => {
   const { t, i18n } = useTranslation();
 
-  function changeLanguage(lng: string) {
-    i18n.changeLanguage(lng);
-  }
+  // function changeLanguage(lng: string) {
+  //   i18n.changeLanguage(lng);
+  // }
   useEffect(() => {
     document.body.classList.add("bg-white");
     return () => {
@@ -63,14 +62,3 @@ const AuthLayout = () => {
     </div>
   );
 };
-
-const AuthPage = () => (
-  <Routes>
-    <Route element={<AuthLayout />}>
-      <Route path="login" element={<Login />} />
-      <Route index element={<Login />} />
-    </Route>
-  </Routes>
-);
-
-export { AuthPage };
