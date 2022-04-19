@@ -68,6 +68,9 @@ export function Login() {
 
   //dummy function, should be replaced with actual get from firebase
   function getEmailFromPhoneNumber(phone: string) {
+    if(phone.startsWith("0")){
+      phone = '62' + phone.substring(1);
+    }
     if (phoneValidator(phone) && phone === "6281234567891") {
       return "test1@gmail.com";
     }
