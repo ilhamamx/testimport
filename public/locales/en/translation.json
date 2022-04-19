@@ -2,7 +2,7 @@
   "Hello": {
     "World": "Hello World"
   },
-  "Login.Info.SignIn": "Sign In to 7days",
+  "Login.Info.SignIn": "Sign In to SevenDays",
   "Login.Info.Registration": "New here? ",
   "Login.Link.Registration": "Create an account",
   "Login.Input.User": "Email or Phone Number",
@@ -17,5 +17,6 @@
   "Login.Notif.UnregisteredUser": "The email address or phone number you've entered doesn't match any account",
   "Login.Error.EmptyPassword": "Password is required",
   "Login.Notif.IncorrectUser": "Login detail is incorrect",
-  "Login.Button.Login": "Login"
+  "Login.Button.Login": "Login",
+  "Login.Button.Loading": "Please wait...."
 }

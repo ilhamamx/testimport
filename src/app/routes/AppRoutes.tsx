@@ -9,7 +9,7 @@ import { FC } from "react";
 import { Routes, Route, BrowserRouter, Navigate } from "react-router-dom";
 
 import { AuthRoutes } from "./AuthRoutes";
-import { Dashboard } from "../modules/auth/pages/Dashboard";
+import { Dashboard } from "../pages/Dashboard";
 
 /**
  * Base URL of the website.

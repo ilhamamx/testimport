@@ -2,7 +2,7 @@
   "Hello": {
     "World": "Halo Dunia"
   },
-  "Login.Info.SignIn": "Masuk ke 7days",
+  "Login.Info.SignIn": "Masuk ke SevenDays",
   "Login.Info.Registration": "Belum punya akun? ",
   "Login.Link.Registration": "Daftar Sekarang",
   "Login.Input.User": "Email atau No. Handphone",
@@ -17,5 +17,6 @@
   "Login.Notif.UnregisteredUser": "Alamat email atau No. Handphone yang anda masukkan belum terdaftar",
   "Login.Error.EmptyPassword": "Kata sandi diperlukan",
   "Login.Notif.IncorrectUser": "Akun/Kata Sandi tidak valid",
-  "Login.Button.Login": "Masuk"
+  "Login.Button.Login": "Masuk",
+  "Login.Button.Loading": "Mohon tunggu...."
 }

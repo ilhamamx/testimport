@@ -32,8 +32,8 @@ export const AuthLayout = () => {
         <a href="#" className="mb-12">
           <img
             alt="Logo"
-            src={toAbsoluteUrl("/media/logos/logo-1.svg")}
-            className="h-45px"
+            src={toAbsoluteUrl("/media/logos/logo-sevendays-with-text.svg")}
+            className="h-90px"
           />
         </a>
         {/* end::Logo */}
