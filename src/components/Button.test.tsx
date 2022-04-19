@@ -91,4 +91,18 @@ describe("button component", () => {
     userEvent.click(button);
     expect(console.log).toHaveBeenCalledWith('success');
   });
+  test("buttonbg primary with classname w-100 mb-5", () => {
+    render(
+      <Button btnbg="primary" data-testid="button" cName="w-100 mb-5">
+        <p data-testid="button-children">button-bg primary</p>
+      </Button>
+    );
+    const button = screen.getByTestId("button");
+    const p = screen.getByTestId("button-children");
+    expect(button).toBeTruthy();
+    expect(button).toHaveClass("btn btn-bg-primary");
+    expect(button).toContainElement(p);
+    expect(button).toHaveClass("w-100 mb-5");
+    expect(p).toHaveTextContent("button-bg primary");
+  });
 });

@@ -57,10 +57,10 @@ describe("text input component", () => {
     expect(input).not.toHaveClass("is-valid");
   });
   
-  test("input default", async() => {
+  test("input default with classname mb-3", async() => {
     render(
       <Input
-      data-testid='input'/>
+      data-testid='input' cName="mb-3"/>
     );
     const input = screen.getByTestId("input");
     await waitFor(async () => {
@@ -74,6 +74,7 @@ describe("text input component", () => {
     expect(input).toHaveValue("test@gmail.com");
     expect(input).toBeTruthy();
     expect(input).toHaveClass("form-control");
+    expect(input).toHaveClass("mb-3");
     expect(input).not.toHaveClass("is-invalid");
     expect(input).not.toHaveClass("is-valid");
   });

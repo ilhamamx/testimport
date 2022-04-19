@@ -147,7 +147,6 @@ export function Login() {
           placeholder="Email"
           {...formik.getFieldProps("email")}
           formcontrol={"solid"}
-          type="email"
           name="email"
           autoComplete="off"
           id="login-email"
@@ -187,11 +186,9 @@ export function Login() {
           <TextInput
             data-testid="password"
             type={passwordShown ? "text" : "password"}
-            // type="password"
             autoComplete="off"
             {...formik.getFieldProps("password")}
             formcontrol={"solid"}
-            // isvalid={passwordValidation()}
             id="login-password"
           />
           <i
@@ -207,9 +204,7 @@ export function Login() {
             className="fv-plugins-message-container"
           >
             <div>
-              <span role="alert">
-                {t(`${formik.errors.password}`)}
-              </span>
+              <span role="alert">{t(`${formik.errors.password}`)}</span>
             </div>
           </div>
         )}
@@ -246,7 +241,7 @@ export function Login() {
           )}
           {loading && (
             <span className="indicator-progress" style={{ display: "block" }}>
-              Please wait...
+              {t("Login.Button.Loading")}
               <span className="spinner-border spinner-border-sm align-middle ms-2"></span>
             </span>
           )}

@@ -16,10 +16,13 @@ const Template: ComponentStory<typeof TextInput> = (args) => (
 export const Base = Template.bind({});
 Base.args = {};
 
-export const InputText = Template.bind({});
-InputText.args = {
+export const InputEmail = Template.bind({});
+InputEmail.args = {
   formcontrol: "solid",
-  isvalid: true,
 };
 
-
+export const InputPassword = Template.bind({});
+InputPassword.args = {
+  formcontrol: "solid",
+  type: "password",
+};
