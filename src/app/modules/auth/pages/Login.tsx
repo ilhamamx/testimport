@@ -3,8 +3,8 @@ import { useState } from "react";
 import * as Yup from "yup";
 import { Link } from "react-router-dom";
 import { useFormik } from "formik";
-import Button from "../../../../components/Button";
-import TextInput from "../../../../components/TextInput";
+import Button from "../../../../styles/components/Button";
+import TextInput from "../../../../styles/components/TextInput";
 import { useTranslation } from "react-i18next";
 import { phoneValidator } from "../../validators/InputValidator";
 import { useNavigate } from "react-router-dom";
@@ -37,7 +37,7 @@ export function Login() {
       setTimeout(() => {
         const formEmail = getEmailFromInput(values.email);
         //TODO change login logic into firebase login logic
-        login(formEmail, values.password)
+        login(formEmail.trim(), values.password)
           .then((response) => {
             if (response) {
               setLoading(false);

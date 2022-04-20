@@ -1,6 +1,6 @@
 import { ComponentStory, ComponentMeta } from '@storybook/react';
 
-import TextInput from "../../components/TextInput";
+import TextInput from "../../styles/components/TextInput";
 
 import "../../resources/assets/sass/style.scss";
 

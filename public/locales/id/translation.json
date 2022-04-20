@@ -31,5 +31,16 @@
   "ForgotPassword.Button.Cancel": "Batal",
   "ForgotPassword.Error.Email": "Format email anda salah",
   "ForgotPassword.Notif.Error": "Maaf terjadi kesalahan, silahkan coba lagi",
-  "ForgotPassword.Notif.URLSent": "Link untuk melakukan perubahan kata sandi telah dikirim, silahkan cek email anda"
+  "ForgotPassword.Notif.URLSent": "Link untuk melakukan perubahan kata sandi telah dikirim, silahkan cek email anda",
+
+  "PasswordEntry.Info.Header": "Selamat datang di SevenDays",
+  "PasswordEntry.Info.InsertPassword": "Masukkan kata sandi baru anda untuk mengubah kata sandi anda",
+  "PasswordEntry.Info.ChangePassword": "Ubah Kata Sandi",
+  "PasswordEntry.Notif.WrongPassword": "Kata sandi baru dan kata sandi yang dikonfirmasi tidak cocok!",
+  "PasswordEntry.Input.NewPassword": "Kata Sandi Baru",
+  "PasswordEntry.Input.ConfirmPassword": "Konfirmasi Kata Sandi",
+  "PasswordEntry.Error.Under8Char": "Panjang kata sandi minimal 8 karakter",
+  "PasswordEntry.Error.ExcludeNumber": "Kata sandi harus gabungan dari angka dan huruf",
+  "PasswordEntry.Error.NewPasswordEmpty": "Masukkan kata sandi baru",
+  "PasswordEntry.Error.ConfirfmPasswordEmpty": "Masukkan konfirmasi kata sandi"
 }

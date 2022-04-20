@@ -31,5 +31,18 @@
   "ForgotPassword.Button.Cancel": "Cancel",
   "ForgotPassword.Error.Email": "Invalid Email",
   "ForgotPassword.Notif.Error": "Sorry, looks like there are some errors detected, please try again",
-  "ForgotPassword.Notif.URLSent": "Sent password reset, please check your email"
+  "ForgotPassword.Notif.URLSent": "Sent password reset, please check your email",
+
+  "PasswordEntry.Info.Header": "Welcome to Sevendays",
+  "PasswordEntry.Info.InsertPassword": "Insert your new password to change your password",
+  "PasswordEntry.Info.ChangePassword": "Change Your Password",
+  "PasswordEntry.Notif.WrongPassword": "New password should be the same with the confirmed password !",
+  "PasswordEntry.Input.NewPassword": "New Password",
+  "PasswordEntry.Input.ConfirmPassword": "Confirm New Password",
+  "PasswordEntry.Error.Under8Char": "Your password must be at least 8 character",
+  "PasswordEntry.Error.ExcludeNumber": "Your password must be contains of letters & numbers",
+  "PasswordEntry.Error.NewPasswordEmpty": "New password is required",
+  "PasswordEntry.Error.ConfirfmPasswordEmpty": "Confirm password is requred"
+
+
 }

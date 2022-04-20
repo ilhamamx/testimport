@@ -3,8 +3,8 @@ import * as Yup from 'yup'
 import clsx from 'clsx'
 import {Link} from 'react-router-dom'
 import {useFormik} from 'formik'
-import TextInput from '../../../../components/TextInput'
-import Button from '../../../../components/Button'
+import TextInput from '../../../../styles/components/TextInput'
+import Button from '../../../../styles/components/Button'
 import { useTranslation } from 'react-i18next'
 
 const initialValues = {
