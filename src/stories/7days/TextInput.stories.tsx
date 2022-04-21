@@ -1,4 +1,4 @@
-import { ComponentStory, ComponentMeta } from '@storybook/react';
+import { ComponentStory, ComponentMeta } from "@storybook/react";
 
 import TextInput from "../../styles/components/TextInput";
 
@@ -25,4 +25,17 @@ export const InputPassword = Template.bind({});
 InputPassword.args = {
   formcontrol: "solid",
   type: "password",
+};
+
+export const InputConfirmPassword = Template.bind({});
+function onPasteF(e:Event){
+  e.preventDefault();
+  return false;
+}
+InputConfirmPassword.args = {
+  id: "rpassword-confirm",
+  type: "password",
+  formcontrol: "solid",
+  autoComplete: "off",
+  onPaste:  onPasteF
 };

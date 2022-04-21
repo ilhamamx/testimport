@@ -35,9 +35,9 @@ export function Login() {
     onSubmit: (values, { setStatus, setSubmitting }) => {
       setLoading(true);
       setTimeout(() => {
-        const formEmail = getEmailFromInput(values.email);
+        const formEmail = getEmailFromInput(values.email.trim());
         //TODO change login logic into firebase login logic
-        login(formEmail.trim(), values.password)
+        login(formEmail, values.password)
           .then((response) => {
             if (response) {
               setLoading(false);

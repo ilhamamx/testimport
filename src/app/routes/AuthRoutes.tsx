@@ -2,7 +2,7 @@
 import { Route, Routes } from "react-router-dom";
 import { Login } from "../modules/auth/pages/Login";
 import { AuthLayout } from "../layout/AuthLayout";
-import { ForgotPassword } from "../modules/auth/pages/ForgotPassword-EmailEntry";
+import { ForgotPassword } from "../modules/auth/pages/ForgotPassword";
 import { ResetPasswordLayout } from "../layout/ResetPasswordLayout";
 import { ResetPassword } from "../modules/auth/pages/ResetPassword";
 
