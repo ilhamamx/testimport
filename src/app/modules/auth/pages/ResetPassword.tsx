@@ -46,6 +46,29 @@ function validateRequest(tokenP: string) {
   return respJson?.id;
 }
 
+
+function getNewPasswordFromInput(input: string) {
+  const newpassword = input;
+  return newpassword;
+}
+
+function resetPassword(password: string, confirmpassword: string) {
+  if (password !== confirmpassword) {
+    return Promise.resolve();
+  }
+  const DUMMY_NEWPASSWORD = [
+    {
+      rconfirmpassword: confirmpassword,
+      rpassword: password,
+    },
+  ];
+  const respJson = DUMMY_NEWPASSWORD.find(
+    (item) =>
+      (item.rpassword === password || item.rpassword === confirmpassword) &&
+      item.rpassword === password
+  );
+  return Promise.resolve(respJson);
+}
 export function ResetPassword() {
   const { t } = useTranslation();
   const nav = useNavigate();
@@ -66,7 +89,7 @@ export function ResetPassword() {
             setLoading(false);
             console.log("success change password");
             console.log(response);
-            // nav("/reset-password-success");
+            nav("/auth/reset-password-success");
           } else {
             console.log("r-new: " + newpassword);
             console.log("c-new: " + confirmpassword);
@@ -80,32 +103,8 @@ export function ResetPassword() {
     },
   });
 
-  function getNewPasswordFromInput(input: string) {
-    const newpassword = input;
-    return newpassword;
-  }
-
-  function resetPassword(password: string, confirmpassword: string) {
-    if (password !== confirmpassword) {
-      return Promise.resolve();
-    }
-    const DUMMY_NEWPASSWORD = [
-      {
-        rconfirmpassword: confirmpassword,
-        rpassword: password,
-      },
-    ];
-    const respJson = DUMMY_NEWPASSWORD.find(
-      (item) =>
-        (item.rpassword === password || item.rpassword === confirmpassword) &&
-        item.rpassword === password
-    );
-    return Promise.resolve(respJson);
-  }
-
   const [searchParams] = useSearchParams();
-  console.log(searchParams.get("token"));
-  const tokenRequest = searchParams.get("token");
+  const tokenRequest =  searchParams.get("token");
   const isValid = validateRequest(tokenRequest!);
 
   function formResetPassword() {
@@ -197,10 +196,8 @@ export function ResetPassword() {
   }
 
   if (isValid !== null && isValid !== undefined) {
-    console.log(isValid);
     return formResetPassword();
   } else {
-    // return null;
     return <Navigate to={"/login"} />;
   }
 }

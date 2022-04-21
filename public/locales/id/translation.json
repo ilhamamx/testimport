@@ -2,12 +2,11 @@
   "Hello": {
     "World": "Halo Dunia"
   },
-  
+
   "Layout.Link.About": "Tentang",
   "Layout.Link.Products": "Produk",
   "Layout.Link.ContactUs": "Hubungi kami",
 
-  
   "Login.Info.SignIn": "Masuk ke SevenDays",
   "Login.Info.Registration": "Belum punya akun? ",
   "Login.Link.Registration": "Daftar Sekarang",
@@ -21,7 +20,6 @@
   "Login.Notif.IncorrectUser": "Akun/Kata Sandi salah",
   "Login.Button.Login": "Masuk",
   "Login.Button.Loading": "Mohon tunggu....",
-
 
   "ForgotPassword.Info.Header": "Lupa Kata Sandi?",
   "ForgotPassword.Info.EmailEntry": "Masukkan email untuk atur ulang sandi anda",
@@ -42,5 +40,9 @@
   "PasswordEntry.Error.Under8Char": "Panjang kata sandi minimal 8 karakter",
   "PasswordEntry.Error.ExcludeNumber": "Kata sandi harus gabungan dari angka dan huruf",
   "PasswordEntry.Error.NewPasswordEmpty": "Masukkan kata sandi baru",
-  "PasswordEntry.Error.ConfirfmPasswordEmpty": "Masukkan konfirmasi kata sandi"
+  "PasswordEntry.Error.ConfirfmPasswordEmpty": "Masukkan konfirmasi kata sandi",
+
+  "PasswordChanged.Info.Header": "Kata sandi telah diubah",
+  "PasswordChanged.Info.Success": "Kata sandi anda berhasil diubah, silahkan masuk kembali ke akun anda",
+  "PasswordChanged.Button.SignIn": "Masuk"
 }

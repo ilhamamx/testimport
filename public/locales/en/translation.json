@@ -7,7 +7,6 @@
   "Layout.Link.Products": "Products",
   "Layout.Link.ContactUs": "Contact Us",
 
-
   "Login.Info.SignIn": "Sign In to SevenDays",
   "Login.Info.Registration": "New here? ",
   "Login.Link.Registration": "Create an account",
@@ -21,7 +20,6 @@
   "Login.Notif.IncorrectUser": "Login detail is incorrect",
   "Login.Button.Login": "Login",
   "Login.Button.Loading": "Please wait....",
-
 
   "ForgotPassword.Info.Header": "Forgot Password?",
   "ForgotPassword.Info.EmailEntry": "Enter your email to reset your password",
@@ -42,7 +40,9 @@
   "PasswordEntry.Error.Under8Char": "Your password must be at least 8 character",
   "PasswordEntry.Error.ExcludeNumber": "Your password must be contains of letters & numbers",
   "PasswordEntry.Error.NewPasswordEmpty": "New password is required",
-  "PasswordEntry.Error.ConfirfmPasswordEmpty": "Confirm password is requred"
+  "PasswordEntry.Error.ConfirfmPasswordEmpty": "Confirm password is requred",
 
-
+  "PasswordChanged.Info.Header": "Password is Changed",
+  "PasswordChanged.Info.Success": "Your password is successfully changed. Please Sign in to your account ",
+  "PasswordChanged.Button.SignIn": "Sign In"
 }
