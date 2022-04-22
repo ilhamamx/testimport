@@ -8,15 +8,15 @@ import { Navigate, useNavigate, useSearchParams } from "react-router-dom";
 
 const resetPasswordSchema = Yup.object().shape({
   password: Yup.string()
-    .min(8, "Minimum 8 character")
-    .required("Password is required")
+    .min(8, "PasswordEntry.Error.Under8Char")
+    .required("PasswordEntry.Error.NewPasswordEmpty")
     .matches(
       /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/,
-      "Your password must be contains of letters & numbers"
+      "PasswordEntry.Error.ExcludeNumber"
     ),
   confirmpassword: Yup.string()
-    .min(8, "Minimum 8 character")
-    .required("Confirm password is required"),
+    .min(8, "PasswordEntry.Error.Under8Char")
+    .required("PasswordEntry.Error.ConfirmPasswordEmpty"),
 });
 
 const initialValues = {
@@ -40,12 +40,14 @@ function validateRequest(tokenP: string) {
       id: "1000003",
       token: "test123456789",
     },
+    {
+      id: null,
+      token: "error123456",
+    },
   ];
-
   const respJson = DUMMY_TOKEN.find((data) => data.token === tokenP);
   return respJson?.id;
 }
-
 
 function getNewPasswordFromInput(input: string) {
   const newpassword = input;
@@ -69,6 +71,7 @@ function resetPassword(password: string, confirmpassword: string) {
   );
   return Promise.resolve(respJson);
 }
+
 export function ResetPassword() {
   const { t } = useTranslation();
   const nav = useNavigate();
@@ -104,7 +107,7 @@ export function ResetPassword() {
   });
 
   const [searchParams] = useSearchParams();
-  const tokenRequest =  searchParams.get("token");
+  const tokenRequest = searchParams.get("token");
   const isValid = validateRequest(tokenRequest!);
 
   function formResetPassword() {
@@ -139,14 +142,13 @@ export function ResetPassword() {
               type="password"
               formcontrol={"solid"}
               {...formik.getFieldProps("password")}
-              onCopy={(e: Event) => {
-                e.preventDefault();
-                return false;
-              }}
             />
             {formik.touched.password && formik.errors.password && (
-              <div className="fv-plugins-message-container">
-                <span role="alert">{formik.errors.password}</span>
+              <div
+                className="fv-plugins-message-container"
+                id="rpassword-error"
+              >
+                <span role="alert">{t(`${formik.errors.password}`)}</span>
               </div>
             )}
           </div>
@@ -166,8 +168,13 @@ export function ResetPassword() {
               }}
             />
             {formik.touched.confirmpassword && formik.errors.confirmpassword && (
-              <div className="fv-plugins-message-container">
-                <span role="alert">{formik.errors.confirmpassword}</span>
+              <div
+                className="fv-plugins-message-container"
+                id="rpassword-confirmerror"
+              >
+                <span role="alert">
+                  {t(`${formik.errors.confirmpassword}`)}
+                </span>
               </div>
             )}
           </div>
@@ -194,10 +201,16 @@ export function ResetPassword() {
       </div>
     );
   }
-
-  if (isValid !== null && isValid !== undefined) {
-    return formResetPassword();
-  } else {
-    return <Navigate to={"/login"} />;
+  try {
+    if (isValid === null)
+      throw new Error("Erorr not valid");
+    if (isValid !== null && isValid !== undefined) {
+      return formResetPassword();
+    } else {
+      return <Navigate to={"/login"} />;
+    }
+  } catch (error) {
+    console.log("error : " + error);
+    return <Navigate to={"/error/500"} />;
   }
 }

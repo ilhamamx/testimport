@@ -19,7 +19,7 @@ export const ResetPasswordLayout = () => {
           <div className="w-lg-50px">
             <img
               alt="Logo"
-              className="w-100 h-100 logo"
+              // className="w-100 h-100 logo"
               src={toAbsoluteUrl("/media/logos/icon-logo-7days.svg")}
             ></img>
           </div>
@@ -42,7 +42,7 @@ export const ResetPasswordLayout = () => {
         </div>
       </div>
       <div className="d-flex flex-column flex-column-fluid flex-center w-50">
-        <div className="d-flex flex-column w-lg-500px h-50 bg-white rounded shadow-sm p-10 p-lg-15">
+        <div className="d-flex flex-column w-lg-500px bg-white rounded shadow-sm p-10 p-lg-15">
           <Outlet />
         </div>
       </div>

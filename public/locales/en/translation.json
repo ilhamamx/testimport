@@ -34,15 +34,19 @@
   "PasswordEntry.Info.Header": "Welcome to Sevendays",
   "PasswordEntry.Info.InsertPassword": "Insert your new password to change your password",
   "PasswordEntry.Info.ChangePassword": "Change Your Password",
-  "PasswordEntry.Notif.WrongPassword": "New password should be the same with the confirmed password !",
+  "PasswordEntry.Notif.WrongPassword": "New password should be the same with the confirmed password!",
   "PasswordEntry.Input.NewPassword": "New Password",
   "PasswordEntry.Input.ConfirmPassword": "Confirm New Password",
   "PasswordEntry.Error.Under8Char": "Your password must be at least 8 character",
   "PasswordEntry.Error.ExcludeNumber": "Your password must be contains of letters & numbers",
   "PasswordEntry.Error.NewPasswordEmpty": "New password is required",
-  "PasswordEntry.Error.ConfirfmPasswordEmpty": "Confirm password is requred",
+  "PasswordEntry.Error.ConfirmPasswordEmpty": "Confirm password is required",
 
   "PasswordChanged.Info.Header": "Password is Changed",
   "PasswordChanged.Info.Success": "Your password is successfully changed. Please Sign in to your account ",
-  "PasswordChanged.Button.SignIn": "Sign In"
+  "PasswordChanged.Button.SignIn": "Sign In",
+
+  "404.Info.NoService": "Seems there is nothing here",
+  "404.Button.Homepage": "Return to Homepage",
+  "500.Info.ServerError": "Internal Server Error"
 }

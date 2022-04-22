@@ -10,6 +10,7 @@ import { Routes, Route, BrowserRouter, Navigate } from "react-router-dom";
 
 import { AuthRoutes } from "./AuthRoutes";
 import { Dashboard } from "../pages/Dashboard";
+import { ErrorsPage } from  "./ErrorRoutes";
 
 /**
  * Base URL of the website.
@@ -23,9 +24,10 @@ const AppRoutes: FC = () => {
   return (
     <BrowserRouter basename={PUBLIC_URL}>
       <Routes>
+        <Route path="error/*" element={<ErrorsPage />} />
         <Route path="auth/*" element={<AuthRoutes />} />
         <Route path="dashboard" element={<Dashboard />} />
-        <Route path="*" element={<Navigate to="/auth" />} />
+        <Route path="*" element={<Navigate to="/error" />} />
       </Routes>
     </BrowserRouter>
   );

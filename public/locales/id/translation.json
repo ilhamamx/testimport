@@ -40,9 +40,13 @@
   "PasswordEntry.Error.Under8Char": "Panjang kata sandi minimal 8 karakter",
   "PasswordEntry.Error.ExcludeNumber": "Kata sandi harus gabungan dari angka dan huruf",
   "PasswordEntry.Error.NewPasswordEmpty": "Masukkan kata sandi baru",
-  "PasswordEntry.Error.ConfirfmPasswordEmpty": "Masukkan konfirmasi kata sandi",
+  "PasswordEntry.Error.ConfirmPasswordEmpty": "Masukkan konfirmasi kata sandi",
 
   "PasswordChanged.Info.Header": "Kata sandi telah diubah",
   "PasswordChanged.Info.Success": "Kata sandi anda berhasil diubah, silahkan masuk kembali ke akun anda",
-  "PasswordChanged.Button.SignIn": "Masuk"
+  "PasswordChanged.Button.SignIn": "Masuk",
+
+  "404.Info.NoService": "Halaman tidak tersedia",
+  "404.Button.Homepage": "Kembali ke Halaman Utama",
+  "500.Info.ServerError": "Server sedang bermasalah"
 }

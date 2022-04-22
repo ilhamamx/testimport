@@ -1,22 +1,16 @@
 import { useEffect } from "react";
 import { useTranslation } from "react-i18next";
-import { useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { toAbsoluteUrl } from "../../../../resources/helpers/AssetHelpers";
-import Button from "../../../../styles/components/Button";
 
 export function ResetPasswordSuccess() {
   const { t } = useTranslation();
-  const nav = useNavigate();
   useEffect(() => {
     document.body.classList.add("bg-white");
     return () => {
       document.body.classList.remove("bg-white");
     };
   }, []);
-
-  function signInButton() {
-    nav("/login");
-  }
 
   return (
     <div className="d-flex flex-column flex-left h-100 p-10 p-lg-15">
@@ -27,9 +21,13 @@ export function ResetPasswordSuccess() {
         {t("PasswordChanged.Info.Success")}
       </div>
       <div className="text-center mt-5">
-        <Button id="signin-button" btnlg="primary" onClick={signInButton}>
+        <Link
+          to="/auth"
+          id="rpasswordsuccess-signin"
+          className="btn btn-lg btn-primary fw-bolder"
+        >
           {t("PasswordChanged.Button.SignIn")}
-        </Button>
+        </Link>
       </div>
       <div className="text-center">
         <img

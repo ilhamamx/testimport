@@ -1,5 +1,5 @@
 
-import { Route, Routes } from "react-router-dom";
+import { Navigate, Route, Routes } from "react-router-dom";
 import { Login } from "../modules/auth/pages/Login";
 import { AuthLayout } from "../layout/AuthLayout";
 import { ForgotPassword } from "../modules/auth/pages/ForgotPassword";
@@ -18,6 +18,7 @@ const AuthRoutes = () => (
     <Route element={<ResetPasswordLayout />}>
       <Route path="reset-password" element={<ResetPassword />} />
     </Route>
+    <Route path="*" element={<Navigate to="/auth" />} />
   </Routes>
 );
 
