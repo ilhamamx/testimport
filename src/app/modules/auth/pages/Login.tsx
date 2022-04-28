@@ -8,6 +8,7 @@ import TextInput from "../../../../styles/components/TextInput";
 import { useTranslation } from "react-i18next";
 import { phoneValidator } from "../../validators/InputValidator";
 import { useNavigate } from "react-router-dom";
+import * as Sentry from "@sentry/react";
 
 const loginSchema = Yup.object().shape({
   email: Yup.string().required("Login.Error.EmptyEmail"),
@@ -43,6 +44,10 @@ export function Login() {
               setLoading(false);
               console.log("success login");
               console.log(response);
+              Sentry.setContext("User", {
+                name: formEmail,
+                // session: "test-session",
+              });
               nav("/dashboard");
             } else {
               setLoading(false);
