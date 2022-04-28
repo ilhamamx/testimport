@@ -1,13 +1,20 @@
+import { useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { Link, Outlet, useLocation } from "react-router-dom";
 import { toAbsoluteUrl } from "../../../resources/helpers/AssetHelpers";
 
 export const ErrorsLayout = () => {
   const { t } = useTranslation();
-  document.body.classList.add("bg-white");
   const location = useLocation();
+
+  useEffect(() => {
+    document.body.classList.add("bg-white");
+    return () => {
+      document.body.classList.remove("bg-white");
+    };
+  }, []);
+
   function getLocation(): string {
-    console.log(location.pathname);
     return location.pathname;
   }
 
@@ -32,19 +39,6 @@ export const ErrorsLayout = () => {
       }}
     >
       <div className="d-flex flex-column text-center">
-        {/* <div
-          className="
-          d-flex
-          flex-row-auto
-          bgi-no-repeat
-          bgi-position-x-center
-          bgi-size-contain
-          min-h-100px min-h-lg-350px
-        "
-          style={{
-            backgroundImage: `url('${toAbsoluteUrl(`${imgSrc}`)}')`
-          }}
-        ></div> */}
         <img
           src={toAbsoluteUrl(`${imgSrc}`)}
           className="

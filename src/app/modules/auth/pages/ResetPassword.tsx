@@ -47,6 +47,7 @@ function validateRequest(tokenP: string) {
   ];
   const respJson = DUMMY_TOKEN.find((data) => data.token === tokenP);
   return respJson?.id;
+
 }
 
 function getNewPasswordFromInput(input: string) {
@@ -86,22 +87,28 @@ export function ResetPassword() {
       setTimeout(() => {
         const newpassword = getNewPasswordFromInput(values.password);
         const confirmpassword = getNewPasswordFromInput(values.confirmpassword);
-        resetPassword(newpassword, confirmpassword).then((response) => {
-          if (response) {
-            setHasErrors(false);
-            setLoading(false);
-            console.log("success change password");
-            console.log(response);
-            nav("/auth/reset-password-success");
-          } else {
-            console.log("r-new: " + newpassword);
-            console.log("c-new: " + confirmpassword);
-            setHasErrors(true);
+        resetPassword(newpassword, confirmpassword)
+          .then((response) => {
+            if (response) {
+              setHasErrors(false);
+              setLoading(false);
+              console.log("success change password");
+              console.log(response);
+              nav("/auth/reset-password-success");
+            } else {
+              console.log("r-new: " + newpassword);
+              console.log("c-new: " + confirmpassword);
+              setHasErrors(true);
+              setLoading(false);
+              setSubmitting(false);
+              setStatus(`{t("PasswordEntry.Notif.WrongPassword")}`);
+            }
+          })
+          .catch(() => {
             setLoading(false);
             setSubmitting(false);
-            setStatus(`{t("PasswordEntry.Notif.WrongPassword")}`);
-          }
-        });
+            nav("/error/500");
+          });
       }, 1000);
     },
   });
@@ -202,8 +209,13 @@ export function ResetPassword() {
     );
   }
   try {
-    if (isValid === null)
+    console.log("isValid : " + isValid);
+    if (isValid === null )
       throw new Error("Erorr not valid");
+    else if (isValid === undefined ){
+      return <Navigate to={"/error"} />;
+    }
+    
     if (isValid !== null && isValid !== undefined) {
       return formResetPassword();
     } else {

@@ -5,7 +5,7 @@ const Error500: FC = () => {
   const { t } = useTranslation();
   return (
     <>
-      <div className="fw-bold fs-3 text-gray-400 mb-15">
+      <div className="fw-bold fs-3 text-gray-400 mb-15" data-testid="error500">
         {t("500.Info.ServerError")}
       </div>
     </>
