@@ -1,8 +1,31 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, Navigate, useNavigate } from "react-router-dom";
+import Button from "../../styles/components/Button";
+import * as Log from "../../util/SDayslogger";
 
 export function Dashboard() {
   console.log("this is dashboard");
+  const nav = useNavigate();
+  async function error() {
+    const axios = await require("axios").default;
+    try {
+      const response = await axios.get(
+        "http://localhost:3000/auth/reset-password"
+      );
+      console.log(response);
+    } catch (err) {
+      if (axios.isAxiosError(err)) {
+        // handleAxiosError(error);
+        console.log("error" + err);
+        Log.SDayslogger(nav,"Testing Error Message", Log.SDLOGGER_INFO, false, true);
+      } else {
+        // handleUnexpectedError(error);
+        console.log("error2" + error);
+      }
+    }
+  }  
+
+  
   return (
     <div>
       <h1>Dashboard page</h1>
@@ -13,8 +36,19 @@ export function Dashboard() {
         className="btn btn-lg btn-primary fw-bolder"
         data-testid="error500"
       >
-        erorr 500
+        Test erorr 500
       </Link>
+      <br></br>
+      <br></br>
+      <Button
+        id="btnError"
+        className="btn btn-lg btn-primary fw-bolder"
+        onClick={async () => {
+          error();
+        }}
+      >
+        Test Error 500 Sentry
+      </Button>
     </div>
   );
 }
