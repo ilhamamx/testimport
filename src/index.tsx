@@ -13,23 +13,6 @@ import { BrowserTracing } from "@sentry/tracing";
 import { SENTRY_DSN, SENTRY_RELEASE } from "./Config";
 import { useTranslation } from "react-i18next";
 
-// const raygun = require('raygun');
-// const raygunClient = new raygun.Client().init({
-//   apiKey: "33I0cpmxrLGX3Sec1gbrAg"
-// });
-
-// raygunClient.data = function (req:any) {
-//   if (req.user) {
-//     return {
-//       identifier: "test",
-//       email: "test",
-//       fullName:"testing",
-//       firstName:"test",
-//       uuid: "test"
-//     };
-//   }
-// }
-
 // Sentry.setContext("User", {
 //   name: "Bryan Test",
 //   noHP: "081XXXXXXXXX",
