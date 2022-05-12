@@ -1,6 +1,6 @@
 export function phoneValidator(phoneNumber:string){
     //phone regex indonesia
-    const phoneRegex = /^(^\+628|628|^08)\d{9,13}$/;
+    const phoneRegex = /^(^\+628|628|^08)\d{7,11}$/;
     let isValidPhone = phoneRegex.test(phoneNumber!);
     if (!isValidPhone) {
       return false;

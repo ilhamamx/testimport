@@ -12,6 +12,10 @@ import { BrowserTracing } from "@sentry/tracing";
 
 import { SENTRY_DSN, SENTRY_RELEASE } from "./Config";
 import { useTranslation } from "react-i18next";
+import { firebases } from "./db";
+
+firebases.firestore();
+
 
 // Sentry.setContext("User", {
 //   name: "Bryan Test",

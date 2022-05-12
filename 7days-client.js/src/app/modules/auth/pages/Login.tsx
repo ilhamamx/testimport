@@ -9,6 +9,9 @@ import { useTranslation } from "react-i18next";
 import { phoneValidator } from "../../validators/InputValidator";
 import { useNavigate } from "react-router-dom";
 import * as Sentry from "@sentry/react";
+import { getEmailFromPhone } from "../../../../api/server/users";
+
+import * as api from "../../../../api"
 
 const loginSchema = Yup.object().shape({
   email: Yup.string().required("Login.Error.EmptyEmail"),
@@ -25,7 +28,9 @@ const initialValues = {
   https://jaredpalmer.com/formik/docs/tutorial#getfieldprops
   https://medium.com/@maurice.de.beijer/yup-validation-and-typescript-and-formik-6c342578a20e
 */
-
+function showError () {
+  
+}
 export function Login() {
   const { t } = useTranslation();
   const nav = useNavigate();
@@ -36,83 +41,89 @@ export function Login() {
     onSubmit: (values, { setStatus, setSubmitting }) => {
       setLoading(true);
       setTimeout(() => {
-        const formEmail = getEmailFromInput(values.email.trim());
-        //TODO change login logic into firebase login logic
-        login(formEmail, values.password)
-          .then((response) => {
-            if (response) {
-              setLoading(false);
-              console.log("success login");
-              console.log(response);
-              Sentry.setContext("User", {
-                name: formEmail,
-                // session: "test-session",
-              });
-              nav("/dashboard");
-            } else {
-              setLoading(false);
-              setSubmitting(false);
-              setStatus(`${t("Login.Notif.IncorrectUser")}`);
-            }
-          })
-          .catch(() => {
+        const formEmail = getEmailFromInput(values.email.trim(), (email, error) => {
+            //TODO change login logic into firebase login logic
+        if (!email)
+          {
             setLoading(false);
             setSubmitting(false);
             setStatus(`${t("Login.Notif.IncorrectUser")}`);
-          });
+            return ;
+          }
+          console.log('email : ' + email);
+        login(email, values.password)
+        .then((response) => {
+          if (response) {
+            setLoading(false);
+            console.log("success login");
+            console.log(response);
+            Sentry.setContext("User", {
+              name: formEmail,
+              // session: "test-session",
+            });
+            nav("/dashboard");
+          } else {
+            setLoading(false);
+            setSubmitting(false);
+            setStatus(`${t("Login.Notif.IncorrectUser")}`);
+          }
+        })
+        .catch(() => {
+          setLoading(false);
+          setSubmitting(false);
+          setStatus(`${t("Login.Notif.IncorrectUser")}`);
+        });
+        });
+        
       }, 1000);
     },
   });
 
-  function getEmailFromInput(input: string) {
-    const formatEmail = input.match(/^\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}$/)
-      ? input
-      : getEmailFromPhoneNumber(input.replaceAll(/[^0-9]/gi, ""));
-    return formatEmail;
+  function  getEmailFromInput(input: string, 
+    callback: (email:string | null, error:string | null) => void) {
+
+    const isEmail = input.match(/^\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}$/)
+    if (isEmail) {
+      callback(input, null);
+      return Promise.resolve(input);
+    }
+      
+    
+    const email = getEmailFromPhoneNumber(
+      input.replaceAll(/[^0-9]/gi, ""), 
+      callback);
+    return email;
   }
 
   //dummy function, should be replaced with actual get from firebase
-  function getEmailFromPhoneNumber(phone: string) {
+  function getEmailFromPhoneNumber(
+    phone: string, callback: (email:string | null, error:string | null) => void) {
+    
     if(phone.startsWith("0")){
       phone = '62' + phone.substring(1);
     }
-    if (phoneValidator(phone) && phone === "6281234567891") {
-      return "test1@gmail.com";
+    
+    if (phoneValidator(phone)) {
+      
+      return getEmailFromPhone(phone).then((email) => {
+        
+        callback(email, null)
+        return email;
+      }).catch(() => {
+        callback(null, "")
+        return "";
+      });
     }
+    
+    callback(null, "")
     return "";
   }
 
   //dummy function, should be replaced with actual login from firebase
-  function login(email: string, password: string) {
-    const DUMMY_USER = [
-      {
-        id: "m1",
-        name: "tes1",
-        phone: "6281234567891",
-        email: "test1@gmail.com",
-        password: "123456",
-      },
-      {
-        id: "m2",
-        name: "tes2",
-        phone: "6281234567892",
-        email: "test2@gmail.com",
-        password: "223456",
-      },
-      {
-        id: "m3",
-        name: "tes3",
-        phone: "6281234567893",
-        email: "test3@gmail.com",
-        password: "323456",
-      },
-    ];
-    const respJson = DUMMY_USER.find(
-      (item) =>
-        (item.phone === email || item.email === email) &&
-        item.password === password
-    );
-    return Promise.resolve(respJson);
+  function login(email: string, password: string):Promise<string> {
+    console.log(`login with email ${email} and password ${password}`);
+    return api.login(email, password)
+
   }
 
   const [passwordShown, setPasswordShown] = useState(false);
