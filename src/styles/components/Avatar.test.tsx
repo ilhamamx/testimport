@@ -12,8 +12,8 @@ describe("avatar component", () => {
     const imgAvatar = screen.getByRole('img');
     expect(imgAvatar).toBeTruthy();
     expect(imgAvatar).toHaveAttribute("src","https://www.pngall.com/wp-content/uploads/5/Profile-Male-PNG.png");
-    expect(getComputedStyle(imgAvatar).width).toBe("100%");
-    expect(getComputedStyle(imgAvatar).height).toBe("100%");
+    expect(getComputedStyle(imgAvatar).width).toBe("100px");
+    expect(getComputedStyle(imgAvatar).height).toBe("100px");
     expect(getComputedStyle(imgAvatar).borderRadius).toBe("0%");
   });
 
@@ -25,8 +25,8 @@ describe("avatar component", () => {
     const imgAvatar = screen.getByRole('img');
     expect(imgAvatar).toBeTruthy();
     expect(imgAvatar).toHaveAttribute("src","https://www.pngall.com/wp-content/uploads/5/Profile-Male-PNG.png");
-    expect(getComputedStyle(imgAvatar).width).toBe("100%");
-    expect(getComputedStyle(imgAvatar).height).toBe("100%");
+    expect(getComputedStyle(imgAvatar).width).toBe("100px");
+    expect(getComputedStyle(imgAvatar).height).toBe("100px");
     expect(getComputedStyle(imgAvatar).borderRadius).toBe("10%");
   });
 
@@ -38,8 +38,8 @@ describe("avatar component", () => {
     const imgAvatar = screen.getByRole('img');
     expect(imgAvatar).toBeTruthy();
     expect(imgAvatar).toHaveAttribute("src","https://www.pngall.com/wp-content/uploads/5/Profile-Male-PNG.png");
-    expect(getComputedStyle(imgAvatar).width).toBe("100%");
-    expect(getComputedStyle(imgAvatar).height).toBe("100%");
+    expect(getComputedStyle(imgAvatar).width).toBe("100px");
+    expect(getComputedStyle(imgAvatar).height).toBe("100px");
     expect(getComputedStyle(imgAvatar).borderRadius).toBe("20%");
   });
 
@@ -51,8 +51,8 @@ describe("avatar component", () => {
     const imgAvatar = screen.getByRole('img');
     expect(imgAvatar).toBeTruthy();
     expect(imgAvatar).toHaveAttribute("src","https://www.pngall.com/wp-content/uploads/5/Profile-Male-PNG.png");
-    expect(getComputedStyle(imgAvatar).width).toBe("100%");
-    expect(getComputedStyle(imgAvatar).height).toBe("100%");
+    expect(getComputedStyle(imgAvatar).width).toBe("100px");
+    expect(getComputedStyle(imgAvatar).height).toBe("100px");
     expect(getComputedStyle(imgAvatar).borderRadius).toBe("30%");
   });
 
@@ -64,8 +64,8 @@ describe("avatar component", () => {
     const imgAvatar = screen.getByRole('img');
     expect(imgAvatar).toBeTruthy();
     expect(imgAvatar).toHaveAttribute("src","https://www.pngall.com/wp-content/uploads/5/Profile-Male-PNG.png");
-    expect(getComputedStyle(imgAvatar).width).toBe("100%");
-    expect(getComputedStyle(imgAvatar).height).toBe("100%");
+    expect(getComputedStyle(imgAvatar).width).toBe("100px");
+    expect(getComputedStyle(imgAvatar).height).toBe("100px");
     expect(getComputedStyle(imgAvatar).borderRadius).toBe("40%");
   });
 
@@ -77,8 +77,8 @@ describe("avatar component", () => {
     const imgAvatar = screen.getByRole('img');
     expect(imgAvatar).toBeTruthy();
     expect(imgAvatar).toHaveAttribute("src","https://www.pngall.com/wp-content/uploads/5/Profile-Male-PNG.png");
-    expect(getComputedStyle(imgAvatar).width).toBe("100%");
-    expect(getComputedStyle(imgAvatar).height).toBe("100%");
+    expect(getComputedStyle(imgAvatar).width).toBe("100px");
+    expect(getComputedStyle(imgAvatar).height).toBe("100px");
     expect(getComputedStyle(imgAvatar).borderRadius).toBe("50%");
   });
 
@@ -90,8 +90,8 @@ describe("avatar component", () => {
     const imgAvatar = screen.getByRole('img');
     expect(imgAvatar).toBeTruthy();
     expect(imgAvatar).toHaveAttribute("src","https://www.pngall.com/wp-content/uploads/5/Profile-Male-PNG.png");
-    expect(getComputedStyle(imgAvatar).width).toBe("150%");
-    expect(getComputedStyle(imgAvatar).height).toBe("150%");
+    expect(getComputedStyle(imgAvatar).width).toBe("150px");
+    expect(getComputedStyle(imgAvatar).height).toBe("150px");
     expect(getComputedStyle(imgAvatar).borderRadius).toBe("50%");
   });
 
