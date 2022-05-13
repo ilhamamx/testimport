@@ -21,6 +21,7 @@ const loginSchema = Yup.object().shape({
 const initialValues = {
   email: "",
   password: "",
+  isrememberme: false,
 };
 
 /*
@@ -50,8 +51,8 @@ export function Login() {
             setStatus(`${t("Login.Notif.IncorrectUser")}`);
             return ;
           }
-          console.log('email : ' + email);
-        login(email, values.password)
+          console.log('email : ' + email+" - rememberme : "+values.isrememberme );
+        login(email, values.password,values.isrememberme)
         .then((response) => {
           if (response) {
             setLoading(false);
@@ -61,6 +62,7 @@ export function Login() {
               name: formEmail,
               // session: "test-session",
             });
+            checkboxHandler(email, values.password);
             nav("/dashboard");
           } else {
             setLoading(false);
@@ -95,6 +97,20 @@ export function Login() {
     return email;
   }
 
+  function checkboxHandler(formEmail:string, password:string) {
+    const cBox = document.querySelector('#login-remember') as HTMLInputElement;
+    let user = {
+      emal: formEmail,
+      password: password
+    }
+    if (cBox.checked){
+      console.log('remember me!');
+      window.localStorage.setItem('user', JSON.stringify(user));
+    } else {
+      console.log("don't remember me!");
+        
+      }
+  };
   //dummy function, should be replaced with actual get from firebase
   function getEmailFromPhoneNumber(
     phone: string, callback: (email:string | null, error:string | null) => void) {
@@ -120,9 +136,9 @@ export function Login() {
   }
 
   //dummy function, should be replaced with actual login from firebase
-  function login(email: string, password: string):Promise<string> {
+  function login(email: string, password: string, isRememberme:true|false):Promise<string> {
     console.log(`login with email ${email} and password ${password}`);
-    return api.login(email, password)
+    return api.login(email, password, isRememberme)
 
   }
 
@@ -236,8 +252,9 @@ export function Login() {
           <input
             className="form-check-input"
             type="checkbox"
-            value=""
+            // value=""
             id="login-remember"
+            {...formik.getFieldProps("isrememberme")}
           />
           <label className="form-check-label" htmlFor="login-remember">
             {t("Login.Checkbox.Rememberme")}
