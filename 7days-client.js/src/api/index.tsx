@@ -2,6 +2,7 @@
 import db, {fetchDataTesting} from "../db"
 import firebase from 'firebase/compat/app'
 import 'firebase/compat/auth'
+import { useEffect, useState } from "react";
 // import {IUser} from '../app/modules/auth/model/User';
 
 //login
@@ -35,7 +36,7 @@ export const login = async (email:string, password:string, isrememberme:true|fal
     }
     console.log("isremember me : "+isrememberme+" - "+remember)
     await firebase.auth()
-      .setPersistence(remember)
+      .setPersistence('none')
       .then(async () => {
         const a = firebase.auth()
         .signInWithEmailAndPassword(email, password);
@@ -48,6 +49,7 @@ export const login = async (email:string, password:string, isrememberme:true|fal
     currentUser = firebase.auth().onAuthStateChanged((user) => (currentUser = user));
     console.log(`currentUser2 : `+JSON.stringify(firebase.auth().currentUser))
     console.log(`firebase login success`)
+    console.log("promise : "+JSON.stringify(Promise.resolve("success")))
     return Promise.resolve("success")
   } catch (error) {
     console.log(`firebase login error ${error}`)
@@ -56,13 +58,22 @@ export const login = async (email:string, password:string, isrememberme:true|fal
   
 }
 
-export function authTest(){
-  console.log(` ------>> authTest : `)
+export function AuthUser(): boolean {
+  console.log(`check authUser `)
+  const [isAuthored, setIsAuthored] = useState(false);
   firebase.auth().onAuthStateChanged(function(user) {
     if (user) {
-      console.log(`currentUser authTest : `+JSON.stringify(firebase.auth().currentUser))
+      setIsAuthored(true);
+    }else{
+      setIsAuthored(false);
     }
-  });
+  })
+  return isAuthored;
+}
+
+
+function  func(){
+  return true;
 }
 
 export const logout = async () => {
@@ -74,4 +85,4 @@ export const logout = async () => {
   }
 }
 
-//export default print;
+//export default prin;

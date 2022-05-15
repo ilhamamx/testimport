@@ -5,7 +5,7 @@
  * components (e.g: `src/app/modules/Auth/pages/AuthPage`, `src/app/BasePage`).
  */
 
- import { FC } from "react";
+ import { FC, useState } from "react";
  import { Routes, Route, BrowserRouter, Navigate } from "react-router-dom";
  
  import { AuthRoutes } from "./AuthRoutes";
@@ -31,9 +31,9 @@
 // call redux action Auth -> return true false
 // true -> dashboard
 // false -> login
-   api.authTest();
-   const isAuthored = false;
-
+  console.log("testing route");
+  
+   const isAuthored = api.AuthUser();
    return (
      <BrowserRouter basename={PUBLIC_URL}>
        <Routes>
