@@ -32,6 +32,9 @@ const initialValues = {
 function showError () {
   
 }
+
+
+
 export function Login() {
   const { t } = useTranslation();
   const nav = useNavigate();
@@ -62,7 +65,8 @@ export function Login() {
               name: formEmail,
               // session: "test-session",
             });
-            checkboxHandler(email, values.password);
+                      
+            
             nav("/dashboard");
           } else {
             setLoading(false);
@@ -96,21 +100,7 @@ export function Login() {
       callback);
     return email;
   }
-
-  function checkboxHandler(formEmail:string, password:string) {
-    const cBox = document.querySelector('#login-remember') as HTMLInputElement;
-    let user = {
-      emal: formEmail,
-      password: password
-    }
-    if (cBox.checked){
-      console.log('remember me!');
-      window.localStorage.setItem('user', JSON.stringify(user));
-    } else {
-      console.log("don't remember me!");
-        
-      }
-  };
+  
   //dummy function, should be replaced with actual get from firebase
   function getEmailFromPhoneNumber(
     phone: string, callback: (email:string | null, error:string | null) => void) {

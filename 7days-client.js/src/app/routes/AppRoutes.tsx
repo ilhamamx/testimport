@@ -17,14 +17,14 @@
  import { PrivateRoutes } from "./PrivateRoutes";
  import * as api from "../../api";
 
- 
+
  /**
   * Base URL of the website.
   *
   * @see https://facebook.github.io/create-react-app/docs/using-the-public-folder
   */
  const { PUBLIC_URL } = process.env;
- 
+ let isAuthored  = false;
  const AppRoutes: FC = () => {
    //call to redux
    //route
@@ -33,29 +33,26 @@
 // false -> login
   console.log("testing route");
   
-   const isAuthored = api.AuthUser();
+  const isAuthored = api.AuthTest();
+  //const isAuthored = false;
+   console.log('is auth: ' + isAuthored);
+   
    return (
      <BrowserRouter basename={PUBLIC_URL}>
        <Routes>
          <Route path="error/*" element={<ErrorsPage />} />
-         <Route path="auth/*" element={<AuthRoutes />} />
-         {/* <Route element={<MasterLayout />}>
-           <Route path="dashboard" element={<Dashboard />} />
-           <Route path="about" element={<About />} />
-           <Route path="faq" element={<Faq />} />
-         </Route> */}
-         {/* <Route path="dashboard" element={<Dashboard />} /> */}
-         {isAuthored ? (
-           <>
-             <Route path="/*" element={<PrivateRoutes />} />
-             <Route index element={<Navigate to="/dashboard" />} />
-           </>
-         ) : (
-           <>
+         {/* <Route path="auth/*" element={<AuthRoutes />} /> */}
+         {isAuthored ? 
+         <>
+            <Route path="/*" element={<PrivateRoutes />} />
+            <Route index element={<Navigate to="/dashboard" />} />
+            {console.log('-------------------------------> masuk dashboard')}
+         </>: <>
              <Route path="auth/*" element={<AuthRoutes />} />
              <Route path="*" element={<Navigate to="/auth" />} />
-           </>
-         )}
+             {console.log('-------------------------------> masuk auth')}
+           </>}
+         
          <Route path="*" element={<Navigate to="/error" />} />
        </Routes>
      </BrowserRouter>
@@ -63,4 +60,3 @@
  };
  
  export { AppRoutes };
- 

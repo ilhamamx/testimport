@@ -5,6 +5,7 @@ import 'firebase/compat/auth'
 import { useEffect, useState } from "react";
 // import {IUser} from '../app/modules/auth/model/User';
 
+
 //login
 //save to localstorage
 //save to redux
@@ -32,11 +33,12 @@ export const login = async (email:string, password:string, isrememberme:true|fal
   let currentUser = null;
   try {
     if(isrememberme){
-      remember = 'local';
+      remember = 'none';
     }
     console.log("isremember me : "+isrememberme+" - "+remember)
-    await firebase.auth()
-      .setPersistence('none')
+    //firebase.auth().setPersistence('session')
+    
+    await firebase.auth().setPersistence(firebase.auth.Auth.Persistence.LOCAL)
       .then(async () => {
         const a = firebase.auth()
         .signInWithEmailAndPassword(email, password);
@@ -46,10 +48,10 @@ export const login = async (email:string, password:string, isrememberme:true|fal
     if(currentUser!=null){
       console.log(`currentUser : `+JSON.stringify(currentUser));
     }
-    currentUser = firebase.auth().onAuthStateChanged((user) => (currentUser = user));
-    console.log(`currentUser2 : `+JSON.stringify(firebase.auth().currentUser))
-    console.log(`firebase login success`)
-    console.log("promise : "+JSON.stringify(Promise.resolve("success")))
+    // currentUser = firebase.auth().onAuthStateChanged((user) => (currentUser = user));
+    // console.log(`currentUser2 : `+JSON.stringify(firebase.auth().currentUser))
+    // console.log(`firebase login success`)
+    // console.log("promise : "+JSON.stringify(Promise.resolve("success")))
     return Promise.resolve("success")
   } catch (error) {
     console.log(`firebase login error ${error}`)
@@ -58,23 +60,70 @@ export const login = async (email:string, password:string, isrememberme:true|fal
   
 }
 
-export function AuthUser(): boolean {
-  console.log(`check authUser `)
-  const [isAuthored, setIsAuthored] = useState(false);
-  firebase.auth().onAuthStateChanged(function(user) {
-    if (user) {
-      setIsAuthored(true);
-    }else{
-      setIsAuthored(false);
+//create cookies
+function setCookie(cname: string, cvalue: string, exdays: number) {
+  const d = new Date();
+  d.setTime(d.getTime() + (exdays*24*60*60*1000));
+  let expires = "expires="+ d.toUTCString();
+  document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/dashboard";
+}
+
+//get cookies
+function getCookie(cname: string) {
+  let name = cname + "=";
+  let decodedCookie = decodeURIComponent(document.cookie);
+  let ca = decodedCookie.split(';');
+  for(let i = 0; i <ca.length; i++) {
+    let c = ca[i];
+    while (c.charAt(0) === ' ') {
+      c = c.substring(1);
     }
-  })
+    if (c.indexOf(name) === 0) {
+      return c.substring(name.length, c.length);
+    }
+  }
+  return "";
+}
+
+//delete cookies
+function deleteCookie(cname:string, route: string) {
+  document.cookie = cname +'=; Path=/'+ route + '; Expires=Thu, 01 Jan 1970 00:00:01 GMT;'
+};
+
+export const autth = async ():Promise<boolean> => {
+  let auth = false;
+  await firebase.auth().onAuthStateChanged(function(user) {
+    if (user) {
+      auth = true;
+    } 
+  });
+  return Promise.resolve(auth)
+}
+
+
+export function AuthTest(){
+  console.log(` ------>> authTest : `)
+  const [isAuthored, setIsAuthored] = useState(false);
+   useEffect(() => { firebase.auth().onAuthStateChanged(function(user) {
+    if (user) {
+      const user = JSON.stringify(firebase.auth().currentUser)
+      setIsAuthored(true);
+      setCookie('user', user, 3);
+      console.log(user);
+      
+    } else {
+      setIsAuthored(false);
+      deleteCookie('user', 'dashboard');      
+    }
+
+  });
+}, [setIsAuthored]);
   return isAuthored;
 }
 
+export function CompareKeys() {
 
-function  func(){
-  return true;
-}
+};
 
 export const logout = async () => {
   try {
