@@ -48,5 +48,10 @@
 
   "404.Info.NoService": "Halaman tidak tersedia",
   "404.Button.Homepage": "Kembali ke Halaman Utama",
-  "500.Info.ServerError": "Server sedang bermasalah"
+  "500.Info.ServerError": "Server sedang bermasalah",
+
+  "HeaderBar.Button.Dashboard": "Dashboard",
+  "HeaderBar.Button.FAQ": "Pertanyaan",
+  "HeaderBar.Button.About": "Tentang",
+  "HeaderBar.Input.Search": "Pencarian"
 }

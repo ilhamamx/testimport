@@ -9,8 +9,10 @@ import { useMediaQuery } from "react-responsive";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "@popperjs/core";
 import "bootstrap";
+import { useTranslation } from "react-i18next";
 
 const MasterLayout = () => {
+  const { t } = useTranslation();
   useEffect(() => {
     document.body.classList.add("bg-white");
     return () => {
@@ -69,18 +71,19 @@ const MasterLayout = () => {
                           to="/dashboard"
                           className="nav-link me-5"
                           aria-current="page"
+                          id="link-dashboard"
                         >
-                          Dashboard
+                          {t("HeaderBar.Button.Dashboard")}
                         </Link>
                       </div>
                       <div className="nav-item mt-4 flex-fill w-auto">
-                        <Link to="/about" className="nav-link">
-                          About
+                        <Link to="/about" className="nav-link" id="link-about">
+                          {t("HeaderBar.Button.About")}
                         </Link>
                       </div>
                       <div className="nav-item mt-4 flex-fill w-auto">
-                        <Link to="/faq" className="nav-link">
-                          FAQ
+                        <Link to="/faq" className="nav-link" id="link-faq">
+                          {t("HeaderBar.Button.FAQ")}
                         </Link>
                       </div>
                       <div
@@ -88,26 +91,32 @@ const MasterLayout = () => {
                         style={{ display: "flex" }}
                       >
                         <Dropdown style={{ marginLeft: "auto" }}>
-                            <Dropdown.Toggle
-                              style={{ border: "none" }}
-                              className="bg-white align-text-bottom mr-0 ml-auto border-start-0 "
-                              id="profile-dropdown"
-                            >
-                              <Avatar
-                                data-testid="avatar"
-                                height="30"
-                                width="30"
-                                imgRadius="0%"
-                                imgSrc="https://www.pngall.com/wp-content/uploads/5/Profile-Male-PNG.png"
-                              />
-                            </Dropdown.Toggle>
+                          <Dropdown.Toggle
+                            style={{ border: "none" }}
+                            className="bg-white align-text-bottom mr-0 ml-auto border-start-0 "
+                            id="profile-dropdown"
+                          >
+                            <Avatar
+                              data-testid="avatar"
+                              height="30"
+                              width="30"
+                              imgRadius="0%"
+                              imgSrc="https://www.pngall.com/wp-content/uploads/5/Profile-Male-PNG.png"
+                            />
+                          </Dropdown.Toggle>
 
-                            <Dropdown.Menu>
-                              <Dropdown.Item href="#">Profile</Dropdown.Item>
-                              <Dropdown.Item href="#">Setting</Dropdown.Item>
-                              <Dropdown.Item href="#">Log Out</Dropdown.Item>
-                            </Dropdown.Menu>
-                          </Dropdown>
+                          <Dropdown.Menu>
+                            <Dropdown.Item href="#" id="dropdwown-profile">
+                              Profile
+                            </Dropdown.Item>
+                            <Dropdown.Item href="#" id="dropdwown-setting">
+                              Setting
+                            </Dropdown.Item>
+                            <Dropdown.Item href="#" id="dropdwown-logout">
+                              Log Out
+                            </Dropdown.Item>
+                          </Dropdown.Menu>
+                        </Dropdown>
                       </div>
                     </div>
                     {/* </div> */}
@@ -116,7 +125,7 @@ const MasterLayout = () => {
                         <input
                           className="form-control border-end-0 border"
                           type="search"
-                          placeholder="Search"
+                          placeholder={t("HeaderBar.Input.Search")}
                           id="example-search-input"
                         />
                         <span className="input-group-append">
@@ -219,7 +228,7 @@ const MasterLayout = () => {
                     width: "30px",
                     height: "30px",
                     marginTop: "10px",
-                    marginRight: "3px"
+                    marginRight: "3px",
                   }}
                 ></img>
               </div>

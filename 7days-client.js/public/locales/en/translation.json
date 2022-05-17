@@ -48,5 +48,10 @@
 
   "404.Info.NoService": "Seems there is nothing here",
   "404.Button.Homepage": "Return to Homepage",
-  "500.Info.ServerError": "Internal Server Error"
+  "500.Info.ServerError": "Internal Server Error",
+
+  "HeaderBar.Button.Dashboard": "Dashboard",
+  "HeaderBar.Button.FAQ": "FAQ",
+  "HeaderBar.Button.About": "About",
+  "HeaderBar.Input.Search": "Search"
 }
