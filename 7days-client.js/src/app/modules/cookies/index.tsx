@@ -1,3 +1,6 @@
+export const cookiesName = {
+  Persistance: 'Persistance',
+}
 
 //create cookies
 export function setCookie(cname: string, cvalue: string, exdays: number) {

@@ -1,9 +1,8 @@
-
 import db, {fetchDataTesting} from "../db"
 import firebase from 'firebase/compat/app'
 import 'firebase/compat/auth'
+import * as cookies from '../app/modules/cookies/index'
 import { useEffect, useState } from "react";
-// import {IUser} from '../app/modules/auth/model/User';
 
 
 //login
@@ -43,15 +42,21 @@ export const login = async (email:string, password:string, isrememberme:true|fal
         const a = firebase.auth()
         .signInWithEmailAndPassword(email, password);
         currentUser = (await a).user;
+        if(currentUser!=null){
+          console.log(`currentUser : `+JSON.stringify(currentUser));
+          const user = JSON.stringify(firebase.auth().currentUser)
+          window.localStorage.setItem('currentUser', user);
+          if(isrememberme){
+            cookies.setCookie(cookies.cookiesName.Persistance, JSON.stringify(currentUser), 99);
+          }else{
+            console.log("save cookies 3 hari");
+            cookies.setCookie(cookies.cookiesName.Persistance, JSON.stringify(currentUser), 3);
+            console.log("Hasil dari cookies : "+cookies.getCookie(cookies.cookiesName.Persistance));
+            
+          }
+        }
       })
     
-    if(currentUser!=null){
-      console.log(`currentUser : `+JSON.stringify(currentUser));
-    }
-    // currentUser = firebase.auth().onAuthStateChanged((user) => (currentUser = user));
-    // console.log(`currentUser2 : `+JSON.stringify(firebase.auth().currentUser))
-    // console.log(`firebase login success`)
-    // console.log("promise : "+JSON.stringify(Promise.resolve("success")))
     return Promise.resolve("success")
   } catch (error) {
     console.log(`firebase login error ${error}`)
@@ -60,47 +65,6 @@ export const login = async (email:string, password:string, isrememberme:true|fal
   
 }
 
-//create cookies
-function setCookie(cname: string, cvalue: string, exdays: number) {
-  const d = new Date();
-  d.setTime(d.getTime() + (exdays*24*60*60*1000));
-  let expires = "expires="+ d.toUTCString();
-  document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/dashboard";
-}
-
-//get cookies
-function getCookie(cname: string) {
-  let name = cname + "=";
-  let decodedCookie = decodeURIComponent(document.cookie);
-  let ca = decodedCookie.split(';');
-  for(let i = 0; i <ca.length; i++) {
-    let c = ca[i];
-    while (c.charAt(0) === ' ') {
-      c = c.substring(1);
-    }
-    if (c.indexOf(name) === 0) {
-      return c.substring(name.length, c.length);
-    }
-  }
-  return null;
-}
-
-//delete cookies
-function deleteCookie(cname:string, route: string) {
-  document.cookie = cname +'=; Path=/'+ route + '; Expires=Thu, 01 Jan 1970 00:00:01 GMT;'
-};
-
-export const autth = async ():Promise<boolean> => {
-  let auth = false;
-  await firebase.auth().onAuthStateChanged(function(user) {
-    if (user) {
-      auth = true;
-    } 
-  });
-  return Promise.resolve(auth)
-}
-
-
 export function AuthTest(){
   console.log(` ------>> authTest : `)
   const [isAuthored, setIsAuthored] = useState(false);
@@ -108,12 +72,10 @@ export function AuthTest(){
     if (user) {
       const user = JSON.stringify(firebase.auth().currentUser)
       setIsAuthored(true);
-      setCookie('user', user, 3);
       console.log(user);
       
     } else {
-      setIsAuthored(false);
-      deleteCookie('user', 'dashboard');      
+      setIsAuthored(false); 
     }
 
   });
@@ -121,21 +83,37 @@ export function AuthTest(){
   return isAuthored;
 }
 
-// export function AuthTest(){
-//   console.log(` ------>> authTest : `)
-//   let isAuthoredfalse = false;
-//    useEffect(() => { firebase.auth().onAuthStateChanged(function(user) {
-//     if (user) {
-//       isAuthoredfalse = true; 
-//     }
-//   });
-// });
-//   return isAuthoredfalse;
-// }
+export function AuthUser(currentUser:any){
+  console.log(` ------>> authTest : `)
+  let isAuthored = false;
+  firebase.auth().onAuthStateChanged(function(user) {
+    if (user) {
+      const user = JSON.stringify(firebase.auth().currentUser)
+      console.log("firebase check onAuthStateChanged"+user);
+      isAuthored = true;
+    } 
+  });
+  return isAuthored;
+}
 
-export function CompareKeys() {
-
-};
+export const AuthUser2 = async (currentUser:any):Promise<boolean>=>{
+  console.log(` ------>> authTest : `)
+  let isAuthored = false;
+  try{
+    await firebase.auth().onAuthStateChanged(function (currentUser) {
+        if (currentUser) {
+          const user = JSON.stringify(firebase.auth().currentUser);
+          console.log("firebase check onAuthStateChanged" + user);
+          isAuthored = true;
+          console.log("------------------>> user auth by firebase");
+        }
+      });
+  }catch(error){
+    console.log(`firebase login error ${error}`)
+    return Promise.reject(error)
+  }
+  return Promise.resolve(isAuthored)
+}
 
 export const logout = async () => {
   try {

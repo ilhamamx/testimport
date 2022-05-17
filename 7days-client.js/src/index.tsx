@@ -15,6 +15,7 @@ import { useTranslation } from "react-i18next";
 import { firebases } from "./db";
 import {Provider} from 'react-redux'
 import store from '../src/setup/redux/store'
+import AuthInit from "./app/modules/auth/redux/AuthInit";
 firebases.firestore();
 
 
@@ -66,7 +67,9 @@ ReactDOM.render(
   <React.StrictMode>
     <Suspense fallback={<div>Loading...</div>}>
       <Provider store={store}>
-        <AppRoutes />
+        <AuthInit>
+          <AppRoutes />
+        </AuthInit>
       </Provider>
     </Suspense>
   </React.StrictMode>,
