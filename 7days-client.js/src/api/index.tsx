@@ -82,7 +82,7 @@ function getCookie(cname: string) {
       return c.substring(name.length, c.length);
     }
   }
-  return "";
+  return null;
 }
 
 //delete cookies
@@ -120,6 +120,18 @@ export function AuthTest(){
 }, [setIsAuthored]);
   return isAuthored;
 }
+
+// export function AuthTest(){
+//   console.log(` ------>> authTest : `)
+//   let isAuthoredfalse = false;
+//    useEffect(() => { firebase.auth().onAuthStateChanged(function(user) {
+//     if (user) {
+//       isAuthoredfalse = true; 
+//     }
+//   });
+// });
+//   return isAuthoredfalse;
+// }
 
 export function CompareKeys() {
 

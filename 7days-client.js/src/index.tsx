@@ -13,7 +13,8 @@ import { BrowserTracing } from "@sentry/tracing";
 import { SENTRY_DSN, SENTRY_RELEASE } from "./Config";
 import { useTranslation } from "react-i18next";
 import { firebases } from "./db";
-
+import {Provider} from 'react-redux'
+import store from '../src/setup/redux/store'
 firebases.firestore();
 
 
@@ -64,7 +65,9 @@ if (process.env.NODE_ENV !== "development") {
 ReactDOM.render(
   <React.StrictMode>
     <Suspense fallback={<div>Loading...</div>}>
-      <AppRoutes />
+      <Provider store={store}>
+        <AppRoutes />
+      </Provider>
     </Suspense>
   </React.StrictMode>,
   document.getElementById("root")

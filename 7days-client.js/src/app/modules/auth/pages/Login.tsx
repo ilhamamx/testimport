@@ -12,6 +12,8 @@ import * as Sentry from "@sentry/react";
 import { getEmailFromPhone } from "../../../../api/server/users";
 
 import * as api from "../../../../api"
+import { useDispatch, useSelector } from "react-redux";
+import { setAuth } from "../redux/AuthSlice";
 
 const loginSchema = Yup.object().shape({
   email: Yup.string().required("Login.Error.EmptyEmail"),
@@ -39,6 +41,7 @@ export function Login() {
   const { t } = useTranslation();
   const nav = useNavigate();
   const [loading, setLoading] = useState(false);
+  const dispatch = useDispatch();
   const formik = useFormik({
     initialValues,
     validationSchema: loginSchema,
@@ -59,6 +62,7 @@ export function Login() {
         .then((response) => {
           if (response) {
             setLoading(false);
+            dispatch(setAuth(true));
             console.log("success login");
             console.log(response);
             Sentry.setContext("User", {

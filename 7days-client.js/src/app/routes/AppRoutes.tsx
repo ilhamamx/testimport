@@ -16,7 +16,8 @@
  import { Faq } from "../pages/FAQ";
  import { PrivateRoutes } from "./PrivateRoutes";
  import * as api from "../../api";
-
+ import { useSelector } from "react-redux";
+ import {RootState} from '../../setup/redux/store'
 
  /**
   * Base URL of the website.
@@ -33,9 +34,11 @@
 // false -> login
   console.log("testing route");
   
-  const isAuthored = api.AuthTest();
-  //const isAuthored = false;
-   console.log('is auth: ' + isAuthored);
+  // const isAuthored = api.AuthTest();
+  // const isAuthored = false;
+  const isAuthored: boolean = useSelector((state: RootState) => state.Auth.isAuth);
+  // console.log('Redux is Auth : ' + isAuth);
+  console.log('is auth: ' + isAuthored);
    
    return (
      <BrowserRouter basename={PUBLIC_URL}>
