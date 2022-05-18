@@ -16,11 +16,16 @@ const AuthInit: FC<PropsFromRedux> = (props) => {
   let isAuthored: boolean = useSelector((state: RootState) => state.Auth.isAuth);
   console.log("Hasil user from Redux Auth Init : "+isAuthored);
    // We should request user by authToken before rendering the application
+   const currentUser = window.localStorage.getItem('currentUser');
+   console.log("Hasil user from cookies Auth Init : "+currentUser);
+   if (currentUser != null){
+    dispatch(props.setAuth(true))
+   }
   useEffect(() => {
     const requestUser = async () => {
       // const currentUser = cookies.getCookie(cookies.cookiesName.Persistance);
-      const currentUser = window.localStorage.getItem('currentUser');
-      console.log("Hasil user from cookies Auth Init : "+currentUser);
+      // const currentUser = window.localStorage.getItem('currentUser');
+      // console.log("Hasil user from cookies Auth Init : "+currentUser);
       try {
         if (!didRequest.current) {
           if (currentUser!=null){
