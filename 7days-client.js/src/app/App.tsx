@@ -5,8 +5,7 @@ import AuthInit from './modules/auth/redux/AuthInit'
 const App = () => {
   return (
     <Suspense fallback={<div>Loading...</div>}>
-      <AuthInit>
-        {console.log("============>> Call AuthInit")}
+      <AuthInit >
         <Outlet />
       </AuthInit>
     </Suspense>

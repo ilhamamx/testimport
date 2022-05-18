@@ -1,5 +1,5 @@
 export const LCName = {
-  User: 'LocalStorageUser',
+  User: 'User',
 }
 
 export function setItemLCWithExpiry(key:string, value:any, ttl:number) {

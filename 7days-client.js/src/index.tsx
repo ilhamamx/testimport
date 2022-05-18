@@ -14,8 +14,8 @@ import { SENTRY_DSN, SENTRY_RELEASE } from "./Config";
 import { useTranslation } from "react-i18next";
 import { firebases } from "./db";
 import {Provider} from 'react-redux'
-import store from '../src/setup/redux/store'
-import AuthInit from "./app/modules/auth/redux/AuthInit";
+import store, { persistor } from '../src/setup/redux/store'
+import { PersistGate } from "redux-persist/integration/react";
 firebases.firestore();
 
 
@@ -65,13 +65,11 @@ if (process.env.NODE_ENV !== "development") {
 
 ReactDOM.render(
   <React.StrictMode>
-    <Suspense fallback={<div>Loading...</div>}>
-      <Provider store={store}>
-        <AuthInit>
-          <AppRoutes />
-        </AuthInit>
-      </Provider>
-    </Suspense>
+      <Suspense fallback={<div>Loading...</div>}>
+        <Provider store={store}>
+            <AppRoutes />
+        </Provider>
+      </Suspense>
   </React.StrictMode>,
   document.getElementById("root")
 );

@@ -1,7 +1,5 @@
-import db, {fetchDataTesting} from "../db"
 import firebase from 'firebase/compat/app'
 import 'firebase/compat/auth'
-import { useEffect, useState } from "react";
 import * as lc from '../app/modules/localstorage';
 
 export const login = async (email:string, password:string, isrememberme:true|false ):Promise<string> => {
@@ -19,7 +17,6 @@ export const login = async (email:string, password:string, isrememberme:true|fal
         .signInWithEmailAndPassword(email, password);
         currentUser = (await a).user;
         if(currentUser!=null){
-          console.log(`=====>>>>    currentUser : `+JSON.stringify(currentUser));
           const user = JSON.stringify(firebase.auth().currentUser)
           if(isrememberme){
             lc.setItemLC(lc.LCName.User,currentUser);
@@ -37,52 +34,24 @@ export const login = async (email:string, password:string, isrememberme:true|fal
   
 }
 
-export function AuthTest(){
-  console.log(` ------>> authTest : `)
-  const [isAuthored, setIsAuthored] = useState(false);
-   useEffect(() => { firebase.auth().onAuthStateChanged(function(user) {
-    if (user) {
-      const user = JSON.stringify(firebase.auth().currentUser)
-      setIsAuthored(true);
-      console.log(user); 
-    } else {
-      setIsAuthored(false); 
-    }
-  });
-}, [setIsAuthored]);
-  return isAuthored;
-}
+export const onAuthStateChanged = (onAuthCallback: firebase.Observer<any, Error> | ((a: firebase.User | null) => any)) => 
+  firebase.auth().onAuthStateChanged(onAuthCallback);
 
-export function AuthUser(currentUser:any){
-  console.log(` ------>> authTest : `)
+export const AuthUser = async (currentUser:any):Promise<boolean>=>{
   let isAuthored = false;
-  firebase.auth().onAuthStateChanged(function(user) {
-    if (user) {
-      const user = JSON.stringify(firebase.auth().currentUser)
-      console.log("firebase check onAuthStateChanged"+user);
-      isAuthored = true;
-    } 
-  });
-  return isAuthored;
-}
-
-export const AuthUser2 = async (currentUser:any):Promise<boolean>=>{
-  console.log(` ------>> authTest : `)
-  let isAuthored = false;
-  try{
-    await firebase.auth().onAuthStateChanged(function (currentUser) {
-        if (currentUser) {
-          const user = JSON.stringify(firebase.auth().currentUser);
-          console.log("firebase check onAuthStateChanged" + user);
-          isAuthored = true;
-          console.log("------------------>> user auth by firebase");
-        }
-      });
-  }catch(error){
-    console.log(`firebase login error ${error}`)
-    return Promise.reject(error)
-  }
-  return Promise.resolve(isAuthored)
+    return new Promise((resolve, reject) => {
+      try {
+        firebase.auth().onAuthStateChanged(function (currentUser) {
+          if (currentUser) {
+            isAuthored = true;
+            resolve(isAuthored);
+          }
+        });
+      } catch(error){
+        console.log(`firebase login error ${error}`)
+        reject(error)
+      }
+    })
 }
 
 export const logout = async () => {
