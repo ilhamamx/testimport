@@ -13,7 +13,11 @@ import { getEmailFromPhone } from "../../../../api/server/users";
 
 import * as api from "../../../../api"
 import { useDispatch, useSelector } from "react-redux";
-import { setAuth } from "../redux/AuthSlice";
+import { setAuth, setAuthUser } from "../redux/AuthSlice";
+import firebase from 'firebase/compat/app'
+import 'firebase/compat/auth'
+import {RootState} from '../../../../setup/redux/store'
+import { setUser } from "@sentry/react";
 
 const loginSchema = Yup.object().shape({
   email: Yup.string().required("Login.Error.EmptyEmail"),
@@ -42,6 +46,7 @@ export function Login() {
   const nav = useNavigate();
   const [loading, setLoading] = useState(false);
   const dispatch = useDispatch();
+  let currentUser= null;
   const formik = useFormik({
     initialValues,
     validationSchema: loginSchema,
@@ -63,6 +68,10 @@ export function Login() {
           if (response) {
             setLoading(false);
             dispatch(setAuth(true));
+            currentUser = firebase.auth().currentUser;
+            // console.log("Current User : "+currentUser);
+            dispatch(setAuthUser(JSON.stringify(firebase.auth().currentUser)))
+            
             console.log("success login");
             console.log(response);
             Sentry.setContext("User", {
@@ -88,6 +97,7 @@ export function Login() {
       }, 1000);
     },
   });
+  
 
   function  getEmailFromInput(input: string, 
     callback: (email:string | null, error:string | null) => void) {

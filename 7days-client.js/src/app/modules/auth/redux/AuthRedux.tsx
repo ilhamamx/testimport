@@ -1,5 +1,6 @@
 interface InitialState {
   isAuth: boolean;
+  user: any;
 }
 const UpdateAuthAction: string = "Auth";
 

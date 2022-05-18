@@ -41,6 +41,8 @@ import { App } from "../App";
   // const isAuthored: boolean = useSelector((state: RootState) => state.Auth.isAuth);
   // console.log('Redux is Auth : ' + isAuth);
   console.log('App route is auth: ' + isAuthored);
+  console.log("Auth Redux = "+useSelector((state: RootState) => state.Auth.isAuth));
+  console.log("AuthUser Redux = "+useSelector((state: RootState) => state.Auth.user));
    
    return (
      <BrowserRouter basename={PUBLIC_URL}>
