@@ -1,5 +1,5 @@
 import {RootState} from '../../../../setup/redux/store'
-// import * as cookies from '../../cookies/index'
+import * as lc from '../../localstorage/index'
 import * as api from '../../../../api/index'
 import { connect, ConnectedProps, useDispatch, useSelector } from "react-redux";
 import * as auth from "../redux/AuthSlice";
@@ -16,27 +16,19 @@ const AuthInit: FC<PropsFromRedux> = (props) => {
   let isAuthored: boolean = useSelector((state: RootState) => state.Auth.isAuth);
   console.log("Hasil user from Redux Auth Init : "+isAuthored);
    // We should request user by authToken before rendering the application
-   const currentUser = window.localStorage.getItem('currentUser');
+  //  const currentUser = window.localStorage.getItem('currentUser');
+   const currentUser = lc.getItemLCWithExpiry(lc.LCName.User);
    console.log("Hasil user from cookies Auth Init : "+currentUser);
    if (currentUser != null){
     dispatch(props.setAuth(true))
    }
   useEffect(() => {
     const requestUser = async () => {
-      // const currentUser = cookies.getCookie(cookies.cookiesName.Persistance);
-      // const currentUser = window.localStorage.getItem('currentUser');
-      // console.log("Hasil user from cookies Auth Init : "+currentUser);
       try {
         if (!didRequest.current) {
           if (currentUser!=null){
             console.log(">>>>>>>"+api.AuthUser(currentUser));
             dispatch(props.setAuth(isAuthored))
-            
-            // AuthUser(currentUser).then((response) => {
-            //   console.log("===>> Reponse OnAuth Firebase : "+response);       
-            //   dispatch(props.setAuth(isAuthored))
-            // });
-            // console.log("Hasil Check Firebase : "+isAuthored);
           }
         }
       } catch (error) {

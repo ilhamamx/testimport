@@ -1,31 +1,8 @@
 import db, {fetchDataTesting} from "../db"
 import firebase from 'firebase/compat/app'
 import 'firebase/compat/auth'
-import * as cookies from '../app/modules/cookies/index'
 import { useEffect, useState } from "react";
-
-
-//login
-//save to localstorage
-//save to redux
-
-//redux
-//check redux isauth
-//unaut -> validasidata local ke firebase -> firebase.auth().onAuthStateChanged((user) => (a.user = user)); (return data autUser)
-//        -> authUser not null
-//          -> check cookies epired atau tidak - firebase logout ,tidak:return login - ada:return dashboard
-//          -> save to redux data user auth
-//          -> return isauth
-//        -> authUser null
-//          -> retun unauth
-// auth -> return isauth
-
-//route
-// call redux action Auth -> return true false
-// true -> dashboard
-// false -> login
-
-//set ke cookies untuk api tokennya dan di check expired atau tidaknya 
+import * as lc from '../app/modules/localstorage';
 
 export const login = async (email:string, password:string, isrememberme:true|false ):Promise<string> => {
   let remember:string = 'session';
@@ -35,7 +12,6 @@ export const login = async (email:string, password:string, isrememberme:true|fal
       remember = 'none';
     }
     console.log("isremember me : "+isrememberme+" - "+remember)
-    //firebase.auth().setPersistence('session')
     
     await firebase.auth().setPersistence(firebase.auth.Auth.Persistence.LOCAL)
       .then(async () => {
@@ -43,16 +19,12 @@ export const login = async (email:string, password:string, isrememberme:true|fal
         .signInWithEmailAndPassword(email, password);
         currentUser = (await a).user;
         if(currentUser!=null){
-          console.log(`currentUser : `+JSON.stringify(currentUser));
+          console.log(`=====>>>>    currentUser : `+JSON.stringify(currentUser));
           const user = JSON.stringify(firebase.auth().currentUser)
-          window.localStorage.setItem('currentUser', user);
           if(isrememberme){
-            cookies.setCookie(cookies.cookiesName.Persistance, JSON.stringify(currentUser), 99);
+            lc.setItemLC(lc.LCName.User,currentUser);
           }else{
-            console.log("save cookies 3 hari");
-            cookies.setCookie(cookies.cookiesName.Persistance, JSON.stringify(currentUser), 3);
-            console.log("Hasil dari cookies : "+cookies.getCookie(cookies.cookiesName.Persistance));
-            
+            lc.setItemLCWithExpiry(lc.LCName.User,currentUser,3);
           }
         }
       })
@@ -72,12 +44,10 @@ export function AuthTest(){
     if (user) {
       const user = JSON.stringify(firebase.auth().currentUser)
       setIsAuthored(true);
-      console.log(user);
-      
+      console.log(user); 
     } else {
       setIsAuthored(false); 
     }
-
   });
 }, [setIsAuthored]);
   return isAuthored;
