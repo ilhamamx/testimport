@@ -116,6 +116,7 @@ $white:    											$white !default; // Bootstrap variable
 $white-active:    									$gray-100 !default; // Custom variable
 $white-inverse:    									$gray-600 !default; // Custom variable
 
+$custom:                                            #000000 !default;
 
 // Theme colors
 $theme-colors: (
@@ -186,7 +187,9 @@ $theme-text-colors: (
     "gray-600":   $gray-600,
     "gray-700":   $gray-700,
     "gray-800":   $gray-800,
-    "gray-900":   $gray-900
+    "gray-900":   $gray-900,
+    "custom": $custom,
+    
 ) !default;  // Custom variable
 
 // Options

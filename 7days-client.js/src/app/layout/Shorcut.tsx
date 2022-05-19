@@ -1,0 +1,43 @@
+import { useLocation } from "react-router-dom";
+import Icon from "../../styles/components/Icon";
+export function ShortcutBar(){
+    const location = useLocation();
+    function getLocation(): string {
+      return location.pathname;
+    }
+    return (
+      <div className="d-flex flex-row align-items-end text-center">
+        <div className="justify-content-center position-fixed fixed-bottom bg-white pt-5 pb-5 w-100 border top-3">
+          <Icon
+            imgSrc="/media/icons/duotune/communication/com002.svg"
+            currentLocation={`${getLocation()}`}
+            size="4hx"
+            badge="bg-danger"
+            number={9}
+            nav="/handled-customer"
+          ></Icon>
+          <Icon
+            currentLocation={`${getLocation()}`}
+            imgSrc="/media/icons/duotune/communication/com010.svg"
+            badge="bg-success"
+            number={9}
+            nav="/customer-in-queue"
+            
+          ></Icon>
+          <Icon
+            currentLocation={`${getLocation()}`}
+            imgSrc="/media/icons/duotune/general/gen008.svg"
+            nav="/dashboard"
+            size="3hx"
+          ></Icon>
+          <Icon
+            currentLocation={`${getLocation()}`}
+            imgSrc="/media/icons/duotune/communication/com005.svg"
+            activeColor=""
+            nav="/contact"
+            size="3hx"
+          ></Icon>
+        </div>
+      </div>
+    );
+}

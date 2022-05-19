@@ -1,6 +1,6 @@
 import React, { Suspense } from "react";
 import ReactDOM from "react-dom";
-import "./index.css";
+import "./index.scss";
 // import App from './App';
 import reportWebVitals from "./reportWebVitals";
 import "./setup/translations/i18next";
@@ -15,7 +15,7 @@ import { useTranslation } from "react-i18next";
 import { firebases } from "./db";
 import {Provider} from 'react-redux'
 import store, { persistor } from '../src/setup/redux/store'
-import { PersistGate } from "redux-persist/integration/react";
+
 firebases.firestore();
 
 

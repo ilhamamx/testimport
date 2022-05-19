@@ -39,8 +39,6 @@ import { App } from "../App";
               <Route path="auth/*" element={<AuthRoutes />} />
               <Route path="*" element={<Navigate to="/auth" />} />
             </>}
-          
-          <Route path="*" element={<Navigate to="/error" />} />
         </Route>
        </Routes>
      </BrowserRouter>
