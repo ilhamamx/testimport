@@ -9,7 +9,7 @@ export function ShortcutBar(){
       <div className="d-flex flex-row align-items-end text-center">
         <div className="justify-content-center position-fixed fixed-bottom bg-white pt-5 pb-5 w-100 border top-3">
           <Icon
-            id="icon-handle-customer"
+            id="icon-handled-customer"
             imgSrc="/media/icons/duotune/communication/com002.svg"
             currentLocation={`${getLocation()}`}
             size="4hx"
@@ -18,7 +18,7 @@ export function ShortcutBar(){
             nav="/handled-customer"
           ></Icon>
           <Icon
-            id="icon-unhandle-customer"
+            id="icon-customer-in-queue"
             currentLocation={`${getLocation()}`}
             imgSrc="/media/icons/duotune/communication/com010.svg"
             badge="bg-success"
