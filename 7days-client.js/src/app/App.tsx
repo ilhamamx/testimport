@@ -1,7 +1,14 @@
 import {Suspense} from 'react'
 import {Outlet, Router} from 'react-router-dom'
 import AuthInit from './modules/auth/redux/AuthInit'
-import { ToggleComponent, ScrollTopComponent } from '../resources/assets/ts/components'
+import { 
+  MenuComponent,
+  DrawerComponent,
+  ScrollComponent,
+  ScrollTopComponent,
+  StickyComponent,
+  ToggleComponent,
+} from '../resources/assets/ts/components'
 
 
 const App = () => {
@@ -10,6 +17,10 @@ const App = () => {
     setTimeout(() => {
       ToggleComponent.bootstrap()
       ScrollTopComponent.bootstrap()
+      DrawerComponent.bootstrap()
+      StickyComponent.bootstrap()
+      MenuComponent.bootstrap()
+      ScrollComponent.bootstrap()
     }, 500)
   }
 

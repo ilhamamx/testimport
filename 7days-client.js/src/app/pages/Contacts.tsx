@@ -33,7 +33,7 @@ export function Contacts() {
 
   return (
       <div>
-        <h1>Dashboard page</h1>
+        <h1>Contact Page</h1>
         <br></br>
         <br></br>
         <Link

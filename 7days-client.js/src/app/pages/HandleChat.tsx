@@ -33,7 +33,7 @@ export function HandleChat() {
 
   return (
       <div>
-        <h1>Dashboard page</h1>
+        <h1>Handle Chat page</h1>
         <br></br>
         <br></br>
         <Link

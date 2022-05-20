@@ -11,6 +11,7 @@ import "@popperjs/core";
 import "bootstrap";
 import { useTranslation } from "react-i18next";
 import { AsideDefault } from "./aside/AsideDefault";
+import { DropdownDefault } from "./dropdown/DropdownDefault";
 
 const MasterLayout = () => {
   const { t } = useTranslation();
@@ -220,16 +221,7 @@ const MasterLayout = () => {
                 </Link>
               </div>
               <div className="flex-right w-auto">
-                <img
-                  alt="arroy-right"
-                  src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAARMAAAC3CAMAAAAGjUrGAAAAMFBMVEX///8AAADl5eX09PTV1dUICAiurq5TU1Orq6tJSUnc3Nzt7e1ERET6+vpRUVG9vb0gCS9GAAAA8ElEQVR4nO3dOQ4CQRAEQZblPv//W2yUFsLoNSKekGb1SLPbAQAAAAAAAAAAAADfbodh9+kC9ViGXaYL1Hm6yWm6QGlSmpQmpUlpUpqUJqVJaVKalCalSWlSmpQmpUlpUpqUJnWdbrLBjXqd9pwuAAAAAMCvzstx1Ba3x9f09rjBJjbq0qQ0KU1Kk9KkNClNSpPSpDQpTUqT0qQ0KU1Kk9KkNClvQet9mnW5TRcAAAAAgP/d98PW6QJljy27fWlSmpQmpUlpUpqUJqVJaVKalCalSWlSmpQmpUlpUpqUJuWPs3LLAAAAAAAAAAAAAGAbPhzZL1DD5UvKAAAAAElFTkSuQmCC"
-                  style={{
-                    width: "30px",
-                    height: "30px",
-                    marginTop: "10px",
-                    marginRight: "3px",
-                  }}
-                ></img>
+                <DropdownDefault/>
               </div>
               <div className="flex-right w-auto">
                 <div className="navbar-nav text-right list-inline mb-4 mb-lg-1 d-flex flex-row justify-content-end flex-fill w-auto">
