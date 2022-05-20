@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { Link, Outlet, Route, Navigate } from "react-router-dom";
+import { Link, Outlet, useLocation } from "react-router-dom";
 import { Content } from "./Content";
 import { toAbsoluteUrl } from "../../resources/helpers/AssetHelpers";
 import TextInput from "../../styles/components/TextInput";
@@ -11,12 +11,6 @@ import "@popperjs/core";
 import "bootstrap";
 import { useTranslation } from "react-i18next";
 import { ShortcutBar } from "./Shorcut";
-import { deleteUser } from "../modules/auth/redux/AuthSlice";
-import { useDispatch } from "react-redux";
-import { removeLC, LCName} from "../modules/localstorage/index";
-import { logout } from "../../api/index";
-
-
 
 const MasterLayout = () => {
   const { t } = useTranslation();
@@ -34,18 +28,7 @@ const MasterLayout = () => {
   const isTabletOrMobile = useMediaQuery({ query: "(max-width: 900px)" });
   const isPortrait = useMediaQuery({ query: "(orientation: portrait)" });
   const isRetina = useMediaQuery({ query: "(min-resolution: 2dppx)" });
-  const dispatch = useDispatch();
 
-  function OnLogout() {    
-     
-    dispatch(deleteUser()); 
-    removeLC(LCName.User);
-    logout();
-    console.log('klik logout!');
-    //nav("/auth");
-    window.location.reload()
-    //return false;
-  };
 
   function LayoutWeb() {
     return (
@@ -131,7 +114,7 @@ const MasterLayout = () => {
                             <Dropdown.Item href="#" id="dropdwown-setting">
                               Setting
                             </Dropdown.Item>
-                            <Dropdown.Item onClick={OnLogout} href="/auth" id="dropdwown-logout">
+                            <Dropdown.Item href="#" id="dropdwown-logout">
                               Log Out
                             </Dropdown.Item>
                           </Dropdown.Menu>
@@ -276,7 +259,7 @@ const MasterLayout = () => {
                         <Dropdown.Menu>
                           <Dropdown.Item href="#">Profile</Dropdown.Item>
                           <Dropdown.Item href="#">Setting</Dropdown.Item>
-                          <Dropdown.Item onClick={OnLogout} href="#">Log Out</Dropdown.Item>
+                          <Dropdown.Item href="#">Log Out</Dropdown.Item>
                         </Dropdown.Menu>
                       </Dropdown>
                     </div>
@@ -336,5 +319,3 @@ const MasterLayout = () => {
 };
 
 export { MasterLayout };
-
-//export { OnLogout };
