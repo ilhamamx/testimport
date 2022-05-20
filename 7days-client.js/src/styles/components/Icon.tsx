@@ -19,11 +19,11 @@ interface IconProps {
    */
   imgSrc?: string;
   /**
-   * image source of icon component
+   * active color of icon component
    */
   activeColor?: string;
   /**
-   * number badge element of icon component
+   * current location of icon component
    */
   currentLocation?: string;
   /**
@@ -31,14 +31,11 @@ interface IconProps {
    */
   number?: number;
   /**
-   * props for the icon component
-   */
-  /**
    * navigation when icon component clicked
    */
   nav?: string;
   /**
-   *
+   * prop of icon component
    */
 
   [propName: string]: any;
@@ -54,6 +51,13 @@ function Icon({
   activeColor,
   ...props
 }: IconProps) {
+  function havebadge(){
+    return (
+      <span className={badgeType()} style={style()}>
+        {number}
+      </span>
+    );
+  }
   function badgeType() {
     if (badge) {
       return `symbol-badge badge badge-circle ${badge}`;
@@ -79,7 +83,8 @@ function Icon({
         path={`${imgSrc}`}
         className={`svg-icon-${color()} svg-icon-${size || "4hx"}`}
       />
-      <span className={badgeType()} style={style()}>{number}</span>
+      {/* <span className={badgeType()} style={style()}>{number}</span> */}
+      {badgeType() && havebadge()}
     </a>
   );
 }

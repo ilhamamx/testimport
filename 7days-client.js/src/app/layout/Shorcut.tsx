@@ -22,20 +22,18 @@ export function ShortcutBar(){
             badge="bg-success"
             number={9}
             nav="/customer-in-queue"
-            
           ></Icon>
           <Icon
             currentLocation={`${getLocation()}`}
-            imgSrc="/media/icons/duotune/general/gen008.svg"
+            imgSrc="/media/icons/duotune/general/gen024.svg"
             nav="/dashboard"
-            size="3hx"
+            size="4hx"
           ></Icon>
           <Icon
             currentLocation={`${getLocation()}`}
             imgSrc="/media/icons/duotune/communication/com005.svg"
             activeColor=""
             nav="/contact"
-            size="3hx"
           ></Icon>
         </div>
       </div>
