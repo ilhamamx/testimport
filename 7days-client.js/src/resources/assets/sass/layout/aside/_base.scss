@@ -153,8 +153,12 @@
 
 				// Menu
 				.aside-menu {
+					width: get($aside-config, minimized-width);
+					transition: width get($aside-config, transition-speed) ease;
 					.menu-content,
 					.menu-title {
+						white-space: nowrap;
+  					overflow: hidden;
 						opacity: 0;
 						transition: opacity get($aside-config, transition-speed) ease;
 					}
@@ -163,6 +167,10 @@
 						height: 0;
 						overflow: hidden;
 						transition: height get($aside-config, transition-speed) ease;
+					}
+
+					.menu-bubble {
+						display: flex;
 					}
 				}
 

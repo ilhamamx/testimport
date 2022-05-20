@@ -54,6 +54,25 @@ export function Dashboard() {
         >
           Test Error 500 Sentry
         </Button>
+
+                  {/* ini test misal ada content */}
+                  <p>text 1</p>
+                  <p>text 1</p>
+                  <p>text 1</p>
+                  <p>text 1</p>
+                  <p>text 1</p>
+                  <p>text 1</p>
+                  <p>text 1</p>
+                  <p>text 1</p>
+                  <p>text 1</p>
+                  <p>text 1</p>
+                  <p>text 1</p>
+                  <p>text 1</p>
+                  <p>text 1</p>
+                  <p>text 1</p>
+                  <p>text 1</p>
+                  <p>text 1</p>
+                  <p>text 1</p>
       </div>
   );
 }
