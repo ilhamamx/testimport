@@ -3,9 +3,9 @@ import { KTSVG } from "../../resources/helpers/components/KTSVG";
 
 interface IconProps {
   /**
-   * badge theme-color of icon
+   * badge theme-color of icon from variable $theme-colors in src/resources/assets/sass/core/components/_variables.scss
    */
-  badge?:
+  badgeStyle?:
     | "bg-danger"
     | "bg-success"
     | "bg-primary"
@@ -15,15 +15,18 @@ interface IconProps {
     | "bg-light"
     | "bg-dark";
   /**
-   * image source of icon component
+   * image source of icon component from public/media/icons/duotune/...
    */
   imgSrc?: string;
   /**
-   * active color of icon component
+   * active color of icon component from $custom in src/resources/assets/sass/core/components/_variables.scss
+   * icon will be active when currentLocation same as nav of icon
    */
   activeColor?: string;
   /**
-   * current location of icon component
+   * current location of icon component, for check the location path 
+   * if currentLocation same as nav it will change color of icon to custom color
+   * if currentLocation not same with nav, icon color will be muted color
    */
   currentLocation?: string;
   /**
@@ -31,19 +34,27 @@ interface IconProps {
    */
   number?: number;
   /**
-   * navigation when icon component clicked
+   * size of icon
+   */
+  size?:
+  | "1hx"
+  | "2hx"
+  | "3hx"
+  | "4hx";
+  /**
+   * Navigate to this URI, when this component clicked
    */
   nav?: string;
+  
   /**
    * prop of icon component
    */
-
   [propName: string]: any;
 }
 
 function Icon({
   imgSrc,
-  badge,
+  badgeStyle,
   number,
   size,
   nav,
@@ -51,7 +62,7 @@ function Icon({
   activeColor,
   ...props
 }: IconProps) {
-  function havebadge(){
+  function badge(){
     return (
       <span className={badgeType()} style={style()}>
         {number}
@@ -59,13 +70,13 @@ function Icon({
     );
   }
   function badgeType() {
-    if (badge) {
-      return `symbol-badge badge badge-circle ${badge}`;
+    if (badgeStyle) {
+      return `symbol-badge badge badge-circle ${badgeStyle}`;
     }
   }
 
   function style(){
-    if (badge)
+    if (badgeStyle)
       return {top: 10, left: 70}
   }
 
@@ -83,8 +94,7 @@ function Icon({
         path={`${imgSrc}`}
         className={`svg-icon-${color()} svg-icon-${size || "4hx"}`}
       />
-      {/* <span className={badgeType()} style={style()}>{number}</span> */}
-      {badgeType() && havebadge()}
+      {number!=null && number>0 && badge()}
     </a>
   );
 }

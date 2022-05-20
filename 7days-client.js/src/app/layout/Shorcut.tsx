@@ -13,7 +13,7 @@ export function ShortcutBar(){
             imgSrc="/media/icons/duotune/communication/com002.svg"
             currentLocation={`${getLocation()}`}
             size="4hx"
-            badge="bg-danger"
+            badgeStyle="bg-danger"
             number={9}
             nav="/handled-customer"
           ></Icon>
@@ -21,7 +21,7 @@ export function ShortcutBar(){
             id="icon-customer-in-queue"
             currentLocation={`${getLocation()}`}
             imgSrc="/media/icons/duotune/communication/com010.svg"
-            badge="bg-success"
+            badgeStyle="bg-success"
             number={9}
             nav="/customer-in-queue"
           ></Icon>

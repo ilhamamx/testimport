@@ -6,7 +6,7 @@ describe("Icon component", () => {
     render(
       <Icon
         imgSrc="/media/icons/duotune/communication/com002.svg"
-        badge="bg-danger"
+        badgeStyle="bg-danger"
         number={9}
         data-testid="test-danger-badge"
         activeColor="custom"
@@ -36,7 +36,7 @@ describe("Icon component", () => {
     render(
       <Icon
         imgSrc="/media/icons/duotune/communication/com010.svg"
-        badge="bg-success"
+        badgeStyle="bg-success"
         number={9}
         nav="/customer-in-queue"
         data-testid="test-succes-badge"
@@ -57,10 +57,12 @@ describe("Icon component", () => {
     expect(img).toHaveClass("svg-icon svg-icon-muted svg-icon-4hx");
     const badgeIcon = icon2.childNodes[1];
     expect(badgeIcon).toHaveClass("symbol-badge badge badge-circle bg-success");
-    
+    // eslint-disable-next-line testing-library/no-node-access
+    const test = icon2.querySelector("span.badge");
+    expect(test).toBeInTheDocument();
   });
 
-  test("icon without badge and non active", ()=>{
+  test("icon without badge and non active", () => {
     render(
       <Icon
         imgSrc="/media/icons/duotune/general/gen024.svg"
@@ -85,12 +87,12 @@ describe("Icon component", () => {
   test("icon without badge and active", () => {
     render(
       <Icon
-      imgSrc="/media/icons/duotune/communication/com005.svg"
-      nav="/contact"
-      data-testid="test-icon-without-badge2"
-      activeColor="custom"
-      size="3hx"
-      currentLocation="/contact"
+        imgSrc="/media/icons/duotune/communication/com005.svg"
+        nav="/contact"
+        data-testid="test-icon-without-badge2"
+        activeColor="custom"
+        size="3hx"
+        currentLocation="/contact"
       ></Icon>
     );
     const iconContact = screen.getByTestId("test-icon-without-badge2");
@@ -103,6 +105,43 @@ describe("Icon component", () => {
     expect(href2).toEqual("/contact");
     const imgIcon = iconContact.childNodes[0];
     expect(imgIcon).toHaveClass("svg-icon svg-icon-custom");
-  })
+  });
+
+  test("icon with undefined/null notification", () => {
+    render(
+      <Icon
+        imgSrc="/media/icons/duotune/communication/com002.svg"
+        badgeStyle="bg-danger"
+        data-testid="test-danger-badge"
+        activeColor="custom"
+
+      ></Icon>
+    );
+    const icon = screen.getByTestId("test-danger-badge");
+    expect(icon).toBeInTheDocument();
+    expect(icon).not.toHaveClass("bg-danger");
+    // eslint-disable-next-line testing-library/no-node-access
+    const test = icon.querySelector("span.badge");
+    expect(test).not.toBeInTheDocument();
+  });
+
+  test("icon with 0 number notification", () => {
+
+    render(
+      <Icon
+        imgSrc="/media/icons/duotune/communication/com002.svg"
+        badge="bg-danger"
+        number={0}
+        data-testid="test-danger-badge"
+        activeColor="custom"
+      ></Icon>
+    );
+    const icon = screen.getByTestId("test-danger-badge");
+    expect(icon).toBeInTheDocument();
+    expect(icon).not.toHaveClass("bg-danger");
+    // eslint-disable-next-line testing-library/no-node-access
+    const test = icon.querySelector("span");
+    expect(test).not.toHaveClass("svg-icon svg-icon-muted svg-icon-2hx");
+  });
 });
 
