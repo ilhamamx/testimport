@@ -17,11 +17,14 @@ export const AuthSlice = createSlice({
     setAuthUser: (state, action: PayloadAction<string>) => {
       state.user = action.payload;
     },
+    deleteUser: (state) => {
+      state.user = null;
+    },
   },
 });
 
 // Action creators are generated for each case reducer function
-export const { setAuth, setAuthUser } =
+export const { setAuth, setAuthUser, deleteUser } =
 AuthSlice.actions;
 // You must export the reducer as follows for it to be able to be read by the store.
 export default AuthSlice.reducer;

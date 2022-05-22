@@ -13,6 +13,10 @@ import { useTranslation } from "react-i18next";
 import { AsideDefault } from "./aside/AsideDefault";
 import { DropdownDefault } from "./dropdown/DropdownDefault";
 import { ShortcutBar } from "./Shorcut";
+import { deleteUser } from "../modules/auth/redux/AuthSlice";
+import { useDispatch } from "react-redux";
+import { removeLC, LCName } from "../modules/localstorage/index";
+import { logout } from "../../api/index";
 
 const MasterLayout = () => {
   const { t } = useTranslation();
@@ -30,7 +34,24 @@ const MasterLayout = () => {
   const isTabletOrMobile = useMediaQuery({ query: "(max-width: 900px)" });
   const isPortrait = useMediaQuery({ query: "(orientation: portrait)" });
   const isRetina = useMediaQuery({ query: "(min-resolution: 2dppx)" });
+  const dispatch = useDispatch();
 
+  function OnLogout() {
+
+    dispatch(deleteUser());
+    removeLC(LCName.User);
+    // logout();
+    logout()
+      .then(() => window.location.reload())
+      .catch((error) => {
+        console.log(error); 
+        alert(error);
+      });
+    console.log('klik logout!');
+    //nav("/auth");
+    // window.location.reload()
+    //return false;
+  };
 
   function LayoutWeb() {
     return (
@@ -106,7 +127,7 @@ const MasterLayout = () => {
                             <Dropdown.Item href="#" id="dropdwown-setting">
                               Setting
                             </Dropdown.Item>
-                            <Dropdown.Item href="#" id="dropdwown-logout">
+                            <Dropdown.Item href="#" onClick={OnLogout} id="dropdwown-logout">
                               Log Out
                             </Dropdown.Item>
                           </Dropdown.Menu>
@@ -250,7 +271,7 @@ const MasterLayout = () => {
                         <Dropdown.Menu>
                           <Dropdown.Item href="#">Profile</Dropdown.Item>
                           <Dropdown.Item href="#">Setting</Dropdown.Item>
-                          <Dropdown.Item href="#">Log Out</Dropdown.Item>
+                          <Dropdown.Item href="#" onClick={OnLogout} >Log Out</Dropdown.Item>
                         </Dropdown.Menu>
                       </Dropdown>
                     </div>
@@ -283,7 +304,7 @@ const MasterLayout = () => {
         </div>
 
         <ShortcutBar />
-        
+
       </div>
 
       //   {/* begin:: Drawers */}

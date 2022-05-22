@@ -62,5 +62,4 @@ export const logout = async () => {
     return Promise.reject(errorMessage)
   }
 }
-
 //export default prin;

@@ -30,6 +30,10 @@ export function getItemLCWithExpiry(key:string) {
   }
 }
 
+export function removeLC(key: string) {
+	localStorage.removeItem(key)
+};
+
 export function setItemLC(key:string, value:any) {
 	const item = {
 		value: value,
