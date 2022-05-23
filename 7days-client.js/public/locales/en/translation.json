@@ -53,5 +53,10 @@
   "HeaderBar.Button.Dashboard": "Dashboard",
   "HeaderBar.Button.FAQ": "FAQ",
   "HeaderBar.Button.About": "About",
-  "HeaderBar.Input.Search": "Search"
+  "HeaderBar.Input.Search": "Search",
+
+  "SideBar.MenuTitle.Menubar": "Hide Menubar ",
+  "SideBar.MenuItem.CIQ": "Customer in Queue",
+  "SideBar.MenuItem.HC": "Handled Customer",
+  "SideBar.MenuItem.Contacts": "Contacts"
 }

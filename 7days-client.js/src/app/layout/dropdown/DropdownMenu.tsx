@@ -1,11 +1,12 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
+import { useTranslation } from "react-i18next";
 import {FC} from 'react'
 import {Link} from 'react-router-dom'
 import '../../../styles/css/color.css'
 import {DropdownMenuItem} from './DropdownMenuItem'
 
 const DropdownMenu: FC = () => {
-
+  const { t } = useTranslation();
   return (
     <div
       className='menu menu-sub menu-sub-dropdown menu-column menu-rounded menu-gray-600 menu-state-bg menu-state-primary fw-bold py-4 fs-6'
@@ -14,31 +15,31 @@ const DropdownMenu: FC = () => {
     >
        <DropdownMenuItem
         to='/customer-in-queue'
-        title='Customer in Queue'
+        title={t("SideBar.MenuItem.CIQ")}
         bbcount={10}
         bbcolor='danger'
       />
 
       <DropdownMenuItem
         to='/handled-customer'
-        title='Handled Customer'
+        title={t("SideBar.MenuItem.HC")}
         bbcount={10}
         bbcolor='success'
       />
 
       <DropdownMenuItem
         to='/contact'
-        title='Contact'
+        title={t("SideBar.MenuItem.Contacts")}
       />    
 
       <DropdownMenuItem
         to='/about'
-        title='About'
+        title={t("HeaderBar.Button.About")}
       />    
 
       <DropdownMenuItem
         to='/faq'
-        title='FAQ'
+        title={t("HeaderBar.Button.FAQ")}
       />    
     </div>
   )
