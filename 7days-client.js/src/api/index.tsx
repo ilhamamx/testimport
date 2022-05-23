@@ -1,6 +1,8 @@
 import firebase from 'firebase/compat/app'
 import 'firebase/compat/auth'
 import * as lc from '../app/modules/localstorage';
+import * as Log from "../util/SDayslogger";
+import { useNavigate } from "react-router-dom";
 
 export const login = async (email:string, password:string, isrememberme:true|false ):Promise<string> => {
   let remember:string = 'session';
@@ -55,11 +57,6 @@ export const AuthUser = async (currentUser:any):Promise<boolean>=>{
 }
 
 export const logout = async () => {
-  try {
-    const res = firebase.auth().signOut()
-    return res
-  } catch (errorMessage) {
-    return Promise.reject(errorMessage)
-  }
+  return firebase.auth().signOut()
 }
 //export default prin;

@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { Link, Outlet, useLocation } from "react-router-dom";
+import { Link, Outlet, useLocation, useNavigate } from "react-router-dom";
 
 import {Navigate, Routes} from 'react-router-dom'
 import { Content } from "./Content";
@@ -19,7 +19,8 @@ import { deleteUser } from "../modules/auth/redux/AuthSlice";
 import { useDispatch } from "react-redux";
 import { removeLC, LCName } from "../modules/localstorage/index";
 import { logout } from "../../api/index";
-import { Alert } from "bootstrap";
+import * as Log from "../../util/SDayslogger";
+
 
 const MasterLayout = () => {
   const { t } = useTranslation();
@@ -38,20 +39,27 @@ const MasterLayout = () => {
   const isPortrait = useMediaQuery({ query: "(orientation: portrait)" });
   const isRetina = useMediaQuery({ query: "(min-resolution: 2dppx)" });
   const dispatch = useDispatch();
+  const nav = useNavigate();
 
-  function Logout() {
-    dispatch(deleteUser());
-    removeLC(LCName.User);
+  function handleLogout() {
     logout()
-      .then(() => window.location.reload())
+      .then(() => {
+        dispatch(deleteUser());
+        removeLC(LCName.User);
+        window.location.reload()      
+        console.log("succes logout"); 
+        
+      })       
       .catch((error) => {
-        alert(error.message);
+        Log.SDayslogger(
+          nav,
+          "Testing Error Message",
+          Log.SDLOGGER_INFO,
+          false,
+          true
+        );
+        console.log("failed logout");
       });
-    return (
-      <Routes>
-        <Navigate to='/auth' />
-      </Routes>
-    )
   }
 
   function LayoutWeb() {
@@ -130,8 +138,8 @@ const MasterLayout = () => {
                             </Dropdown.Item>
                             <Dropdown.Item
                               href="#"
-                              onClick={Logout}
-                              id="dropdwown-logout"
+                              onClick={handleLogout}
+                              id="dropdown-logout"
                             >
                               Log Out
                             </Dropdown.Item>
@@ -276,7 +284,11 @@ const MasterLayout = () => {
                         <Dropdown.Menu>
                           <Dropdown.Item href="#">Profile</Dropdown.Item>
                           <Dropdown.Item href="#">Setting</Dropdown.Item>
-                          <Dropdown.Item href="#" onClick={Logout}>
+                          <Dropdown.Item
+                            href="#"
+                            onClick={handleLogout}
+                            id="dropdown-logout"
+                          >
                             Log Out
                           </Dropdown.Item>
                         </Dropdown.Menu>

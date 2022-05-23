@@ -15,7 +15,7 @@ const AuthInit: FC<PropsFromRedux> = (props) => {
   const [showLoading, setShowLoading] = useState(true)
   const didRequest = useRef(false)
   let isAuthored: boolean = useSelector((state: RootState) => state.Auth.isAuth);
-  const currentUser = lc.getItemLCWithExpiry(lc.LCName.User);
+  const currentUser = lc.getItemLC(lc.LCName.User);
   console.log("Tetsing Auth Init ");
    
   let unsubscribeAuth;

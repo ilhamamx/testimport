@@ -77,7 +77,7 @@ function Icon({
 
   function style(){
     if (badgeStyle)
-      return {top: 10, left: 70}
+      return {top: "10px", marginLeft: "20px"} 
   }
 
   function color() {
@@ -89,7 +89,7 @@ function Icon({
   }
 
   return (
-    <a href={nav} {...props} className="symbol w-25">
+    <a href={nav} {...props} className="symbol" style={{marginLeft: "10px", marginRight: "10px"}}>
       <KTSVG
         path={`${imgSrc}`}
         className={`svg-icon-${color()} svg-icon-${size || "4hx"}`}
