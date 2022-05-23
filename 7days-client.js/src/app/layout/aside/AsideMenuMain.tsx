@@ -14,6 +14,7 @@ export function AsideMenuMain() {
         fontIcon='bi-app-indicator'
         bbcount={10}
         bbcolor='danger'
+        id='AM_CIQ'
       />
       <AsideMenuItem
         to='/handled-customer'
@@ -22,12 +23,14 @@ export function AsideMenuMain() {
         fontIcon='bi-layers'
         bbcount={9}
         bbcolor='success'
+        id='AM_HQ'
       />
       <AsideMenuItem
         to='/contact'
         icon='/media/icons/duotune/communication/com005.svg'
         title={t("SideBar.MenuItem.Contacts")}
         fontIcon='bi-layers'
+        id='AM_contact'
       />
     </>
   )

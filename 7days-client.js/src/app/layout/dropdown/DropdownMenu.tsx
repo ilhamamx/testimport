@@ -18,6 +18,7 @@ const DropdownMenu: FC = () => {
         title={t("SideBar.MenuItem.CIQ")}
         bbcount={10}
         bbcolor='danger'
+        id="DD_CIQ"
       />
 
       <DropdownMenuItem
@@ -25,21 +26,25 @@ const DropdownMenu: FC = () => {
         title={t("SideBar.MenuItem.HC")}
         bbcount={10}
         bbcolor='success'
+        id="DD_HC"
       />
 
       <DropdownMenuItem
         to='/contact'
         title={t("SideBar.MenuItem.Contacts")}
+        id="DD_contact"
       />    
 
       <DropdownMenuItem
         to='/about'
         title={t("HeaderBar.Button.About")}
+        id="DD_about"
       />    
 
       <DropdownMenuItem
         to='/faq'
         title={t("HeaderBar.Button.FAQ")}
+        id="DD_faq"
       />    
     </div>
   )
