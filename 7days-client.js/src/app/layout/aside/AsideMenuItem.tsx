@@ -58,7 +58,7 @@ const AsideMenuItem: React.FC<Props> = ({
             <span
               className={clsx(
                 "badge badge-circle fw-bolder fs-7",
-                `badge-light-${bbcolor}`
+                `bg-${bbcolor}`
               )}
             >
               {bbcount}
