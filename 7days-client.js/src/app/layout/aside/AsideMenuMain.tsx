@@ -23,7 +23,7 @@ export function AsideMenuMain() {
         fontIcon='bi-layers'
         bbcount={9}
         bbcolor='success'
-        id='AM_HQ'
+        id='AM_HC'
       />
       <AsideMenuItem
         to='/contact'
