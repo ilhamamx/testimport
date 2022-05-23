@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { Link, Outlet } from "react-router-dom";
+import { Link, Outlet, useLocation } from "react-router-dom";
 import { Content } from "./Content";
 import { toAbsoluteUrl } from "../../resources/helpers/AssetHelpers";
 import TextInput from "../../styles/components/TextInput";
@@ -12,6 +12,7 @@ import "bootstrap";
 import { useTranslation } from "react-i18next";
 import { AsideDefault } from "./aside/AsideDefault";
 import { DropdownDefault } from "./dropdown/DropdownDefault";
+import { ShortcutBar } from "./Shorcut";
 
 const MasterLayout = () => {
   const { t } = useTranslation();
@@ -29,6 +30,7 @@ const MasterLayout = () => {
   const isTabletOrMobile = useMediaQuery({ query: "(max-width: 900px)" });
   const isPortrait = useMediaQuery({ query: "(orientation: portrait)" });
   const isRetina = useMediaQuery({ query: "(min-resolution: 2dppx)" });
+
 
   function LayoutWeb() {
     return (
@@ -204,80 +206,84 @@ const MasterLayout = () => {
   function LayoutMobile() {
     return (
       // <PageDataProvider>
-      <div className="page d-flex flex-row flex-column-fluid">
-        <div
-          className="wrapper d-flex flex-column flex-row-fluid"
-          id="kt_wrapper"
-        >
-          <nav className="navbar navbar-expand-lg navbar-light">
-            <div className="d-flex flex-row list-inline">
-              <div className="flex-fill mw-75">
-                <Link to="/dashboard" className="navbar-brand">
-                  <img
-                    alt="7days"
-                    src={toAbsoluteUrl("/media/logos/icon-header-wb.png")}
-                    className="img-fluid w-50"
-                  ></img>
-                </Link>
-              </div>
-              <div className="flex-right w-auto">
+      <div className="container page d-flex flex-column flex-column-fluid">
+        <div className="page d-flex flex-row flex-column-fluid">
+          <div
+            className="wrapper d-flex flex-column flex-row-fluid"
+            id="kt_wrapper"
+          >
+            <nav className="navbar navbar-expand-lg navbar-light">
+              <div className="d-flex flex-row list-inline">
+                <div className="flex-fill mw-75">
+                  <Link to="/dashboard" className="navbar-brand">
+                    <img
+                      alt="7days"
+                      src={toAbsoluteUrl("/media/logos/icon-header-wb.png")}
+                      className="img-fluid w-50"
+                    ></img>
+                  </Link>
+                </div>
+                <div className="flex-right w-auto">
                 <DropdownDefault/>
               </div>
-              <div className="flex-right w-auto">
-                <div className="navbar-nav text-right list-inline mb-4 mb-lg-1 d-flex flex-row justify-content-end flex-fill w-auto">
-                  <div
-                    className="nav-item mt-0 flex-fill w-auto"
-                    style={{ display: "flex" }}
-                  >
-                    <Dropdown style={{ marginLeft: "auto" }}>
-                      <Dropdown.Toggle
-                        style={{ border: "none" }}
-                        className="bg-white align-text-bottom mr-0 ml-auto border-start-0 "
-                        id="profile-dropdown"
-                      >
-                        <Avatar
-                          data-testid="avatar"
-                          height="30"
-                          width="30"
-                          imgRadius="0%"
-                          imgSrc="https://www.pngall.com/wp-content/uploads/5/Profile-Male-PNG.png"
-                        />
-                      </Dropdown.Toggle>
+                <div className="flex-right w-auto">
+                  <div className="navbar-nav text-right list-inline mb-4 mb-lg-1 d-flex flex-row justify-content-end flex-fill w-auto">
+                    <div
+                      className="nav-item mt-0 flex-fill w-auto"
+                      style={{ display: "flex" }}
+                    >
+                      <Dropdown style={{ marginLeft: "auto" }}>
+                        <Dropdown.Toggle
+                          style={{ border: "none" }}
+                          className="bg-white align-text-bottom mr-0 ml-auto border-start-0 "
+                          id="profile-dropdown"
+                        >
+                          <Avatar
+                            data-testid="avatar"
+                            height="30"
+                            width="30"
+                            imgRadius="0%"
+                            imgSrc="https://www.pngall.com/wp-content/uploads/5/Profile-Male-PNG.png"
+                          />
+                        </Dropdown.Toggle>
 
-                      <Dropdown.Menu>
-                        <Dropdown.Item href="#">Profile</Dropdown.Item>
-                        <Dropdown.Item href="#">Setting</Dropdown.Item>
-                        <Dropdown.Item href="#">Log Out</Dropdown.Item>
-                      </Dropdown.Menu>
-                    </Dropdown>
+                        <Dropdown.Menu>
+                          <Dropdown.Item href="#">Profile</Dropdown.Item>
+                          <Dropdown.Item href="#">Setting</Dropdown.Item>
+                          <Dropdown.Item href="#">Log Out</Dropdown.Item>
+                        </Dropdown.Menu>
+                      </Dropdown>
+                    </div>
                   </div>
                 </div>
               </div>
+            </nav>
+            <div
+              id="kt_content"
+              className="content d-flex flex-column flex-column-fluid"
+            >
+              {/* <p>Ini Toolbar</p> */}
+              {/* <Toolbar /> */}
+              <h3>Device Test!</h3>
+              {isDesktopOrLaptop && <p>You are a desktop or laptop</p>}
+              {isBigScreen && <p>You have a huge screen</p>}
+              {isTabletOrMobile && <p>You are a tablet or mobile phone</p>}
+              {/* <p>Your are in {isPortrait ? "portrait" : "landscape"} orientation</p> */}
+              {/* {isRetina && <p>You are retina</p>} */}
+              <div className="post d-flex flex-column-fluid" id="kt_post">
+                {/* <p>Ini content</p> */}
+                <Content>
+                  <Outlet />
+                </Content>
+              </div>
             </div>
-          </nav>
-          <div
-            id="kt_content"
-            className="content d-flex flex-column flex-column-fluid"
-          >
-            {/* <p>Ini Toolbar</p> */}
-            {/* <Toolbar /> */}
-            <h3>Device Test!</h3>
-            {isDesktopOrLaptop && <p>You are a desktop or laptop</p>}
-            {isBigScreen && <p>You have a huge screen</p>}
-            {isTabletOrMobile && <p>You are a tablet or mobile phone</p>}
-            {/* <p>Your are in {isPortrait ? "portrait" : "landscape"} orientation</p> */}
-            {/* {isRetina && <p>You are retina</p>} */}
-            <div className="post d-flex flex-column-fluid" id="kt_post">
-              {/* <p>Ini content</p> */}
-              <Content>
-                <Outlet />
-              </Content>
-            </div>
+            <p>Ini footer</p>
+            {/* <Footer /> */}
           </div>
-          
-          <p>Ini footer</p>
-          {/* <Footer /> */}
         </div>
+
+        <ShortcutBar />
+        
       </div>
 
       //   {/* begin:: Drawers */}
@@ -295,6 +301,7 @@ const MasterLayout = () => {
       // </PageDataProvider>
     );
   }
+
 
   if (isDesktopOrLaptop) {
     return LayoutWeb();

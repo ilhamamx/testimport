@@ -7,7 +7,7 @@ export function AsideMenuMain() {
   return (
     <>
       <AsideMenuItem
-        to='/unhandlechat'
+        to='/customer-in-queue'
         icon='/media/icons/duotune/communication/com002.svg'
         title='Customer in Queue'
         fontIcon='bi-app-indicator'
@@ -15,7 +15,7 @@ export function AsideMenuMain() {
         bbcolor='danger'
       />
       <AsideMenuItem
-        to='/chat'
+        to='/handled-customer'
         icon='/media/icons/duotune/communication/com010.svg'
         title='Handled Customer'
         fontIcon='bi-layers'
@@ -23,7 +23,7 @@ export function AsideMenuMain() {
         bbcolor='success'
       />
       <AsideMenuItem
-        to='/contacts'
+        to='/contact'
         icon='/media/icons/duotune/communication/com005.svg'
         title='Contacts'
         fontIcon='bi-layers'

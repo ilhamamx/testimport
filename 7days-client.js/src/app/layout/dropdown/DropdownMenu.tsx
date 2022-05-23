@@ -13,22 +13,22 @@ const DropdownMenu: FC = () => {
       style={{marginTop: "20px", backgroundColor: "#A1DDF9"}}
     >
        <DropdownMenuItem
-        to='/unhandlechat'
+        to='/customer-in-queue'
         title='Customer in Queue'
         bbcount={10}
         bbcolor='danger'
       />
 
       <DropdownMenuItem
-        to='/chat'
+        to='/handled-customer'
         title='Handled Customer'
         bbcount={10}
         bbcolor='success'
       />
 
       <DropdownMenuItem
-        to='/contacts'
-        title='Contacts'
+        to='/contact'
+        title='Contact'
       />    
 
       <DropdownMenuItem
