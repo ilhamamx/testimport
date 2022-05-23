@@ -14,32 +14,37 @@ const DropdownMenu: FC = () => {
       style={{marginTop: "20px", backgroundColor: "#A1DDF9"}}
     >
        <DropdownMenuItem
-        to='/unhandlechat'
+        to='/customer-in-queue'
         title={t("SideBar.MenuItem.CIQ")}
         bbcount={10}
         bbcolor='danger'
+        id="DD_CIQ"
       />
 
       <DropdownMenuItem
-        to='/chat'
+        to='/handled-customer'
         title={t("SideBar.MenuItem.HC")}
         bbcount={10}
         bbcolor='success'
+        id="DD_HC"
       />
 
       <DropdownMenuItem
-        to='/contacts'
+        to='/contact'
         title={t("SideBar.MenuItem.Contacts")}
+        id="DD_contact"
       />    
 
       <DropdownMenuItem
         to='/about'
         title={t("HeaderBar.Button.About")}
+        id="DD_about"
       />    
 
       <DropdownMenuItem
         to='/faq'
         title={t("HeaderBar.Button.FAQ")}
+        id="DD_faq"
       />    
     </div>
   )

@@ -19,6 +19,7 @@ type Props = {
     | "warning"
     | "danger"
     | "dark";
+  id?: string;
 };
 
 const DropdownMenuItem: React.FC<Props> = ({
@@ -27,6 +28,7 @@ const DropdownMenuItem: React.FC<Props> = ({
   title,
   bbcount = 0,
   bbcolor,
+  id,
 }) => {
   const location = useLocation();
   const isActive = checkIsActive(location.pathname, to);
@@ -36,7 +38,7 @@ const DropdownMenuItem: React.FC<Props> = ({
   // }
 
   return (
-    <div className="menu-item px-5">
+    <div className="menu-item px-5" id={id}>
       <Link className={clsx("menu-link without-sub", {active: isActive})} to={to}>
         <span className="menu-text">{title}</span>
         <span className="menu-badge">

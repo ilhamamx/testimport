@@ -21,6 +21,7 @@ type Props = {
     | "warning"
     | "danger"
     | "dark";
+  id?: string;
 };
 
 const AsideMenuItem: React.FC<Props> = ({
@@ -30,6 +31,7 @@ const AsideMenuItem: React.FC<Props> = ({
   icon,
   bbcount = 0,
   bbcolor,
+  id,
 }) => {
   
   const location = useLocation()
@@ -40,7 +42,7 @@ const AsideMenuItem: React.FC<Props> = ({
   }
 
   return (
-    <div className={clsx("menu-item",colorselect)}>
+    <div className={clsx("menu-item",colorselect)} id={id}>
       <Link className={clsx("menu-link without-sub", {active: isActive})} to={to}>
         {icon && (
           <div className="symbol symbol-50px">
