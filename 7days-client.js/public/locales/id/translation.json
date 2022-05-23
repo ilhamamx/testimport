@@ -53,5 +53,10 @@
   "HeaderBar.Button.Dashboard": "Dashboard",
   "HeaderBar.Button.FAQ": "Pertanyaan",
   "HeaderBar.Button.About": "Tentang",
-  "HeaderBar.Input.Search": "Pencarian"
+  "HeaderBar.Input.Search": "Pencarian",
+
+  "SideBar.MenuTitle.Menubar": "Sembunyikan Menu",
+  "SideBar.MenuItem.CIQ": "Antrian Pelanggan",
+  "SideBar.MenuItem.HC": "Pelanggan Ditangani",
+  "SideBar.MenuItem.Contacts": "Kontak"
 }
