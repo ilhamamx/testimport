@@ -1,5 +1,6 @@
 import { toAbsoluteUrl } from "../../resources/helpers/AssetHelpers";
 import { KTSVG } from "../../resources/helpers/components/KTSVG";
+import { Link } from "react-router-dom";
 
 interface IconProps {
   /**
@@ -89,13 +90,15 @@ function Icon({
   }
 
   return (
-    <a href={nav} {...props} className="symbol" style={{marginLeft: "10px", marginRight: "10px"}}>
-      <KTSVG
-        path={`${imgSrc}`}
-        className={`svg-icon-${color()} svg-icon-${size || "4hx"}`}
-      />
-      {number!=null && number>0 && badge()}
-    </a>
+    <Link to={`${nav}`}>
+      <div {...props} className="symbol" style={{ marginLeft: "10px", marginRight: "10px" }}>
+        <KTSVG
+          path={`${imgSrc}`}
+          className={`svg-icon-${color()} svg-icon-${size || "4hx"}`}
+        />
+        {number != null && number > 0 && badge()}
+      </div>
+    </Link>
   );
 }
 export default Icon;

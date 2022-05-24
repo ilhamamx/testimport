@@ -13,7 +13,7 @@ import { getEmailFromPhone } from "../../../../api/server/users";
 
 import * as api from "../../../../api"
 import { useDispatch, useSelector } from "react-redux";
-import { setAuth, setAuthUser } from "../redux/AuthSlice";
+import { setAuth, setAuthUser, setIsOnline } from "../redux/AuthSlice";
 import firebase from 'firebase/compat/app'
 import 'firebase/compat/auth'
 import {RootState} from '../../../../setup/redux/store'
@@ -69,7 +69,6 @@ export function Login() {
             currentUser = firebase.auth().currentUser;
             // console.log("Current User : "+currentUser);
             dispatch(setAuthUser(JSON.stringify(firebase.auth().currentUser)))
-            
             console.log("success login");
             console.log(response);
             Sentry.setContext("User", {

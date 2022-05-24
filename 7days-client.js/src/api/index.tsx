@@ -3,6 +3,7 @@ import 'firebase/compat/auth'
 import * as lc from '../app/modules/localstorage';
 import * as Log from "../util/SDayslogger";
 import { useNavigate } from "react-router-dom";
+import { checkUserConnection } from './server/connection';
 
 export const login = async (email:string, password:string, isrememberme:true|false ):Promise<string> => {
   let remember:string = 'session';
@@ -19,6 +20,7 @@ export const login = async (email:string, password:string, isrememberme:true|fal
         .signInWithEmailAndPassword(email, password);
         currentUser = (await a).user;
         if(currentUser!=null){
+          checkUserConnection(currentUser.uid);
           const user = JSON.stringify(firebase.auth().currentUser)
           if(isrememberme){
             lc.setItemLC(lc.LCName.User,currentUser);

@@ -1,5 +1,6 @@
 import { useLocation } from "react-router-dom";
 import Icon from "../../styles/components/Icon";
+
 export function ShortcutBar(){
     const location = useLocation();
     function getLocation(): string {

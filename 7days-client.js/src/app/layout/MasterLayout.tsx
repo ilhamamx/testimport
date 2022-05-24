@@ -15,12 +15,13 @@ import { useTranslation } from "react-i18next";
 import { AsideDefault } from "./aside/AsideDefault";
 import { DropdownDefault } from "./dropdown/DropdownDefault";
 import { ShortcutBar } from "./Shorcut";
-import { deleteUser } from "../modules/auth/redux/AuthSlice";
+import { deleteUser, setAuth } from "../modules/auth/redux/AuthSlice";
 import { useDispatch } from "react-redux";
 import { removeLC, LCName } from "../modules/localstorage/index";
 import { logout } from "../../api/index";
 import * as Log from "../../util/SDayslogger";
-
+import { checkUserConnection, setUserOffline } from '../../api/server/connection';
+import * as lc from '../modules/localstorage/index';
 
 const MasterLayout = () => {
   const { t } = useTranslation();
@@ -44,12 +45,15 @@ const MasterLayout = () => {
   function handleLogout() {
     logout()
       .then(() => {
+        const currentUser = lc.getItemLC(lc.LCName.User);
+        setUserOffline(currentUser.uid);
         dispatch(deleteUser());
         removeLC(LCName.User);
-        window.location.reload()      
+        // window.location.reload(); 
+        dispatch(setAuth(false))
+        nav("/auth")
         console.log("succes logout"); 
-        
-      })       
+      })
       .catch((error) => {
         Log.SDayslogger(
           nav,

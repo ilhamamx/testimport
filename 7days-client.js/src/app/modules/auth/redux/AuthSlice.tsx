@@ -4,6 +4,8 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 const initialState: InitialState = {
   isAuth: false,
   user: null,
+  isOnline: false,
+  sessionCreated: 0,
 };
 
 export const AuthSlice = createSlice({
@@ -20,11 +22,18 @@ export const AuthSlice = createSlice({
     deleteUser: (state) => {
       state.user = null;
     },
+    setIsOnline: (state, action: PayloadAction<boolean>) => {
+      state.isOnline = action.payload;
+      console.log(action.payload)
+    },
+    setSessionUser: (state, action: PayloadAction<number>) => {
+      state.sessionCreated = action.payload;
+    },
   },
 });
 
 // Action creators are generated for each case reducer function
-export const { setAuth, setAuthUser, deleteUser } =
+export const { setAuth, setAuthUser, deleteUser, setIsOnline, setSessionUser } =
 AuthSlice.actions;
 // You must export the reducer as follows for it to be able to be read by the store.
 export default AuthSlice.reducer;

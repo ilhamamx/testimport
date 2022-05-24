@@ -46,11 +46,12 @@ const AsideMenuItem: React.FC<Props> = ({
       <Link className={clsx("menu-link without-sub", {active: isActive})} to={to}>
         {icon && (
           <div className="symbol symbol-50px">
-            <span className="menu-icon w-40px">
+            <span className="menu-icon">
               <KTSVG path={icon} className="svg-icon-2hx svg-icon-dark"/>
             </span>
             {bbcount > 0 && (
-              <span className={clsx(`symbol-badge badge badge-circle bg-${bbcolor}`, "menu-bubble")}>{bbcount}</span>
+              <span className={clsx(`symbol-badge badge badge-circle bg-${bbcolor}`, "menu-bubble")}
+                style={{top: "5px", marginLeft: "15px"}}>{bbcount}</span>
             )}
           </div>
         )}

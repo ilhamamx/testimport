@@ -14,15 +14,15 @@
  import { useSelector } from "react-redux";
  import {RootState} from '../../setup/redux/store'
 import { App } from "../App";
-
+import * as con from '../../db/connection';
  /**
   * Base URL of the website.
   *
   * @see https://facebook.github.io/create-react-app/docs/using-the-public-folder
   */
  const { PUBLIC_URL } = process.env;
+
  const AppRoutes: FC = () => {
-  
   const isAuthored: boolean = useSelector((state: RootState) => state.Auth.isAuth);
   console.log('App route is auth: ' + isAuthored);   
    return (

@@ -4,6 +4,7 @@ import * as api from '../../../../api/index'
 import { connect, ConnectedProps, useDispatch, useSelector } from "react-redux";
 import * as auth from "../redux/AuthSlice";
 import { FC, useEffect, useRef, useState } from 'react';
+import { checkUserConnection } from '../../../../api/server/connection';
 
 const mapState = (state: RootState) => ({auth: state.Auth})
 console.log(auth.AuthSlice.actions)
@@ -14,22 +15,26 @@ const AuthInit: FC<PropsFromRedux> = (props) => {
   const dispatch = useDispatch();
   const [showLoading, setShowLoading] = useState(true)
   const didRequest = useRef(false)
-  let isAuthored: boolean = useSelector((state: RootState) => state.Auth.isAuth);
   const currentUser = lc.getItemLC(lc.LCName.User);
   console.log("Tetsing Auth Init ");
-   
+  const screentime = new Date().getTime();
   let unsubscribeAuth;
   useEffect(() => {
+    console.log("panggil auth Init 1 : ");
     const requestUser = async () => {
       try {
         if (!didRequest.current) {
+          console.log("panggil auth Init 2 : ");
           console.log("ddcurrent false ==>> : "+didRequest.current);
           if (currentUser!=null){
+            console.log("panggil auth Init 3 : ");
             console.log();
             await AuthUser(currentUser)
               .then((response) => {
                 dispatch(props.setAuthUser(JSON.stringify(currentUser)));
                 dispatch(props.setAuth(response));
+                dispatch(props.setSessionUser(screentime));
+                checkUserConnection(currentUser.uid);
               });
           }
         }
