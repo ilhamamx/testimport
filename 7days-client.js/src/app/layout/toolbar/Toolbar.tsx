@@ -9,8 +9,8 @@ const Toolbar = () => {
     case 'toolbar1':
       return <Toolbar1 />
 
-    // default:
-    //   return <Toolbar1 />
+    default:
+      return <Toolbar1 />
   }
 }
 
