@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { Link, Outlet, useLocation, useNavigate } from "react-router-dom";
 
-import {Navigate, Routes} from 'react-router-dom'
+import { Navigate, Routes } from 'react-router-dom'
 import { Content } from "./Content";
 import { toAbsoluteUrl } from "../../resources/helpers/AssetHelpers";
 import TextInput from "../../styles/components/TextInput";
@@ -20,6 +20,7 @@ import { useDispatch } from "react-redux";
 import { removeLC, LCName } from "../modules/localstorage/index";
 import { logout } from "../../api/index";
 import * as Log from "../../util/SDayslogger";
+import {Toolbar} from '../layout/toolbar/Toolbar';
 
 
 const MasterLayout = () => {
@@ -34,10 +35,7 @@ const MasterLayout = () => {
   const isDesktopOrLaptop = useMediaQuery({
     query: "(min-width: 900px)",
   });
-  const isBigScreen = useMediaQuery({ query: "(min-width: 1824px)" });
-  const isTabletOrMobile = useMediaQuery({ query: "(max-width: 900px)" });
-  const isPortrait = useMediaQuery({ query: "(orientation: portrait)" });
-  const isRetina = useMediaQuery({ query: "(min-resolution: 2dppx)" });
+  
   const dispatch = useDispatch();
   const nav = useNavigate();
 
@@ -46,10 +44,10 @@ const MasterLayout = () => {
       .then(() => {
         dispatch(deleteUser());
         removeLC(LCName.User);
-        window.location.reload()      
-        console.log("succes logout"); 
-        
-      })       
+        window.location.reload()
+        console.log("succes logout");
+
+      })
       .catch((error) => {
         Log.SDayslogger(
           nav,
@@ -196,23 +194,15 @@ const MasterLayout = () => {
               id="kt_content"
               className="content d-flex flex-column flex-column-fluid"
             >
-              <div className="d-flex flex-row-fluid"></div>
 
-              <div>
-                {/* <p>Ini Toolbar</p> */}
-                {/* <Toolbar /> */}
-                <h3>Device Test!</h3>
-                {isDesktopOrLaptop && <p>You are a desktop or laptop</p>}
-                {isBigScreen && <p>You have a huge screen</p>}
-                {isTabletOrMobile && <p>You are a tablet or mobile phone</p>}
-                {/* <p>Your are in {isPortrait ? "portrait" : "landscape"} orientation</p> */}
-                {/* {isRetina && <p>You are retina</p>} */}
-                <div className="post d-flex flex-column-fluid" id="kt_post">
-                  {/* <p>Ini content</p> */}
-                  <Content>
-                    <Outlet />
-                  </Content>
-                </div>
+              {/* <p>Ini Toolbar</p> */}
+              {/* <Toolbar /> */}
+              
+              <div className="post d-flex flex-column-fluid" id="kt_post">
+                {/* <p>Ini content</p> */}
+                <Content>
+                  <Outlet />
+                </Content>
               </div>
             </div>
           </div>
@@ -258,8 +248,8 @@ const MasterLayout = () => {
                   </Link>
                 </div>
                 <div className="flex-right w-auto">
-                <DropdownDefault/>
-              </div>
+                  <DropdownDefault />
+                </div>
                 <div className="flex-right w-auto">
                   <div className="navbar-nav text-right list-inline mb-4 mb-lg-1 d-flex flex-row justify-content-end flex-fill w-auto">
                     <div
@@ -302,14 +292,7 @@ const MasterLayout = () => {
               id="kt_content"
               className="content d-flex flex-column flex-column-fluid"
             >
-              {/* <p>Ini Toolbar</p> */}
-              {/* <Toolbar /> */}
-              <h3>Device Test!</h3>
-              {isDesktopOrLaptop && <p>You are a desktop or laptop</p>}
-              {isBigScreen && <p>You have a huge screen</p>}
-              {isTabletOrMobile && <p>You are a tablet or mobile phone</p>}
-              {/* <p>Your are in {isPortrait ? "portrait" : "landscape"} orientation</p> */}
-              {/* {isRetina && <p>You are retina</p>} */}
+              
               <div className="post d-flex flex-column-fluid" id="kt_post">
                 {/* <p>Ini content</p> */}
                 <Content>
