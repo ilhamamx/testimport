@@ -3,7 +3,7 @@ import clsx from 'clsx'
 import React, {FC} from 'react'
 import {KTSVG} from '../../../resources/helpers'
 import {useLayout} from '../core'
-// import {DefaultTitle} from '../header/page-title/DefaultTitle'
+import {DefaultTitle} from '../header/page-title/DefaultTitle'
 
 const Toolbar1: FC = () => {
   const {classes} = useLayout()
@@ -15,7 +15,7 @@ const Toolbar1: FC = () => {
         id='kt_toolbar_container'
         className={clsx(classes.toolbarContainer.join(' '), 'd-flex flex-stack')}
       >
-        {/* <DefaultTitle /> */}
+        <DefaultTitle />
 
         {/* begin::Actions */}
         <div className='d-flex align-items-center py-1'>

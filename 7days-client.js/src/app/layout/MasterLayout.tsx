@@ -196,7 +196,7 @@ const MasterLayout = () => {
             >
 
               {/* <p>Ini Toolbar</p> */}
-              {/* <Toolbar /> */}
+              <Toolbar />
               
               <div className="post d-flex flex-column-fluid" id="kt_post">
                 {/* <p>Ini content</p> */}
