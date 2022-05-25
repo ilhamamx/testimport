@@ -9,11 +9,11 @@ import {
   QUERIES,
   stringifyRequestQuery,
 } from '../../../../../resources/helpers'
-import {getUsers} from './_requests'
-import {User} from './_models'
+import {getContacts} from './_requests'
+import {Contact} from './_models'
 import {useQueryRequest} from './QueryRequestProvider'
 
-const QueryResponseContext = createResponseContext<User>(initialQueryResponse)
+const QueryResponseContext = createResponseContext<Contact>(initialQueryResponse)
 const QueryResponseProvider: FC = ({children}) => {
   const {state} = useQueryRequest()
   const [query, setQuery] = useState<string>(stringifyRequestQuery(state))
@@ -32,7 +32,7 @@ const QueryResponseProvider: FC = ({children}) => {
   } = useQuery(
     `${QUERIES.USERS_LIST}-${query}`,
     () => {
-      return getUsers(query)
+      return getContacts(query)
     },
     {cacheTime: 0, keepPreviousData: true, refetchOnWindowFocus: false}
   )
@@ -51,7 +51,7 @@ const useQueryResponseData = () => {
   if (!response) {
     return []
   }
-  console.log("response "+response);
+  console.log("response "+JSON.stringify(response));
   
   return response?.data || []
 }

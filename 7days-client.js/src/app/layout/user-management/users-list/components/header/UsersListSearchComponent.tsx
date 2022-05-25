@@ -3,7 +3,7 @@ import {useState, useEffect} from 'react'
 import {initialQueryState, KTSVG, useDebounce} from '../../../../../../resources/helpers'
 import {useQueryRequest} from '../../core/QueryRequestProvider'
 
-const UsersListSearchComponent = () => {
+const ContactsListSearchComponent = () => {
   const {updateState} = useQueryRequest()
   const [searchTerm, setSearchTerm] = useState<string>('')
   // Debounce search term so that it only gives us latest value ...
@@ -44,4 +44,4 @@ const UsersListSearchComponent = () => {
   )
 }
 
-export {UsersListSearchComponent}
+export {ContactsListSearchComponent}

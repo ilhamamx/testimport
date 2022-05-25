@@ -2,19 +2,19 @@ import {FC, useState} from 'react'
 import * as Yup from 'yup'
 import {useFormik} from 'formik'
 import {isNotEmpty, toAbsoluteUrl} from '../../../../../resources/helpers'
-import {initialUser, User} from '../core/_models'
+import {initialContact, Contact} from '../core/_models'
 import clsx from 'clsx'
 import {useListView} from '../core/ListViewProvider'
 import {UsersListLoading} from '../components/loading/UsersListLoading'
-import {createUser, updateUser} from '../core/_requests'
+import {createContact, updateContact} from '../core/_requests'
 import {useQueryResponse} from '../core/QueryResponseProvider'
 
 type Props = {
   isUserLoading: boolean
-  user: User
+  contact: Contact
 }
 
-const editUserSchema = Yup.object().shape({
+const editContactSchema = Yup.object().shape({
   email: Yup.string()
     .email('Wrong email format')
     .min(3, 'Minimum 3 symbols')
@@ -26,17 +26,17 @@ const editUserSchema = Yup.object().shape({
     .required('Name is required'),
 })
 
-const UserEditModalForm: FC<Props> = ({user, isUserLoading}) => {
+const ContactEditModalForm: FC<Props> = ({contact, isUserLoading}) => {
   const {setItemIdForUpdate} = useListView()
   const {refetch} = useQueryResponse()
 
-  const [userForEdit] = useState<User>({
-    ...user,
-    avatar: user.avatar || initialUser.avatar,
-    role: user.role || initialUser.role,
-    position: user.position || initialUser.position,
-    name: user.name || initialUser.name,
-    email: user.email || initialUser.email
+  const [contactForEdit] = useState<Contact>({
+    ...contact,
+    avatar: contact.avatar || initialContact.avatar,
+    role: contact.role || initialContact.role,
+    lastInteractionAt: contact.lastInteractionAt || initialContact.lastInteractionAt,
+    firstName: contact.firstName || initialContact.firstName,
+    email: contact.email || initialContact.email
   })
 
   const cancel = (withRefresh?: boolean) => {
@@ -47,18 +47,18 @@ const UserEditModalForm: FC<Props> = ({user, isUserLoading}) => {
   }
 
   const blankImg = toAbsoluteUrl('/media/svg/avatars/blank.svg')
-  const userAvatarImg = toAbsoluteUrl(`/media/${userForEdit.avatar}`)
+  const userAvatarImg = toAbsoluteUrl(`/media/${contactForEdit.avatar}`)
 
   const formik = useFormik({
-    initialValues: userForEdit,
-    validationSchema: editUserSchema,
+    initialValues: contactForEdit,
+    validationSchema: editContactSchema,
     onSubmit: async (values, {setSubmitting}) => {
       setSubmitting(true)
       try {
         if (isNotEmpty(values.id)) {
-          await updateUser(values)
+          await updateContact(values)
         } else {
-          await createUser(values)
+          await createContact(values)
         }
       } catch (ex) {
         console.error(ex)
@@ -160,18 +160,18 @@ const UserEditModalForm: FC<Props> = ({user, isUserLoading}) => {
               name='name'
               className={clsx(
                 'form-control form-control-solid mb-3 mb-lg-0',
-                {'is-invalid': formik.touched.name && formik.errors.name},
+                {'is-invalid': formik.touched.firstName && formik.errors.firstName},
                 {
-                  'is-valid': formik.touched.name && !formik.errors.name,
+                  'is-valid': formik.touched.firstName && !formik.errors.firstName,
                 }
               )}
               autoComplete='off'
               disabled={formik.isSubmitting || isUserLoading}
             />
-            {formik.touched.name && formik.errors.name && (
+            {formik.touched.firstName && formik.errors.firstName && (
               <div className='fv-plugins-message-container'>
                 <div className='fv-help-block'>
-                  <span role='alert'>{formik.errors.name}</span>
+                  <span role='alert'>{formik.errors.firstName}</span>
                 </div>
               </div>
             )}
@@ -404,4 +404,4 @@ const UserEditModalForm: FC<Props> = ({user, isUserLoading}) => {
   )
 }
 
-export {UserEditModalForm}
+export {ContactEditModalForm}

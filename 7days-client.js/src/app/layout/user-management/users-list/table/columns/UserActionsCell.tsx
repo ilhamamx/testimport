@@ -5,7 +5,7 @@ import {MenuComponent} from '../../../../../../resources/assets/ts/components'
 import {ID, KTSVG, QUERIES} from '../../../../../../resources/helpers'
 import {useListView} from '../../core/ListViewProvider'
 import {useQueryResponse} from '../../core/QueryResponseProvider'
-import {deleteUser} from '../../core/_requests'
+import {deleteContact} from '../../core/_requests'
 
 type Props = {
   id: ID
@@ -24,7 +24,7 @@ const UserActionsCell: FC<Props> = ({id}) => {
     setItemIdForUpdate(id)
   }
 
-  const deleteItem = useMutation(() => deleteUser(id), {
+  const deleteItem = useMutation(() => deleteContact(id), {
     // 💡 response of the mutation is passed to onSuccess
     onSuccess: () => {
       // ✅ update detail view directly

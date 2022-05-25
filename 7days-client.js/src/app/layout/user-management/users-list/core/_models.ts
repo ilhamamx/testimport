@@ -1,27 +1,39 @@
 import {ID, Response} from '../../../../../resources/helpers'
-export type User = {
+export type Contact = {
   id?: ID
-  name?: string
+  firstName?: string
+  lastName?: string
+  gender?: string
   avatar?: string
   email?: string
-  position?: string
+  phoneNumber?: string
+  address?: string
+  companyID?: string
+  lastInteractionAgent?: string
+  lastInteractionChannel?: string
+  lastInteractionAt?: Long
+  isActive?: boolean
+  broadcastFailedCounter?: number
+  occupation?: string
+  birthdate?: Long
+  createdAt?: Long
+  updatedAt?: Long
+  maritalStatus?: string
+  numberOfChildren?: number
+  isBroadcastConsent?: string
   role?: string
-  last_login?: string
-  two_steps?: boolean
-  joined_day?: string
-  online?: boolean
   initials?: {
     label: string
     state: string
   }
 }
 
-export type UsersQueryResponse = Response<Array<User>>
+export type ContactsQueryResponse = Response<Array<Contact>>
 
-export const initialUser: User = {
+export const initialContact: Contact = {
   avatar: 'avatars/300-6.jpg',
-  position: 'Art Director',
-  role: 'Administrator',
-  name: '',
-  email: ''
+  firstName: '',
+  email: '',
+  role: '',
+  phoneNumber: ''
 }

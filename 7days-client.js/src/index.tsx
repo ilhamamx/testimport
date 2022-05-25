@@ -15,6 +15,7 @@ import { useTranslation } from "react-i18next";
 import { firebases } from "./db";
 import {Provider} from 'react-redux'
 import store, { persistor } from '../src/setup/redux/store'
+import {QueryClient, QueryClientProvider} from 'react-query'
 
 firebases.firestore();
 
@@ -63,14 +64,18 @@ if (process.env.NODE_ENV !== "development") {
   console.debug = () => {};
 }
 
+const queryClient = new QueryClient()
+
 ReactDOM.render(
+  <QueryClientProvider client={queryClient}>
   <React.StrictMode>
       <Suspense fallback={<div>Loading...</div>}>
         <Provider store={store}>
             <AppRoutes />
         </Provider>
       </Suspense>
-  </React.StrictMode>,
+  </React.StrictMode>
+  </QueryClientProvider>,
   document.getElementById("root")
 );
 
