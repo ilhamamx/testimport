@@ -20,14 +20,10 @@ const AuthInit: FC<PropsFromRedux> = (props) => {
   const screentime = new Date().getTime();
   let unsubscribeAuth;
   useEffect(() => {
-    console.log("panggil auth Init 1 : ");
     const requestUser = async () => {
       try {
         if (!didRequest.current) {
-          console.log("panggil auth Init 2 : ");
-          console.log("ddcurrent false ==>> : "+didRequest.current);
           if (currentUser!=null){
-            console.log("panggil auth Init 3 : ");
             console.log();
             await AuthUser(currentUser)
               .then((response) => {
@@ -42,7 +38,6 @@ const AuthInit: FC<PropsFromRedux> = (props) => {
         console.error(error)
         if (!didRequest.current) {
           //dispacth for log out
-          console.log("---->>> error");
           dispatch(props.setAuth(false))
         }
       } finally {

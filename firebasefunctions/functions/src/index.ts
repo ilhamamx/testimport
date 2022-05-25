@@ -24,6 +24,24 @@ const converter = <T>() => {
   };
 };
 
+exports.onUserStatusChanged = functions.database.ref('/status/{uid}').onUpdate(
+  async (change, context) => {
+    const eventStatus = change.after.val()
+
+    const userFirestoreRef = firestore.doc(`/users/${context.params.uid}`)
+
+    const statusSnapshot = await change.after.ref.once('value')
+    const status = statusSnapshot.val()
+
+    if (status.last_changed > eventStatus.last_changed) {
+      return null
+    }
+
+    eventStatus.last_changed = new Date(eventStatus.last_changed)
+    return userFirestoreRef.update(eventStatus)
+  }
+)
+
 exports.findEmailByPhone = functions.https
   .onRequest((request, response): void | Promise<void> => {
     const phoneNumber = request.body.phoneNumber;

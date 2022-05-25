@@ -1,5 +1,7 @@
 export const LCName = {
   User: "User",
+  SessionID : "SessionID",
+  SessionCreated : "SessionCreated",
 };
 
 export function setItemLCWithExpiry(key: string, value: any, ttl: number) {
@@ -39,5 +41,11 @@ export function setItemLC(key: string, value: any) {
     value: value,
   };
   localStorage.setItem(key, JSON.stringify(item));
+}
+
+export function removeSession(){
+   removeLC(LCName.User);
+   removeLC(LCName.SessionID);
+   removeLC(LCName.SessionCreated);
 }
 

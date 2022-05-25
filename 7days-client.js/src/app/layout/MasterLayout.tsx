@@ -22,6 +22,7 @@ import { logout } from "../../api/index";
 import * as Log from "../../util/SDayslogger";
 import { checkUserConnection, setUserOffline } from '../../api/server/connection';
 import * as lc from '../modules/localstorage/index';
+import * as session from "../../db/session";
 
 const MasterLayout = () => {
   const { t } = useTranslation();
@@ -46,11 +47,14 @@ const MasterLayout = () => {
     logout()
       .then(() => {
         const currentUser = lc.getItemLC(lc.LCName.User);
+        const sessionID = lc.getItemLC(lc.LCName.SessionID);
+        const createdSession = lc.getItemLC(lc.LCName.SessionCreated);
         setUserOffline(currentUser.uid);
+        session.updateSession(currentUser.uid, sessionID, createdSession);
         dispatch(deleteUser());
-        removeLC(LCName.User);
+        lc.removeSession()
+        dispatch(setAuth(false));
         // window.location.reload(); 
-        dispatch(setAuth(false))
         nav("/auth")
         console.log("succes logout"); 
       })

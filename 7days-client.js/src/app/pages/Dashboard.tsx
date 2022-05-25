@@ -35,14 +35,14 @@ export function Dashboard() {
     }
   }
 
-  let ilhamstatus =  con.status("8BccV9T1R8huPSiJ9fGNway4yVD3");
-  console.log("Check Offline or Online Status Ilham User : " + ilhamstatus);
+  let userStatus = con.status("uc8BHmNbobQ0oqwDX6Ohn1AZgoO2");
+  console.log("Check Offline or Online Status User : " + userStatus);
 
   return (
     <div>
       <div className='mb-0 lh-1'>
-        <span className={`badge badge-${ilhamstatus === "online" ? "success" : "danger"} badge-circle w-10px h-10px me-1`}></span>
-        <span className='fs-7 fw-bold text-gray-400'>{ilhamstatus === "online" ? "ilham is online":"ilham is offline"}</span>
+        <span className={`badge badge-${userStatus === "online" ? "success" : "danger"} badge-circle w-10px h-10px me-1`}></span>
+        <span className='fs-7 fw-bold text-gray-400'>{userStatus === "online" ? "User is online":"User is offline"}</span>
       </div>
       <h1>Dashboard page</h1>
       <br></br>

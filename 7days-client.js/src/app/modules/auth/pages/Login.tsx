@@ -18,6 +18,7 @@ import firebase from 'firebase/compat/app'
 import 'firebase/compat/auth'
 import {RootState} from '../../../../setup/redux/store'
 import { setUser } from "@sentry/react";
+import { createSession } from "../../../../db/session";
 
 const loginSchema = Yup.object().shape({
   email: Yup.string().required("Login.Error.EmptyEmail"),
@@ -67,15 +68,17 @@ export function Login() {
             setLoading(false);
             dispatch(setAuth(true));
             currentUser = firebase.auth().currentUser;
-            // console.log("Current User : "+currentUser);
             dispatch(setAuthUser(JSON.stringify(firebase.auth().currentUser)))
+            if(currentUser!=null){
+              createSession(currentUser.uid);
+            }
             console.log("success login");
             console.log(response);
             Sentry.setContext("User", {
               name: formEmail,
               // session: "test-session",
             });
-                      
+            //call function to create session          
             
             nav("/dashboard");
           } else {
