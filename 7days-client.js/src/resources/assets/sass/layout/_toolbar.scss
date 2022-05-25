@@ -6,7 +6,8 @@
 .toolbar {
     display: flex;
     align-items: center;
-    background-color: get($toolbar-config, bg-color);
+    // background-color: get($toolbar-config, bg-color);
+    background-color: #150958;
     padding: get($toolbar-config, padding);
 }
 
@@ -15,7 +16,8 @@
     .toolbar {
         // Fixed toolbar
         .toolbar-fixed & {
-			height: var(--kt-toolbar-height);
+			// height: var(--kt-toolbar-height);
+            height: 65px;
       	    position: fixed;
 			top: 0;
 			right: 0;

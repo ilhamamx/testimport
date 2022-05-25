@@ -5,8 +5,10 @@ import {useLayout} from '../../core/LayoutProvider'
 import {usePageData} from '../../core/PageData'
 
 const DefaultTitle: FC = () => {
-  const {pageTitle, pageDescription, pageBreadcrumbs} = usePageData()
+  const { pageTitle, pageDescription, pageBreadcrumbs} = usePageData()
   const {config, classes} = useLayout()
+  console.log("this page desc "+pageTitle);
+  //let pageTitle= 'Contact List';
   return (
     <div
       id='kt_page_title'
@@ -16,8 +18,9 @@ const DefaultTitle: FC = () => {
       className={clsx('page-title d-flex', classes.pageTitle.join(' '))}
     >
       {/* begin::Title */}
+      
       {pageTitle && (
-        <h1 className='d-flex align-items-center text-dark fw-bolder my-1 fs-3'>
+        <h1 className='d-flex align-items-center text-light fw-bolder my-1 fs-3'>
           {pageTitle}
           {pageDescription && config.pageTitle && config.pageTitle.description && (
             <>
@@ -26,7 +29,7 @@ const DefaultTitle: FC = () => {
             </>
           )}
         </h1>
-      )}
+      )} 
       {/* end::Title */}
 
       {pageBreadcrumbs &&

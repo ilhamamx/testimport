@@ -5,11 +5,13 @@ import { toAbsoluteUrl } from "../../resources/helpers/AssetHelpers";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "@popperjs/core";
 import "bootstrap";
+import { PageTitle } from "../layout/core/PageData";
 
 const About: FC = () => {
   const { t } = useTranslation();
   return (
     <div className="fw-bold fs-3 text-gray-400 mb-15" data-testid="about-page">
+      <PageTitle>About</PageTitle>
       <h2>About Page</h2>
       <div className="dropdown">
         <img

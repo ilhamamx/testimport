@@ -52,6 +52,7 @@ const PageTitle: FC<Props> = ({children, description, breadcrumbs}) => {
   useEffect(() => {
     if (children) {
       setPageTitle(children.toString())
+      console.log("Page title : " + children);
     }
     return () => {
       setPageTitle('')

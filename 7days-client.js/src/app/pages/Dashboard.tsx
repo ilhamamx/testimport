@@ -2,6 +2,22 @@ import React from "react";
 import { Link, Navigate, useNavigate } from "react-router-dom";
 import Button from "../../styles/components/Button";
 import * as Log from "../../util/SDayslogger";
+import { PageTitle, PageLink } from "../layout/core/PageData";
+
+const usersBreadcrumbs: Array<PageLink> = [
+  {
+    title: 'Dashboard',
+    path: '/dashboard',
+    isSeparator: false,
+    isActive: false,
+  },
+  {
+    title: '',
+    path: '',
+    isSeparator: true,
+    isActive: false,
+  },
+]
 
 export function Dashboard() {
   console.log("this is dashboard");
@@ -33,6 +49,7 @@ export function Dashboard() {
 
   return (
       <div>
+        <PageTitle breadcrumbs={usersBreadcrumbs}>Dashboard</PageTitle>
         <h1>Dashboard page</h1>
         <br></br>
         <br></br>

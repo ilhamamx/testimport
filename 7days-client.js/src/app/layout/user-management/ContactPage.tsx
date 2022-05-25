@@ -1,10 +1,10 @@
 import {Route, Routes, Outlet, Navigate} from 'react-router-dom'
-import {PageLink, PageTitle} from './PageData'
+import {PageLink, PageTitle} from '../../layout/core/PageData'
 import {UsersListWrapper} from './users-list/UsersList'
 
 const usersBreadcrumbs: Array<PageLink> = [
   {
-    title: 'Contact Management',
+    title: 'Contact List',
     path: '/contact/users',
     isSeparator: false,
     isActive: false,
@@ -16,7 +16,7 @@ const usersBreadcrumbs: Array<PageLink> = [
     isActive: false,
   },
 ]
-
+//
 const UsersPage = () => {
   return (
     <Routes>
@@ -25,6 +25,7 @@ const UsersPage = () => {
           path='users'
           element={
             <>
+              
               <PageTitle breadcrumbs={usersBreadcrumbs}>Contact list</PageTitle>
               <UsersListWrapper />
             </>

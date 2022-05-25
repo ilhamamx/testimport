@@ -4,7 +4,7 @@ import {User, UsersQueryResponse} from './_models'
 
 const API_URL = process.env.REACT_APP_THEME_API_URL
 const USER_URL = `${API_URL}/user`
-const GET_USERS_URL = `${API_URL}/users/query`
+const GET_USERS_URL = `https://preview.keenthemes.com/theme-api/api/users/query` //`${API_URL}/users/query`
 
 const getUsers = (query: string): Promise<UsersQueryResponse> => {
   return axios

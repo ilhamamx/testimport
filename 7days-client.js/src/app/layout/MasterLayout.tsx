@@ -72,7 +72,7 @@ const MasterLayout = () => {
               <AsideDefault />
               <div
                 id="kt_content"
-                className="content d-flex flex-column flex-column-fluid"
+                className="d-flex flex-column flex-column-fluid" //content 
               >
                 
                 <Toolbar />
