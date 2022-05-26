@@ -1,10 +1,7 @@
-import React, { useEffect } from "react";
-import { Link, Outlet, useLocation, useNavigate } from "react-router-dom";
-
-import {Navigate, Routes} from 'react-router-dom'
+import { useEffect } from "react";
+import { Link, Outlet, useNavigate } from "react-router-dom";
 import { Content } from "./Content";
 import { toAbsoluteUrl } from "../../resources/helpers/AssetHelpers";
-import TextInput from "../../styles/components/TextInput";
 import Avatar from "../../styles/components/Avatar";
 import { Dropdown } from "react-bootstrap";
 import { useMediaQuery } from "react-responsive";
@@ -17,12 +14,10 @@ import { DropdownDefault } from "./dropdown/DropdownDefault";
 import { ShortcutBar } from "./Shorcut";
 import { deleteUser, setAuth } from "../modules/auth/redux/AuthSlice";
 import { useDispatch } from "react-redux";
-import { removeLC, LCName } from "../modules/localstorage/index";
 import { logout } from "../../api/index";
 import * as Log from "../../util/SDayslogger";
-import { checkUserConnection, setUserOffline } from '../../api/server/connection';
+import { setUserOffline } from '../../api/server/connection';
 import * as lc from '../modules/localstorage/index';
-import * as session from "../../db/session";
 
 const MasterLayout = () => {
   const { t } = useTranslation();
@@ -38,8 +33,8 @@ const MasterLayout = () => {
   });
   const isBigScreen = useMediaQuery({ query: "(min-width: 1824px)" });
   const isTabletOrMobile = useMediaQuery({ query: "(max-width: 900px)" });
-  const isPortrait = useMediaQuery({ query: "(orientation: portrait)" });
-  const isRetina = useMediaQuery({ query: "(min-resolution: 2dppx)" });
+  // const isPortrait = useMediaQuery({ query: "(orientation: portrait)" });
+  // const isRetina = useMediaQuery({ query: "(min-resolution: 2dppx)" });
   const dispatch = useDispatch();
   const nav = useNavigate();
 
@@ -47,14 +42,11 @@ const MasterLayout = () => {
     logout()
       .then(() => {
         const currentUser = lc.getItemLC(lc.LCName.User);
-        const sessionID = lc.getItemLC(lc.LCName.SessionID);
-        const createdSession = lc.getItemLC(lc.LCName.SessionCreated);
-        setUserOffline(currentUser.uid);
-        session.updateSession(currentUser.uid, sessionID, createdSession);
+        const sessionid = lc.getItemLC(lc.LCName.SessionID);
+        setUserOffline(currentUser.uid,sessionid);
         dispatch(deleteUser());
         lc.removeSession()
         dispatch(setAuth(false));
-        // window.location.reload(); 
         nav("/auth")
         console.log("succes logout"); 
       })

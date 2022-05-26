@@ -42,6 +42,32 @@ exports.onUserStatusChanged = functions.database.ref('/status/{uid}').onUpdate(
   }
 )
 
+
+exports.updateSession = functions.database.ref('/status/{uid}').onUpdate(
+  async (change, context) => {
+    const eventStatus = change.after.val()
+    const userFirestoreRef = firestore.doc(`/users/${context.params.uid}/session/${eventStatus.session_id}`)
+    userFirestoreRef.get().then((doc) => {
+      if (doc.exists) {
+        const createdAt = doc.get("created");
+        const endAt = new Date().getTime();
+        const sceenTime = endAt-createdAt;
+        return userFirestoreRef.update({
+          screentime: sceenTime,
+          ended : endAt
+        })
+      }else{
+        return;
+      }
+    }).catch((error) => {
+      console.log("Error getting document:", error);
+      return;
+    });
+  }
+)
+
+
+
 exports.findEmailByPhone = functions.https
   .onRequest((request, response): void | Promise<void> => {
     const phoneNumber = request.body.phoneNumber;

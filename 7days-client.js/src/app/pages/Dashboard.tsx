@@ -1,11 +1,7 @@
-import React, { useEffect } from "react";
-import { Link, Navigate, useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Button from "../../styles/components/Button";
 import * as Log from "../../util/SDayslogger";
-import { useSelector } from "react-redux";
-import { RootState } from '../../setup/redux/store'
 import * as con from '../../db/connection';
-import { setIsOnline } from "../../app/modules/auth/redux/AuthSlice";
 
 export function Dashboard() {
   console.log("this is dashboard");

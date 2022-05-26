@@ -1,8 +1,7 @@
 import firebase from 'firebase/compat/app'
 import 'firebase/compat/auth'
 import * as lc from '../app/modules/localstorage';
-import * as Log from "../util/SDayslogger";
-import { checkUserConnection } from './server/connection';
+import { createSession } from '../db/session';
 
 export const login = async (email:string, password:string, isrememberme:true|false ):Promise<string> => {
   let remember:string = 'session';
@@ -19,7 +18,7 @@ export const login = async (email:string, password:string, isrememberme:true|fal
         .signInWithEmailAndPassword(email, password);
         currentUser = (await a).user;
         if(currentUser!=null){
-          checkUserConnection(currentUser.uid);
+          createSession(currentUser.uid);
           if(isrememberme){
             lc.setItemLC(lc.LCName.User,currentUser);
           }else{

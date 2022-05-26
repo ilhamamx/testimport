@@ -2,7 +2,6 @@ import firebase from 'firebase/compat/app'
 import 'firebase/compat/database'
 import db from './index'
 import * as lc from '../app/modules/localstorage/index';
-import { updateSession } from "../db/session";
 
 export const status =(uid: string) =>{
   let status = "offline";
@@ -17,19 +16,25 @@ export const createFirebaseRef = (collection: any, id: any) => firebase.database
 
 export const createRef = (collection: any, docId: string) => db.doc(`${collection}/` + docId)
 
-export const isOfflineForDatabase = {
-  state: 'offline',
+export const isOfflineForDatabase  = (sessionid:string) => {
+  return ({state: 'offline',
   last_changed: firebase.database.ServerValue.TIMESTAMP,
+  session_id: lc.getItemLC(lc.LCName.SessionID)
+  })
 }
 
-export const isOnlineForDatabase = {
+export const isOnlineForDatabase = (sessionid:string) => {
+  return ({
   state: 'online',
   last_changed: firebase.database.ServerValue.TIMESTAMP,
+  session_id: lc.getItemLC(lc.LCName.SessionID)})
 }
 
-export const isOnlineForFirestore = {
+export const isOnlineForFirestore = (sessionid:string) => {
+  return ({
   state: 'online',
-  last_changed: firebase.firestore.FieldValue.serverTimestamp()
+  last_changed: firebase.firestore.FieldValue.serverTimestamp(),
+  session_id: lc.getItemLC(lc.LCName.SessionID)})
 }
 
 export const onConnectionChanged = (callback: (arg0: any) => void) => {
@@ -40,18 +45,10 @@ export const onConnectionChanged = (callback: (arg0: any) => void) => {
    * Multiple login prevention
    * 
    */
-
-  const currentUser = lc.getItemLC(lc.LCName.User);
-  const sessionID = lc.getItemLC(lc.LCName.SessionID);
-  const createdSession = lc.getItemLC(lc.LCName.SessionCreated);
   firebase
     .database()
     .ref('.info/connected')
     .on('value', snapshot => {
-      console.log(" --------- >>  Session ID : "+sessionID);
-      // if(!snapshot.val() && sessionID!=null){
-      //   updateSession(currentUser.uid,sessionID,createdSession)
-      // }
       callback(snapshot.val())
     })
   }

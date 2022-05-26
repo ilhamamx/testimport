@@ -1,7 +1,7 @@
 import {RootState} from '../../../../setup/redux/store'
 import * as lc from '../../localstorage/index'
 import * as api from '../../../../api/index'
-import { connect, ConnectedProps, useDispatch, useSelector } from "react-redux";
+import { connect, ConnectedProps, useDispatch } from "react-redux";
 import * as auth from "../redux/AuthSlice";
 import { FC, useEffect, useRef, useState } from 'react';
 import { checkUserConnection } from '../../../../api/server/connection';
@@ -19,6 +19,7 @@ const AuthInit: FC<PropsFromRedux> = (props) => {
   console.log("Tetsing Auth Init ");
   const screentime = new Date().getTime();
   let unsubscribeAuth;
+  const sessionid = lc.getItemLC(lc.LCName.SessionID);
   useEffect(() => {
     const requestUser = async () => {
       try {
@@ -30,7 +31,7 @@ const AuthInit: FC<PropsFromRedux> = (props) => {
                 dispatch(props.setAuthUser(JSON.stringify(currentUser)));
                 dispatch(props.setAuth(response));
                 dispatch(props.setSessionUser(screentime));
-                checkUserConnection(currentUser.uid);
+                checkUserConnection(currentUser.uid, sessionid);
               });
           }
         }

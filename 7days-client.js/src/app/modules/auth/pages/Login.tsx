@@ -12,13 +12,10 @@ import * as Sentry from "@sentry/react";
 import { getEmailFromPhone } from "../../../../api/server/users";
 
 import * as api from "../../../../api"
-import { useDispatch, useSelector } from "react-redux";
-import { setAuth, setAuthUser, setIsOnline } from "../redux/AuthSlice";
+import { useDispatch } from "react-redux";
+import { setAuth, setAuthUser } from "../redux/AuthSlice";
 import firebase from 'firebase/compat/app'
 import 'firebase/compat/auth'
-import {RootState} from '../../../../setup/redux/store'
-import { setUser } from "@sentry/react";
-import { createSession } from "../../../../db/session";
 
 const loginSchema = Yup.object().shape({
   email: Yup.string().required("Login.Error.EmptyEmail"),
@@ -36,16 +33,12 @@ const initialValues = {
   https://jaredpalmer.com/formik/docs/tutorial#getfieldprops
   https://medium.com/@maurice.de.beijer/yup-validation-and-typescript-and-formik-6c342578a20e
 */
-function showError () {
-  
-}
 
 export function Login() {
   const { t } = useTranslation();
   const nav = useNavigate();
   const [loading, setLoading] = useState(false);
   const dispatch = useDispatch();
-  let currentUser= null;
   const formik = useFormik({
     initialValues,
     validationSchema: loginSchema,
@@ -63,15 +56,11 @@ export function Login() {
           }
           console.log('email : ' + email+" - rememberme : "+values.isrememberme );
         login(email, values.password,values.isrememberme)
-        .then((response) => {
+        .then(async(response) => {
           if (response) {
             setLoading(false);
             dispatch(setAuth(true));
-            currentUser = firebase.auth().currentUser;
             dispatch(setAuthUser(JSON.stringify(firebase.auth().currentUser)))
-            if(currentUser!=null){
-              createSession(currentUser.uid);
-            }
             console.log("success login");
             console.log(response);
             Sentry.setContext("User", {
@@ -96,7 +85,9 @@ export function Login() {
         
       }, 1000);
     },
-  });
+  }
+  
+  );
   
 
   function  getEmailFromInput(input: string, 

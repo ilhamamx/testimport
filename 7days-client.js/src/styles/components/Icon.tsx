@@ -1,4 +1,3 @@
-import { toAbsoluteUrl } from "../../resources/helpers/AssetHelpers";
 import { KTSVG } from "../../resources/helpers/components/KTSVG";
 import { Link } from "react-router-dom";
 
@@ -7,14 +6,14 @@ interface IconProps {
    * badge theme-color of icon from variable $theme-colors in src/resources/assets/sass/core/components/_variables.scss
    */
   badgeStyle?:
-    | "bg-danger"
-    | "bg-success"
-    | "bg-primary"
-    | "bg-secondary"
-    | "bg-warning"
-    | "bg-info"
-    | "bg-light"
-    | "bg-dark";
+  | "bg-danger"
+  | "bg-success"
+  | "bg-primary"
+  | "bg-secondary"
+  | "bg-warning"
+  | "bg-info"
+  | "bg-light"
+  | "bg-dark";
   /**
    * image source of icon component from public/media/icons/duotune/...
    */
@@ -46,7 +45,7 @@ interface IconProps {
    * Navigate to this URI, when this component clicked
    */
   nav?: string;
-  
+
   /**
    * prop of icon component
    */
@@ -63,7 +62,7 @@ function Icon({
   activeColor,
   ...props
 }: IconProps) {
-  function badge(){
+  function badge() {
     return (
       <span className={badgeType()} style={style()}>
         {number}
@@ -76,9 +75,9 @@ function Icon({
     }
   }
 
-  function style(){
+  function style() {
     if (badgeStyle)
-      return {top: "10px", marginLeft: "20px"} 
+      return { top: "10px", marginLeft: "20px" }
   }
 
   function color() {
@@ -90,14 +89,12 @@ function Icon({
   }
 
   return (
-    <Link to={`${nav}`}>
-      <div {...props} className="symbol" style={{ marginLeft: "10px", marginRight: "10px" }}>
-        <KTSVG
-          path={`${imgSrc}`}
-          className={`svg-icon-${color()} svg-icon-${size || "4hx"}`}
-        />
-        {number != null && number > 0 && badge()}
-      </div>
+    <Link to={`${nav}`} {...props} className="symbol" style={{ marginLeft: "10px", marginRight: "10px" }}>
+      <KTSVG
+        path={`${imgSrc}`}
+        className={`svg-icon-${color()} svg-icon-${size || "4hx"}`}
+      />
+      {number != null && number > 0 && badge()}
     </Link>
   );
 }

@@ -1,20 +1,30 @@
+import { checkUserConnection } from '../api/server/connection';
 import { LCName, setItemLC } from '../app/modules/localstorage';
 import db from './index'
 
-export function createSession(uid: string) {
+export const createSession = async (uid: string):Promise<string>=>{
   const createdAt: number = Date.now();
-  //start and id save to local storage
-  console.log("createdAt : "+createdAt);
-  db.collection(`/users/${uid}/session`).add({
-    "created": createdAt,
-    "screentime":0,
-    "ended":0
-  }).then(function(docRef) {
-    if(docRef){
-      setItemLC(LCName.SessionID,docRef.id);
-      setItemLC(LCName.SessionCreated,createdAt);
-    }
-  })
+  let sessionid = "";
+    return new Promise((resolve, reject) => {
+      try {
+         db.collection(`/users/${uid}/session`).add({
+          "created": createdAt,
+          "screentime":0,
+          "ended":0
+        }).then(function(docRef) {
+          if(docRef){
+            sessionid = docRef.id;
+            setItemLC(LCName.SessionID,docRef.id);
+            setItemLC(LCName.SessionCreated,createdAt);
+            checkUserConnection(uid, sessionid);
+          }
+        })
+        resolve(sessionid)
+      } catch(error){
+        console.log(`firebase login error ${error}`)
+        reject(error)
+      }
+    })
 }
 
 export async function updateSession(uid: string,sessionId : string, created: number) {
