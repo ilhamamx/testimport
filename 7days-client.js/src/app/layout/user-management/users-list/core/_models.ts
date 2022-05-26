@@ -37,3 +37,4 @@ export const initialContact: Contact = {
   role: '',
   phoneNumber: ''
 }
+

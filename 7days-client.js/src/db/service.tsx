@@ -7,7 +7,12 @@ export const fetchCustomers = () =>
     .then((snapshot) => {
       const customers = snapshot.docs.map((doc) => ({
         id: doc.id,
-        ...doc.data(),
-      }));
+        data: doc.data(),
+      }
+      
+      )
+      
+      );
+      //console.log(doc);
       return customers;
     });
