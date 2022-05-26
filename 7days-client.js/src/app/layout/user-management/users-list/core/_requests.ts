@@ -2,6 +2,7 @@ import axios, {AxiosResponse} from 'axios'
 import {ID, Response} from '../../../../../resources/helpers'
 import {Contact, ContactsQueryResponse} from './_models'
 import { fetchCustomers } from '../../../../../actions'
+//import { Contact } from '../../../../pages/Contact'
 
 const API_URL = process.env.REACT_APP_THEME_API_URL
 const USER_URL = `${API_URL}/user`
@@ -11,9 +12,29 @@ const GET_USERS_URL = `https://preview.keenthemes.com/theme-api/api/users/query`
 
 const getContacts = (query: string): Promise<ContactsQueryResponse>  => {
   let contactQueryResponse: ContactsQueryResponse;
+  
   return fetchCustomers().then(customers => {
   
+    
+    var customersLength = customers.length;
+    let dataUser = [];
+    for (var i = 0; i < customersLength; i++) {
+      let data = customers[i].data;
+      dataUser.push(data);
+      
+      }
+      
+      let contactsItem = {
+        data: dataUser
+      }
+      contactQueryResponse = contactsItem;
+        
+      
     //TODO response from firebase
+    
+    //console.log("this is customer: "+JSON.stringify(customers));
+    
+    
     return contactQueryResponse;
   })
   // console.log("query : " + query)
