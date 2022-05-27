@@ -1,6 +1,6 @@
 import { FC } from "react";
 import { useTranslation } from "react-i18next";
-import { ContactsListHeader } from "../layout/user-management/users-list/components/header/UsersListHeader"
+import { ContactsListHeader } from "../layout/contact-management/contact-list/components/header/ContactListHeader"
 
 const Contact: FC = () => {
   const { t } = useTranslation();

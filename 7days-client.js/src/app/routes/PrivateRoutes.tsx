@@ -2,7 +2,7 @@ import { Navigate, Route, Routes } from "react-router-dom";
 import { MasterLayout } from "../layout/MasterLayout";
 import { About } from "../pages/About";
 import { Contact } from "../pages/Contact";
-import ContactPage from "../../app/layout/user-management/ContactPage";
+import ContactPage from "../../app/layout/contact-management/ContactPage";
 import { CustomerInQueue } from "../pages/CustomerInQueue";
 import { Dashboard } from "../pages/Dashboard";
 import { Faq } from "../pages/FAQ";

@@ -34,5 +34,5 @@ export const fetchDataTesting = async () => {
   })
 }
 
-export * from './service'
+export * from './serviceCustomer'
 
