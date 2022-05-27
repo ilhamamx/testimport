@@ -39,17 +39,12 @@ export async function updateSession(uid: string,sessionId : string, created: num
 
 
 export const saveUserSessionToken = async (uid: string, token: string):Promise<string>=>{
-  let sessionid = "";
     return new Promise((resolve, reject) => {
       try {
-         db.collection(`/users/${uid}`).add({
-          "sessiontoken": token,
-        }).then(function(docRef) {
-          if(docRef){
-            setItemLC(LCName.SessionToken,token);
-          }
-        })
-        resolve(sessionid)
+         db.doc(`/users/${uid}`).update({
+          "sessiontoken": token})
+          setItemLC(LCName.SessionToken,token);
+          resolve("success")
       } catch(error){
         console.log(`firebase save user token error ${error}`)
         reject(error)
