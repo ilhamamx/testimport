@@ -1,6 +1,12 @@
 import firebase from "firebase/compat/app";
 import "firebase/compat/firestore";
 import "firebase/compat/auth";
+// import * as admin from "firebase-admin";
+import { LCName, setItemLC, getItemLC } from "../app/modules/localstorage";
+import * as lc from "../app/modules/localstorage/index";
+import session from "redux-persist/lib/storage/session";
+import * as connect from "../db/connection";
+// import { getAuth } from "firebase-admin/auth"
 
 const firebaseConfig = {
   apiKey: "AIzaSyAtC1n4HgA_FUWoEB7klx5z7EKy0debqzg",

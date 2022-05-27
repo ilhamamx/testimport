@@ -36,3 +36,35 @@ export async function updateSession(uid: string,sessionId : string, created: num
     "ended":endedAt
   })
 }
+
+
+export const saveUserSessionToken = async (uid: string, token: string):Promise<string>=>{
+  let sessionid = "";
+    return new Promise((resolve, reject) => {
+      try {
+         db.collection(`/users/${uid}`).add({
+          "sessiontoken": token,
+        }).then(function(docRef) {
+          if(docRef){
+            setItemLC(LCName.SessionToken,token);
+          }
+        })
+        resolve(sessionid)
+      } catch(error){
+        console.log(`firebase save user token error ${error}`)
+        reject(error)
+      }
+    })
+}
+
+export async function getUserSessionToken(uid: string){
+  await db
+    .collection(`/users/${uid}/`)
+    .get()
+    .then((snapshot) => {
+      // snapshot.docs.forEach((doc) => {
+      //   return doc.data();
+      // });
+      return snapshot.docs.map((snap) => ({ ...snap.data(), id: snap.id }));
+    });
+}

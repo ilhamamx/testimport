@@ -2,6 +2,7 @@ export const LCName = {
   User: "User",
   SessionID : "SessionID",
   SessionCreated : "SessionCreated",
+  SessionToken : "SessionToken",
 };
 
 export function setItemLCWithExpiry(key: string, value: any, ttl: number) {

@@ -32,7 +32,6 @@ export const login = async (email:string, password:string, isrememberme:true|fal
     console.log(`firebase login error ${error}`)
     return Promise.reject(error)
   }
-  
 }
 
 export const onAuthStateChanged = (onAuthCallback: firebase.Observer<any, Error> | ((a: firebase.User | null) => any)) => 
@@ -44,8 +43,10 @@ export const AuthUser = async (currentUser:any):Promise<boolean>=>{
       try {
         firebase.auth().onAuthStateChanged(function (user) {
           if (user) {
-            if( currentUser.uid === user.uid){
-              isAuthored = true;
+            if(currentUser != null){
+              if(currentUser.uid === user.uid ){
+                isAuthored = true;
+              }
             }
             resolve(isAuthored);
           }
@@ -58,6 +59,9 @@ export const AuthUser = async (currentUser:any):Promise<boolean>=>{
 }
 
 export const logout = async () => {
+
+function getAuth() {
+  throw new Error('Function not implemented.');
+}
   return firebase.auth().signOut()
 }
-//export default prin;

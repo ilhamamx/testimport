@@ -51,14 +51,15 @@ const MasterLayout = () => {
         console.log("succes logout"); 
       })
       .catch((error) => {
-        Log.SDayslogger(
-          nav,
-          "Testing Error Message",
-          Log.SDLOGGER_INFO,
-          false,
-          true
-        );
-        console.log("failed logout");
+          Log.SDayslogger(
+            nav,
+            "Testing Error Message",
+            Log.SDLOGGER_INFO,
+            false,
+            true
+          );
+          console.log("failed logout");
+        
       });
   }
 

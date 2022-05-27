@@ -10,7 +10,7 @@ import { phoneValidator } from "../../validators/InputValidator";
 import { useNavigate } from "react-router-dom";
 import * as Sentry from "@sentry/react";
 import { getEmailFromPhone } from "../../../../api/server/users";
-
+import { saveUserSessionToken } from "../../../../db/session";
 import * as api from "../../../../api"
 import { useDispatch } from "react-redux";
 import { setAuth, setAuthUser } from "../redux/AuthSlice";
@@ -59,8 +59,18 @@ export function Login() {
         .then(async(response) => {
           if (response) {
             setLoading(false);
-            dispatch(setAuth(true));
-            dispatch(setAuthUser(JSON.stringify(firebase.auth().currentUser)))
+            const currentuser = firebase.auth().currentUser;
+            if(currentuser!=null){
+              console.log("----------------------current not null");
+              currentuser.getIdToken().then(async(response) => {
+                if(response){
+                  console.log("----------------------current not null 2");
+                  saveUserSessionToken(currentuser.uid,response);
+                  dispatch(setAuth(true));
+                  dispatch(setAuthUser(JSON.stringify(firebase.auth().currentUser)))
+                }
+              })
+            }
             console.log("success login");
             console.log(response);
             Sentry.setContext("User", {
