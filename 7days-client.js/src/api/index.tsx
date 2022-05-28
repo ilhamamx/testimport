@@ -59,9 +59,5 @@ export const AuthUser = async (currentUser:any):Promise<boolean>=>{
 }
 
 export const logout = async () => {
-
-function getAuth() {
-  throw new Error('Function not implemented.');
-}
   return firebase.auth().signOut()
 }

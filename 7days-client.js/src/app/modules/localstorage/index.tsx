@@ -48,5 +48,6 @@ export function removeSession(){
    removeLC(LCName.User);
    removeLC(LCName.SessionID);
    removeLC(LCName.SessionCreated);
+   removeLC(LCName.SessionToken);
 }
 
