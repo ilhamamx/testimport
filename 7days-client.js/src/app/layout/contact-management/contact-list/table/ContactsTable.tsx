@@ -54,6 +54,7 @@ const ContactsTable = () => {
           </tbody>
         </table>
       </div>
+      <p>pagination</p>
       <ContactsListPagination />
       {isLoading && <ContactsListLoading />}
     </KTCardBody>

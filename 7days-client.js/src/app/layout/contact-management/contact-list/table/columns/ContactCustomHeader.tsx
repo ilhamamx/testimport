@@ -37,7 +37,7 @@ const ContactCustomHeader: FC<Props> = ({className, title, tableProps}) => {
       if (order === 'asc') {
         // enable sort desc
         updateState({sort: id, order: 'desc', ...initialQueryState})
-        console.log("Table props :  "+ JSON.stringify(tableProps.data));
+        //console.log("Table props :  "+ JSON.stringify(tableProps.data));
         return
       }
 

@@ -45,8 +45,51 @@ const getContacts = (sort: string | undefined, order: string | undefined, search
       let data = customers[i].data;
       data.id = customers[i].id;
       dataUser.push(data);
+
     }
-      
+
+
+    //console.log("datauser ===>>"+JSON.stringify(dataUser));
+    
+    // const firstName = dataUser.map((obj) => obj.firstName);
+    // console.log("name =>>>>>>"+firstName);
+    
+    if (sort === 'firstName') {
+      const dataSortAsc = dataUser?.sort((a, b) => 
+      (a.firstName.toLowerCase() > b.firstName.toLowerCase() ? 1 : -1))
+      if (orderBy === 'desc') {
+        const dataSortDesc = dataUser?.sort((a, b) => 
+        (a.firstName.toLowerCase() > b.firstName.toLowerCase() ? -1 : 1))    
+      }
+    }
+    if (sort === 'email'){
+      const dataSortAsc = dataUser?.sort((a, b) => 
+      (a.email.toLowerCase() > b.email.toLowerCase() ? 1 : -1))
+      if (orderBy === 'desc') {
+        const dataSortDesc = dataUser?.sort((a, b) => 
+        (a.email.toLowerCase() > b.email.toLowerCase() ? -1 : 1))    
+      }
+    }
+    if (sort === 'phoneNumber') {
+      const dataSortAsc = dataUser?.sort((a, b) => 
+      (a.phoneNumber.toLowerCase() > b.phoneNumber.toLowerCase() ? 1 : -1))
+      if (orderBy === 'desc') {
+        const dataSortDesc = dataUser?.sort((a, b) => 
+        (a.phoneNumber.toLowerCase() > b.phoneNumber.toLowerCase() ? -1 : 1))    
+      }
+    }
+    if (sort === 'lastInteractionAt') {
+      const dataSortAsc = dataUser?.sort((a, b) => 
+      (a.lastInteractionAt.toLowerCase() > b.lastInteractionAt.toLowerCase() ? 1 : -1))
+      if (orderBy === 'desc') {
+        const dataSortDesc = dataUser?.sort((a, b) => 
+        (a.lastInteractionAt.toLowerCase() > b.lastInteractionAt.toLowerCase() ? -1 : 1))    
+      }
+    }
+    
+    // console.log("ascending ====>>"+JSON.stringify(dataSortAsc));
+    // console.log("descending ====>>"+JSON.stringify(dataSortDesc));
+    
     let contactsItem = {
       data: dataUser
     }

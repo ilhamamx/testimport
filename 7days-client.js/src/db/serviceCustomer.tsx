@@ -10,15 +10,15 @@ export const fetchCustomers = (
     .collection("customers")
     .where("companyID", "==", "cWt6gXnRGTFqL5TbYn6r")
     .where("isActive", "==", true)
-    .orderBy(sort, order)
-    .startAt("firstName", ">=", search)
-    .endAt("firstName", "<=", search + "\uf8ff")                                    
+    //.orderBy(sort, order)
+    // .startAt("firstName", ">=", search)
+    // .endAt("firstName", "<=", search + "\uf8ff")                                    
     .get()
     .then((snapshot) => {
       const customers = snapshot.docs.map((doc) => ({
         id: doc.id,
         data: doc.data(),
       }));
-      //console.log(doc);
+
       return customers;
     });
