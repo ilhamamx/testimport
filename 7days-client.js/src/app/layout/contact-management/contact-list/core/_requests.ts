@@ -1,9 +1,10 @@
 import axios, {AxiosResponse} from 'axios'
 import {ID, Response} from '../../../../../resources/helpers'
 import {Contact, ContactsQueryResponse} from '../../../../layout/contact-management/contact-list/core/_models'
-import { fetchCustomers } from '../../../../../actions'
+import { fetchCustomers,deleteCustomer } from '../../../../../actions'
 //import { Contact } from '../../../../pages/Contact'
 import firebase from 'firebase/compat/app'
+import db from '../../../../../db'
 
 const API_URL = process.env.REACT_APP_THEME_API_URL
 const USER_URL = `${API_URL}/user`
@@ -47,45 +48,45 @@ const getContacts = (sort: string | undefined, order: string | undefined, search
       dataUser.push(data);
 
     }
-
-
     //console.log("datauser ===>>"+JSON.stringify(dataUser));
     
     // const firstName = dataUser.map((obj) => obj.firstName);
     // console.log("name =>>>>>>"+firstName);
+    if(dataUser.length > 0){
+      if (sort === 'firstName') {
+        dataUser = dataUser?.sort((a, b) => 
+        (a.firstName.toLowerCase() > b.firstName.toLowerCase() ? 1 : -1))
+        if (orderBy === 'desc') {
+          dataUser = dataUser?.sort((a, b) => 
+          (a.firstName.toLowerCase() > b.firstName.toLowerCase() ? -1 : 1))    
+        }
+      }
+      if (sort === 'email'){
+        dataUser = dataUser?.sort((a, b) => 
+        (a.email.toLowerCase() > b.email.toLowerCase() ? 1 : -1))
+        if (orderBy === 'desc') {
+          dataUser = dataUser?.sort((a, b) => 
+          (a.email.toLowerCase() > b.email.toLowerCase() ? -1 : 1))    
+        }
+      }
+      if (sort === 'phoneNumber') {
+        dataUser = dataUser?.sort((a, b) => 
+        (a.phoneNumber.toLowerCase() > b.phoneNumber.toLowerCase() ? 1 : -1))
+        if (orderBy === 'desc') {
+          dataUser = dataUser?.sort((a, b) => 
+          (a.phoneNumber.toLowerCase() > b.phoneNumber.toLowerCase() ? -1 : 1))    
+        }
+      }
+      if (sort === 'lastInteractionAt') {
+        dataUser = dataUser?.sort((a, b) => 
+        (a.lastInteractionAt.toLowerCase() > b.lastInteractionAt.toLowerCase() ? 1 : -1))
+        if (orderBy === 'desc') {
+          dataUser = dataUser?.sort((a, b) => 
+          (a.lastInteractionAt.toLowerCase() > b.lastInteractionAt.toLowerCase() ? -1 : 1))    
+        }
+      }
+    }
     
-    if (sort === 'firstName') {
-      const dataSortAsc = dataUser?.sort((a, b) => 
-      (a.firstName.toLowerCase() > b.firstName.toLowerCase() ? 1 : -1))
-      if (orderBy === 'desc') {
-        const dataSortDesc = dataUser?.sort((a, b) => 
-        (a.firstName.toLowerCase() > b.firstName.toLowerCase() ? -1 : 1))    
-      }
-    }
-    if (sort === 'email'){
-      const dataSortAsc = dataUser?.sort((a, b) => 
-      (a.email.toLowerCase() > b.email.toLowerCase() ? 1 : -1))
-      if (orderBy === 'desc') {
-        const dataSortDesc = dataUser?.sort((a, b) => 
-        (a.email.toLowerCase() > b.email.toLowerCase() ? -1 : 1))    
-      }
-    }
-    if (sort === 'phoneNumber') {
-      const dataSortAsc = dataUser?.sort((a, b) => 
-      (a.phoneNumber.toLowerCase() > b.phoneNumber.toLowerCase() ? 1 : -1))
-      if (orderBy === 'desc') {
-        const dataSortDesc = dataUser?.sort((a, b) => 
-        (a.phoneNumber.toLowerCase() > b.phoneNumber.toLowerCase() ? -1 : 1))    
-      }
-    }
-    if (sort === 'lastInteractionAt') {
-      const dataSortAsc = dataUser?.sort((a, b) => 
-      (a.lastInteractionAt.toLowerCase() > b.lastInteractionAt.toLowerCase() ? 1 : -1))
-      if (orderBy === 'desc') {
-        const dataSortDesc = dataUser?.sort((a, b) => 
-        (a.lastInteractionAt.toLowerCase() > b.lastInteractionAt.toLowerCase() ? -1 : 1))    
-      }
-    }
     
     // console.log("ascending ====>>"+JSON.stringify(dataSortAsc));
     // console.log("descending ====>>"+JSON.stringify(dataSortDesc));
@@ -128,11 +129,26 @@ const updateContact = (contact: Contact): Promise<Contact | undefined> => {
 }
 
 const deleteContact = (contactId: ID): Promise<void> => {
-  return axios.delete(`${USER_URL}/${contactId}`).then(() => {})
+  
+  if(contactId === undefined || contactId === null) {
+  }else{
+    console.log("Delete id : " + contactId)
+    deleteCustomer(contactId.toString())
+  }
+
+  return Promise.resolve();
 }
 
 const deleteSelectedContacts = (contactIds: Array<ID>): Promise<void> => {
-  const requests = contactIds.map((id) => axios.delete(`${USER_URL}/${id}`))
+  // const requests = contactIds.map((id) => axios.delete(`${USER_URL}/${id}`))
+  const requests = contactIds.map((id) => {
+    if(id === undefined || id === null) {
+    }else{
+      console.log("Delete id : " + id)
+      deleteCustomer(id.toString())
+    }
+    })
+  
   return axios.all(requests).then(() => {})
 }
 

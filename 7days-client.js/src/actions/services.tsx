@@ -15,3 +15,5 @@ import * as db from "../db";
 //   );
 
   export const fetchCustomers = (sort: string , order: firebase.firestore.OrderByDirection , search: string) => db.fetchCustomers(sort, order, search)
+
+  export const deleteCustomer = (id: string ) => db.deleteCustomer(id)

@@ -44,11 +44,11 @@ const ContactsListPagination = () => {
   const pagination = DUMMY_pagination
   const isLoading = useQueryResponseLoading()
   const {updateState} = useQueryRequest()
-  console.log("pagination ====>>" + JSON.stringify(pagination));
+  //console.log("pagination ====>>" + JSON.stringify(pagination));
   
   const updatePage = (page: number | null) => {
     if (!page || isLoading || pagination.page === page) {
-      return <p>this pagination</p>  
+      return <p>this is pagination</p>  
     }
     
     updateState({page, items_per_page:  10}) //pagination.items_per_page ||
@@ -69,7 +69,7 @@ const ContactsListPagination = () => {
                   previous: link.label === '&laquo; Previous',
                   next: link.label === 'Next &raquo;',
                 })}
-              >{console.log("this is page =>>>"+pagination.links)}
+              >
                 <a
                   className='page-link'
                   onClick={() => updatePage(link.page)}

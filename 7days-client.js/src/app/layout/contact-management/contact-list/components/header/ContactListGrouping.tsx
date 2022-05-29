@@ -19,18 +19,26 @@ const ContactsListGrouping = () => {
   })
 
   return (
-    <div className='d-flex justify-content-end align-items-center'>
+    <div className='d-flex justify-content-end align-items-center me-3'>
       <div className='fw-bolder me-5'>
-        <span className='me-2'>{selected.length}</span> Selected
+        {selected.length > 0 ? <span className='me-2'>{selected.length} Selected</span> : null}
+       
       </div>
 
-      <button
+      {selected.length > 0 ? <button
         type='button'
         className='btn btn-danger'
         onClick={async () => await deleteSelectedItems.mutateAsync()}
       >
         Delete Selected
-      </button>
+      </button> : <button
+        type='button'
+        className='btn btn-danger' disabled
+        onClick={async () => await deleteSelectedItems.mutateAsync()}
+      >
+        Delete Selected
+      </button>}
+      
     </div>
   )
 }

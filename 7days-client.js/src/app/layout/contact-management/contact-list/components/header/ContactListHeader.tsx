@@ -11,7 +11,10 @@ const ContactsListHeader = () => {
       {/* begin::Card toolbar */}
       <div className='card-toolbar'>
         {/* begin::Group actions */}
-        {selected.length > 0 ? <ContactsListGrouping /> : <ContactsListToolbar />}
+        {/* {selected.length > 0 ? <ContactsListGrouping /> : <ContactsListToolbar />} */}
+        <ContactsListGrouping />
+        <ContactsListToolbar />
+        
         {/* end::Group actions */}
       </div>
       {/* end::Card toolbar */}
