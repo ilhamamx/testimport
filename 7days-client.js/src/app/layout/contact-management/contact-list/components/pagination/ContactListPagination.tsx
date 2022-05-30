@@ -52,6 +52,7 @@ const ContactsListPagination = () => {
     updateState({ page, items_per_page:  10, action: 'next', lastId: "1" }); //pagination.items_per_page ||
   };
   const [value, setValue ] = useState(10)
+  const [page, setPage] = useState(1)
   const pageItem10 = () => {
     setValue(10)
     updateState({ items_per_page:  10})
@@ -69,11 +70,18 @@ const ContactsListPagination = () => {
 
   const PrevItemPage = () => {
     updateState({ action:  "prev"})
-
+    if (page <= 1) {
+      return
+    }
+    let pages = page - 1
+    setPage(pages)
+        
   }
 
   const NextItemPage = () => {
     updateState({ action:  "next"})
+    let pages = page + 1
+    setPage(pages)
   }
   return (
     <div className="row">
@@ -133,7 +141,7 @@ const ContactsListPagination = () => {
             ))} */}
 
             <li className="page-item"><a className="page-link me-3" style={{ cursor: "pointer" }} onClick={PrevItemPage}>Previous</a></li>
-            <li className="page-item"><h6>1</h6></li>
+            <li className="page-item"><p className="page-link me-3">{page}</p></li>
             <li className="page-item"><a className="page-link ms-3" style={{ cursor: "pointer" }} onClick={NextItemPage}>Next</a></li>
           </ul>
         </div>

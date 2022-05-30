@@ -22,21 +22,15 @@ export const fetchCustomers = (search: string, limit: number) =>
         id: doc.id,
         data: doc.data(),
       }));
-      lastVisible = snapshot.docs[snapshot.docs.length - 1];
+      const checkVisible = snapshot.docs[snapshot.docs.length - 1];
+      if (checkVisible  != undefined) {
+        lastVisible = snapshot.docs[snapshot.docs.length - 1];
+      }
       return customers;
     });
 
 export const deleteCustomer = (id: string) =>
   db.collection("customers").doc(id).update({ isActive: false });
-// .get()
-// .then((snapshot) => {
-//   const customers = snapshot.docs.map((doc) => ({
-//     id: doc.id,
-//     data: doc.data(),
-//   }));
-
-//   return customers;
-// });
 
 export const fetchCustomersNext = (search: string, limit: number) =>
   db
@@ -54,8 +48,11 @@ export const fetchCustomersNext = (search: string, limit: number) =>
         id: doc.id,
         data: doc.data(),
       }));
-      lastVisible = snapshot.docs[snapshot.docs.length - 1];
-      firstVisible = snapshot.docs[snapshot.docs.length - 1];
+      const checkVisible = snapshot.docs[snapshot.docs.length - 1];
+      if (checkVisible  != undefined) {
+        lastVisible = snapshot.docs[snapshot.docs.length - 1];
+        firstVisible = snapshot.docs[snapshot.docs.length - 1];
+      }
       return customers;
     });
 
@@ -75,5 +72,10 @@ export const fetchCustomersPrev = (search: string, limit: number) =>
         id: doc.id,
         data: doc.data(),
       }));
+      const checkVisible = snapshot.docs[snapshot.docs.length - 1];
+      if (checkVisible  != undefined) {
+        lastVisible = snapshot.docs[snapshot.docs.length - 1];
+        firstVisible = snapshot.docs[snapshot.docs.length - 1];
+      }
       return customers;
     });
