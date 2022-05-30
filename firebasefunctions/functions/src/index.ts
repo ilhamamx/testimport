@@ -46,16 +46,31 @@ exports.onUserStatusChanged = functions.database.ref('/status/{uid}').onUpdate(
 exports.updateSession = functions.database.ref('/status/{uid}').onUpdate(
   async (change, context) => {
     const eventStatus = change.after.val()
+    const statusSnapshot = await change.after.ref.once('value')
+    const status = statusSnapshot.val()
+
+    if (status.last_changed > eventStatus.last_changed) {
+      return;
+    }
+
     const userFirestoreRef = firestore.doc(`/users/${context.params.uid}/session/${eventStatus.session_id}`)
     userFirestoreRef.get().then((doc) => {
       if (doc.exists) {
-        const createdAt = doc.get("created");
-        const endAt = new Date().getTime();
-        const sceenTime = endAt-createdAt;
-        return userFirestoreRef.update({
-          screentime: sceenTime,
-          ended : endAt
-        })
+        if(eventStatus.state==="offline"){
+          const startedAt = doc.get("started");
+          const oldSceenTime = doc.get("screentime");
+          const endAt = new Date().getTime();
+          const sceenTime = (oldSceenTime+(endAt-startedAt));
+          return userFirestoreRef.update({
+            screentime: sceenTime,
+            ended : endAt
+          })
+        }else{
+          const startedAt = new Date().getTime();
+          return userFirestoreRef.update({
+            started : startedAt
+          })
+        }
       }else{
         return;
       }

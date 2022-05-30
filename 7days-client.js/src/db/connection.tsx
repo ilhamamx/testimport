@@ -38,13 +38,7 @@ export const isOnlineForFirestore = (sessionid:string) => {
 }
 
 export const onConnectionChanged = (callback: (arg0: any) => void) => {
-  // connection changed di update ketika ada action, dan memiliki session id 
-  // ketika logout di hapus session id di local strorage dan di buatkan baru ketika login
 
-  /***
-   * Multiple login prevention
-   * 
-   */
   firebase
     .database()
     .ref('.info/connected')

@@ -39,18 +39,21 @@ const MasterLayout = () => {
   const nav = useNavigate();
 
   function handleLogout() {
-    logout()
-      .then(() => {
-        const currentUser = lc.getItemLC(lc.LCName.User);
-        const sessionid = lc.getItemLC(lc.LCName.SessionID);
-        setUserOffline(currentUser.uid,sessionid);
-        dispatch(deleteUser());
-        lc.removeSession()
-        dispatch(setAuth(false));
-        nav("/auth")
-        console.log("succes logout"); 
-      })
-      .catch((error) => {
+    const currentUser = lc.getItemLC(lc.LCName.User);
+    const sessionid = lc.getItemLC(lc.LCName.SessionID);
+    if (currentUser === null || sessionid === null) {
+      dispatch(setAuth(false));
+      nav("/auth")
+    }else{
+      logout()
+        .then(() => {
+          setUserOffline(currentUser.uid, sessionid);
+          dispatch(deleteUser());
+          lc.removeSession()
+          dispatch(setAuth(false));
+          nav("/auth")
+        })
+        .catch((error) => {
           Log.SDayslogger(
             nav,
             "Testing Error Message",
@@ -59,8 +62,10 @@ const MasterLayout = () => {
             true
           );
           console.log("failed logout");
-        
-      });
+
+        });
+    }
+    
   }
 
   function LayoutWeb() {

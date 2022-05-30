@@ -10,6 +10,7 @@ export const createSession = async (uid: string): Promise<string> => {
     try {
       db.collection(`/users/${uid}/session`).add({
         "created": createdAt,
+        "started": createdAt,
         "screentime": 0,
         "ended": 0
       }).then(function (docRef) {

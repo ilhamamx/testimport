@@ -11,7 +11,6 @@ import * as Log from "../../../../util/SDayslogger"
 import { useNavigate } from 'react-router-dom';
 
 const mapState = (state: RootState) => ({ auth: state.Auth })
-console.log(auth.AuthSlice.actions)
 const connector = connect(mapState, auth.AuthSlice.actions)
 type PropsFromRedux = ConnectedProps<typeof connector>
 
@@ -19,19 +18,17 @@ const AuthInit: FC<PropsFromRedux> = (props) => {
   const dispatch = useDispatch();
   const [showLoading, setShowLoading] = useState(true)
   const didRequest = useRef(false)
-  const currentUser = lc.getItemLC(lc.LCName.User);
   let userSessionToken = lc.getItemLC(lc.LCName.SessionToken);
-  console.log("Tetsing Auth Init ");
-  const screentime = new Date().getTime();
+  const currentUser = lc.getItemLC(lc.LCName.User);
   const nav = useNavigate();
-  let unsubscribeAuth;
-  const sessionid = lc.getItemLC(lc.LCName.SessionID);
+  // let requestUser;
   useEffect(() => {
+    const screentime = new Date().getTime();
+    const sessionid = lc.getItemLC(lc.LCName.SessionID);
     const requestUser = async () => {
       try {
         if (!didRequest.current) {
           if (currentUser != null) {
-            console.log();
             await AuthUser(currentUser)
               .then((response) => {
                 dispatch(props.setAuthUser(JSON.stringify(currentUser)));
@@ -54,7 +51,6 @@ const AuthInit: FC<PropsFromRedux> = (props) => {
     }
 
     if (currentUser) {
-      console.log("call function ================================");
       requestUser()
     } else {
       //dispacth for log out
@@ -62,43 +58,50 @@ const AuthInit: FC<PropsFromRedux> = (props) => {
       setShowLoading(false)
     }
     // eslint-disable-next-line
-  }, [unsubscribeAuth])
+  }, [])
 
-  // let session = null;
-  // useEffect(() => {
-    if (userSessionToken !== null && currentUser !== null) {
-      console.log("---------->> check error");
-      getUserSessionToken(currentUser.uid)
-        .then((response) => {
-          if (response) {
-            if (userSessionToken !== response) {
-              userSessionToken = null;
-              logout()
-                .then(() => {
-                  const user = lc.getItemLC(lc.LCName.User);
-                  const sessionid = lc.getItemLC(lc.LCName.SessionID);
-                  dispatch(props.deleteUser());
-                  lc.removeSession()
-                  dispatch(props.setAuth(false));
-                  alert("You are loggin in other device")
-                })
-                .catch((error) => {
-                  console.log("error: " + error);
-                  Log.SDayslogger(
-                    nav,
-                    "Testing Error Message",
-                    Log.SDLOGGER_INFO,
-                    false,
-                    true
-                  );
-                  console.log("failed logout");
-
-                });
-            }
-          }
-        });
+  useEffect(() => {
+    if (currentUser === null && userSessionToken === null) {
+      dispatch(props.setAuth(false))
     }
-  // }, [session])
+    if (userSessionToken !== null && currentUser !== null) {
+      let session = async () => {
+        await getSessionToken(currentUser.uid)
+          .then((response) => {
+            if (response) {
+              if (userSessionToken !== response) {
+                userSessionToken = null;
+                logout()
+                  .then(() => {
+                    const user = lc.getItemLC(lc.LCName.User);
+                    const sessionid = lc.getItemLC(lc.LCName.SessionID);
+                    dispatch(props.deleteUser());
+                    lc.removeSession()
+                    dispatch(props.setAuth(false));
+                    alert("You are loggin in other device");
+                    // window.location.reload();
+                    nav("/auth")
+                  })
+                  .catch((error) => {
+                    console.log("error: " + error);
+                    Log.SDayslogger(
+                      nav,
+                      "Testing Error Message",
+                      Log.SDLOGGER_INFO,
+                      false,
+
+                      true
+                    );
+                    console.log("failed logout");
+
+                  });
+              }
+            }
+          });
+      }
+      session();
+    }
+  }, [nav])
   return showLoading ? <div>Loading...</div> : <>{props.children}</>
 }
 export default connector(AuthInit);
@@ -106,4 +109,9 @@ export default connector(AuthInit);
 function AuthUser(currentUser: any): Promise<boolean> {
   console.log(`AuthUser ${currentUser}`);
   return api.AuthUser(currentUser)
+}
+
+async function getSessionToken(uid: string): Promise<string> {
+  console.log(`UID User ${uid}`);
+  return await getUserSessionToken(uid)
 }
