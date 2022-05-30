@@ -11,13 +11,13 @@ export type Contact = {
   companyID?: string
   lastInteractionAgent?: string
   lastInteractionChannel?: string
-  lastInteractionAt?: Long
+  lastInteractionAt?: Date
   isActive?: boolean
   broadcastFailedCounter?: number
   occupation?: string
-  birthdate?: Long
-  createdAt?: Long
-  updatedAt?: Long
+  birthdate?: Date
+  createdAt?: Date
+  updatedAt?: Date
   maritalStatus?: string
   numberOfChildren?: number
   isBroadcastConsent?: string

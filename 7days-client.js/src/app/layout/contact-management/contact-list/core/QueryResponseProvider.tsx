@@ -32,7 +32,7 @@ const QueryResponseProvider: FC = ({children}) => {
   } = useQuery(
     `${QUERIES.USERS_LIST}-${query}`,
     () => {
-      return getContacts(state.sort , state.order, state.search)
+      return getContacts(state.sort , state.order, state.search, state.action, state.lastId, state.items_per_page )
     },
     {cacheTime: 0, keepPreviousData: true, refetchOnWindowFocus: false}
   )

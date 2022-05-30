@@ -6,7 +6,7 @@ type Props = {
 
 const ContactEmailCell: FC<Props> = ({email}) => (
   // <div className='badge badge-light fw-bolder'>{email}</div>
-  <div className='text-gray-800 mb-1'>{email}</div>
+  <div className='text-gray-650 mb-1'>{email}</div>
 )
 
 export {ContactEmailCell}

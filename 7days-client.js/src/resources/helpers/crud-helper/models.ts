@@ -21,6 +21,11 @@ export type SearchState = {
   search?: string
 }
 
+export type ActionState = {
+  action?: 'next' | 'prev' | 'noAction'
+  lastId?: string 
+}
+
 export type Response<T> = {
   data?: T
   payload?: {
@@ -32,7 +37,7 @@ export type Response<T> = {
   }
 }
 
-export type QueryState = PaginationState & SortState & FilterState & SearchState
+export type QueryState = PaginationState & SortState & FilterState & SearchState & ActionState
 
 export type QueryRequestContextProps = {
   state: QueryState
@@ -42,6 +47,8 @@ export type QueryRequestContextProps = {
 export const initialQueryState: QueryState = {
   page: 1,
   items_per_page: 10,
+  action: "noAction",
+  lastId: "0"
 }
 
 export const initialQueryRequest: QueryRequestContextProps = {
