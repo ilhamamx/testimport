@@ -6,6 +6,8 @@ import {
 } from "../../core/QueryResponseProvider";
 import { useQueryRequest } from "../../core/QueryRequestProvider";
 import { useState } from "react";
+import {fetchCountCustomers } from '../../../../../../db'
+import { count } from "console";
 const ContactsListPagination = () => {
   const DUMMY_pagination = {
     page: 1,
@@ -41,7 +43,17 @@ const ContactsListPagination = () => {
   //const pagination = useQueryResponsePagination()
   const pagination = DUMMY_pagination;
   const isLoading = useQueryResponseLoading();
-  const { updateState } = useQueryRequest();
+  const { state, updateState } = useQueryRequest();
+  const [count, setCount] = useState(0)
+  const [value, setValue ] = useState(10)
+  const [page, setPage] = useState(1)
+  const [totalItems, setTotalItems] = useState(10)
+
+  // useEffect(() => {
+  //   if ( !== updatedQuery) {
+  //     setQuery(updatedQuery)
+  //   }
+  // }, [updatedQuery])
   //console.log("pagination ====>>" + JSON.stringify(pagination));
 
   const updatePage = (page: number | null) => {
@@ -51,72 +63,78 @@ const ContactsListPagination = () => {
 
     updateState({ page, items_per_page:  10, action: 'next', lastId: "1" }); //pagination.items_per_page ||
   };
-  const [value, setValue ] = useState(10)
-  const [page, setPage] = useState(1)
-  const pageItem10 = () => {
-    setValue(10)
-    updateState({ items_per_page:  10})
-  }
 
-  const pageItem50 = () => {
-    setValue(50)
-    updateState({ items_per_page:  50})
-  }
+  fetchCountCustomers().then((customerCount) => {
+    //console.log("COunt  => "+ customerCount); 
+    setCount(customerCount);    
+    
+    return customerCount
+  });
+  
 
-  const pageItem100 = () => {
-    setValue(100)
-    updateState({ items_per_page:  100})
-  }
+  console.log("customer count ======== > "+count);
 
-  const PrevItemPage = () => {
-    updateState({ action:  "prev"})
+  let maxPage = count / state.items_per_page;
+  console.log("max page ==>> " + maxPage);
+  
+  // const setItemPerPage = () => {
+  //   let {name, value} = e.target;
+  //   setValue(value)
+  //   updateState({ items_per_page:  value})
+  // }
+
+  // const onChangeHandler = (change) => {
+  //   setTotalItems = change
+  //   updateState({ items_per_page:  totalItems})
+  // };
+
+  const PrevItemPage = () => {    
     if (page <= 1) {
       return
     }
+
     let pages = page - 1
     setPage(pages)
         
   }
 
   const NextItemPage = () => {
-    updateState({ action:  "next"})
-    let pages = page + 1
-    setPage(pages)
+    if (page >= Math.ceil(maxPage)) {
+    } else {   
+      updateState({ action:  "next"})   
+      let pages = page + 1
+      setPage(pages)
+    }
   }
+
+  const showPage = () => {
+    for (let i = 1; i < Math.ceil(maxPage); i++) {
+      return <li className="page-item"><p className="page-link me-3">{i}</p></li>
+    } 
+  }
+
   return (
     <div className="row">
       <div className="col-sm-12 col-md-5 d-flex align-items-center justify-content-center justify-content-md-start">
-        {/* <div className="dropdown"> */}
-        
-        <div className="dropdown">
-          <button
-            className="btn btn-primary btn-sm dropdown-toggle"
-            type="button"
-            id="dropdownMenuButton1"
-            data-bs-toggle="dropdown"
-            aria-expanded="false"
+        <div
+          v-if="enableItemsPerPageDropdown"
+          className="dataTables_length"
+          id="kt_customers_table_length"
+        >
+          <label
+            ><select
+              name="kt_customers_table_length"
+              className="form-select form-select-sm form-select-solid"
+              value={totalItems}
+              //onChange={handleChange}
+            >
+              <option value="10">10</option>
+              {/* <option value="25">25</option> */}
+              <option value="50">50</option>
+              <option value="100">100</option>
+            </select></label
           >
-            {value}
-          </button>
-          <ul className="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-            <li>
-              <a className="dropdown-item" href="#" onClick={pageItem10}>
-                10
-              </a>
-            </li>
-            <li>
-              <a className="dropdown-item" href="#" onClick={pageItem50}>
-                50
-              </a>
-            </li>
-            <li>
-              <a className="dropdown-item" href="#" onClick={pageItem100}>
-                100
-              </a>
-            </li>
-          </ul>
         </div>
-        {/* </div> */}
       </div>
       <div className="col-sm-12 col-md-7 d-flex align-items-center justify-content-center justify-content-md-end">
         <div id="kt_table_users_paginate">
@@ -141,7 +159,8 @@ const ContactsListPagination = () => {
             ))} */}
 
             <li className="page-item"><a className="page-link me-3" style={{ cursor: "pointer" }} onClick={PrevItemPage}>Previous</a></li>
-            <li className="page-item"><p className="page-link me-3">{page}</p></li>
+            {showPage()}
+            {/* <li className="page-item"><p className="page-link me-3">{page}</p></li> */}
             <li className="page-item"><a className="page-link ms-3" style={{ cursor: "pointer" }} onClick={NextItemPage}>Next</a></li>
           </ul>
         </div>

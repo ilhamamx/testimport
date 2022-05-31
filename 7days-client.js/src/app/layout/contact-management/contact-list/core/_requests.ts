@@ -7,7 +7,7 @@ import {
 import { fetchCustomers, deleteCustomer } from "../../../../../actions";
 //import { Contact } from '../../../../pages/Contact'
 import firebase from "firebase/compat/app";
-import db, { fetchCustomersNext, fetchCustomersPrev , getCustomerCountByCompanyID} from "../../../../../db";
+import db, { fetchCustomersNext, fetchCustomersPrev , getCustomerCountByCompanyID, fetchCountCustomers} from "../../../../../db";
 import { format, compareAsc, compareDesc } from "date-fns";
 
 const API_URL = process.env.REACT_APP_THEME_API_URL;
@@ -49,8 +49,13 @@ const getContacts = (
   }
   console.log("order =====>>" + orderBy);
 
-  console.log("Counter =====>>" + getCustomerCountByCompanyID('cWt6gXnRGTFqL5TbYn6r'));
-
+  // console.log("Counter =====>>" + getCustomerCountByCompanyID('cWt6gXnRGTFqL5TbYn6r'));
+  // const count = fetchCountCustomers().then((customerCount) => {
+  //   console.log("customerCOunt  => "+ customerCount);    
+  //   return customerCount
+  // });
+  
+  // console.log("Counter 2 =====>>" + count);
   if(action === "prev"){
     return fetchCustomersPrev(searchBy, limit).then((customers) => {
       var customersLength = customers.length;
