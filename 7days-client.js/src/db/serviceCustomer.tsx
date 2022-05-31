@@ -1,9 +1,10 @@
 import db from "../db";
 import firebase from "firebase/compat/app";
-
-let lastVisible: firebase.firestore.QueryDocumentSnapshot;
+import { useState} from 'react';
+//let lastVisible: firebase.firestore.QueryDocumentSnapshot;
 let firstVisible: firebase.firestore.QueryDocumentSnapshot;
-
+let lastVisible: firebase.firestore.QueryDocumentSnapshot;
+let field = "firstName";
 export const fetchCustomers = (search: string, limit: number) =>
   db
     .collection("customers")
@@ -51,7 +52,7 @@ export const fetchCustomersNext = (search: string, limit: number) =>
       const checkVisible = snapshot.docs[snapshot.docs.length - 1];
       if (checkVisible  != undefined) {
         lastVisible = snapshot.docs[snapshot.docs.length - 1];
-        firstVisible = snapshot.docs[snapshot.docs.length - 1];
+        firstVisible = snapshot.docs[0];
       }
       return customers;
     });
@@ -65,7 +66,7 @@ export const fetchCustomersPrev = (search: string, limit: number) =>
     .startAt(search)
     .endAt(search + "\uf8ff")
     .endBefore(firstVisible)
-    .limit(limit)
+    .limitToLast(limit)
     .get()
     .then((snapshot) => {
       const customers = snapshot.docs.map((doc) => ({
@@ -75,7 +76,7 @@ export const fetchCustomersPrev = (search: string, limit: number) =>
       const checkVisible = snapshot.docs[snapshot.docs.length - 1];
       if (checkVisible  != undefined) {
         lastVisible = snapshot.docs[snapshot.docs.length - 1];
-        firstVisible = snapshot.docs[snapshot.docs.length - 1];
+        firstVisible = snapshot.docs[0];
       }
       return customers;
     });

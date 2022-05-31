@@ -4,7 +4,7 @@ import {initialQueryState, KTSVG, useDebounce} from '../../../../../../resources
 import {useQueryRequest} from '../../core/QueryRequestProvider'
 
 const ContactsListSearchComponent = () => {
-  const {updateState} = useQueryRequest()
+  const {state,updateState} = useQueryRequest()
   const [searchTerm, setSearchTerm] = useState<string>('')
   // Debounce search term so that it only gives us latest value ...
   // ... if searchTerm has not been updated within last 500ms.
@@ -15,7 +15,7 @@ const ContactsListSearchComponent = () => {
   useEffect(
     () => {
       if (debouncedSearchTerm !== undefined && searchTerm !== undefined) {
-        updateState({search: debouncedSearchTerm, ...initialQueryState})
+        updateState({search: debouncedSearchTerm, items_per_page: state.items_per_page, page: 1, action: "noAction"})
       }
     },
     [debouncedSearchTerm] // Only call effect if debounced search term changes

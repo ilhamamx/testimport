@@ -15,7 +15,7 @@ const ContactCustomHeader: FC<Props> = ({className, title, tableProps}) => {
   const {state, updateState} = useQueryRequest()
 
   const isSelectedForSorting = useMemo(() => {
-    console.log("is selected "+state.sort + " - " + id);
+    // console.log("is selected "+state.sort + " - " + id);
     return state.sort && state.sort === id
   }, [state, id])
   const order: 'asc' | 'desc' | undefined = useMemo(() => state.order, [state])
@@ -29,20 +29,20 @@ const ContactCustomHeader: FC<Props> = ({className, title, tableProps}) => {
     //console.log("Table props :  "+ JSON.stringify(tableProps.data));
     if (!isSelectedForSorting) {
       // enable sort asc
-      updateState({sort: id, order: 'asc', ...initialQueryState})
+      updateState({sort: id, order: 'asc', items_per_page: state.items_per_page, page: 1, action: "noAction"})
       return
     }
 
     if (isSelectedForSorting && order !== undefined) {
       if (order === 'asc') {
         // enable sort desc
-        updateState({sort: id, order: 'desc', ...initialQueryState})
+        updateState({sort: id, order: 'desc', items_per_page: state.items_per_page, page: 1, action: "noAction"})
         //console.log("Table props :  "+ JSON.stringify(tableProps.data));
         return
       }
 
       // disable sort
-      updateState({sort: undefined, order: undefined, ...initialQueryState})
+      updateState({sort: undefined, order: undefined, items_per_page: state.items_per_page, page: 1, action: "noAction"})
     }
   }
 

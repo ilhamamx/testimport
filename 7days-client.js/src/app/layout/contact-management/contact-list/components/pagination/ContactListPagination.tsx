@@ -1,117 +1,58 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
+import { useEffect, useState } from "react";
 import clsx from "clsx";
 import {
   useQueryResponseLoading,
   useQueryResponsePagination,
 } from "../../core/QueryResponseProvider";
 import { useQueryRequest } from "../../core/QueryRequestProvider";
-import { useState } from "react";
-import {fetchCountCustomers } from '../../../../../../db'
+import { fetchCountCustomers } from "../../../../../../db";
 import { count } from "console";
+
 const ContactsListPagination = () => {
-  const DUMMY_pagination = {
-    page: 1,
-    first_page_url: "/?page=1",
-    from: 1,
-    last_page: 3,
-    links: [
-      {
-        url: null,
-        label: "&laquo; Previous",
-        active: false,
-        page: null,
-      },
-      {
-        url: "/?page=1",
-        label: "1",
-        active: true,
-        page: 1,
-      },
-      {
-        url: "/?page=2",
-        label: "Next &raquo;",
-        active: false,
-        page: 2,
-      },
-    ],
-    next_page_url: "/?page=2",
-    items_per_page: "10",
-    prev_page_url: null,
-    to: 10,
-    total: 21,
-  };
-  //const pagination = useQueryResponsePagination()
-  const pagination = DUMMY_pagination;
   const isLoading = useQueryResponseLoading();
   const { state, updateState } = useQueryRequest();
-  const [count, setCount] = useState(0)
-  const [value, setValue ] = useState(10)
-  const [page, setPage] = useState(1)
-  const [totalItems, setTotalItems] = useState(10)
+  const [count, setCount] = useState(0);
+  const [value, setValue] = useState(10);
+  const [page, setPage] = useState(1);
+  const [totalItems, setTotalItems] = useState(10);
+  // const [maxPage, setMaxPage] = useState(10)
 
-  // useEffect(() => {
-  //   if ( !== updatedQuery) {
-  //     setQuery(updatedQuery)
-  //   }
-  // }, [updatedQuery])
-  //console.log("pagination ====>>" + JSON.stringify(pagination));
+  useEffect(() => {
+    setPage(1);
+    updateState({ items_per_page: totalItems, action: "noAction", page: 1 });
+  }, [totalItems]);
 
-  const updatePage = (page: number | null) => {
-    if (!page || isLoading || pagination.page === page) {
-      return <p>this is pagination</p>;
-    }
-
-    updateState({ page, items_per_page:  10, action: 'next', lastId: "1" }); //pagination.items_per_page ||
-  };
+  useEffect(() => {
+    setPage(1);
+  }, [state.sort, state.search]);
 
   fetchCountCustomers().then((customerCount) => {
-    //console.log("COunt  => "+ customerCount); 
-    setCount(customerCount);    
-    
-    return customerCount
+    setCount(customerCount);
+    return customerCount;
   });
-  
 
-  console.log("customer count ======== > "+count);
-
-  let maxPage = count / state.items_per_page;
+  let maxPage = Math.ceil(count / state.items_per_page);
   console.log("max page ==>> " + maxPage);
-  
-  // const setItemPerPage = () => {
-  //   let {name, value} = e.target;
-  //   setValue(value)
-  //   updateState({ items_per_page:  value})
-  // }
 
-  // const onChangeHandler = (change) => {
-  //   setTotalItems = change
-  //   updateState({ items_per_page:  totalItems})
-  // };
-
-  const PrevItemPage = () => {    
+  const PrevItemPage = () => {
     if (page <= 1) {
-      return
+      return;
     }
-
-    let pages = page - 1
-    setPage(pages)
-        
-  }
+    let pages = page - 1;
+    setPage(pages);
+    updateState({ action: "prev", page: page, items_per_page: totalItems });
+  };
 
   const NextItemPage = () => {
-    if (page >= Math.ceil(maxPage)) {
-    } else {   
-      updateState({ action:  "next"})   
-      let pages = page + 1
-      setPage(pages)
+    if (page >= maxPage) {
+      return;
+    } else {
+      let pages = page + 1;
+      setPage(pages);
+      updateState({ action: "next", page: page, items_per_page: totalItems });
     }
-  }
-
-  const showPage = () => {
-    for (let i = 1; i < Math.ceil(maxPage); i++) {
-      return <li className="page-item"><p className="page-link me-3">{i}</p></li>
-    } 
-  }
+  };
 
   return (
     <div className="row">
@@ -121,19 +62,25 @@ const ContactsListPagination = () => {
           className="dataTables_length"
           id="kt_customers_table_length"
         >
-          <label
-            ><select
+          <label>
+            <select
               name="kt_customers_table_length"
               className="form-select form-select-sm form-select-solid"
-              value={totalItems}
-              //onChange={handleChange}
+              // value={totalItems}
+              defaultValue={10}
+              onChange={(e) => {
+                const selectedValue = e.target.value;
+                setTotalItems(parseInt(selectedValue));
+              }}
             >
-              <option value="10">10</option>
-              {/* <option value="25">25</option> */}
-              <option value="50">50</option>
-              <option value="100">100</option>
-            </select></label
-          >
+              <option value={3}>3</option>
+              <option value={5}>5</option>
+              <option value={10}>10</option>
+              <option value={30}>30</option>
+              <option value={50}>50</option>
+              <option value={100}>100</option>
+            </select>
+          </label>
         </div>
       </div>
       <div className="col-sm-12 col-md-7 d-flex align-items-center justify-content-center justify-content-md-end">
@@ -158,10 +105,60 @@ const ContactsListPagination = () => {
               </li>
             ))} */}
 
-            <li className="page-item"><a className="page-link me-3" style={{ cursor: "pointer" }} onClick={PrevItemPage}>Previous</a></li>
-            {showPage()}
+            {page <= 1 ? (
+              <li className="page-item disabled">
+                <a className="page-link " style={{ cursor: "pointer" }}>
+                  « Previous
+                </a>
+              </li>
+            ) : (
+              <li className="page-item ">
+                <a
+                  className="page-link "
+                  style={{ cursor: "pointer" }}
+                  onClick={PrevItemPage}
+                >
+                  « Previous
+                </a>
+              </li>
+            )}
+
+            {[...Array(Math.ceil(maxPage))].map((e, i) => {
+              if (i + 1 == page) {
+                return (
+                  <li key={i + 1} className="page-item active">
+                    <p className="page-link me-3" key={i + 1}>
+                      {i + 1}
+                    </p>
+                  </li>
+                );
+              }
+              return (
+                <li key={i + 1} className="page-item">
+                  <p className="page-link me-3 " key={i + 1}>
+                    {i + 1}
+                  </p>
+                </li>
+              );
+            })}
             {/* <li className="page-item"><p className="page-link me-3">{page}</p></li> */}
-            <li className="page-item"><a className="page-link ms-3" style={{ cursor: "pointer" }} onClick={NextItemPage}>Next</a></li>
+            {page === Math.ceil(maxPage) ? (
+              <li className="page-item disabled">
+                <a className="page-link " style={{ cursor: "pointer" }}>
+                  Next »
+                </a>
+              </li>
+            ) : (
+              <li className="page-item ">
+                <a
+                  className="page-link "
+                  style={{ cursor: "pointer" }}
+                  onClick={NextItemPage}
+                >
+                  Next »
+                </a>
+              </li>
+            )}
           </ul>
         </div>
       </div>
