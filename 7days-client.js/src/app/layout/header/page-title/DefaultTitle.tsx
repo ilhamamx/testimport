@@ -58,7 +58,7 @@ const DefaultTitle: FC = () => {
                   )}
                 </li>
               ))}
-              <li className='breadcrumb-item text-dark'>{pageTitle}</li>
+              <li className='breadcrumb-item text-light'>{pageTitle}</li>
             </ul>
           </>
         )}

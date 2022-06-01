@@ -129,7 +129,7 @@ const MasterLayout = () => {
       <div className="container page d-flex flex-column flex-column-fluid">
         <div className="page d-flex flex-row flex-column-fluid">
           <div
-            className="wrapper d-flex flex-column flex-row-fluid"
+            className="d-flex flex-column flex-row-fluid"
             id="kt_wrapper"
           >
             <nav className="navbar navbar-expand-lg navbar-light">
@@ -186,7 +186,7 @@ const MasterLayout = () => {
             </nav>
             <div
               id="kt_content"
-              className="content d-flex flex-column flex-column-fluid"
+              className="content d-flex flex-column flex-column-fluid pt-0"
             >
               <div className="post d-flex flex-column-fluid" id="kt_post">
                 {/* <p>Ini content</p> */}

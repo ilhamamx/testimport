@@ -19,7 +19,7 @@ const ContactsList = () => {
   )
 }
 
-const UsersListWrapper = () => (
+const ContactsListWrapper = () => (
   <QueryRequestProvider>
     <QueryResponseProvider>
       <ListViewProvider>
@@ -29,4 +29,4 @@ const UsersListWrapper = () => (
   </QueryRequestProvider>
 )
 
-export {UsersListWrapper}
+export {ContactsListWrapper}

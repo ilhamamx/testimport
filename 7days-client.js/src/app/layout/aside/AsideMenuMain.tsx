@@ -26,7 +26,7 @@ export function AsideMenuMain() {
         id='AM_HC'
       />
       <AsideMenuItem
-        to='/contact/users'
+        to='/contact/list'
         icon='/media/icons/duotune/communication/com005.svg'
         title={t("SideBar.MenuItem.Contacts")}
         fontIcon='bi-layers'

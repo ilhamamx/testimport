@@ -1,14 +1,15 @@
 import {Route, Routes, Outlet, Navigate} from 'react-router-dom'
 import {PageLink, PageTitle} from '../../layout/core/PageData'
-import {UsersListWrapper} from './contact-list/ContactsList'
+import {ContactsListWrapper} from './contact-list/ContactsList'
 
 const usersBreadcrumbs: Array<PageLink> = [
   {
-    title: 'Contact List',
-    path: '/contact/users',
+    title: 'Contacts',
+    path: '/contact/list',
     isSeparator: false,
     isActive: false,
-  },
+  }
+  ,
   {
     title: '',
     path: '',
@@ -17,24 +18,24 @@ const usersBreadcrumbs: Array<PageLink> = [
   },
 ]
 //
-const UsersPage = () => {
+const ContacsListPage = () => {
   return (
     <Routes>
       <Route element={<Outlet />}>
         <Route
-          path='users'
+          path='list'
           element={
             <>
               
               <PageTitle breadcrumbs={usersBreadcrumbs}>Contact list</PageTitle>
-              <UsersListWrapper />
+              <ContactsListWrapper />
             </>
           }
         />
       </Route>
-      <Route index element={<Navigate to='/contact/users' />} />
+      <Route index element={<Navigate to='/contact/list' />} />
     </Routes>
   )
 }
 
-export default UsersPage
+export default ContacsListPage
