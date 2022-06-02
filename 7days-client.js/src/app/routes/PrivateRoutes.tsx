@@ -10,7 +10,6 @@ import { HandledCustomer } from "../pages/HandledCustomer";
 import { ContactDetail } from "../pages/ContactDetail";
 
 
-
 const PrivateRoutes = () => {
   return (
     <Routes>
