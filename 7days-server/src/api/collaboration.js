@@ -7,16 +7,15 @@ const getCollaborationByCustomerAndCompany = async (customerRef, companyRef) => 
   if (!customerRef || !companyRef)
     return null;
 
-  return await db.collection('collaboration')
-    .where('company', '==', companyRef.toString())
-    .where('customer', '==', customerRef.toString())
+  return await db.collection('collaborations')
+    .where('company', '==',  companyRef)
+    .where('customer', '==', customerRef)
     .get()
     .then(snaps => {
       console.log('snaps', snaps.docs)
       return snaps.docs.map(snap => 
         ({...snap.data(), id: snap.id}) 
       )
-
     })
     .catch(error => {
       //TODO
