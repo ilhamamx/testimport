@@ -59,30 +59,24 @@ const ContactsListPagination = () => {
   //   updateState({ items_per_page:  totalItems})
   // };
 
-  const PrevItemPage = () => {    
+  const PrevItemPage = () => {
     if (page <= 1) {
-      return
+      return;
     }
-
-    let pages = page - 1
-    setPage(pages)
-        
-  }
+    let pages = page - 1;
+    setPage(pages);
+    updateState({ action: "prev", page: page, items_per_page: totalItems });
+  };
 
   const NextItemPage = () => {
-    if (page >= Math.ceil(maxPage)) {
-    } else {   
-      updateState({ action:  "next"})   
-      let pages = page + 1
-      setPage(pages)
+    if (page >= maxPage) {
+      return;
+    } else {
+      let pages = page + 1;
+      setPage(pages);
+      updateState({ action: "next", page: page, items_per_page: totalItems });
     }
-  }
-
-  const showPage = () => {
-    for (let i = 1; i < Math.ceil(maxPage); i++) {
-      return <li className="page-item"><p className="page-link me-3">{i}</p></li>
-    } 
-  }
+  };
 
   return (
     <div className="row">
