@@ -1,6 +1,6 @@
 import db from "../db";
 import firebase from "firebase/compat/app";
-import { useState} from 'react';
+import { useState } from "react";
 //let lastVisible: firebase.firestore.QueryDocumentSnapshot;
 let firstVisible: firebase.firestore.QueryDocumentSnapshot;
 let lastVisible: firebase.firestore.QueryDocumentSnapshot;
@@ -24,7 +24,7 @@ export const fetchCustomers = (search: string, limit: number) =>
         data: doc.data(),
       }));
       const checkVisible = snapshot.docs[snapshot.docs.length - 1];
-      if (checkVisible  != undefined) {
+      if (checkVisible != undefined) {
         lastVisible = snapshot.docs[snapshot.docs.length - 1];
       }
       return customers;
@@ -50,7 +50,7 @@ export const fetchCustomersNext = (search: string, limit: number) =>
         data: doc.data(),
       }));
       const checkVisible = snapshot.docs[snapshot.docs.length - 1];
-      if (checkVisible  != undefined) {
+      if (checkVisible != undefined) {
         lastVisible = snapshot.docs[snapshot.docs.length - 1];
         firstVisible = snapshot.docs[0];
       }
@@ -74,9 +74,20 @@ export const fetchCustomersPrev = (search: string, limit: number) =>
         data: doc.data(),
       }));
       const checkVisible = snapshot.docs[snapshot.docs.length - 1];
-      if (checkVisible  != undefined) {
+      if (checkVisible != undefined) {
         lastVisible = snapshot.docs[snapshot.docs.length - 1];
         firstVisible = snapshot.docs[0];
       }
       return customers;
     });
+
+export const getCustomerByID = (id: string) =>
+  db
+    .collection("customers")
+    .doc(id)
+    .get()
+    .then( (snapshot) => ({ id: snapshot.id, ...snapshot.data() }))
+    .catch(err => {
+      console.log('Error getting documents (getCustomerByID)', err);
+    });
+  

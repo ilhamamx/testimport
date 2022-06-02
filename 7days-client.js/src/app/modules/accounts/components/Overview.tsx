@@ -1,6 +1,7 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
-import React from 'react'
+import React, { FC } from 'react'
 import {Link} from 'react-router-dom'
+import { getCustomerByID } from '../../../../db'
 import {KTSVG} from '../../../../resources/helpers'
 import {
   ChartsWidget1,
@@ -8,8 +9,21 @@ import {
   ListsWidget5,
   TablesWidget5,
 } from '../../../../resources/partials/widgets'
+import { Contact } from '../../../layout/contact-management/contact-list/core/_models'
 
-export function Overview() {
+export const Overview  = ( {customerID} : {customerID: string}) => {
+
+  // const customer: Contact = getCustomerByID(id).then((doc) => {
+  //  customer = doc;
+  // });
+  let customer;
+  getCustomerByID(customerID).then((doc) => {
+    console.log("get customer by id "+JSON.stringify(doc))
+    customer = doc as Contact
+    console.log("Test : "+JSON.stringify(customer))
+    // return doc;
+  });
+
   return (
     <>
       <div className='card mb-5 mb-xl-10' id='kt_profile_details_view'>
@@ -18,29 +32,86 @@ export function Overview() {
             <h3 className='fw-bolder m-0'>Profile Details</h3>
           </div>
 
-          <Link to='/crafted/account/settings' className='btn btn-primary align-self-center'>
-            Edit Profile
+          <Link to='#' className='btn btn-primary align-self-center'>
+            Edit Profil
           </Link>
         </div>
 
         <div className='card-body p-9'>
-          <div className='row mb-7'>
-            <label className='col-lg-4 fw-bold text-muted'>Full Name</label>
+          <div className='row align-items-start'>
+            <label className='col-sm text-muted'>First Name</label>
+            <div className='col-sm'>
+              <span className='fs-6 text-dark'>Max</span>
+            </div>
 
-            <div className='col-lg-8'>
-              <span className='fw-bolder fs-6 text-dark'>Max Smith</span>
+            <label className='col-sm text-muted'>Last Name</label>
+            <div className='col-sm'>
+              <span className='fs-6 text-dark'>Smith</span>
+            </div>
+
+            <label className='col-sm text-muted'>Gender</label>
+            <div className='col-sm'>
+              <span className='fs-6 text-dark'>Male</span>
+            </div>
+            
+          </div>
+
+          <div className='row align-items-start'>
+            <label className='col-sm text-muted'>Birthdate</label>
+            <div className='col-sm fv-row'>
+              <span className='fw-bold fs-6'>May, 29 1999</span>
+            </div>
+
+            <label className='col-sm text-muted'>Marietal Status</label>
+            <div className='col-sm fv-row'>
+              <span className='fw-bold fs-6'>Single</span>
+            </div>
+
+            <label className='col-sm text-muted'></label>
+            <div className='col-sm fv-row'>
+              <span className='fw-bold fs-6'> </span>
             </div>
           </div>
 
-          <div className='row mb-7'>
-            <label className='col-lg-4 fw-bold text-muted'>Company</label>
+          <div className='card-title m-0'>
+            <h4 className='fw-bolder m-0'>Address</h4>
+            
+          </div>
+          <div className='row align-items-start'>
+            <label className='col-sm text-muted'>City</label>
+            <div className='col-sm fv-row'>
+              <span className='fw-bold fs-6'>Surabaya</span>
+            </div>
 
-            <div className='col-lg-8 fv-row'>
-              <span className='fw-bold fs-6'>Keenthemes</span>
+            <label className='col-sm text-muted'>Zip Code</label>
+            <div className='col-sm fv-row'>
+              <span className='fw-bold fs-6'>60236</span>
+            </div>
+
+            <label className='col-sm text-muted'></label>
+            <div className='col-sm fv-row'>
+              <span className='fw-bold fs-6'> </span>
             </div>
           </div>
 
-          <div className='row mb-7'>
+          <div className='row align-items-start'>
+            <label className='col-sm text-muted'>Country</label>
+            <div className='col-sm fv-row'>
+              <span className='fw-bold fs-6'>Indonesia</span>
+            </div>
+
+            <label className='col-sm text-muted'></label>
+            <div className='col-sm fv-row'>
+              <span className='fw-bold fs-6'> </span>
+            </div>
+
+            <label className='col-sm text-muted'></label>
+            <div className='col-sm fv-row'>
+              <span className='fw-bold fs-6'> </span>
+            </div>
+          </div>
+
+          {/* <div className='row mb-7'>
             <label className='col-lg-4 fw-bold text-muted'>
               Contact Phone
               <i
@@ -96,7 +167,7 @@ export function Overview() {
             <div className='col-lg-8'>
               <span className='fw-bold fs-6'>Yes</span>
             </div>
-          </div>
+          </div> */}
 
           {/* <div className='notice d-flex bg-light-warning rounded border-warning border border-dashed p-6'>
             <KTSVG

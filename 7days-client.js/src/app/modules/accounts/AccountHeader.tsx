@@ -76,7 +76,7 @@ const AccountHeader: React.FC = () => {
                 </div>
               </div>
 
-              <div className='d-flex my-4'>
+              {/* <div className='d-flex my-4'>
                 <a href='#' className='btn btn-sm btn-light me-2' id='kt_user_follow_button'>
                   <KTSVG
                     path='/media/icons/duotune/arrows/arr012.svg'
@@ -108,7 +108,7 @@ const AccountHeader: React.FC = () => {
                   </button>
                   <Dropdown1 />
                 </div>
-              </div>
+              </div> */}
             </div>
 
             <div className='d-flex flex-wrap flex-stack'>
@@ -123,7 +123,7 @@ const AccountHeader: React.FC = () => {
                       <div className='fs-2 fw-bolder'>4500$</div>
                     </div>
 
-                    <div className='fw-bold fs-6 text-gray-400'>Earnings</div>
+                    <div className='fw-bold fs-6 text-gray-400'>Purchase Monthly</div>
                   </div>
 
                   <div className='border border-gray-300 border-dashed rounded min-w-125px py-3 px-4 me-6 mb-3'>
@@ -135,10 +135,10 @@ const AccountHeader: React.FC = () => {
                       <div className='fs-2 fw-bolder'>75</div>
                     </div>
 
-                    <div className='fw-bold fs-6 text-gray-400'>Projects</div>
+                    <div className='fw-bold fs-6 text-gray-400'>Products Monthly</div>
                   </div>
 
-                  <div className='border border-gray-300 border-dashed rounded min-w-125px py-3 px-4 me-6 mb-3'>
+                  {/* <div className='border border-gray-300 border-dashed rounded min-w-125px py-3 px-4 me-6 mb-3'>
                     <div className='d-flex align-items-center'>
                       <KTSVG
                         path='/media/icons/duotune/arrows/arr066.svg'
@@ -148,7 +148,7 @@ const AccountHeader: React.FC = () => {
                     </div>
 
                     <div className='fw-bold fs-6 text-gray-400'>Success Rate</div>
-                  </div>
+                  </div> */}
                 </div>
               </div>
 
@@ -175,9 +175,9 @@ const AccountHeader: React.FC = () => {
               <Link
                 className={
                   `nav-link text-active-primary me-6 ` +
-                  (location.pathname === '/crafted/account/overview' && 'active')
+                  (location.pathname === '/contact/contact-detail/overview/*' && 'active')
                 }
-                to='/crafted/account/overview'
+                to='/contact/contact-detail/overview/*'
               >
                 Overview
               </Link>
@@ -186,9 +186,9 @@ const AccountHeader: React.FC = () => {
               <Link
                 className={
                   `nav-link text-active-primary me-6 ` +
-                  (location.pathname === '/crafted/account/settings' && 'active')
+                  (location.pathname === '/contact/contact-detail/settings' && 'active')
                 }
-                to='/crafted/account/settings'
+                to='/contact/contact-detail/settings'
               >
                 Settings
               </Link>
