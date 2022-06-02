@@ -95,7 +95,7 @@ const ContactsListPagination = () => {
                   previous: link.label === "&laquo; Previous",
                   next: link.label === "Next &raquo;",
                 })}
-              >{console.log("this is page =>>>"+pagination.links)}
+              >
                 <a
                   className="page-link"
                   onClick={() => updatePage(link.page)}
