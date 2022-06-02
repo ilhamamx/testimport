@@ -1,10 +1,10 @@
 import {useQuery} from 'react-query'
-import {UserEditModalForm} from './UserEditModalForm'
+import {ContactEditModalForm} from './UserEditModalForm'
 import {isNotEmpty, QUERIES} from '../../../../../resources/helpers'
 import {useListView} from '../core/ListViewProvider'
-import {getUserById} from '../core/_requests'
+import {getContactById} from '../core/_requests'
 
-const UserEditModalFormWrapper = () => {
+const ContactEditModalFormWrapper = () => {
   const {itemIdForUpdate, setItemIdForUpdate} = useListView()
   const enabledQuery: boolean = isNotEmpty(itemIdForUpdate)
   const {
@@ -14,7 +14,7 @@ const UserEditModalFormWrapper = () => {
   } = useQuery(
     `${QUERIES.USERS_LIST}-user-${itemIdForUpdate}`,
     () => {
-      return getUserById(itemIdForUpdate)
+      return getContactById(itemIdForUpdate)
     },
     {
       cacheTime: 0,
@@ -27,14 +27,14 @@ const UserEditModalFormWrapper = () => {
   )
 
   if (!itemIdForUpdate) {
-    return <UserEditModalForm isUserLoading={isLoading} user={{id: undefined}} />
+    return <ContactEditModalForm isUserLoading={isLoading} contact={{id: undefined}} />
   }
 
   if (!isLoading && !error && user) {
-    return <UserEditModalForm isUserLoading={isLoading} user={user} />
+    return <ContactEditModalForm isUserLoading={isLoading} contact={user} />
   }
 
   return null
 }
 
-export {UserEditModalFormWrapper}
+export {ContactEditModalFormWrapper}

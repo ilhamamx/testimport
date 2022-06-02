@@ -4,7 +4,7 @@ import { CustomHeaderColumn } from '../table/columns/CustomHeaderColumn'
 import { CustomRow } from '../table/columns/CustomRow'
 import { useQueryResponseData, useQueryResponseLoading } from '../core/QueryResponseProvider'
 import { usersColumns } from './columns/_columns'
-import { User } from '../core/_models'
+import { Contact } from '../core/_models'
 import { UsersListLoading } from '../components/loading/UsersListLoading'
 import { UsersListPagination } from '../components/pagination/UsersListPagination'
 import { KTCardBody } from '../../../../../resources/helpers'
@@ -20,21 +20,21 @@ const UsersTable = () => {
     data,
   })
 
-  const testFetch = () => {
-    console.log("API  URL : " + process.env.REACT_APP_THEME_API_URL)
-    console.log("test fetch");
-    // let user1 : Array ; 
-    // fetchCustomers().then(customers => { 
-    //   user1 =  JSON.stringify(customers)
-    //   console.log("fetch user id :"+ user1);
-    //   user1.map()
-    //  })
+  // const testFetch = () => {
+  //   console.log("API  URL : " + process.env.REACT_APP_THEME_API_URL)
+  //   console.log("test fetch");
+  //   let user1 : string ; 
+  //   fetchCustomers().then(customers => { 
+  //     user1 =  JSON.stringify(customers)
+  //     console.log("fetch user id :"+ user1);
+  //     //user1.map()
+  //    })
      
     
     
-  };
+  // };
 
-  testFetch();
+  // testFetch();
   return (
     <KTCardBody className='py-4'>
       <div className='table-responsive'>
@@ -45,14 +45,14 @@ const UsersTable = () => {
         >
           <thead>
             <tr className='text-start text-muted fw-bolder fs-7 text-uppercase gs-0'>
-              {headers.map((column: ColumnInstance<User>) => (
+              {headers.map((column: ColumnInstance<Contact>) => (
                 <CustomHeaderColumn key={column.id} column={column} />
               ))}
             </tr>
           </thead>
           <tbody className='text-gray-600 fw-bold' {...getTableBodyProps()}>
             {rows.length > 0 ? (
-              rows.map((row: Row<User>, i) => {
+              rows.map((row: Row<Contact>, i) => {
                 prepareRow(row)
                 return <CustomRow row={row} key={`row-${i}-${row.id}`} />
               })

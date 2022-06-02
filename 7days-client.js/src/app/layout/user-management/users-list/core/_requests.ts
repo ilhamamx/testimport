@@ -1,45 +1,55 @@
 import axios, {AxiosResponse} from 'axios'
 import {ID, Response} from '../../../../../resources/helpers'
-import {User, UsersQueryResponse} from './_models'
+import {Contact, ContactsQueryResponse} from './_models'
+import { fetchCustomers } from '../../../../../actions'
 
 const API_URL = process.env.REACT_APP_THEME_API_URL
 const USER_URL = `${API_URL}/user`
 const GET_USERS_URL = `https://preview.keenthemes.com/theme-api/api/users/query` //`${API_URL}/users/query`
 
-const getUsers = (query: string): Promise<UsersQueryResponse> => {
-  return axios
-    .get(`${GET_USERS_URL}?${query}`)
-    .then((d: AxiosResponse<UsersQueryResponse>) => d.data)
+//
+
+const getContacts = (query: string): Promise<ContactsQueryResponse>  => {
+  let contactQueryResponse: ContactsQueryResponse;
+  return fetchCustomers().then(customers => {
+  
+    //TODO response from firebase
+    return contactQueryResponse;
+  })
+  // console.log("query : " + query)
+  // return axios
+  //   .get(`${GET_USERS_URL}?${query}`)
+  //   .then((d: AxiosResponse<ContactsQueryResponse>) => d.data)
 }
 
-const getUserById = (id: ID): Promise<User | undefined> => {
+const getContactById = (id: ID): Promise<Contact | undefined> => {
   return axios
     .get(`${USER_URL}/${id}`)
-    .then((response: AxiosResponse<Response<User>>) => response.data)
-    .then((response: Response<User>) => response.data)
+    .then((response: AxiosResponse<Response<Contact>>) => response.data)
+    .then((response: Response<Contact>) => response.data)
 }
 
-const createUser = (user: User): Promise<User | undefined> => {
+const createContact = (contact: Contact): Promise<Contact | undefined> => {
   return axios
-    .put(USER_URL, user)
-    .then((response: AxiosResponse<Response<User>>) => response.data)
-    .then((response: Response<User>) => response.data)
+    .put(USER_URL, contact)
+    .then((response: AxiosResponse<Response<Contact>>) => response.data)
+    .then((response: Response<Contact>) => response.data)
 }
 
-const updateUser = (user: User): Promise<User | undefined> => {
+const updateContact = (contact: Contact): Promise<Contact | undefined> => {
   return axios
-    .post(`${USER_URL}/${user.id}`, user)
-    .then((response: AxiosResponse<Response<User>>) => response.data)
-    .then((response: Response<User>) => response.data)
+    .post(`${USER_URL}/${contact.id}`, contact)
+    .then((response: AxiosResponse<Response<Contact>>) => response.data)
+    .then((response: Response<Contact>) => response.data)
 }
 
-const deleteUser = (userId: ID): Promise<void> => {
-  return axios.delete(`${USER_URL}/${userId}`).then(() => {})
+const deleteContact = (contactId: ID): Promise<void> => {
+  return axios.delete(`${USER_URL}/${contactId}`).then(() => {})
 }
 
-const deleteSelectedUsers = (userIds: Array<ID>): Promise<void> => {
-  const requests = userIds.map((id) => axios.delete(`${USER_URL}/${id}`))
+const deleteSelectedContacts = (contactIds: Array<ID>): Promise<void> => {
+  const requests = contactIds.map((id) => axios.delete(`${USER_URL}/${id}`))
   return axios.all(requests).then(() => {})
 }
 
-export {getUsers, deleteUser, deleteSelectedUsers, getUserById, createUser, updateUser}
+export {getContacts, deleteContact, deleteSelectedContacts, getContactById, createContact, updateContact}

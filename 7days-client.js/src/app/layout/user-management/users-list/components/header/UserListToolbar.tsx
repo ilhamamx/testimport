@@ -1,8 +1,8 @@
 import {KTSVG} from '../../../../../../resources/helpers/components/KTSVG'
 import {useListView} from '../../core/ListViewProvider'
-import {UsersListFilter} from './UsersListFilter'
+import {ContactsListFilter} from './UsersListFilter'
 
-const UsersListToolbar = () => {
+const ContactsListToolbar = () => {
   const {setItemIdForUpdate} = useListView()
   const openAddUserModal = () => {
     setItemIdForUpdate(null)
@@ -10,7 +10,7 @@ const UsersListToolbar = () => {
 
   return (
     <div className='d-flex justify-content-end' data-kt-user-table-toolbar='base'>
-      <UsersListFilter />
+      <ContactsListFilter />
 
       {/* begin::Export */}
       <button type='button' className='btn btn-light-primary me-3'>
@@ -29,4 +29,4 @@ const UsersListToolbar = () => {
   )
 }
 
-export {UsersListToolbar}
+export {ContactsListToolbar}

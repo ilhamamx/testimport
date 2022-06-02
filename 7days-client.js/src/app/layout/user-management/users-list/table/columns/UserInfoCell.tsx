@@ -2,39 +2,39 @@
 import clsx from 'clsx'
 import {FC} from 'react'
 import {toAbsoluteUrl} from '../../../../../../resources/helpers'
-import {User} from '../../core/_models'
+import {Contact} from '../../core/_models'
 
 type Props = {
-  user: User
+  contact: Contact
 }
 
-const UserInfoCell: FC<Props> = ({user}) => (
+const UserInfoCell: FC<Props> = ({contact}) => (
   <div className='d-flex align-items-center'>
     {/* begin:: Avatar */}
     <div className='symbol symbol-circle symbol-50px overflow-hidden me-3'>
       <a href='#'>
-        {user.avatar ? (
+        {contact.avatar ? (
           <div className='symbol-label'>
-            <img src={toAbsoluteUrl(`/media/${user.avatar}`)} alt={user.name} className='w-100' />
+            <img src={toAbsoluteUrl(`/media/${contact.avatar}`)} alt={contact.firstName} className='w-100' />
           </div>
         ) : (
           <div
             className={clsx(
               'symbol-label fs-3',
-              `bg-light-${user.initials?.state}`,
-              `text-${user.initials?.state}`
+              `bg-light-${contact.initials?.state}`,
+              `text-${contact.initials?.state}`
             )}
           >
-            {user.initials?.label}
+            {contact.initials?.label}
           </div>
         )}
       </a>
     </div>
     <div className='d-flex flex-column'>
       <a href='#' className='text-gray-800 text-hover-primary mb-1'>
-        {user.name}
+        {contact.firstName}
       </a>
-      <span>{user.email}</span>
+      <span>{contact.email}</span>
     </div>
   </div>
 )

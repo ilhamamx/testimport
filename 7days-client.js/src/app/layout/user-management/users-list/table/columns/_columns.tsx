@@ -6,9 +6,9 @@ import {UserActionsCell} from './UserActionsCell'
 import {UserSelectionCell} from './UserSelectionCell'
 import {UserCustomHeader} from './UserCustomHeader'
 import {UserSelectionHeader} from './UserSelectionHeader'
-import {User} from '../../core/_models'
+import {Contact} from '../../core/_models'
 
-const usersColumns: ReadonlyArray<Column<User>> = [
+const usersColumns: ReadonlyArray<Column<Contact>> = [
   {
     Header: (props) => <UserSelectionHeader tableProps={props} />,
     id: 'selection',
@@ -17,7 +17,7 @@ const usersColumns: ReadonlyArray<Column<User>> = [
   {
     Header: (props) => <UserCustomHeader tableProps={props} title='Name' className='min-w-125px' />,
     id: 'name',
-    Cell: ({...props}) => <UserInfoCell user={props.data[props.row.index]} />,
+    Cell: ({...props}) => <UserInfoCell contact={props.data[props.row.index]} />,
   },
   {
     Header: (props) => <UserCustomHeader tableProps={props} title='Phone Number' className='min-w-125px' />,
@@ -27,14 +27,14 @@ const usersColumns: ReadonlyArray<Column<User>> = [
     Header: (props) => (
       <UserCustomHeader tableProps={props} title='Email' className='min-w-125px' />
     ),
-    id: 'last_login',
+    id: 'email',
     Cell: ({...props}) => <UserLastLoginCell last_login={props.data[props.row.index].last_login} />,
   },
   {
     Header: (props) => (
       <UserCustomHeader tableProps={props} title='Last Interactions' className='min-w-125px' />
     ),
-    id: 'two_steps',
+    id: 'lastInteractionAt',
     Cell: ({...props}) => <UserTwoStepsCell two_steps={props.data[props.row.index].two_steps} />,
   },
   // {
