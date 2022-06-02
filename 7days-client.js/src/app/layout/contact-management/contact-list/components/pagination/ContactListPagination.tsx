@@ -56,11 +56,18 @@ const ContactsListPagination = () => {
 
   const PrevItemPage = () => {
     updateState({ action:  "prev"})
-
+    if (page <= 1) {
+      return
+    }
+    let pages = page - 1
+    setPage(pages)
+        
   }
 
   const NextItemPage = () => {
     updateState({ action:  "next"})
+    let pages = page + 1
+    setPage(pages)
   }
   return (
     <div className="row">

@@ -49,6 +49,8 @@ const getContacts = (
   }
   console.log("order =====>>" + orderBy);
 
+  console.log("Counter =====>>" + getCustomerCountByCompanyID('cWt6gXnRGTFqL5TbYn6r'));
+
   if(action === "prev"){
     return fetchCustomersPrev(searchBy, limit).then((customers) => {
       var customersLength = customers.length;
