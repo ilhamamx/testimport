@@ -36,6 +36,10 @@ const MasterLayout = () => {
   const isDesktopOrLaptop = useMediaQuery({
     query: "(min-width: 900px)",
   });
+<<<<<<< HEAD
+=======
+
+>>>>>>> 15b1766 (layout)
   const dispatch = useDispatch();
   const nav = useNavigate();
 
