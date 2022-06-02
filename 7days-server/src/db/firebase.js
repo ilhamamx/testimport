@@ -24,9 +24,12 @@ const vari = "string vari"
 //export {vari}
 //
 
+const createRef = (collection, docId) => db.doc(`${collection}/` + docId)
+
 
 module.exports = {
   db,
   vari,
-  Timestamp
+  Timestamp,
+  createRef
 }

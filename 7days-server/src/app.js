@@ -1,5 +1,6 @@
 const express = require('express');
 const router = require('./routers/auth/user');
+const wa_router = require('./routers/whatsapp/messages/receive')
 const { loginSuperUser } = require('./api/auth');
 const cors = require('cors')
 
@@ -17,6 +18,7 @@ var allowCrossDomain = function(req, res, next) {
 app.use(allowCrossDomain);
 app.use(cors())
 app.use(router);
+app.use(wa_router);
 loginSuperUser(email, password);
 
 
