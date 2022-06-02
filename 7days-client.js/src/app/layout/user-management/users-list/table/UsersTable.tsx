@@ -1,24 +1,40 @@
-import {useMemo} from 'react'
-import {useTable, ColumnInstance, Row} from 'react-table'
-import {CustomHeaderColumn} from '../table/columns/CustomHeaderColumn'
-import {CustomRow} from '../table/columns/CustomRow'
-import {useQueryResponseData, useQueryResponseLoading} from '../core/QueryResponseProvider'
-import {usersColumns} from './columns/_columns'
-import {User} from '../core/_models'
-import {UsersListLoading} from '../components/loading/UsersListLoading'
-import {UsersListPagination} from '../components/pagination/UsersListPagination'
-import {KTCardBody} from '../../../../../resources/helpers'
+import { useMemo } from 'react'
+import { useTable, ColumnInstance, Row } from 'react-table'
+import { CustomHeaderColumn } from '../table/columns/CustomHeaderColumn'
+import { CustomRow } from '../table/columns/CustomRow'
+import { useQueryResponseData, useQueryResponseLoading } from '../core/QueryResponseProvider'
+import { usersColumns } from './columns/_columns'
+import { User } from '../core/_models'
+import { UsersListLoading } from '../components/loading/UsersListLoading'
+import { UsersListPagination } from '../components/pagination/UsersListPagination'
+import { KTCardBody } from '../../../../../resources/helpers'
+import { fetchCustomers } from '../../../../../actions'
 
 const UsersTable = () => {
   const users = useQueryResponseData()
   const isLoading = useQueryResponseLoading()
   const data = useMemo(() => users, [users])
   const columns = useMemo(() => usersColumns, [])
-  const {getTableProps, getTableBodyProps, headers, rows, prepareRow} = useTable({
+  const { getTableProps, getTableBodyProps, headers, rows, prepareRow } = useTable({
     columns,
     data,
   })
 
+  const testFetch = () => {
+    console.log("API  URL : " + process.env.REACT_APP_THEME_API_URL)
+    console.log("test fetch");
+    // let user1 : Array ; 
+    // fetchCustomers().then(customers => { 
+    //   user1 =  JSON.stringify(customers)
+    //   console.log("fetch user id :"+ user1);
+    //   user1.map()
+    //  })
+     
+    
+    
+  };
+
+  testFetch();
   return (
     <KTCardBody className='py-4'>
       <div className='table-responsive'>
@@ -58,4 +74,4 @@ const UsersTable = () => {
   )
 }
 
-export {UsersTable}
+export { UsersTable }

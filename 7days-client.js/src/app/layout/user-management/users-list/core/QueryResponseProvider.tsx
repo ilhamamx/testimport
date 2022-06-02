@@ -51,7 +51,8 @@ const useQueryResponseData = () => {
   if (!response) {
     return []
   }
-
+  console.log("response "+response);
+  
   return response?.data || []
 }
 
