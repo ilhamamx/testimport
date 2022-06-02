@@ -2,6 +2,23 @@ import { Link, useNavigate } from "react-router-dom";
 import Button from "../../styles/components/Button";
 import * as Log from "../../util/SDayslogger";
 import * as con from '../../db/connection';
+import { PageTitle, PageLink } from "../layout/core/PageData";
+
+const usersBreadcrumbs: Array<PageLink> = [
+  {
+    title: 'Dashboard',
+    path: '/dashboard',
+    isSeparator: false,
+    isActive: false,
+  },
+  {
+    title: '',
+    path: '',
+    isSeparator: true,
+    isActive: false,
+  },
+]
+
 
 export function Dashboard() {
   console.log("this is dashboard");
@@ -40,6 +57,7 @@ export function Dashboard() {
         <span className={`badge badge-${userStatus === "online" ? "success" : "danger"} badge-circle w-10px h-10px me-1`}></span>
         <span className='fs-7 fw-bold text-gray-400'>{userStatus === "online" ? "User is online":"User is offline"}</span>
       </div>
+      <PageTitle breadcrumbs={usersBreadcrumbs}>Dashboard</PageTitle>
       <h1>Dashboard page</h1>
       <br></br>
       <br></br>

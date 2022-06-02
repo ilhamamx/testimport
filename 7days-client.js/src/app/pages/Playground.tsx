@@ -1,8 +1,9 @@
 import { FC } from "react";
 import { useTranslation } from "react-i18next";
+
+import { useMediaQuery } from "react-responsive";
 import axios from "axios"
 import * as api from "../../api"
-import db, {fetchDataTesting} from '../../db'
 
  const axiosPost = async () => {
    console.log("axios post")
@@ -18,6 +19,24 @@ import db, {fetchDataTesting} from '../../db'
 
 }
 
+const DeviceTest: FC = () => {
+  const isDesktopOrLaptop = useMediaQuery({query: "(min-width: 900px)"});
+  const isBigScreen = useMediaQuery({ query: "(min-width: 1824px)" });
+  const isTabletOrMobile = useMediaQuery({ query: "(max-width: 900px)" });
+  const isPortrait = useMediaQuery({ query: "(orientation: portrait)" });
+  const isRetina = useMediaQuery({ query: "(min-resolution: 2dppx)" });
+  return (
+    <>
+      <h3>Device Test!</h3>
+      {isDesktopOrLaptop && <p>You are a desktop or laptop</p>}
+      {isBigScreen && <p>You have a huge screen</p>}
+      {isTabletOrMobile && <p>You are a tablet or mobile phone</p>}
+      {/* <p>Your are in {isPortrait ? "portrait" : "landscape"} orientation</p> */}
+      {/* {isRetina && <p>You are retina</p>} */}
+    </>
+  )
+}
+
 const Playground: FC = () => {
   const { t } = useTranslation();
   //axiosPost();
@@ -27,8 +46,10 @@ const Playground: FC = () => {
     <>
       <div className="fw-bold fs-3 text-gray-400 mb-15" data-testid="faq-page">
         <h2>Playground Page</h2>
-        
+        <DeviceTest />
       </div>
+
+      
     </>
   );
 };

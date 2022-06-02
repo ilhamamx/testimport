@@ -1,16 +1,16 @@
 export * as KTUtil from './_utils/index'
 export * as components from './components/index'
-// declare global {
-//   interface Window {
-//     keenthemes: any;
-//   }
-// }
+declare global {
+  interface Window {
+    keenthemes: any;
+  }
+}
 
 // window.keenthemes = {
-//   components: {
+//    components: {
 //     ScrollTop: components.ScrollTopComponent,
 //     Coockie: components.CookieComponent,
-//     Drawer: components.DrawerComponent,
+    //  Drawer: components.DrawerComponent,
 //     Feedback: components.FeedbackComponent,
 //     ImageInput: components.ImageInputComponent,
 //     Scroll: components.ScrollComponent,
