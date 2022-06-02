@@ -5,7 +5,7 @@ import {UsersListWrapper} from './users-list/UsersList'
 const usersBreadcrumbs: Array<PageLink> = [
   {
     title: 'Contact Management',
-    path: '/contact-list/users',
+    path: '/contact/users',
     isSeparator: false,
     isActive: false,
   },
@@ -18,7 +18,6 @@ const usersBreadcrumbs: Array<PageLink> = [
 ]
 
 const UsersPage = () => {
-  console.log('user pages')
   return (
     <Routes>
       <Route element={<Outlet />}>

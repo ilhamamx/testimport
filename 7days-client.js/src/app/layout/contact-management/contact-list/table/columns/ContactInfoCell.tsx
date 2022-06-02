@@ -64,6 +64,7 @@ const ContactInfoCell: FC<Props> = ({ contact }) => (
       >
         {contact.firstName} {contact.lastName}
       </Link>
+      
       {/* <span>{contact.email}</span> */}
     </div>
   </div>
