@@ -54,6 +54,14 @@ const ContactsListPagination = () => {
     }
   };
 
+  const PrevItemPage = () => {
+    updateState({ action:  "prev"})
+
+  }
+
+  const NextItemPage = () => {
+    updateState({ action:  "next"})
+  }
   return (
     <div className="row">
       <div className="col-sm-12 col-md-5 d-flex align-items-center justify-content-center justify-content-md-start">
@@ -160,7 +168,6 @@ const ContactsListPagination = () => {
               </li>
             )}
           </ul>
-          
         </div>
       </div>
     </div>
