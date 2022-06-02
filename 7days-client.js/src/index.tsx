@@ -26,35 +26,35 @@ firebases.firestore();
 //   session: "abcakrlqwrhiqwrhietheittiuewityeiwytiw",
 // });
 
-Sentry.init({
-  // dsn: "https://71472c638ab145dd8e1d8ed5ff042d87@o1218588.ingest.sentry.io/6360592",
-  dsn: SENTRY_DSN,
-  integrations: [new BrowserTracing()],
-  autoSessionTracking: true,
-  beforeSend(event, hint) {
-    // Check if it is an exception, and if so, show the report dialog
-    if (event.exception) {
-      Sentry.showReportDialog({
-        eventId: event.event_id,
-        title: 'Sepertinya anda sedang mengalami kendala.',
-        subtitle: 'Tim kami akan segera menangani.',
-        subtitle2: 'Sampaikan kendala atau masalah yang anda alami di bawah ini.',
-        labelName: 'Nama',
-        labelComments: 'Apa kendala anda?',
-        labelClose: 'Tutup',
-        labelSubmit: 'Kirim',
-      });
-    }
-    return event;
-  },
+// Sentry.init({
+//   // dsn: "https://71472c638ab145dd8e1d8ed5ff042d87@o1218588.ingest.sentry.io/6360592",
+//   dsn: SENTRY_DSN,
+//   integrations: [new BrowserTracing()],
+//   autoSessionTracking: true,
+//   beforeSend(event, hint) {
+//     // Check if it is an exception, and if so, show the report dialog
+//     if (event.exception) {
+//       Sentry.showReportDialog({
+//         eventId: event.event_id,
+//         title: 'Sepertinya anda sedang mengalami kendala.',
+//         subtitle: 'Tim kami akan segera menangani.',
+//         subtitle2: 'Sampaikan kendala atau masalah yang anda alami di bawah ini.',
+//         labelName: 'Nama',
+//         labelComments: 'Apa kendala anda?',
+//         labelClose: 'Tutup',
+//         labelSubmit: 'Kirim',
+//       });
+//     }
+//     return event;
+//   },
 
-  // Set tracesSampleRate to 1.0 to capture 100%
-  // of transactions for performance monitoring.
-  // We recommend adjusting this value in production
-  tracesSampleRate: 1.0,
-  // release: 'Testing-Sentry@',
-  release: SENTRY_RELEASE,
-});
+//   // Set tracesSampleRate to 1.0 to capture 100%
+//   // of transactions for performance monitoring.
+//   // We recommend adjusting this value in production
+//   tracesSampleRate: 1.0,
+//   // release: 'Testing-Sentry@',
+//   release: SENTRY_RELEASE,
+// });
 
 // console.log('Env : ' + process.env.NODE_ENV);
 

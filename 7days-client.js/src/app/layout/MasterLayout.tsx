@@ -36,7 +36,6 @@ const MasterLayout = () => {
   const isDesktopOrLaptop = useMediaQuery({
     query: "(min-width: 900px)",
   });
-
   const dispatch = useDispatch();
   const nav = useNavigate();
 
@@ -82,7 +81,6 @@ const MasterLayout = () => {
                      <Outlet />
                    </Content>
                  </div>
-
 
               </div>
           </div>
