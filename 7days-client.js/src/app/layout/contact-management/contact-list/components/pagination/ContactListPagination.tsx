@@ -54,21 +54,36 @@ const ContactsListPagination = () => {
     }
   };
 
-  const PrevItemPage = () => {
-    updateState({ action:  "prev"})
+  // const onChangeHandler = (change) => {
+  //   setTotalItems = change
+  //   updateState({ items_per_page:  totalItems})
+  // };
+
+  const PrevItemPage = () => {    
     if (page <= 1) {
       return
     }
+
     let pages = page - 1
     setPage(pages)
         
   }
 
   const NextItemPage = () => {
-    updateState({ action:  "next"})
-    let pages = page + 1
-    setPage(pages)
+    if (page >= Math.ceil(maxPage)) {
+    } else {   
+      updateState({ action:  "next"})   
+      let pages = page + 1
+      setPage(pages)
+    }
   }
+
+  const showPage = () => {
+    for (let i = 1; i < Math.ceil(maxPage); i++) {
+      return <li className="page-item"><p className="page-link me-3">{i}</p></li>
+    } 
+  }
+
   return (
     <div className="row">
       <div className="col-sm-12 col-md-5 d-flex align-items-center justify-content-center justify-content-md-start">

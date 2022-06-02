@@ -49,8 +49,13 @@ const getContacts = (
   }
   console.log("order =====>>" + orderBy);
 
-  console.log("Counter =====>>" + getCustomerCountByCompanyID('cWt6gXnRGTFqL5TbYn6r'));
-
+  // console.log("Counter =====>>" + getCustomerCountByCompanyID('cWt6gXnRGTFqL5TbYn6r'));
+  // const count = fetchCountCustomers().then((customerCount) => {
+  //   console.log("customerCOunt  => "+ customerCount);    
+  //   return customerCount
+  // });
+  
+  // console.log("Counter 2 =====>>" + count);
   if(action === "prev"){
     return fetchCustomersPrev(searchBy, limit).then((customers) => {
       var customersLength = customers.length;
