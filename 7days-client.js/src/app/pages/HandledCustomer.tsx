@@ -1,7 +1,8 @@
+import {Route} from 'react-router-dom';
 import { FC } from "react";
 import { useTranslation } from "react-i18next";
 import { PageTitle, PageLink } from "../layout/core/PageData";
-
+import ChatWrapper from "../layout/chat/components/ChatWrapper";
 
 const usersBreadcrumbs: Array<PageLink> = [
   {
@@ -21,13 +22,19 @@ const usersBreadcrumbs: Array<PageLink> = [
 const HandledCustomer: FC = () => {
   const { t } = useTranslation();
   return (
+
     <>
        <PageTitle breadcrumbs={usersBreadcrumbs}>Handle Customer</PageTitle>
       <div className="fw-bold fs-3 text-gray-400 mb-15" data-testid="handledMessage-page"> 
         <h2>Handled Message Page</h2>
       </div>
+      <ChatWrapper />
+
     </>
+
   );
 };
 
 export { HandledCustomer };
+
+// 

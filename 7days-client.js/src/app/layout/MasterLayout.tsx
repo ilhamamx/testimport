@@ -73,6 +73,7 @@ const MasterLayout = () => {
 
   function LayoutWeb() {
     return (
+
       <PageDataProvider>
         <div className="page d-flex flex-column">
           <CustomHeader />
@@ -87,6 +88,7 @@ const MasterLayout = () => {
               >
                 
                 <Toolbar />
+
                 <div className="post d-flex flex-column-fluid" id="kt_post">
                    {/* <p>Ini content</p> */}
                    <Content>
