@@ -101,6 +101,14 @@ const parseJSONWhatsAppMessage = async (req) => {
 
       let customerRef;
       let companyRef;
+
+      // get company by (to) phone number
+      const account = await getAccountByPhone(display_phone_number);
+      // if company is exist, createRef from companyID
+      if (account[0]) {
+        companyRef = createRef("company", account[0].company.id);
+      }
+
       // get customer by (from) phone number
       const customer = await getCustomerByPhone(messages_from);
       // if customer is null, create customer by phone number, then createRef from customerID
@@ -112,6 +120,7 @@ const parseJSONWhatsAppMessage = async (req) => {
             profile_name: profile_name ? profile_name : "",
             createdAt: new Date(),
             updatedAt: new Date(),
+            companyID: account[0].company.id,
           })
           .then((ref) => {
             customerRef = createRef("customers", ref);
@@ -121,13 +130,6 @@ const parseJSONWhatsAppMessage = async (req) => {
           });
       } else {
         customerRef = createRef("customers", customer[0].id);
-      }
-
-      // get company by (to) phone number
-      const account = await getAccountByPhone(display_phone_number);
-      // if company is exist, createRef from companyID
-      if (account[0]) {
-        companyRef = createRef("company", account[0].company.id);
       }
 
       // get collaboration, yang di cek adalah jika customer sama, company sama
