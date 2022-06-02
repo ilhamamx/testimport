@@ -47,16 +47,28 @@ const ContactsTable = () => {
               ))}
             </tr>
           </thead>
+<<<<<<< HEAD
           <tbody className="text-gray-600 fw-bold" {...getTableBodyProps()}>
             {rows.length > 0 ? (
               rows.map((row: Row<Contact>, i) => {
                 prepareRow(row);
                 return <CustomRow row={row} key={`row-${i}-${row.id}`} />;
+=======
+          <tbody className='text-gray-600 fw-bold' {...getTableBodyProps()}>
+            {rows.length > 0 ? (
+              rows.map((row: Row<Contact>, i) => {
+                prepareRow(row)
+                return <CustomRow row={row} key={`row-${i}-${row.id}`} />
+>>>>>>> e13f031 (contact filter)
               })
             ) : (
               <tr>
                 <td colSpan={7}>
+<<<<<<< HEAD
                   <div className="d-flex text-center w-100 align-content-center justify-content-center">
+=======
+                  <div className='d-flex text-center w-100 align-content-center justify-content-center'>
+>>>>>>> e13f031 (contact filter)
                     No matching records found
                   </div>
                 </td>
@@ -68,7 +80,14 @@ const ContactsTable = () => {
       <ContactsListPagination />
       {isLoading && <ContactsListLoading />}
     </KTCardBody>
+<<<<<<< HEAD
   );
 };
 
 export { ContactsTable };
+=======
+  )
+}
+
+export { ContactsTable }
+>>>>>>> e13f031 (contact filter)

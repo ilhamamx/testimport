@@ -29,20 +29,33 @@ const ContactCustomHeader: FC<Props> = ({className, title, tableProps}) => {
     //console.log("Table props :  "+ JSON.stringify(tableProps.data));
     if (!isSelectedForSorting) {
       // enable sort asc
+<<<<<<< HEAD
       updateState({sort: id, order: 'asc', items_per_page: state.items_per_page, page: 1, action: "noAction"})
+=======
+      updateState({sort: id, order: 'asc', ...initialQueryState})
+>>>>>>> e13f031 (contact filter)
       return
     }
 
     if (isSelectedForSorting && order !== undefined) {
       if (order === 'asc') {
         // enable sort desc
+<<<<<<< HEAD
         updateState({sort: id, order: 'desc', items_per_page: state.items_per_page, page: 1, action: "noAction"})
         //console.log("Table props :  "+ JSON.stringify(tableProps.data));
+=======
+        updateState({sort: id, order: 'desc', ...initialQueryState})
+        console.log("Table props :  "+ JSON.stringify(tableProps.data));
+>>>>>>> e13f031 (contact filter)
         return
       }
 
       // disable sort
+<<<<<<< HEAD
       updateState({sort: undefined, order: undefined, items_per_page: state.items_per_page, page: 1, action: "noAction"})
+=======
+      updateState({sort: undefined, order: undefined, ...initialQueryState})
+>>>>>>> e13f031 (contact filter)
     }
   }
 

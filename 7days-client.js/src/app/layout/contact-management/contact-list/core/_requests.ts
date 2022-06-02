@@ -262,20 +262,33 @@ const getContactById = (id: ID): Promise<Contact | undefined> => {
   return axios
     .get(`${USER_URL}/${id}`)
     .then((response: AxiosResponse<Response<Contact>>) => response.data)
+<<<<<<< HEAD
     .then((response: Response<Contact>) => response.data);
 };
+=======
+    .then((response: Response<Contact>) => response.data)
+    
+    
+}
+>>>>>>> e13f031 (contact filter)
 
 const createContact = (contact: Contact): Promise<Contact | undefined> => {
   return axios
     .put(USER_URL, contact)
     .then((response: AxiosResponse<Response<Contact>>) => response.data)
+<<<<<<< HEAD
     .then((response: Response<Contact>) => response.data);
 };
+=======
+    .then((response: Response<Contact>) => response.data)
+}
+>>>>>>> e13f031 (contact filter)
 
 const updateContact = (contact: Contact): Promise<Contact | undefined> => {
   return axios
     .post(`${USER_URL}/${contact.id}`, contact)
     .then((response: AxiosResponse<Response<Contact>>) => response.data)
+<<<<<<< HEAD
     .then((response: Response<Contact>) => response.data);
 };
 
@@ -310,3 +323,18 @@ export {
   createContact,
   updateContact,
 };
+=======
+    .then((response: Response<Contact>) => response.data)
+}
+
+const deleteContact = (contactId: ID): Promise<void> => {
+  return axios.delete(`${USER_URL}/${contactId}`).then(() => {})
+}
+
+const deleteSelectedContacts = (contactIds: Array<ID>): Promise<void> => {
+  const requests = contactIds.map((id) => axios.delete(`${USER_URL}/${id}`))
+  return axios.all(requests).then(() => {})
+}
+
+export {getContacts, deleteContact, deleteSelectedContacts, getContactById, createContact, updateContact}
+>>>>>>> e13f031 (contact filter)
