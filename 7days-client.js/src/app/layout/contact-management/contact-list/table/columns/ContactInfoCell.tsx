@@ -16,7 +16,7 @@ const ContactInfoCell: FC<Props> = ({ contact }) => (
     <div className="symbol symbol-circle symbol-50px overflow-hidden me-3">
       <Link
          to={
-          "/contact/contact-detail/" +
+          "/contact/contact-detail/overview/" +
           contact.firstName +
           "-" +
           contact.lastName
@@ -51,7 +51,7 @@ const ContactInfoCell: FC<Props> = ({ contact }) => (
     <div className="d-flex flex-column">
       <Link
         to={
-          "/contact/contact-detail/" +
+          "/contact/contact-detail/overview/" +
           contact.firstName +
           "-" +
           contact.lastName

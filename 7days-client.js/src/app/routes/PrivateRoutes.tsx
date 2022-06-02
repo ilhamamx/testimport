@@ -8,7 +8,7 @@ import { Dashboard } from "../pages/Dashboard";
 import { Faq } from "../pages/FAQ";
 import { HandledCustomer } from "../pages/HandledCustomer";
 import { ContactDetail } from "../pages/ContactDetail";
-
+import AccountPage from "../modules/accounts/AccountPage"
 
 const PrivateRoutes = () => {
   return (
@@ -19,7 +19,7 @@ const PrivateRoutes = () => {
         <Route path="about" element={<About />} />
         <Route path="faq" element={<Faq />} />
         <Route path="contact/*" element={<ContacsListPage />} />
-        <Route path="contact/contact-detail/*" element={<ContactDetail />} />
+        <Route path="contact/contact-detail/*" element={<AccountPage />} />
         <Route path="handled-customer" element={<HandledCustomer />} />
         <Route path="customer-in-queue" element={<CustomerInQueue />} />
         <Route path="*" element={<Navigate to="/error" />} />
