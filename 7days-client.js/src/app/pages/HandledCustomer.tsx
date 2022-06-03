@@ -1,4 +1,3 @@
-import {Route} from 'react-router-dom';
 import { FC } from "react";
 import { useTranslation } from "react-i18next";
 import { PageTitle, PageLink } from "../layout/core/PageData";
@@ -18,7 +17,6 @@ const usersBreadcrumbs: Array<PageLink> = [
     isActive: false,
   },
 ]
-
 const HandledCustomer: FC = () => {
   const { t } = useTranslation();
   return (
@@ -31,7 +29,6 @@ const HandledCustomer: FC = () => {
       <ChatWrapper />
 
     </>
-
   );
 };
 
