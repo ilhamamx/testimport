@@ -1,12 +1,14 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
-import React from 'react'
+import React , {useState} from 'react'
 import {KTSVG, toAbsoluteUrl} from '../../../resources/helpers'
 import {Link} from 'react-router-dom'
 import {Dropdown1} from '../../../resources/partials'
 import {useLocation} from 'react-router'
+import { Contact } from '../../layout/contact-management/contact-list/core/_models'
 
-const AccountHeader: React.FC = () => {
+const AccountHeader = ({customer} : {customer: Contact}) => {
   const location = useLocation()
+  const customerData: Contact = customer
 
   return (
     <div className='card mb-5 mb-xl-10'>
@@ -14,7 +16,7 @@ const AccountHeader: React.FC = () => {
         <div className='d-flex flex-wrap flex-sm-nowrap mb-3'>
           <div className='me-7 mb-4'>
             <div className='symbol symbol-100px symbol-lg-160px symbol-fixed position-relative'>
-              <img src={toAbsoluteUrl('/media/avatars/300-1.jpg')} alt='Metronic' />
+              <img src={customer.avatar} alt={customer.firstName} />
               <div className='position-absolute translate-middle bottom-0 start-100 mb-6 bg-success rounded-circle border border-4 border-white h-20px w-20px'></div>
             </div>
           </div>
@@ -24,21 +26,21 @@ const AccountHeader: React.FC = () => {
               <div className='d-flex flex-column'>
                 <div className='d-flex align-items-center mb-2'>
                   <a href='#' className='text-gray-800 text-hover-primary fs-2 fw-bolder me-1'>
-                    Max Smith
+                    {customer.firstName} {customer.lastName}
                   </a>
-                  <a href='#'>
+                  {/* <a href='#'>
                     <KTSVG
                       path='/media/icons/duotune/general/gen026.svg'
                       className='svg-icon-1 svg-icon-primary'
                     />
-                  </a>
+                  </a> */}
                   <a
                     href='#'
                     className='btn btn-sm btn-light-success fw-bolder ms-2 fs-8 py-1 px-3'
                     data-bs-toggle='modal'
                     data-bs-target='#kt_modal_upgrade_plan'
                   >
-                    Upgrade to Pro
+                    Loyal
                   </a>
                 </div>
 
@@ -51,9 +53,9 @@ const AccountHeader: React.FC = () => {
                       path='/media/icons/duotune/communication/com006.svg'
                       className='svg-icon-4 me-1'
                     />
-                    Developer
+                    {customer.phoneNumber}
                   </a>
-                  <a
+                  {/* <a
                     href='#'
                     className='d-flex align-items-center text-gray-400 text-hover-primary me-5 mb-2'
                   >
@@ -62,7 +64,7 @@ const AccountHeader: React.FC = () => {
                       className='svg-icon-4 me-1'
                     />
                     SF, Bay Area
-                  </a>
+                  </a> */}
                   <a
                     href='#'
                     className='d-flex align-items-center text-gray-400 text-hover-primary mb-2'
@@ -71,7 +73,7 @@ const AccountHeader: React.FC = () => {
                       path='/media/icons/duotune/communication/com011.svg'
                       className='svg-icon-4 me-1'
                     />
-                    max@kt.com
+                    {customer.email}
                   </a>
                 </div>
               </div>
@@ -174,10 +176,17 @@ const AccountHeader: React.FC = () => {
             <li className='nav-item'>
               <Link
                 className={
-                  `nav-link text-active-primary me-6 ` +
-                  (location.pathname === '/contact/contact-detail/overview/*' && 'active')
+                  `nav-link text-active-primary me-6 `
+                  +
+                  (location.pathname === '/contact/contact-detail/overview/'+customer.firstName+"-"+customer.lastName  && 'active')
                 }
-                to='/contact/contact-detail/overview/*'
+                to={'/contact/contact-detail/overview/'+customer.firstName+"-"+customer.lastName }
+
+                state={{
+                  id: customer.id,
+                  name: customer.firstName + " " + customer.lastName,
+                }}
+                // {'/contact/contact-detail/overview/' +customer.firstName+"-"+customer.lastName}
               >
                 Overview
               </Link>
@@ -186,9 +195,14 @@ const AccountHeader: React.FC = () => {
               <Link
                 className={
                   `nav-link text-active-primary me-6 ` +
-                  (location.pathname === '/contact/contact-detail/settings' && 'active')
+                  (location.pathname === '/contact/contact-detail/settings/'+customer.firstName+"-"+customer.lastName && 'active')
                 }
-                to='/contact/contact-detail/settings'
+                to={'/contact/contact-detail/settings/'+customer.firstName+"-"+customer.lastName}
+
+                state={{
+                  id: customer.id,
+                  name: customer.firstName + " " + customer.lastName,
+                }}
               >
                 Settings
               </Link>

@@ -81,8 +81,8 @@ export const fetchCustomersPrev = (search: string, limit: number) =>
       return customers;
     });
 
-export const getCustomerByID = (id: string) =>
-  db
+export const getCustomerByID = async(id: string) =>
+  await db
     .collection("customers")
     .doc(id)
     .get()

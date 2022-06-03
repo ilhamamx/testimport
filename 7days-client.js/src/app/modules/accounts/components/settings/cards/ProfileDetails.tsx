@@ -3,6 +3,7 @@ import {toAbsoluteUrl} from '../../../../../../resources/helpers'
 import {IProfileDetails, profileDetailsInitValues as initialValues} from '../SettingsModel'
 import * as Yup from 'yup'
 import {useFormik} from 'formik'
+import { Contact } from '../../../../../layout/contact-management/contact-list/core/_models'
 
 const profileDetailsSchema = Yup.object().shape({
   fName: Yup.string().required('First name is required'),
@@ -16,7 +17,8 @@ const profileDetailsSchema = Yup.object().shape({
   currency: Yup.string().required('Currency is required'),
 })
 
-const ProfileDetails: React.FC = () => {
+const ProfileDetails = ({customer} : {customer: Contact}) => {
+  const customerData: Contact = customer
   const [data, setData] = useState<IProfileDetails>(initialValues)
   const updateData = (fieldsToUpdate: Partial<IProfileDetails>): void => {
     const updatedData = Object.assign(data, fieldsToUpdate)

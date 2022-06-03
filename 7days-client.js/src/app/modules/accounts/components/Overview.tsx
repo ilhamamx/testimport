@@ -1,113 +1,157 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
-import React, { FC } from 'react'
-import {Link} from 'react-router-dom'
-import { getCustomerByID } from '../../../../db'
-import {KTSVG} from '../../../../resources/helpers'
+import React, { FC } from "react";
+import { Link, useLocation } from "react-router-dom";
+import { getCustomerByID } from "../../../../db";
+import { KTSVG } from "../../../../resources/helpers";
 import {
   ChartsWidget1,
   TablesWidget1,
   ListsWidget5,
   TablesWidget5,
-} from '../../../../resources/partials/widgets'
-import { Contact } from '../../../layout/contact-management/contact-list/core/_models'
+} from "../../../../resources/partials/widgets";
+import { Contact } from "../../../layout/contact-management/contact-list/core/_models";
 
-export const Overview  = ( {customerID} : {customerID: string}) => {
+export const Overview = ({ customer }: { customer: Contact }) => {
+  const location = useLocation()
+  const customerData: Contact = customer;
 
-  // const customer: Contact = getCustomerByID(id).then((doc) => {
-  //  customer = doc;
-  // });
-  let customer;
-  getCustomerByID(customerID).then((doc) => {
-    console.log("get customer by id "+JSON.stringify(doc))
-    customer = doc as Contact
-    console.log("Test : "+JSON.stringify(customer))
-    // return doc;
-  });
+  console.log("customersss ==>> " + customer.id);
 
   return (
     <>
-      <div className='card mb-5 mb-xl-10' id='kt_profile_details_view'>
-        <div className='card-header cursor-pointer'>
-          <div className='card-title m-0'>
-            <h3 className='fw-bolder m-0'>Profile Details</h3>
+      <div className="card mb-5 mb-xl-10" id="kt_profile_details_view">
+        <div className="card-header cursor-pointer">
+          <div className="card-title m-0">
+            <h3 className="fw-bolder m-0">Profile Details</h3>
           </div>
 
-          <Link to='#' className='btn btn-primary align-self-center'>
-            Edit Profil
+          <Link
+            to={
+              "/contact/contact-detail/settings/" +
+              customer.firstName +
+              "-" +
+              customer.lastName
+            }
+            state={{
+              id: customer.id,
+              name: customer.firstName + " " + customer.lastName,
+            }}
+            className={
+              "btn btn-primary align-self-center justify-content-end "
+               +
+              (location.pathname ===
+                "/contact/contact-detail/settings/" +
+                  customer.firstName +
+                  "-" +
+                  customer.lastName)
+            }
+          >
+            Edit Profile
           </Link>
+          {/* <button className="btn btn-secondary align-self-center disabled">
+            Save Changes
+          </button> */}
         </div>
 
-        <div className='card-body p-9'>
-          <div className='row align-items-start'>
-            <label className='col-sm text-muted'>First Name</label>
-            <div className='col-sm'>
-              <span className='fs-6 text-dark'>Max</span>
+        <div className="card-body p-9">
+          <div className="row align-items-start pb-3">
+            <label className="col-sm-2 text-dark">First Name</label>
+            <div className="col-sm-2">
+              <span className="fs-6 text-muted">{customer.firstName}</span>
             </div>
 
-            <label className='col-sm text-muted'>Last Name</label>
-            <div className='col-sm'>
-              <span className='fs-6 text-dark'>Smith</span>
+            <label className="col-sm-2 text-dark">Last Name</label>
+            <div className="col-sm-2">
+              {customer.lastName ? (
+                <span className="fs-6 text-muted">{customer.lastName}</span>
+              ) : (
+                <span className="fs-6 text-muted">-</span>
+              )}
             </div>
 
-            <label className='col-sm text-muted'>Gender</label>
-            <div className='col-sm'>
-              <span className='fs-6 text-dark'>Male</span>
-            </div>
-            
-          </div>
-
-          <div className='row align-items-start'>
-            <label className='col-sm text-muted'>Birthdate</label>
-            <div className='col-sm fv-row'>
-              <span className='fw-bold fs-6'>May, 29 1999</span>
-            </div>
-
-            <label className='col-sm text-muted'>Marietal Status</label>
-            <div className='col-sm fv-row'>
-              <span className='fw-bold fs-6'>Single</span>
-            </div>
-
-            <label className='col-sm text-muted'></label>
-            <div className='col-sm fv-row'>
-              <span className='fw-bold fs-6'> </span>
+            <label className="col-sm-2 text-dark">Gender</label>
+            <div className="col-sm-2">
+              {customer.gender ? (
+                <span className="fs-6 text-muted">{customer.gender}</span>
+              ) : (
+                <span className="fs-6 text-muted">-</span>
+              )}
             </div>
           </div>
 
-          <div className='card-title m-0'>
-            <h4 className='fw-bolder m-0'>Address</h4>
-            
+          <div className="row align-items-start pb-3">
+            <label className="col-sm-2 text-dark">Birthdate</label>
+            <div className="col-sm fv-row">
+              {customer.birthdate ? (
+                <span className="fs-6 text-muted">{customer.birthdate}</span>
+              ) : (
+                <span className="fs-6 text-muted">-</span>
+              )}
+            </div>
+
+            <label className="col-sm-2 text-dark">Marietal Status</label>
+            <div className="col-sm fv-row">
+              {customer.maritalStatus ? (
+                <span className="fs-6 text-muted">
+                  {customer.maritalStatus}
+                </span>
+              ) : (
+                <span className="fs-6 text-muted">-</span>
+              )}
+            </div>
+
+            <label className="col-sm-2 text-dark"></label>
+            <div className="col-sm fv-row">
+              <span className="fs-6 text-muted"> </span>
+            </div>
           </div>
-          <div className='row align-items-start'>
-            <label className='col-sm text-muted'>City</label>
-            <div className='col-sm fv-row'>
-              <span className='fw-bold fs-6'>Surabaya</span>
+          <div className="card-header ps-0">
+            <div className="card-title m-0 pt-9 pb-3">
+              <h4 className="fw-bolder m-0">Address</h4>
+            </div>
+          </div>
+          <div className="row align-items-start pt-3 pb-3">
+            <label className="col-sm-2 text-dark">City</label>
+            <div className="col-sm fv-row">
+              {customer.city ? (
+                <span className="fs-6 text-muted">{customer.city}</span>
+              ) : (
+                <span className="fs-6 text-muted">-</span>
+              )}
+            </div>
+            <label className="col-sm-2 text-dark">Zip Code</label>
+            <div className="col-sm fv-row">
+              {customer.zipcode ? (
+                <span className="fs-6 text-muted">{customer.zipcode}</span>
+              ) : (
+                <span className="fs-6 text-muted">-</span>
+              )}
             </div>
 
-            <label className='col-sm text-muted'>Zip Code</label>
-            <div className='col-sm fv-row'>
-              <span className='fw-bold fs-6'>60236</span>
-            </div>
-
-            <label className='col-sm text-muted'></label>
-            <div className='col-sm fv-row'>
-              <span className='fw-bold fs-6'> </span>
+            <label className="col-sm-2 text-dark"></label>
+            <div className="col-sm fv-row">
+              <span className="fs-6 text-muted"> </span>
             </div>
           </div>
 
-          <div className='row align-items-start'>
-            <label className='col-sm text-muted'>Country</label>
-            <div className='col-sm fv-row'>
-              <span className='fw-bold fs-6'>Indonesia</span>
+          <div className="row align-items-start pb-3">
+            <label className="col-sm-2 text-dark">Country</label>
+            <div className="col-sm fv-row">
+              {customer.country ? (
+                <span className="fs-6 text-muted">{customer.country}</span>
+              ) : (
+                <span className="fs-6 text-muted">-</span>
+              )}
             </div>
 
-            <label className='col-sm text-muted'></label>
-            <div className='col-sm fv-row'>
-              <span className='fw-bold fs-6'> </span>
+            <label className="col-sm-2 text-dark"></label>
+            <div className="col-sm fv-row">
+              <span className="fs-6 text-muted"> </span>
             </div>
 
-            <label className='col-sm text-muted'></label>
-            <div className='col-sm fv-row'>
-              <span className='fw-bold fs-6'> </span>
+            <label className="col-sm-2 text-dark"></label>
+            <div className="col-sm fv-row">
+              <span className="fs-6 text-muted"> </span>
             </div>
           </div>
 
@@ -211,5 +255,5 @@ export const Overview  = ( {customerID} : {customerID: string}) => {
         </div>
       </div> */}
     </>
-  )
-}
+  );
+};

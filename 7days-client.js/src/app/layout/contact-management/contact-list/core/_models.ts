@@ -1,6 +1,6 @@
 import {ID, Response} from '../../../../../resources/helpers'
 export type Contact = {
-  id?: ID
+  id?: string
   firstName?: string
   lastName?: string
   gender?: string
@@ -8,6 +8,10 @@ export type Contact = {
   email?: string
   phoneNumber?: string
   address?: string
+  country?: string
+  state?: string
+  city?: string
+  zipcode?: string
   companyID?: string
   lastInteractionAgent?: string
   lastInteractionChannel?: string
