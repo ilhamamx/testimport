@@ -1,15 +1,24 @@
 import { FC } from "react";
-// import { useTranslation } from "react-i18next";
+import { useTranslation } from "react-i18next";
 import { KTSVG } from "../../../../resources/helpers/components/KTSVG";
 
 import ChatList from "./ChatList";
 import { ChatInner } from "./ChatInner";
 
 const ChatWrapper: FC = () => {
+  const { t, i18n } = useTranslation();
+
   return (
     <div className="d-flex flex-column flex-lg-row">
-      <div className="flex-column flex-lg-row-auto w-100 w-lg-300px w-xl-400px mb-10 mb-lg-0" style={{backgroundColor: "#F5F7F8",border: "1px solid #CDCDDE", borderRadius: "8.125px"}}>
-        <div className="card card-flush" style={{backgroundColor: "#F5F7F8"}}>
+      <div
+        className="flex-column flex-lg-row-auto w-100 w-lg-300px w-xl-400px mb-10 mb-lg-0"
+        style={{
+          backgroundColor: "#F5F7F8",
+          border: "1px solid #CDCDDE",
+          borderRadius: "8.125px",
+        }}
+      >
+        <div className="card card-flush" style={{ backgroundColor: "#F5F7F8" }}>
           <div className="card-header pt-7" id="kt_chat_contacts_header">
             <form className="w-100 position-relative" autoComplete="off">
               <KTSVG
@@ -22,7 +31,7 @@ const ChatWrapper: FC = () => {
                 className="form-control form-control-solid px-15"
                 name="search"
                 placeholder="Search by username or email..."
-                style={{background: "#FFFFFF"}}
+                style={{ background: "#FFFFFF" }}
               />
             </form>
           </div>
@@ -31,7 +40,15 @@ const ChatWrapper: FC = () => {
       </div>
 
       <div className="flex-lg-row-fluid ms-lg-7 ms-xl-10">
-        <div className="card" id="kt_chat_messenger" style={{backgroundColor: "#F5F7F8",border: "1px solid #CDCDDE", borderRadius: "8.125px"}}>
+        <div
+          className="card"
+          id="kt_chat_messenger"
+          style={{
+            backgroundColor: "#F5F7F8",
+            border: "1px solid #CDCDDE",
+            borderRadius: "8.125px",
+          }}
+        >
           <div className="card-header" id="kt_chat_messenger_header">
             <div className="card-title">
               <div className="symbol-group symbol-hover"></div>
@@ -46,16 +63,7 @@ const ChatWrapper: FC = () => {
             </div>
 
             <div className="card-toolbar">
-              <div className="me-n3">
-                <button
-                  className="btn btn-sm btn-icon btn-active-light-primary"
-                  data-kt-menu-trigger="click"
-                  data-kt-menu-placement="bottom-end"
-                  data-kt-menu-flip="top-end"
-                >
-                  <i className="bi bi-three-dots fs-2"></i>
-                </button>
-                {/* <Dropdown1 /> */}
+              <div className="me-n3"><button className="btn btn-primary"><i className="fas fa-plus fs-4 me-2"></i>{t("Chat.Button.AddToContact")}</button>
               </div>
             </div>
           </div>

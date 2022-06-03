@@ -32,6 +32,57 @@ const ChatMessage: FC<MessageProps> = (props) => {
 
   return (
     <>
+      {/* <div>
+        <div>Avatar</div>
+        <div>
+          <div>Message</div>
+          <div>Sent</div>
+        </div>
+      </div> */}
+
+      {/* with classname & style */}
+      <div
+        key={`message${index}`}
+        className={clsx("d-flex", contentClass, "mb-10", {
+          "d-none": message.template,
+        })}
+        {...templateAttr}
+      >
+        {message.type === "in" && (
+          <div className="symbol  symbol-35px symbol-circle ">
+            <img alt="Pic" src={toAbsoluteUrl(`/media/${userInfo.avatar}`)} />
+          </div>
+        )}
+        <div>
+          <div
+            className={clsx(
+              "p-5 rounded",
+              `bg-light-${state}`,
+              "text-dark fw-bold mw-lg-400px",
+              `text-${message.type === "in" ? "start" : "end"}`
+            )}
+            data-kt-element="message-text"
+            dangerouslySetInnerHTML={{ __html: message.text }}
+          ></div>
+          <div
+            className={clsx(
+              "ms-3",
+              `text-${message.type === "in" ? "start" : "end"}`
+            )}
+          >
+            <span className="text-muted fs-7 mb-1">{message.time}</span>
+          </div>
+        </div>
+
+        {message.type !== "in" && (
+          <div className="symbol  symbol-35px symbol-circle ">
+            <img alt="Pic" src={toAbsoluteUrl(`/media/${userInfo.avatar}`)} />
+          </div>
+        )}
+      </div>
+
+      {/* 
+
       <div
         key={`message${index}`}
         className={clsx("d-flex", contentClass, "mb-10", {
@@ -45,46 +96,6 @@ const ChatMessage: FC<MessageProps> = (props) => {
             `align-items-${message.type === "in" ? "start" : "end"}`
           )}
         >
-          <div className="d-flex align-items-center mb-2">
-            {message.type === "in" ? (
-              <>
-                <div className="symbol  symbol-35px symbol-circle ">
-                  <img
-                    alt="Pic"
-                    src={toAbsoluteUrl(`/media/${userInfo.avatar}`)}
-                  />
-                </div>
-                <div className="ms-3">
-                  <a
-                    href="#"
-                    className="fs-5 fw-bolder text-gray-900 text-hover-primary me-1"
-                  >
-                    {userInfo.name}
-                  </a>
-                  <span className="text-muted fs-7 mb-1">{message.time}</span>
-                </div>
-              </>
-            ) : (
-              <>
-                <div className="me-3">
-                  <span className="text-muted fs-7 mb-1">{message.time}</span>
-                  <a
-                    href="#"
-                    className="fs-5 fw-bolder text-gray-900 text-hover-primary ms-1"
-                  >
-                    You
-                  </a>
-                </div>
-                <div className="symbol  symbol-35px symbol-circle ">
-                  <img
-                    alt="Pic"
-                    src={toAbsoluteUrl(`/media/${userInfo.avatar}`)}
-                  />
-                </div>
-              </>
-            )}
-          </div>
-
           <div
             className={clsx(
               "p-5 rounded",
@@ -95,8 +106,38 @@ const ChatMessage: FC<MessageProps> = (props) => {
             data-kt-element="message-text"
             dangerouslySetInnerHTML={{ __html: message.text }}
           ></div>
+
+          <div className="d-flex align-items-center mb-2">
+            {message.type === "in" ? (
+              <>
+                <div className="symbol  symbol-35px symbol-circle ">
+                  <img
+                    alt="Pic"
+                    src={toAbsoluteUrl(`/media/${userInfo.avatar}`)}
+                  />
+                </div>
+                <div className="ms-3">
+                  <span className="text-muted fs-7 mb-1">{message.time}</span>
+                </div>
+              </>
+            ) : (
+              <>
+                <div className="me-3">
+                  <span className="text-muted fs-7 mb-1">{message.time}</span>
+                </div>
+                <div className="symbol  symbol-35px symbol-circle ">
+                  <img
+                    alt="Pic"
+                    src={toAbsoluteUrl(`/media/${userInfo.avatar}`)}
+                  />
+                </div>
+              </>
+            )}
+          </div>
         </div>
       </div>
+
+      */}
     </>
   );
 };

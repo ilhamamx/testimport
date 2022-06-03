@@ -27,7 +27,7 @@ const DUMMY_DATA: HandledMessageListItem[] = [
       {
         unreadCount: 4,
         className: "badge-light-success",
-        channel: "Whatsapp"
+        channel: "Tokopedia"
       },
       {
         unreadCount: 3,
@@ -67,6 +67,96 @@ const DUMMY_DATA: HandledMessageListItem[] = [
     lastActivityAt: lastActivity(60000),
     // lastActivityAt: moment("20120620", "YYYYMMDD").fromNow().toString
   },
+  {
+    id: "a5",
+    fullName: "Dan Wilson",
+    image: "/media/avatars/300-23.jpg",
+    mail: "dam@consilting.com",
+    unreadMessages: [
+      {
+        unreadCount: 2,
+        className: "badge-light-warning",
+        channel: "Whatsapp"
+      }
+    ],
+    lastActivityAt: lastActivity(60000),
+    // lastActivityAt: moment("20120620", "YYYYMMDD").fromNow().toString
+  },
+  {
+    id: "a6",
+    fullName: "Dan Wilson",
+    image: "/media/avatars/300-23.jpg",
+    mail: "dam@consilting.com",
+    unreadMessages: [
+      {
+        unreadCount: 3,
+        className: "badge-light-warning",
+        channel: "Shopee"
+      },
+      {
+        unreadCount: 4,
+        className: "badge-light-success",
+        channel: "Tokopedia"
+      },
+      {
+        unreadCount: 2,
+        className: "badge-light-warning",
+        channel: "Whatsapp"
+      }
+    ],
+    lastActivityAt: lastActivity(60000),
+    // lastActivityAt: moment("20120620", "YYYYMMDD").fromNow().toString
+  },
+  {
+    id: "a7",
+    fullName: "Dan Wilson",
+    image: "/media/avatars/300-23.jpg",
+    mail: "dam@consilting.com",
+    unreadMessages: [
+      {
+        unreadCount: 3,
+        className: "badge-light-warning",
+        channel: "Whatsapp"
+      },
+      {
+        unreadCount: 4,
+        className: "badge-light-success",
+        channel: "Tokopedia"
+      },
+      {
+        unreadCount: 2,
+        className: "badge-light-warning",
+        channel: "Shopee"
+      }
+    ],
+    lastActivityAt: lastActivity(60000),
+    // lastActivityAt: moment("20120620", "YYYYMMDD").fromNow().toString
+  },
+  {
+    id: "a8",
+    fullName: "Dan Wilson",
+    image: "/media/avatars/300-23.jpg",
+    mail: "dam@consilting.com",
+    unreadMessages: [
+      {
+        unreadCount: 3,
+        className: "badge-light-warning",
+        channel: "Tokopedia"
+      },
+      {
+        unreadCount: 4,
+        className: "badge-light-success",
+        channel: "Whatsapp"
+      },
+      {
+        unreadCount: 2,
+        className: "badge-light-warning",
+        channel: "Shopee"
+      }
+    ],
+    lastActivityAt: lastActivity(60000),
+    // lastActivityAt: moment("20120620", "YYYYMMDD").fromNow().toString
+  }
 ];
 
 const ChatList: FC = (props) => {

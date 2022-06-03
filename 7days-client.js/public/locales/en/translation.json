@@ -58,5 +58,8 @@
   "SideBar.MenuTitle.Menubar": "Hide Menubar ",
   "SideBar.MenuItem.CIQ": "Customer in Queue",
   "SideBar.MenuItem.HC": "Handled Customer",
-  "SideBar.MenuItem.Contacts": "Contacts"
+  "SideBar.MenuItem.Contacts": "Contacts",
+
+  "Chat.Button.AddToContact": "Add to Contact",
+  "Chat.Button.SendFrom": "Send from"
 }

@@ -42,6 +42,17 @@
             height: $badge-size-lg;
         }
     }
+
+    
+    &.badge-xsm {
+        min-width: $badge-size-xsm;
+        font-size: $badge-font-size-xsm;
+
+        &.badge-circle {
+            width: $badge-size-xsm;
+            height: $badge-size-xsm;
+        }
+    }
 }
 
 @each $name, $value in $theme-colors {

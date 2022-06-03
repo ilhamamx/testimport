@@ -7,6 +7,7 @@ import {
   messageFromClient,
 } from "../../../../resources/helpers/";
 import ChatMessage from "./ChatMessage";
+import { useTranslation } from "react-i18next";
 
 type Props = {
   isDrawer?: boolean;
@@ -15,6 +16,8 @@ type Props = {
 const bufferMessages = defaultMessages;
 
 const ChatInner: FC<Props> = ({ isDrawer = false }) => {
+  const { t } = useTranslation();
+
   const [chatUpdateFlag, toggleChatUpdateFlat] = useState<boolean>(false);
   const [message, setMessage] = useState<string>("");
   const [messages, setMessages] = useState<MessageModel[]>(bufferMessages);
@@ -48,7 +51,7 @@ const ChatInner: FC<Props> = ({ isDrawer = false }) => {
   return (
     <div
       className="card-body"
-      style={{border: "top bottom 10px solid #9899AC"}}
+      style={{ border: "top bottom 10px solid #9899AC" }}
       id={isDrawer ? "kt_drawer_chat_messenger_body" : "kt_chat_messenger_body"}
     >
       <div
@@ -117,7 +120,7 @@ const ChatInner: FC<Props> = ({ isDrawer = false }) => {
               data-bs-toggle="tooltip"
               title="Coming soon"
             >
-              <i className="bi bi-upload fs-3"></i>
+              <i className="bi bi-upload text-custom fs-3"></i>
             </button>
           </div>
           <button
@@ -126,7 +129,7 @@ const ChatInner: FC<Props> = ({ isDrawer = false }) => {
             data-kt-element="send"
             onClick={sendMessage}
           >
-            Send
+            {t("Chat.Button.SendFrom").toUpperCase()}
           </button>
         </div>
       </div>
