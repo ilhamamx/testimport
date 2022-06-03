@@ -2,7 +2,6 @@ firebaseDB = require("../../../db/firebase");
 const { db, createRef } = firebaseDB;
 const { getAccountByPhoneNumberTypeCompany } = require("../../account");
 const { resultCode } = require("../../../helper/resultCode");
-const request = require("request");
 const axios = require("axios");
 
 const sendWhatsappMessage = async (req, callback) => {
