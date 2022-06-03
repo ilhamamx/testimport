@@ -145,8 +145,10 @@ const parseJSONWhatsAppMessage = async (req) => {
             created: new Date(),
             updatedAt: new Date(),
             customer: customerRef,
-            lastChannel: "whatsapp",
             company: companyRef,
+            isActive: true,
+            lastInteractionChannel: "whatsapp",
+            lastInteractionAt: new Date(),
           })
           .then((ref) => {
             console.log("collaboration id x : " + ref.id);
@@ -159,6 +161,12 @@ const parseJSONWhatsAppMessage = async (req) => {
       // cek jika bukan percakapan pertama dan belum expired maka buat message di collaboration
       else {
         console.log("collaboration id y : " + getCollaboration[0].id);
+        await getCollaboration[0].update({
+          lastInteractionChannel: "whatsapp",
+          lastInteractionAt: new Date(),
+          updatedAt: new Date(),
+        });
+
         collaboration = getCollaboration[0];
       }
 

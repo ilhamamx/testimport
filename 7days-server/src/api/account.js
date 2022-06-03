@@ -25,6 +25,28 @@ const getAccountByPhone = async phoneNumber => {
 
 }
 
+const getAccountByPhoneNumberTypeCompany = async(phoneNumber, type, companyRef) => {
+  if(!phoneNumber || !type || !companyRef){
+    return null;
+  }
+
+  return await db
+    .collection("account")
+    .where("company", "==", companyRef)
+    .where("type", "==", type)
+    .where("whatsappNumber", "==", phoneNumber)
+    .get()
+    .then((snaps) => {
+      console.log("snaps", snaps);
+      return snaps.docs.map((snap) => ({ ...snap.data(), id: snap.id }));
+    })
+    .catch((error) => {
+      //TODO
+      console.log(error);
+    });
+}
+
 module.exports = {
   getAccountByPhone,
-}
+  getAccountByPhoneNumberTypeCompany,
+};
