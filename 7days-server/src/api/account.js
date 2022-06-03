@@ -37,7 +37,7 @@ const getAccountByPhoneNumberTypeCompany = async(phoneNumber, type, companyRef) 
     .where("whatsappNumber", "==", phoneNumber)
     .get()
     .then((snaps) => {
-      console.log("snaps", snaps);
+      // console.log("snaps", snaps);
       return snaps.docs.map((snap) => ({ ...snap.data(), id: snap.id }));
     })
     .catch((error) => {

@@ -45,6 +45,8 @@ const sendWhatsappMessage = async (req, callback) => {
       } else {
         return callback(resultCode("SM", "01", "text"), null, 400);
       }
+    } else {
+      return callback(resultCode("SM", "02", "type"), null, 400);
     }
   } else {
     return callback(resultCode("SM", "01", "whatsapp"), null, 400);
@@ -57,6 +59,9 @@ const sendWhatsappMessage = async (req, callback) => {
     type,
     companyRef
   );
+  if(!dataAccount[0]){
+    return callback(resultCode("SM", "02", "company/from"), null, 400);
+  }
   console.log("data account : " + dataAccount);
   let json = `{
     "messaging_product" : "${type}",
@@ -74,12 +79,15 @@ const sendWhatsappMessage = async (req, callback) => {
     }
   }
   console.log("access_token : " + dataAccount[0].access_token);
-  const header = `Authorization: Bearer ${dataAccount[0].access_token}`;
+  const header = {
+    "Content-Type": "application/json",
+    "Authorization": `Bearer ${dataAccount[0].access_token}`
+  };
 
   const facebookEndpoint =
-    "https://graph.facebook.com/v13.0/" + dataAccount[0].whatsappNumber_ID + "/messages";
+    `https://graph.facebook.com/v13.0/${dataAccount[0].whatsappNumber_ID}/messages`;
 
-  await sendRequest(header, facebookEndpoint, json, function (error, response, responseCode) {
+  await sendRequest(header, facebookEndpoint, JSON.parse(json), function (error, response, responseCode) {
     if (error) {
       console.log("error : " + JSON.stringify(error, null, responseCode));
       return callback(error, null, responseCode);
@@ -97,10 +105,8 @@ async function sendRequest(header, url, json, callback) {
     method: "POST", // Required, HTTP method, a string, e.g. POST, GET
     // url: "https://coordinated-honey-taste.glitch.me/test", //for testing purpose using sandbox
     url: url,
-    data: {
-      json,
-    },
-    headers: { "Content-Type": "application/json" },
+    data: json,
+    headers: header,
   })
     .then((response) => {
       let respJSON = response.data;
@@ -110,7 +116,6 @@ async function sendRequest(header, url, json, callback) {
       return callback(null, jsonResponse, 200);
     })
     .catch((error) => {
-      console.log("response code :" + error.response.status);
       let errorJSON = error.response.data;
       console.log("errorJSON : " + JSON.stringify(errorJSON, null, 2));
       let jsonResponse;

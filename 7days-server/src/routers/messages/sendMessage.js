@@ -9,7 +9,7 @@ const { resultCode } = require("../../helper/resultCode");
 const router = express.Router();
 var jsonParser = bodyParser.json();
 
-router.post("/messages/sendMessage", jsonParser, async (req, res) => {
+router.post("/messages/sendMessage", jsonParser, authSU, async (req, res) => {
   try {
     let data = req.body;
     console.log(JSON.stringify(req.body, null, 2));
