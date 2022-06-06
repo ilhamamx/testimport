@@ -3,7 +3,7 @@ import React , {useState} from 'react'
 import {KTSVG, toAbsoluteUrl} from '../../../resources/helpers'
 import {Link} from 'react-router-dom'
 import {Dropdown1} from '../../../resources/partials'
-import {useLocation} from 'react-router'
+import {useLocation} from 'react-router-dom'
 import { Contact } from '../../layout/contact-management/contact-list/core/_models'
 
 const AccountHeader = ({customer} : {customer: Contact}) => {

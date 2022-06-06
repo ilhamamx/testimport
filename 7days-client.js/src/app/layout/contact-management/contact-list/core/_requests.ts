@@ -7,8 +7,8 @@ import {
 import { fetchCustomers, deleteCustomer } from "../../../../../actions";
 //import { Contact } from '../../../../pages/Contact'
 import firebase from "firebase/compat/app";
-import db, { fetchCustomersNext, fetchCustomersPrev , getCustomerCountByCompanyID, fetchCountCustomers} from "../../../../../db";
-import { format, compareAsc, compareDesc } from "date-fns";
+import { fetchCustomersNext, fetchCustomersPrev , fetchCountCustomers, createCustomer } from "../../../../../db";
+import { format,} from "date-fns";
 
 const API_URL = process.env.REACT_APP_THEME_API_URL;
 const USER_URL = `${API_URL}/user`;
@@ -56,7 +56,7 @@ const getContacts = (
       for (var i = 0; i < customersLength; i++) {
         let data = customers[i].data;
         data.id = customers[i].id;
-        if (data.lastInteractionAt != undefined) {
+        if (data.lastInteractionAt !== undefined) {
           data.lastInteractionAt = format(
             new Date(customers[i].data.lastInteractionAt.seconds * 1000),
             "d MMM yyyy, h:mm aaa"
@@ -124,7 +124,7 @@ const getContacts = (
       for (var i = 0; i < customersLength; i++) {
         let data = customers[i].data;
         data.id = customers[i].id;
-        if (data.lastInteractionAt != undefined) {
+        if (data.lastInteractionAt !== undefined) {
           data.lastInteractionAt = format(
             new Date(customers[i].data.lastInteractionAt.seconds * 1000),
             "d MMM yyyy, h:mm aaa"
@@ -192,7 +192,7 @@ const getContacts = (
       for (var i = 0; i < customersLength; i++) {
         let data = customers[i].data;
         data.id = customers[i].id;
-        if (data.lastInteractionAt != undefined) {
+        if (data.lastInteractionAt !== undefined) {
           data.lastInteractionAt = format(
             new Date(customers[i].data.lastInteractionAt.seconds * 1000),
             "d MMM yyyy, h:mm aaa"
@@ -265,11 +265,16 @@ const getContactById = (id: ID): Promise<Contact | undefined> => {
     .then((response: Response<Contact>) => response.data);
 };
 
-const createContact = (contact: Contact): Promise<Contact | undefined> => {
-  return axios
-    .put(USER_URL, contact)
-    .then((response: AxiosResponse<Response<Contact>>) => response.data)
-    .then((response: Response<Contact>) => response.data);
+const createContact = (contact: Contact): Promise<Contact | undefined | string | void> => {
+  console.log("create CONTACT ===>>>"+JSON.stringify(contact));
+  
+
+  return createCustomer(contact);
+
+  // return axios
+  //   .put(USER_URL, contact)
+  //   .then((response: AxiosResponse<Response<Contact>>) => response.data)
+  //   .then((response: Response<Contact>) => response.data);
 };
 
 const updateContact = (contact: Contact): Promise<Contact | undefined> => {

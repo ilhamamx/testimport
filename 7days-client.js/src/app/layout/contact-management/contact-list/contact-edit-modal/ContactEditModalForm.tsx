@@ -32,14 +32,25 @@ const ContactEditModalForm: FC<Props> = ({ contact, isUserLoading }) => {
   const { setItemIdForUpdate } = useListView();
   const { refetch } = useQueryResponse();
 
-  const [contactForEdit] = useState<Contact>({
-    ...contact,
+  // const [contactForEdit] = useState<Contact>({
+  //   ...contact,
+  //   avatar: contact.avatar || initialContact.avatar,
+  //   gender: contact.gender || initialContact.gender,
+  //   phoneNumber: contact.phoneNumber || initialContact.phoneNumber,
+  //   lastInteractionAt:
+  //     contact.lastInteractionAt || initialContact.lastInteractionAt,
+  //   firstName: contact.firstName || initialContact.firstName,
+  //   email: contact.email || initialContact.email,
+  // });
+
+  const [contactForEdit] = useState({
+    // ...contact,
     avatar: contact.avatar || initialContact.avatar,
-    role: contact.role || initialContact.role,
-    lastInteractionAt:
-      contact.lastInteractionAt || initialContact.lastInteractionAt,
+    phoneNumber: contact.phoneNumber || initialContact.phoneNumber,
     firstName: contact.firstName || initialContact.firstName,
     email: contact.email || initialContact.email,
+    isActive: true,
+    companyID: 'cWt6gXnRGTFqL5TbYn6r'
   });
 
   const cancel = (withRefresh?: boolean) => {
@@ -50,7 +61,8 @@ const ContactEditModalForm: FC<Props> = ({ contact, isUserLoading }) => {
   };
 
   const blankImg = toAbsoluteUrl("/media/svg/avatars/blank.svg");
-  const userAvatarImg = toAbsoluteUrl(`/media/${contactForEdit.avatar}`);
+  // const userAvatarImg = toAbsoluteUrl(`/media/${contactForEdit.avatar}`);
+  const userAvatarImg = toAbsoluteUrl(`${contactForEdit.avatar}`);
 
   const formik = useFormik({
     initialValues: contactForEdit,
@@ -58,7 +70,7 @@ const ContactEditModalForm: FC<Props> = ({ contact, isUserLoading }) => {
     onSubmit: async (values, { setSubmitting }) => {
       setSubmitting(true);
       try {
-        if (isNotEmpty(values.id)) {
+        if (Object.values(values).includes('id')) {
           await updateContact(values);
         } else {
           await createContact(values);
@@ -213,13 +225,13 @@ const ContactEditModalForm: FC<Props> = ({ contact, isUserLoading }) => {
               autoComplete="off"
               disabled={formik.isSubmitting || isUserLoading}
             />
-            {formik.touched.lastName && formik.errors.lastName && (
+            {/* {formik.touched.lastName && formik.errors.lastName && (
               <div className="fv-plugins-message-container">
                 <div className="fv-help-block">
                   <span role="alert">{formik.errors.lastName}</span>
                 </div>
               </div>
-            )}
+            )} */}
             {/* end::Input */}
           </div>
           {/* end::Input group */}
@@ -299,10 +311,11 @@ const ContactEditModalForm: FC<Props> = ({ contact, isUserLoading }) => {
             {/* begin::Input */}
             <select
               className="form-select form-control form-control-solid mb-3 mb-lg-0"
+              {...formik.getFieldProps('gender')}
               name="gender"
               disabled={formik.isSubmitting || isUserLoading}
             >
-              {/* <option selected>Open this select menu</option> */}
+              <option selected>Select gender . . .</option>
               <option value="male">Male</option>
               <option value="female">Female</option>
               <option value="other">Other</option>
@@ -318,34 +331,36 @@ const ContactEditModalForm: FC<Props> = ({ contact, isUserLoading }) => {
             {/* end::Label */}
 
             {/* begin::Input */}
-            <input type="date" className="form-control form-control-solid mb-3 mb-lg-0" id="birthdate" />
+            <input type="date" className="form-control form-control-solid mb-3 mb-lg-0" id="birthdate"
+              {...formik.getFieldProps('birthdate')} />
             {/* <span className="input-group-append">
               <span className="input-group-text bg-light d-block">
                 <i className="fa fa-calendar"></i>
               </span>
             </span> */}
             {/* end::Input */}
-            {formik.touched.birthdate && formik.errors.birthdate && (
+            {/* {formik.touched.birthdate && formik.errors.birthdate && (
               <div className="fv-plugins-message-container">
                 <span role="alert">{formik.errors.birthdate}</span>
               </div>
-            )}
+            )} */}
           </div>
           {/* end::Input group */}
 
           {/* begin::Input group */}
           <div className="fv-row mb-7">
             {/* begin::Label */}
-            <label className="fw-bold fs-6 mb-2">Marrietal Status</label>
+            <label className="fw-bold fs-6 mb-2">Marital Status</label>
             {/* end::Label */}
 
             {/* begin::Input */}
             <select
               className="form-select form-control form-control-solid mb-3 mb-lg-0"
-              name="gender"
+              {...formik.getFieldProps('maritalStatus')}
+              name="maritalStatus"
               disabled={formik.isSubmitting || isUserLoading}
             >
-              {/* <option selected>Open this select menu</option> */}
+              <option selected>Select status. . .</option>
               <option value="single">Single</option>
               <option value="married">Married</option>
               {/* <option value="other">Other</option> */}
@@ -375,7 +390,7 @@ const ContactEditModalForm: FC<Props> = ({ contact, isUserLoading }) => {
             {/* end::Input */}
           </div>
           {/* end::Input group */}
-
+                
           {/* begin::Input group */}
           <div className="fv-row mb-7">
             {/* begin::Label */}
@@ -683,6 +698,7 @@ const ContactEditModalForm: FC<Props> = ({ contact, isUserLoading }) => {
             type="submit"
             className="btn btn-primary"
             data-kt-users-modal-action="submit"
+            onClick={() => {console.log(formik.values)}}
             disabled={
               isUserLoading ||
               formik.isSubmitting ||
