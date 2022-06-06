@@ -49,11 +49,11 @@ const ContactActionsCell: FC<Props> = ({id}) => {
         data-kt-menu='true'
       >
         {/* begin::Menu item */}
-        <div className='menu-item px-3'>
+        {/* <div className='menu-item px-3'>
           <a className='menu-link px-3' onClick={openEditModal}>
             Edit
           </a>
-        </div>
+        </div> */}
         {/* end::Menu item */}
 
         {/* begin::Menu item */}

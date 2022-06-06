@@ -1,4 +1,4 @@
-import {ID, Response} from '../../../../../resources/helpers'
+import {ID, Response,toAbsoluteUrl} from '../../../../../resources/helpers'
 export type Contact = {
   id?: string
   firstName?: string
@@ -35,10 +35,10 @@ export type Contact = {
 export type ContactsQueryResponse = Response<Array<Contact>>
 
 export const initialContact: Contact = {
-  avatar: 'https://images.unsplash.com/photo-1497316730643-415fac54a2af?crop=entropy&cs=tinysrgb&fm=jpg&ixlib=rb-1.2.1&q=60&raw_url=true&ixid=MnwxMjA3fDB8MHxzZWFyY2h8OXx8cHJvZmlsZXxlbnwwfHwwfHw%3D&auto=format&fit=crop&w=500',
+  avatar: toAbsoluteUrl("/media/icons/avatar/def-avatar.png"),
   firstName: '',
   email: '',
   // role: '',
-  phoneNumber: ''
+  phoneNumber: '',
 }
 

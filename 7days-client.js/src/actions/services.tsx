@@ -6,15 +6,6 @@ import {
 import * as db from "../db";
 import { resourceLimits } from 'worker_threads';
 
-// export const fetchCustomers = () => (dispatch : any) =>
-//   api.fetchCustomers()
-//   .then((customers) =>
-//     dispatch({
-//       type: FETCH_CUSTOMER_SUCCESS,
-//       customers
-//     })\
-//   );
-
-  export const fetchCustomers = ( search: string, limit: number) => db.fetchCustomers( search, limit)
+  export const fetchCustomers = ( search: string, limit: number, companyID: firebase.firestore.DocumentReference) => db.fetchCustomers( search, limit, companyID)
 
   export const deleteCustomer = (id: string ) => db.deleteCustomer(id)

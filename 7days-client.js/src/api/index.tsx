@@ -1,6 +1,7 @@
 import firebase from 'firebase/compat/app'
 import 'firebase/compat/auth'
 import * as lc from '../app/modules/localstorage';
+import { getCompanyRefByUserID } from '../db';
 import { createSession } from '../db/session';
 
 export const login = async (email:string, password:string, isrememberme:true|false ):Promise<string> => {
@@ -19,10 +20,22 @@ export const login = async (email:string, password:string, isrememberme:true|fal
         currentUser = (await a).user;
         if(currentUser!=null){
           createSession(currentUser.uid);
+          console.log("type =====>>>>>>"+currentUser.uid);
+          console.log("current user"+JSON.stringify(currentUser));
+          
           if(isrememberme){
             lc.setItemLC(lc.LCName.User,currentUser);
+            lc.setItemLC("UID",currentUser.uid);
           }else{
             lc.setItemLCWithExpiry(lc.LCName.User,currentUser,3);
+            lc.setItemLCWithExpiry("UID",currentUser.uid,3); 
+          }
+
+          let companyRef;
+          const getCompanyRef = getCompanyRefByUserID(currentUser.uid)
+          companyRef = (await getCompanyRef);
+          if(companyRef!== null){
+            console.log("ref : " + JSON.stringify(companyRef));
           }
         }
       })

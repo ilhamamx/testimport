@@ -7,10 +7,10 @@ import firebase from "firebase/compat/app";
 let firstVisible: firebase.firestore.QueryDocumentSnapshot;
 let lastVisible: firebase.firestore.QueryDocumentSnapshot;
 // let field = "firstName";
-export const fetchCustomers = (search: string, limit: number) =>
+export const fetchCustomers = (search: string, limit: number, companyID: firebase.firestore.DocumentReference ) =>
   db
     .collection("customers")
-    .where("companyID", "==", "cWt6gXnRGTFqL5TbYn6r")
+    .where("companyID", "==", companyID)
     .where("isActive", "==", true)
     .orderBy("firstName")
     .startAt(search)
@@ -35,10 +35,10 @@ export const fetchCustomers = (search: string, limit: number) =>
 export const deleteCustomer = (id: string) =>
   db.collection("customers").doc(id).update({ isActive: false });
 
-export const fetchCustomersNext = (search: string, limit: number) =>
+export const fetchCustomersNext = (search: string, limit: number, companyID: firebase.firestore.DocumentReference) =>
   db
     .collection("customers")
-    .where("companyID", "==", "cWt6gXnRGTFqL5TbYn6r")
+    .where("companyID", "==", companyID)
     .where("isActive", "==", true)
     .orderBy("firstName")
     .startAt(search)
@@ -59,10 +59,10 @@ export const fetchCustomersNext = (search: string, limit: number) =>
       return customers;
     });
 
-export const fetchCustomersPrev = (search: string, limit: number) =>
+export const fetchCustomersPrev = (search: string, limit: number, companyID: firebase.firestore.DocumentReference) =>
   db
     .collection("customers")
-    .where("companyID", "==", "cWt6gXnRGTFqL5TbYn6r")
+    .where("companyID", "==", companyID)
     .where("isActive", "==", true)
     .orderBy("firstName")
     .startAt(search)
@@ -93,11 +93,26 @@ export const getCustomerByID = async (id: string) =>
       console.log("Error getting documents (getCustomerByID)", err);
     });
 
-export const createCustomer = (contact : any) => {
+export const createCustomer = (contact: any) => {
   return db
     .collection("customers")
     .add(contact)
-    .then((docRef) => {console.log("New customer : " + docRef.id)})
+    .then((docRef) => {
+      console.log("New customer : " + docRef.id);
+    })
+    .catch((err) => {
+      console.log("Error create customer : ", err);
+    });
+};
+
+export const updateCustomer = (contact: any) => {
+  return db
+    .collection("customers")
+    .doc(contact.id)
+    .update(contact)
+    .then((doc) => {
+      console.log("Updated: " + doc);
+    })
     .catch((err) => {
       console.log("Error create customer : ", err);
     });

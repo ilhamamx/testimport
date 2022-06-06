@@ -7,8 +7,9 @@ import {
 import { fetchCustomers, deleteCustomer } from "../../../../../actions";
 //import { Contact } from '../../../../pages/Contact'
 import firebase from "firebase/compat/app";
-import { fetchCustomersNext, fetchCustomersPrev , fetchCountCustomers, createCustomer } from "../../../../../db";
+import { fetchCustomersNext, fetchCustomersPrev , fetchCountCustomers, createCustomer, updateCustomer, firebases } from "../../../../../db";
 import { format,} from "date-fns";
+import { createRef } from "../../../../../db/connection";
 
 const API_URL = process.env.REACT_APP_THEME_API_URL;
 const USER_URL = `${API_URL}/user`;
@@ -49,8 +50,10 @@ const getContacts = (
   }
   console.log("order =====>>" + orderBy);
 
+  const companyRef = createRef("company", 'cWt6gXnRGTFqL5TbYn6r')
+
   if(action === "prev"){
-    return fetchCustomersPrev(searchBy, limit).then((customers) => {
+    return fetchCustomersPrev(searchBy, limit, companyRef).then((customers) => {
       var customersLength = customers.length;
       let dataUser = [];
       for (var i = 0; i < customersLength; i++) {
@@ -118,7 +121,7 @@ const getContacts = (
       return contactQueryResponse;
     });
   }else if (action==="next"){
-    return fetchCustomersNext(searchBy, limit).then((customers) => {
+    return fetchCustomersNext(searchBy, limit, companyRef).then((customers) => {
       var customersLength = customers.length;
       let dataUser = [];
       for (var i = 0; i < customersLength; i++) {
@@ -186,7 +189,7 @@ const getContacts = (
       return contactQueryResponse;
     });
   }else{
-    return fetchCustomers(searchBy, limit).then((customers) => {
+    return fetchCustomers(searchBy, limit, companyRef).then((customers) => {
       var customersLength = customers.length;
       let dataUser = [];
       for (var i = 0; i < customersLength; i++) {
@@ -247,6 +250,7 @@ const getContacts = (
         }
       }
   
+      console.log("data contact : " + JSON.stringify(dataUser))
       let contactsItem = {
         data: dataUser,
       };
@@ -265,7 +269,7 @@ const getContactById = (id: ID): Promise<Contact | undefined> => {
     .then((response: Response<Contact>) => response.data);
 };
 
-const createContact = (contact: Contact): Promise<Contact | undefined | string | void> => {
+const createContact = (contact: any): Promise<Contact | undefined | string | void> => {
   console.log("create CONTACT ===>>>"+JSON.stringify(contact));
   
 
@@ -277,11 +281,13 @@ const createContact = (contact: Contact): Promise<Contact | undefined | string |
   //   .then((response: Response<Contact>) => response.data);
 };
 
-const updateContact = (contact: Contact): Promise<Contact | undefined> => {
-  return axios
-    .post(`${USER_URL}/${contact.id}`, contact)
-    .then((response: AxiosResponse<Response<Contact>>) => response.data)
-    .then((response: Response<Contact>) => response.data);
+const updateContact = (contact: any): Promise<Contact | undefined | string | void> => {
+
+  return updateCustomer(contact)
+  // return axios
+  //   .post(`${USER_URL}/${contact.id}`, contact)
+  //   .then((response: AxiosResponse<Response<Contact>>) => response.data)
+  //   .then((response: Response<Contact>) => response.data);
 };
 
 const deleteContact = (contactId: ID): Promise<void> => {

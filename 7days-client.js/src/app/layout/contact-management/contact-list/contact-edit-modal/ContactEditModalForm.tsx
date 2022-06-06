@@ -7,7 +7,8 @@ import clsx from "clsx";
 import { useListView } from "../core/ListViewProvider";
 import { ContactsListLoading } from "../components/loading/ContactListLoading";
 import { createContact, updateContact } from "../core/_requests";
-import { useQueryResponse } from "../core/QueryResponseProvider";
+import { useQueryResponse } from "../core/QueryResponseProvider"
+import { createRef } from "../../../../../db/connection";
 
 type Props = {
   isUserLoading: boolean;
@@ -26,12 +27,16 @@ const editContactSchema = Yup.object().shape({
     .required("First Name is required"),
   phoneNumber: Yup.string()
   .required("Phone number is required")
+  .matches(
+    /^(^\+628|628|^08)\d{7,11}$/,
+   "Invalid Format"
+  ),
 });
 
 const ContactEditModalForm: FC<Props> = ({ contact, isUserLoading }) => {
   const { setItemIdForUpdate } = useListView();
   const { refetch } = useQueryResponse();
-
+  const companyRef = createRef("company", 'cWt6gXnRGTFqL5TbYn6r');
   // const [contactForEdit] = useState<Contact>({
   //   ...contact,
   //   avatar: contact.avatar || initialContact.avatar,
@@ -50,7 +55,9 @@ const ContactEditModalForm: FC<Props> = ({ contact, isUserLoading }) => {
     firstName: contact.firstName || initialContact.firstName,
     email: contact.email || initialContact.email,
     isActive: true,
-    companyID: 'cWt6gXnRGTFqL5TbYn6r'
+    companyID: companyRef,
+    firstNameInsensitive: '',
+    gender: ''
   });
 
   const cancel = (withRefresh?: boolean) => {
@@ -73,6 +80,17 @@ const ContactEditModalForm: FC<Props> = ({ contact, isUserLoading }) => {
         if (Object.values(values).includes('id')) {
           await updateContact(values);
         } else {
+
+          if(values.phoneNumber!.startsWith("0")){
+            values.phoneNumber = '62' + values.phoneNumber!.substring(1);
+          }
+
+          const fnameInsensitive = values.firstName!.toLowerCase();
+          values.firstNameInsensitive = fnameInsensitive;
+          if(values.gender === 'male')
+            values.avatar = toAbsoluteUrl('/media/icons/avatar/m-avatar.png')
+          else if(values.gender === 'female')
+            values.avatar = toAbsoluteUrl('/media/icons/avatar/f-avatar.png')
           await createContact(values);
         }
       } catch (ex) {
@@ -123,7 +141,7 @@ const ContactEditModalForm: FC<Props> = ({ contact, isUserLoading }) => {
               {/* end::Preview existing avatar */}
 
               {/* begin::Label */}
-              <label
+              {/* <label
                 className="btn btn-icon btn-circle btn-active-color-primary w-25px h-25px bg-body shadow"
                 data-kt-image-input-action="change"
                 data-bs-toggle="tooltip"
@@ -133,29 +151,29 @@ const ContactEditModalForm: FC<Props> = ({ contact, isUserLoading }) => {
 
                 <input type="file" name="avatar" accept=".png, .jpg, .jpeg" />
                 <input type="hidden" name="avatar_remove" />
-              </label>
+              </label> */}
               {/* end::Label */}
 
               {/* begin::Cancel */}
-              <span
+              {/* <span
                 className="btn btn-icon btn-circle btn-active-color-primary w-25px h-25px bg-body shadow"
                 data-kt-image-input-action="cancel"
                 data-bs-toggle="tooltip"
                 title="Cancel avatar"
               >
                 <i className="bi bi-x fs-2"></i>
-              </span>
+              </span> */}
               {/* end::Cancel */}
 
               {/* begin::Remove */}
-              <span
+              {/* <span
                 className="btn btn-icon btn-circle btn-active-color-primary w-25px h-25px bg-body shadow"
                 data-kt-image-input-action="remove"
                 data-bs-toggle="tooltip"
                 title="Remove avatar"
               >
                 <i className="bi bi-x fs-2"></i>
-              </span>
+              </span> */}
               {/* end::Remove */}
             </div>
             {/* end::Image input */}
@@ -264,8 +282,10 @@ const ContactEditModalForm: FC<Props> = ({ contact, isUserLoading }) => {
             />
             {/* end::Input */}
             {formik.touched.phoneNumber && formik.errors.phoneNumber && (
-              <div className="fv-plugins-message-container">
-                <span role="alert">{formik.errors.phoneNumber}</span>
+                <div className="fv-plugins-message-container">
+                <div className="fv-help-block">
+                  <span role="alert">{formik.errors.phoneNumber}</span>
+                </div>
               </div>
             )}
           </div>
@@ -295,9 +315,11 @@ const ContactEditModalForm: FC<Props> = ({ contact, isUserLoading }) => {
             />
             {/* end::Input */}
             {formik.touched.email && formik.errors.email && (
-              <div className="fv-plugins-message-container">
-                <span role="alert">{formik.errors.email}</span>
-              </div>
+             <div className="fv-plugins-message-container">
+             <div className="fv-help-block">
+               <span role="alert">{formik.errors.email}</span>
+             </div>
+           </div>
             )}
           </div>
           {/* end::Input group */}
@@ -315,7 +337,7 @@ const ContactEditModalForm: FC<Props> = ({ contact, isUserLoading }) => {
               name="gender"
               disabled={formik.isSubmitting || isUserLoading}
             >
-              <option selected>Select gender . . .</option>
+              <option value=''>Select gender . . .</option>
               <option value="male">Male</option>
               <option value="female">Female</option>
               <option value="other">Other</option>
@@ -360,7 +382,7 @@ const ContactEditModalForm: FC<Props> = ({ contact, isUserLoading }) => {
               name="maritalStatus"
               disabled={formik.isSubmitting || isUserLoading}
             >
-              <option selected>Select status. . .</option>
+              <option value=''>Select status. . .</option>
               <option value="single">Single</option>
               <option value="married">Married</option>
               {/* <option value="other">Other</option> */}
