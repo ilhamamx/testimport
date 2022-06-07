@@ -9,6 +9,7 @@ import {ContactSelectionHeader} from './ContactSelectionHeader'
 import {Contact} from '../../core/_models'
 import {ContactPhoneNumberCell} from './ContactPhoneNumberCell'
 import {ContactLastLoginCell} from './ContactLastLoginCell'
+import { useTranslation } from "react-i18next";
 
 const contactsColumns: ReadonlyArray<Column<Contact>> = [
   {
@@ -17,25 +18,25 @@ const contactsColumns: ReadonlyArray<Column<Contact>> = [
     Cell: ({...props}) => <ContactSelectionCell id={props.data[props.row.index].id} />,
   },
   {
-    Header: (props) => <ContactCustomHeader tableProps={props} title='Name' className='min-w-125px' />,
+    Header: (props) => <ContactCustomHeader tableProps={props} title="Contacts.Column.Name" className='min-w-125px' />,
     id: 'firstName',
     Cell: ({...props}) => <ContactInfoCell contact={props.data[props.row.index]} />,
   },
   {
-    Header: (props) => <ContactCustomHeader tableProps={props} title='Phone Number' className='min-w-125px' />,
+    Header: (props) => <ContactCustomHeader tableProps={props} title="Contacts.Column.PhoneNumber" className='min-w-125px' />,
     id: 'phoneNumber',
     Cell: ({...props}) => <ContactPhoneNumberCell phoneNumber={props.data[props.row.index].phoneNumber} />,
   },
   {
     Header: (props) => (
-      <ContactCustomHeader tableProps={props} title='Email' className='min-w-125px' />
+      <ContactCustomHeader tableProps={props} title="Contacts.Column.Email" className='min-w-125px' />
     ),
     id: 'email',
     Cell: ({...props}) => <ContactEmailCell email={props.data[props.row.index].email} />,
   },
   {
     Header: (props) => (
-      <ContactCustomHeader tableProps={props} title='Last Interaction' className='min-w-125px' />
+      <ContactCustomHeader tableProps={props} title="Contacts.Column.LastInteractions" className='min-w-125px' />
     ),
     id: 'lastInteractionAt',
     Cell: ({...props}) => <ContactLastLoginCell lastLogin={props.data[props.row.index].lastInteractionAt} />,
@@ -55,7 +56,7 @@ const contactsColumns: ReadonlyArray<Column<Contact>> = [
   // },
   {
     Header: (props) => (
-      <ContactCustomHeader tableProps={props} title='Actions' className='text-end min-w-100px' />
+      <ContactCustomHeader tableProps={props} title="Contacts.Column.Actions" className='text-end min-w-100px' />
     ),
     id: 'actions',
     Cell: ({...props}) => <ContactActionsCell id={props.data[props.row.index].id} />,

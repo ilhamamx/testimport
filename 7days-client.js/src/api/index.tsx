@@ -22,14 +22,24 @@ export const login = async (email:string, password:string, isrememberme:true|fal
           createSession(currentUser.uid);
           console.log("type =====>>>>>>"+currentUser.uid);
           console.log("current user"+JSON.stringify(currentUser));
+
+          let companyRef;
+          const getCompanyRef = getCompanyRefByUserID(currentUser.uid)
+          companyRef = (await getCompanyRef);
+          if(companyRef!== null){
+            console.log("ref =====>>: " + JSON.stringify(companyRef));  
+          }
           
           if(isrememberme){
             lc.setItemLC(lc.LCName.User,currentUser);
             lc.setItemLC("UID",currentUser.uid);
+            lc.setItemLC("CID",companyRef);
           }else{
             lc.setItemLCWithExpiry(lc.LCName.User,currentUser,3);
             lc.setItemLCWithExpiry("UID",currentUser.uid,3); 
+            lc.setItemLCWithExpiry("CID",companyRef,3);
           }
+
         }
       })
     

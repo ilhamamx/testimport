@@ -12,7 +12,7 @@ const Content: React.FC = ({children}) => {
   // }, [location])
 
   return (
-    <div id='kt_content_container' className="container-xxl">
+    <div id='kt_content_container' className="container">
       {children}
     </div>
   )

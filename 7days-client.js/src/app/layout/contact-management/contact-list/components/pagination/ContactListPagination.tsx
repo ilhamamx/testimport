@@ -8,8 +8,10 @@ import {
 import { useQueryRequest } from "../../core/QueryRequestProvider";
 import { fetchCountCustomers } from "../../../../../../db";
 import { count } from "console";
+import { useTranslation } from "react-i18next";
 
 const ContactsListPagination = () => {
+  const { t } = useTranslation();
   const isLoading = useQueryResponseLoading();
   const { state, updateState } = useQueryRequest();
   const [count, setCount] = useState(0);
@@ -108,7 +110,7 @@ const ContactsListPagination = () => {
             {page <= 1 ? (
               <li className="page-item disabled">
                 <a className="page-link " style={{ cursor: "pointer" }}>
-                  « Previous
+                  « {t("Contacts.Pages.Previous")}
                 </a>
               </li>
             ) : (
@@ -118,7 +120,7 @@ const ContactsListPagination = () => {
                   style={{ cursor: "pointer" }}
                   onClick={PrevItemPage}
                 >
-                  « Previous
+                  « {t("Contacts.Pages.Previous")}
                 </a>
               </li>
             )}
@@ -145,7 +147,7 @@ const ContactsListPagination = () => {
             {page === Math.ceil(maxPage) ? (
               <li className="page-item disabled">
                 <a className="page-link " style={{ cursor: "pointer" }}>
-                  Next »
+                {t("Contacts.Pages.Next")} »
                 </a>
               </li>
             ) : (
@@ -155,7 +157,7 @@ const ContactsListPagination = () => {
                   style={{ cursor: "pointer" }}
                   onClick={NextItemPage}
                 >
-                  Next »
+                  {t("Contacts.Pages.Next")} »
                 </a>
               </li>
             )}

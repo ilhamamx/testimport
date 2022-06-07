@@ -6,6 +6,7 @@ import {ID, KTSVG, QUERIES} from '../../../../../../resources/helpers'
 import {useListView} from '../../core/ListViewProvider'
 import {useQueryResponse} from '../../core/QueryResponseProvider'
 import {deleteContact} from '../../core/_requests'
+import { useTranslation } from "react-i18next";
 
 type Props = {
   id: ID
@@ -15,6 +16,7 @@ const ContactActionsCell: FC<Props> = ({id}) => {
   const {setItemIdForUpdate} = useListView()
   const {query} = useQueryResponse()
   const queryClient = useQueryClient()
+  const { t } = useTranslation();
 
   useEffect(() => {
     MenuComponent.reinitialization()
@@ -40,7 +42,7 @@ const ContactActionsCell: FC<Props> = ({id}) => {
         data-kt-menu-trigger='click'
         data-kt-menu-placement='bottom-end'
       >
-        Actions
+        {t('Contacts.Column.Actions')}
         <KTSVG path='/media/icons/duotune/arrows/arr072.svg' className='svg-icon-5 m-0' />
       </a>
       {/* begin::Menu */}
@@ -63,7 +65,7 @@ const ContactActionsCell: FC<Props> = ({id}) => {
             data-kt-users-table-filter='delete_row'
             onClick={async () => await deleteItem.mutateAsync()}
           >
-            Delete
+            {t('Contacts.Menu.Delete')}
           </a>
         </div>
         {/* end::Menu item */}

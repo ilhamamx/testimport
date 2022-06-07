@@ -19,8 +19,6 @@ const AccountPage: React.FC = () => {
   const { t } = useTranslation();
   let dataContact: Contact;
   const [contactData, setContactData] = useState({});
-  //let contactData: Partial <Contact> = {} ;
-  let currentActivity: string = "overview";
 
   useEffect(() => {
     getCustomerDetail();
@@ -32,7 +30,7 @@ const AccountPage: React.FC = () => {
         console.log("get customer by id " + JSON.stringify(doc));
         dataContact = doc as Contact;
         setContactData(dataContact);
-        console.log("Test : " + JSON.stringify(contactData));
+        // console.log("Test : " + JSON.stringify(contactData));
       });
     }
   };

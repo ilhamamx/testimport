@@ -1,13 +1,15 @@
 import {KTSVG} from '../../../../../resources/helpers'
 import {useListView} from '../core/ListViewProvider'
+import { useTranslation } from "react-i18next";
 
 const ContactEditModalHeader = () => {
   const {setItemIdForUpdate} = useListView()
+  const { t } = useTranslation();
 
   return (
     <div className='modal-header'>
       {/* begin::Modal title */}
-      <h2 className='fw-bolder'>Add User</h2>
+      <h2 className='fw-bolder'>{t("Contacts.Button.AddUser")}</h2>
       {/* end::Modal title */}
 
       {/* begin::Close */}

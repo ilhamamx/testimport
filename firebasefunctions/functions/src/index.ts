@@ -119,3 +119,58 @@ exports.findEmailByPhone = functions.https
         return response.status(400).send({error: "invalid user"});
       });
   });
+
+  exports.onCreateCustomer = functions.firestore.document('/customers/{uid}')
+  .onCreate((snap, context) => {
+    // Get an object representing the document
+    // e.g. {'name': 'Marie', 'age': 66}
+    const newValue = snap.data();
+    console.log("New Customer created, data : " + JSON.stringify(newValue));
+
+    // perform desired operations ...
+    if(newValue.companyID !== null ){
+      console.log("New Customer created, update customer count . . .");
+      firestore.collection("company").doc(newValue.companyID.id).update({customerCount: admin.firestore.FieldValue.increment(1)})
+    }
+    return;
+  });
+
+  exports.onDeleteCustomer = functions.firestore.document('/customers/{uid}')
+  .onDelete((snap, context) => {
+    // Get an object representing the document
+    // e.g. {'name': 'Marie', 'age': 66}
+    const deletedValue = snap.data();
+    console.log("Deleted data : " + JSON.stringify(deletedValue));
+
+    // perform desired operations ...
+    if(deletedValue.companyID !== null ){
+      console.log("Delete Customer, update customer count . . .");
+      firestore.collection("company").doc(deletedValue.companyID.id).update({customerCount: admin.firestore.FieldValue.increment(-1)})
+    }
+    return;
+  });
+
+  exports.onUpdateCustomer = functions.firestore.document('/customers/{uid}')
+  .onUpdate((change, context) => {
+    // Get an object representing the document
+    // e.g. {'name': 'Marie', 'age': 66}
+    const newValue = change.after.data();
+    console.log("Updated data : " + JSON.stringify(newValue));
+    // ...or the previous value before this update
+    const previousValue = change.before.data();
+
+     // perform desired operations ...
+    if(newValue.isActive !== previousValue.isActive){
+      console.log("Is Active Change . . .");
+      if(newValue.companyID !== null ){
+        console.log("Update customer count . . .");
+        if(newValue.isActive){
+          firestore.collection("company").doc(newValue.companyID.id).update({customerCount: admin.firestore.FieldValue.increment(1)}) 
+        }else{
+          firestore.collection("company").doc(newValue.companyID.id).update({customerCount: admin.firestore.FieldValue.increment(-1)})
+        }
+      }
+    }
+
+    return; 
+  });

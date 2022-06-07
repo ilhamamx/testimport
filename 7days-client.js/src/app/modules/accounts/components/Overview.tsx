@@ -10,11 +10,13 @@ import {
   TablesWidget5,
 } from "../../../../resources/partials/widgets";
 import { Contact } from "../../../layout/contact-management/contact-list/core/_models";
+import { useTranslation } from "react-i18next";
+
 
 export const Overview = ({ customer }: { customer: Contact }) => {
   const location = useLocation()
   const customerData: Contact = customer;
-
+  const { t } = useTranslation();
   console.log("customersss ==>> " + customer.id);
 
   return (
@@ -22,7 +24,7 @@ export const Overview = ({ customer }: { customer: Contact }) => {
       <div className="card mb-5 mb-xl-10" id="kt_profile_details_view">
         <div className="card-header cursor-pointer">
           <div className="card-title m-0">
-            <h3 className="fw-bolder m-0">Profile Details</h3>
+            <h3 className="fw-bolder m-0">{t('CD.Title.ProfileDetail')}</h3>
           </div>
 
           <Link
@@ -46,21 +48,21 @@ export const Overview = ({ customer }: { customer: Contact }) => {
                   customer.lastName)
             }
           >
-            Edit Profile
+            {t('CD.Button.EditProfile')}
           </Link>
           {/* <button className="btn btn-secondary align-self-center disabled">
             Save Changes
           </button> */}
         </div>
-
+   
         <div className="card-body p-9">
           <div className="row align-items-start pb-3">
-            <label className="col-sm-2 text-dark">First Name</label>
+            <label className="col-sm-2 text-dark">{t('CD.Input.FirstName')}</label>
             <div className="col-sm-2">
               <span className="fs-6 text-muted">{customer.firstName}</span>
             </div>
 
-            <label className="col-sm-2 text-dark">Last Name</label>
+            <label className="col-sm-2 text-dark">{t('CD.Input.LastName')}</label>
             <div className="col-sm-2">
               {customer.lastName ? (
                 <span className="fs-6 text-muted">{customer.lastName}</span>
@@ -68,8 +70,8 @@ export const Overview = ({ customer }: { customer: Contact }) => {
                 <span className="fs-6 text-muted">-</span>
               )}
             </div>
-
-            <label className="col-sm-2 text-dark">Gender</label>
+            
+            <label className="col-sm-2 text-dark">{t('CD.Input.Gender')}</label>
             <div className="col-sm-2">
               {customer.gender ? (
                 <span className="fs-6 text-muted">{customer.gender}</span>
@@ -80,7 +82,7 @@ export const Overview = ({ customer }: { customer: Contact }) => {
           </div>
 
           <div className="row align-items-start pb-3">
-            <label className="col-sm-2 text-dark">Birthdate</label>
+            <label className="col-sm-2 text-dark">{t('CD.Input.Birthdate')}</label>
             <div className="col-sm fv-row">
               {customer.birthdate ? (
                 <span className="fs-6 text-muted">{customer.birthdate}</span>
@@ -89,7 +91,7 @@ export const Overview = ({ customer }: { customer: Contact }) => {
               )}
             </div>
 
-            <label className="col-sm-2 text-dark">Marietal Status</label>
+            <label className="col-sm-2 text-dark">{t('CD.Input.MaritalStatus')}</label>
             <div className="col-sm fv-row">
               {customer.maritalStatus ? (
                 <span className="fs-6 text-muted">
@@ -107,11 +109,11 @@ export const Overview = ({ customer }: { customer: Contact }) => {
           </div>
           <div className="card-header ps-0">
             <div className="card-title m-0 pt-9 pb-3">
-              <h4 className="fw-bolder m-0">Address</h4>
+              <h4 className="fw-bolder m-0">{t('CD.Input.Address')}</h4>
             </div>
           </div>
           <div className="row align-items-start pt-3 pb-3">
-            <label className="col-sm-2 text-dark">City</label>
+            <label className="col-sm-2 text-dark">{t('CD.Input.City')}</label>
             <div className="col-sm fv-row">
               {customer.city ? (
                 <span className="fs-6 text-muted">{customer.city}</span>
@@ -119,7 +121,7 @@ export const Overview = ({ customer }: { customer: Contact }) => {
                 <span className="fs-6 text-muted">-</span>
               )}
             </div>
-            <label className="col-sm-2 text-dark">Zip Code</label>
+            <label className="col-sm-2 text-dark">{t('CD.Input.ZipCode')}</label>
             <div className="col-sm fv-row">
               {customer.zipcode ? (
                 <span className="fs-6 text-muted">{customer.zipcode}</span>
@@ -135,7 +137,7 @@ export const Overview = ({ customer }: { customer: Contact }) => {
           </div>
 
           <div className="row align-items-start pb-3">
-            <label className="col-sm-2 text-dark">Country</label>
+            <label className="col-sm-2 text-dark">{t('CD.Input.Country')}</label>
             <div className="col-sm fv-row">
               {customer.country ? (
                 <span className="fs-6 text-muted">{customer.country}</span>

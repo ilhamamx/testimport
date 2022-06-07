@@ -1,6 +1,6 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import React, { FC, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { getCustomerByID } from "../../../../../../db";
 import { KTSVG } from "../../../../../../resources/helpers";
 import {
@@ -17,7 +17,7 @@ import { initialContact, Contact } from "../../../../../layout/contact-managemen
 import { createContact, updateContact } from "../../../../../layout/contact-management/contact-list/core/_requests";
 import { useListView } from "../../../../../layout/contact-management/contact-list/core/ListViewProvider";
 import { useQueryResponse } from "../../../../../layout/contact-management/contact-list/core/QueryResponseProvider";
-
+import { useTranslation } from "react-i18next";
 
 type Props = {
   isUserLoading: boolean;
@@ -25,24 +25,18 @@ type Props = {
 };
 
 const editContactSchema = Yup.object().shape({
-  email: Yup.string()
-    .email("Wrong email format")
-    .min(3, "Minimum 3 symbols")
-    .max(50, "Maximum 50 symbols")
-    .required("Email is required"),
   firstName: Yup.string()
     .min(3, "Minimum 3 symbols")
     .max(50, "Maximum 50 symbols")
     .required("First Name is required"),
-  phoneNumber: Yup.string()
-  .required("Phone number is required")
 });
 
 export const ProfileDetailsEdit = ({ customer }: { customer: Contact }) => {  
-
-  const customerData: Contact = customer;
+  const { t } = useTranslation();
+  const customerData: Contact = customer; 
   const { setItemIdForUpdate } = useListView();
   const { refetch } = useQueryResponse();
+  const nav = useNavigate();
 
   console.log("customersss ==>> " + customer.id);
 
@@ -50,12 +44,16 @@ export const ProfileDetailsEdit = ({ customer }: { customer: Contact }) => {
     // ...contact,
     id: customer.id,
     avatar: customer.avatar,
-    phoneNumber: customer.phoneNumber,
-    firstName: customer.firstName ,
-    email: customer.email,
-    isActive: customer.isActive,
-    companyID: customer.companyID,
-    firstNameInsensitive: ''
+    firstName: customer.firstName,
+    lastName: customer.lastName,
+    gender: customer.gender,
+    birthdate: customer.birthdate,
+    maritalStatus: customer.maritalStatus,
+    city: customer.city,
+    zipcode: customer.zipcode,
+    country: customer.country,
+    firstNameInsensitive: "",
+
   });
 
   const cancel = (withRefresh?: boolean) => {
@@ -71,16 +69,22 @@ export const ProfileDetailsEdit = ({ customer }: { customer: Contact }) => {
     onSubmit: async (values, { setSubmitting }) => {
       setSubmitting(true);
       try {
-        
+        console.log("masuk update ==>> " + values);
           const fnameInsensitive = values.firstName!.toLowerCase();
           values.firstNameInsensitive = fnameInsensitive;
+          if(values.gender === 'male')
+            values.avatar = toAbsoluteUrl('/media/icons/avatar/m-avatar.png')
+          else if(values.gender === 'female')
+            values.avatar = toAbsoluteUrl('/media/icons/avatar/f-avatar.png')
           await updateContact(values);
       } catch (ex) {
         console.error(ex);
       } finally {
         setSubmitting(true);        
         cancel(true);
-        window.location.reload();
+        // nav('/contact/contact-detail/overview/'+values.firstName+"-"+values.lastName)
+        // window.location.reload();
+        nav(-1)
       }
     },
   });
@@ -96,7 +100,8 @@ export const ProfileDetailsEdit = ({ customer }: { customer: Contact }) => {
       <div className="card mb-5 mb-xl-10" id="kt_profile_details_view">
         <div className="card-header cursor-pointer">
           <div className="card-title m-0">
-            <h3 className="fw-bolder m-0">Profile Details</h3>
+            <h3 className="fw-bolder m-0">{t('CD.Title.ProfileDetail')}
+</h3>
           </div>
 
           {/* <Link to='#' className='btn btn-secondary align-self-center disabled'>
@@ -130,10 +135,10 @@ export const ProfileDetailsEdit = ({ customer }: { customer: Contact }) => {
             Save Changes
           </button>
         </div>
-
+ 
         <div className="card-body p-9">
           <div className="row align-items-start pb-3 mb-3">
-            <label className="col-sm-2 mt-4 text-dark">First Name</label>
+            <label className="col-sm-2 mt-4 text-dark">{t('CD.Input.FirstName')}</label>
             <div className="col-sm-2">
               <input
                 type="text"
@@ -145,7 +150,7 @@ export const ProfileDetailsEdit = ({ customer }: { customer: Contact }) => {
               />
             </div>
 
-            <label className="col-sm-2 text-dark mt-4">Last Name</label>
+            <label className="col-sm-2 text-dark mt-4">{t('CD.Input.LastName')}</label>
             <div className="col-sm-2">
               <input
                 type="text"
@@ -156,7 +161,7 @@ export const ProfileDetailsEdit = ({ customer }: { customer: Contact }) => {
               />
             </div>
 
-            <label className="col-sm-2 text-dark mt-4">Gender</label>
+            <label className="col-sm-2 text-dark mt-4">{t('CD.Input.Gender')}</label>
             <div className="col-sm-2">
               <select
                 className="form-select form-control form-control-solid mb-3 mb-lg-0"
@@ -166,13 +171,13 @@ export const ProfileDetailsEdit = ({ customer }: { customer: Contact }) => {
                 {/* <option selected>Open this select menu</option> */}
                 <option value="male">Male</option>
                 <option value="female">Female</option>
-                <option value="other">Other</option>
+                {/* <option value="other">Other</option> */}
               </select>
             </div>
           </div>
 
           <div className="row align-items-start pb-3 mb-3">
-            <label className="col-sm-2 text-dark mt-4">Birthdate</label>
+            <label className="col-sm-2 text-dark mt-4">{t('CD.Input.Birthdate')}</label>
             <div className="col-sm fv-row">
               <input
                 type="date"
@@ -182,12 +187,12 @@ export const ProfileDetailsEdit = ({ customer }: { customer: Contact }) => {
               />
             </div>
 
-            <label className="col-sm-2 text-dark mt-4">Marietal Status</label>
+            <label className="col-sm-2 text-dark mt-4">{t('CD.Input.MaritalStatus')}</label>
             <div className="col-sm fv-row">
               <select
                 className="form-select form-control form-control-solid mb-3 mb-lg-0"
-                {...formik.getFieldProps('marietalStatus')}
-                name="marietalStatus"
+                {...formik.getFieldProps('maritalStatus')}
+                name="maritalStatus"
               >
                 {/* <option selected>Open this select menu</option> */}
                 <option value="single">Single</option>
@@ -203,11 +208,11 @@ export const ProfileDetailsEdit = ({ customer }: { customer: Contact }) => {
           </div>
           <div className="card-header ps-0">
             <div className="card-title m-0 pt-9 pb-3">
-              <h4 className="fw-bolder m-0">Address</h4>
+              <h4 className="fw-bolder m-0">{t('CD.Input.Address')}</h4>
             </div>
           </div>
           <div className="row align-items-start pt-3 pb-3">
-            <label className="col-sm-2 text-dark mt-4">City</label>
+            <label className="col-sm-2 text-dark mt-4">{t('CD.Input.City')}</label>
             <div className="col-sm fv-row">
               <input
                 type="text"
@@ -216,7 +221,7 @@ export const ProfileDetailsEdit = ({ customer }: { customer: Contact }) => {
                 name="city"
               />
             </div>
-            <label className="col-sm-2 text-dark mt-4">Zip Code</label>
+            <label className="col-sm-2 text-dark mt-4">{t('CD.Input.ZipCode')}</label>
             <div className="col-sm fv-row">
               <input
                 type="text"
@@ -233,7 +238,7 @@ export const ProfileDetailsEdit = ({ customer }: { customer: Contact }) => {
           </div>
 
           <div className="row align-items-start pb-3 mb-3">
-            <label className="col-sm-2 text-dark mt-4">Country</label>
+            <label className="col-sm-2 text-dark mt-4">{t('CD.Input.Country')}</label>
             <div className="col-sm fv-row">
               <input
                 type="text"

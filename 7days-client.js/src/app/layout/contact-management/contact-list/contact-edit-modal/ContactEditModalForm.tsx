@@ -9,6 +9,8 @@ import { ContactsListLoading } from "../components/loading/ContactListLoading";
 import { createContact, updateContact } from "../core/_requests";
 import { useQueryResponse } from "../core/QueryResponseProvider"
 import { createRef } from "../../../../../db/connection";
+import { getItemLC } from "../../../../modules/localstorage";
+import { useTranslation } from "react-i18next";
 
 type Props = {
   isUserLoading: boolean;
@@ -34,19 +36,13 @@ const editContactSchema = Yup.object().shape({
 });
 
 const ContactEditModalForm: FC<Props> = ({ contact, isUserLoading }) => {
+  const { t } = useTranslation();
   const { setItemIdForUpdate } = useListView();
   const { refetch } = useQueryResponse();
-  const companyRef = createRef("company", 'cWt6gXnRGTFqL5TbYn6r');
-  // const [contactForEdit] = useState<Contact>({
-  //   ...contact,
-  //   avatar: contact.avatar || initialContact.avatar,
-  //   gender: contact.gender || initialContact.gender,
-  //   phoneNumber: contact.phoneNumber || initialContact.phoneNumber,
-  //   lastInteractionAt:
-  //     contact.lastInteractionAt || initialContact.lastInteractionAt,
-  //   firstName: contact.firstName || initialContact.firstName,
-  //   email: contact.email || initialContact.email,
-  // });
+  const companyID = getItemLC('CID')
+  console.log("CID =====>>>"+companyID);
+  let companyRef = createRef("company", companyID)
+
 
   const [contactForEdit] = useState({
     // ...contact,
@@ -84,7 +80,6 @@ const ContactEditModalForm: FC<Props> = ({ contact, isUserLoading }) => {
           if(values.phoneNumber!.startsWith("0")){
             values.phoneNumber = '62' + values.phoneNumber!.substring(1);
           }
-
           const fnameInsensitive = values.firstName!.toLowerCase();
           values.firstNameInsensitive = fnameInsensitive;
           if(values.gender === 'male')
@@ -187,7 +182,7 @@ const ContactEditModalForm: FC<Props> = ({ contact, isUserLoading }) => {
           {/* begin::Input group */}
           <div className="fv-row mb-7">
             {/* begin::Label */}
-            <label className="required fw-bold fs-6 mb-2">First Name</label>
+            <label className="required fw-bold fs-6 mb-2">{t('CD.Input.FirstName')}</label>
             {/* end::Label */}
 
             {/* begin::Input */}
@@ -224,7 +219,7 @@ const ContactEditModalForm: FC<Props> = ({ contact, isUserLoading }) => {
           {/* begin::Input group */}
           <div className="fv-row mb-7">
             {/* begin::Label */}
-            <label className="fw-bold fs-6 mb-2">Last Name</label>
+            <label className="fw-bold fs-6 mb-2">{t('CD.Input.LastName')}</label>
             {/* end::Label */}
 
             {/* begin::Input */}
@@ -257,7 +252,7 @@ const ContactEditModalForm: FC<Props> = ({ contact, isUserLoading }) => {
           {/* begin::Input group */}
           <div className="fv-row mb-7">
             {/* begin::Label */}
-            <label className="required fw-bold fs-6 mb-2">Phone Number</label>
+            <label className="required fw-bold fs-6 mb-2">{t('Contacts.Column.PhoneNumber')}</label>
             {/* end::Label */}
 
             {/* begin::Input */}
@@ -294,7 +289,7 @@ const ContactEditModalForm: FC<Props> = ({ contact, isUserLoading }) => {
           {/* begin::Input group */}
           <div className="fv-row mb-7">
             {/* begin::Label */}
-            <label className="required fw-bold fs-6 mb-2">Email</label>
+            <label className="required fw-bold fs-6 mb-2">{t('Contacts.Column.Email')}</label>
             {/* end::Label */}
 
             {/* begin::Input */}
@@ -327,7 +322,7 @@ const ContactEditModalForm: FC<Props> = ({ contact, isUserLoading }) => {
           {/* begin::Input group */}
           <div className="fv-row mb-7">
             {/* begin::Label */}
-            <label className="required fw-bold fs-6 mb-2">Gender</label>
+            <label className="required fw-bold fs-6 mb-2">{t('CD.Input.Gender')}</label>
             {/* end::Label */}
 
             {/* begin::Input */}
@@ -338,9 +333,9 @@ const ContactEditModalForm: FC<Props> = ({ contact, isUserLoading }) => {
               disabled={formik.isSubmitting || isUserLoading}
             >
               <option value=''>Select gender . . .</option>
-              <option value="male">Male</option>
-              <option value="female">Female</option>
-              <option value="other">Other</option>
+              <option value="male">{t('CD.Option.Female')}</option>
+              <option value="female">{t('CD.Option.Male')}</option>
+              {/* <option value="other">Other</option> */}
             </select>
             {/* end::Input */}
           </div>
@@ -349,7 +344,7 @@ const ContactEditModalForm: FC<Props> = ({ contact, isUserLoading }) => {
           {/* begin::Input group */}
           <div className="fv-row mb-7">
             {/* begin::Label */}
-            <label className="required fw-bold fs-6 mb-2">Birthdate</label>
+            <label className="required fw-bold fs-6 mb-2">{t('CD.Input.Birthdate')}</label>
             {/* end::Label */}
 
             {/* begin::Input */}
@@ -372,7 +367,7 @@ const ContactEditModalForm: FC<Props> = ({ contact, isUserLoading }) => {
           {/* begin::Input group */}
           <div className="fv-row mb-7">
             {/* begin::Label */}
-            <label className="fw-bold fs-6 mb-2">Marital Status</label>
+            <label className="fw-bold fs-6 mb-2">{t('CD.Input.MaritalStatus')}</label>
             {/* end::Label */}
 
             {/* begin::Input */}
@@ -394,7 +389,7 @@ const ContactEditModalForm: FC<Props> = ({ contact, isUserLoading }) => {
            {/* begin::Input group */}
            <div className="fv-row mb-7">
             {/* begin::Label */}
-            <label className="fw-bold fs-6 mb-2">City</label>
+            <label className="fw-bold fs-6 mb-2">{t('CD.Input.City')}</label>
             {/* end::Label */}
 
             {/* begin::Input */}
@@ -416,7 +411,7 @@ const ContactEditModalForm: FC<Props> = ({ contact, isUserLoading }) => {
           {/* begin::Input group */}
           <div className="fv-row mb-7">
             {/* begin::Label */}
-            <label className="fw-bold fs-6 mb-2">Country</label>
+            <label className="fw-bold fs-6 mb-2">{t('CD.Input.Country')}</label>
             {/* end::Label */}
 
             {/* begin::Input */}
@@ -680,7 +675,7 @@ const ContactEditModalForm: FC<Props> = ({ contact, isUserLoading }) => {
           {/* begin::Input group */}
           <div className="fv-row mb-7">
             {/* begin::Label */}
-            <label className="fw-bold fs-6 mb-2">Zip Code</label>
+            <label className="fw-bold fs-6 mb-2">{t('CD.Input.ZipCode')}</label>
             {/* end::Label */}
 
             {/* begin::Input */}

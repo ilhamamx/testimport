@@ -1,5 +1,6 @@
 import clsx from 'clsx'
 import {FC, PropsWithChildren, useMemo} from 'react'
+import { useTranslation } from 'react-i18next'
 import {HeaderProps} from 'react-table'
 import { initialQueryState } from '../../../../../../resources/helpers'
 import {useQueryRequest} from '../../core/QueryRequestProvider'
@@ -11,6 +12,7 @@ type Props = {
   tableProps: PropsWithChildren<HeaderProps<Contact>>
 }
 const ContactCustomHeader: FC<Props> = ({className, title, tableProps}) => {
+  const { t } = useTranslation();
   const id = tableProps.column.id
   const {state, updateState} = useQueryRequest()
 
@@ -56,7 +58,7 @@ const ContactCustomHeader: FC<Props> = ({className, title, tableProps}) => {
       style={{cursor: 'pointer'}}
       onClick={sortColumn}
     >
-      {title}
+      {t(title!)}
     </th>
   )
 }

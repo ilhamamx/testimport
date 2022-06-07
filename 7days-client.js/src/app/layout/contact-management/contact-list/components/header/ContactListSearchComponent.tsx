@@ -2,10 +2,12 @@
 import {useState, useEffect} from 'react'
 import {initialQueryState, KTSVG, useDebounce} from '../../../../../../resources/helpers'
 import {useQueryRequest} from '../../core/QueryRequestProvider'
+import { useTranslation } from "react-i18next";
 
 const ContactsListSearchComponent = () => {
   const {state,updateState} = useQueryRequest()
   const [searchTerm, setSearchTerm] = useState<string>('')
+  const { t } = useTranslation();
   // Debounce search term so that it only gives us latest value ...
   // ... if searchTerm has not been updated within last 500ms.
   // The goal is to only have the API call fire when user stops typing ...
@@ -34,7 +36,7 @@ const ContactsListSearchComponent = () => {
           type='text'
           data-kt-user-table-filter='search'
           className='form-control form-control-solid w-250px ps-14'
-          placeholder='Search user'
+          placeholder={t('Contacts.Button.SearchUser')}
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
         />

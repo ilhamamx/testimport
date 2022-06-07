@@ -10,23 +10,11 @@ import firebase from "firebase/compat/app";
 import { fetchCustomersNext, fetchCustomersPrev , fetchCountCustomers, createCustomer, updateCustomer, getCompanyRefByUserID } from "../../../../../db";
 import { format,} from "date-fns";
 import { getItemLC } from "../../../../modules/localstorage";
+import { createRef } from "../../../../../db/connection";
 
 const API_URL = process.env.REACT_APP_THEME_API_URL;
 const USER_URL = `${API_URL}/user`;
 const GET_USERS_URL = `https://preview.keenthemes.com/theme-api/api/users/query`; //`${API_URL}/users/query`
-
-const uid = getItemLC('UID')
-console.log("UID =====>>>"+uid);
-
-const getCompanyRef = async () => {
-  return await getCompanyRefByUserID(uid)
-}
-// const companyRef = (await getCompanyRef);
-// if(companyRef!== null){
-//   console.log("ref : " + JSON.stringify(companyRef));
-// }
-console.log("getCompanyRef ===>>>>"+JSON.stringify(getCompanyRef));
-
 
 const getContacts = (
   sort: string | undefined,
@@ -61,8 +49,9 @@ const getContacts = (
   }
   console.log("order =====>>" + orderBy);
 
-  let companyRef = getCompanyRef();
-  // createRef("company", 'cWt6gXnRGTFqL5TbYn6r')
+  const companyID = getItemLC('CID')
+  console.log("CID =====>>>"+companyID);
+  let companyRef = createRef("company", companyID)
 
   
   if(action === "prev"){
@@ -263,7 +252,6 @@ const getContacts = (
         }
       }
   
-      console.log("data contact : " + JSON.stringify(dataUser))
       let contactsItem = {
         data: dataUser,
       };
