@@ -7,15 +7,26 @@ import {
 import { fetchCustomers, deleteCustomer } from "../../../../../actions";
 //import { Contact } from '../../../../pages/Contact'
 import firebase from "firebase/compat/app";
-import { fetchCustomersNext, fetchCustomersPrev , fetchCountCustomers, createCustomer, updateCustomer, firebases } from "../../../../../db";
+import { fetchCustomersNext, fetchCustomersPrev , fetchCountCustomers, createCustomer, updateCustomer, getCompanyRefByUserID } from "../../../../../db";
 import { format,} from "date-fns";
-import { createRef } from "../../../../../db/connection";
+import { getItemLC } from "../../../../modules/localstorage";
 
 const API_URL = process.env.REACT_APP_THEME_API_URL;
 const USER_URL = `${API_URL}/user`;
 const GET_USERS_URL = `https://preview.keenthemes.com/theme-api/api/users/query`; //`${API_URL}/users/query`
 
-//
+const uid = getItemLC('UID')
+console.log("UID =====>>>"+uid);
+
+const getCompanyRef = async () => {
+  return await getCompanyRefByUserID(uid)
+}
+// const companyRef = (await getCompanyRef);
+// if(companyRef!== null){
+//   console.log("ref : " + JSON.stringify(companyRef));
+// }
+console.log("getCompanyRef ===>>>>"+JSON.stringify(getCompanyRef));
+
 
 const getContacts = (
   sort: string | undefined,
@@ -50,8 +61,10 @@ const getContacts = (
   }
   console.log("order =====>>" + orderBy);
 
-  const companyRef = createRef("company", 'cWt6gXnRGTFqL5TbYn6r')
+  let companyRef = getCompanyRef();
+  // createRef("company", 'cWt6gXnRGTFqL5TbYn6r')
 
+  
   if(action === "prev"){
     return fetchCustomersPrev(searchBy, limit, companyRef).then((customers) => {
       var customersLength = customers.length;

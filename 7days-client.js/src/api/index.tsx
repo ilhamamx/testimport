@@ -30,13 +30,6 @@ export const login = async (email:string, password:string, isrememberme:true|fal
             lc.setItemLCWithExpiry(lc.LCName.User,currentUser,3);
             lc.setItemLCWithExpiry("UID",currentUser.uid,3); 
           }
-
-          let companyRef;
-          const getCompanyRef = getCompanyRefByUserID(currentUser.uid)
-          companyRef = (await getCompanyRef);
-          if(companyRef!== null){
-            console.log("ref : " + JSON.stringify(companyRef));
-          }
         }
       })
     
