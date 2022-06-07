@@ -1,11 +1,13 @@
 firebaseDB = require("../../../db/firebase");
-const { db, createRef } = firebaseDB;
+const { db, createRef, storage, uploadTaskPromise } = firebaseDB;
 const { getCustomerByPhone } = require("../../customers");
 const { getAccountByPhone } = require("../../account");
 const { getCollaborationByCustomerAndCompany } = require("../../collaboration");
+const { getMediaByID, downloadFromUrl } = require("../facebook/media");
+
 
 const parseJSONWhatsAppMessage = async (req) => {
-  const collaborationRef = await db.collection("collaborations");
+  let collaborationRef = await db.collection("collaborations");
   console.log("request : " + req.object);
   if (req.object) {
     // check if message is exist
@@ -29,6 +31,11 @@ const parseJSONWhatsAppMessage = async (req) => {
       let messages_timestamp = undefined;
       let messages_text = undefined;
       let messages_type = undefined;
+      let messages_img_caption = undefined;
+      let messages_img_mime_type = undefined;
+      let messages_img_sha256 = undefined;
+      let messages_img_id = undefined;
+      let messages_img_url = undefined;
       let field = undefined;
       // parsing JSON whatsapp
       if (req.entry[0].changes[0].value.metadata) {
@@ -74,25 +81,30 @@ const parseJSONWhatsAppMessage = async (req) => {
                 req.entry[0].changes[0].value.messages[0].text.body;
             }
           }
+        }else if (messages_type == "image") {
+          if (req.entry[0].changes[0].value.messages[0].image) {
+            if (req.entry[0].changes[0].value.messages[0].image.caption) {
+              messages_img_caption =
+                req.entry[0].changes[0].value.messages[0].image.caption;
+            }
+            if (req.entry[0].changes[0].value.messages[0].image.mime_type) {
+              messages_img_mime_type =
+                req.entry[0].changes[0].value.messages[0].image.mime_type;
+            }
+            if (req.entry[0].changes[0].value.messages[0].image.sha256) {
+              messages_img_sha256 =
+                req.entry[0].changes[0].value.messages[0].image.sha256;
+            }
+            if (req.entry[0].changes[0].value.messages[0].image.id) {
+              messages_img_id =
+                req.entry[0].changes[0].value.messages[0].image.id;
+            }
+          }
         }
       }
       if (req.entry[0].changes[0].field) {
         field = req.entry[0].changes[0].field;
       }
-
-      // temporary log
-      console.log("object : " + object);
-      console.log("entry id : " + entry_id);
-      console.log("messaging product : " + messaging_product);
-      console.log("display phone number : " + display_phone_number);
-      console.log("profile name : " + profile_name);
-      console.log("wa id : " + wa_id);
-      console.log("message form : " + messages_from);
-      console.log("message wamid id : " + messages_wamid_id);
-      console.log("message timestamp : " + messages_timestamp);
-      console.log("message text : " + messages_text);
-      console.log("message type : " + messages_type);
-      console.log("field : " + field);
 
       // convert unix timestamp to date
       const milliseconds = messages_timestamp * 1000;
@@ -161,19 +173,45 @@ const parseJSONWhatsAppMessage = async (req) => {
       // cek jika bukan percakapan pertama dan belum expired maka buat message di collaboration
       else {
         console.log("collaboration id y : " + getCollaboration[0].id);
-        await getCollaboration[0].update({
+
+        collaborationRef = await db.collection(`collaborations`).doc(getCollaboration[0].id);
+        await collaborationRef.update({
           lastInteractionChannel: "whatsapp",
           lastInteractionAt: new Date(),
           updatedAt: new Date(),
-        });
-
-        collaboration = getCollaboration[0];
+        }).then(() => {
+          collaboration = collaborationRef;
+        })
       }
 
       console.log("collaboration : " + collaboration);
       let collaborationMessagesRef = await db.collection(
         "collaborations/" + collaboration.id + "/messages"
       );
+
+      // create message by message type
+      if (messages_type === "text") {
+      } else if (messages_type === "image") {
+        if(messages_img_id){
+          const dataMedia = await getMediaByID(messages_img_id, "EAAerGJUyyNcBAKNyN5N4VvpWqAu9GTBc8ctRir9LQ5TG4UkXNgkHQvkNLmA4TNdVdecp8SLt2TzMQHTEx1GxWZA3YsNpzZAQU7aB5aqjp0Ydzs2RUTssZAlZBXJ6MJ3oQDZCaY5gzffuc1QKr9mVZC7m98mmZCqZB02gqXUEyewKCqZC0BZA38xFNahCWN9iX2DrZC9IBz4pV17ajlqLJ5ZBdZC3GiB5Dg6yMjS0ZD")  
+          if(dataMedia){
+            const file = await downloadFromUrl(dataMedia.url, "EAAerGJUyyNcBAKNyN5N4VvpWqAu9GTBc8ctRir9LQ5TG4UkXNgkHQvkNLmA4TNdVdecp8SLt2TzMQHTEx1GxWZA3YsNpzZAQU7aB5aqjp0Ydzs2RUTssZAlZBXJ6MJ3oQDZCaY5gzffuc1QKr9mVZC7m98mmZCqZB02gqXUEyewKCqZC0BZA38xFNahCWN9iX2DrZC9IBz4pV17ajlqLJ5ZBdZC3GiB5Dg6yMjS0ZD")
+            if(file){
+              const fileBase64 = await Buffer.from(file.data, 'binary').toString('base64')
+              const fileUpload64 = Buffer.from(fileBase64, 'base64');
+
+              const metadata = {
+                contentType: messages_img_mime_type,
+                fileName: messages_img_id,
+              }
+
+              const path = `images/${account[0].company.id}/chat/${messages_img_id}`
+              messages_img_url = await uploadTaskPromise(path, fileUpload64, metadata);
+
+            }
+          }
+        }
+      }
 
       // create message
       await collaborationMessagesRef
@@ -182,7 +220,8 @@ const parseJSONWhatsAppMessage = async (req) => {
           createdAt: new Date(),
           updatedAt: new Date(),
           messageType: messages_type,
-          textContent: messages_text ? messages_text : "",
+          textContent: messages_text ? messages_text : messages_img_caption ? messages_img_caption : "",
+          mediaUrl: messages_img_url ? messages_img_url : "",
           // user: //jika outbound
           customer: customerRef,
           // status: //jika outbound
@@ -200,3 +239,4 @@ const parseJSONWhatsAppMessage = async (req) => {
 module.exports = {
   parseJSONWhatsAppMessage,
 };
+
