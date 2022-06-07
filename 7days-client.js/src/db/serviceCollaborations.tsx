@@ -1,24 +1,59 @@
 import db from ".";
-import firebase from "firebase/compat/app";
-
+import * as conn from "./connection"
+import { converter2 } from "./converter";
+import { HandledMessageListItem } from "../app/layout/chat/models/ChatItem.model";
 /***
  * 1. 
  * Noted : tambahkan function untuk get data collaboration by uid where handleAt not null ???? dan expired > now,
  */
 
-export const fetchCollaborationsByUser = (uid: string, company: string) =>
-  db
-    .collection("collaborations")
-    .where("toUser", "==", uid)   // to user
-    .where("company", "==", company)   // to company
-    .where("handleAt", "!=", false)// handleAt is not null
-    // .where("expiredAt",">",new Date())  // not expired
-    .get()
-    .then((snapshot) => {
-      const collaboration = snapshot.docs.map((doc) => ({
-        id: doc.id,
-        data: doc.data(),
-      }));
+export const fetchCollaborationsByUser = (uid: string, company: string ) => {
+  
+  const companyRef = conn.createRef("company", company);
+  const userRef = conn.createRef("users", uid);
 
-      return collaboration;
+  return db
+    .collection("collaborations")
+    .withConverter(converter2<HandledMessageListItem>())
+    .where("company", "==", companyRef)   // to company
+    .where("toUser", "==", userRef)   // to user
+    .where("handleAt", "!=", false)// handleAt is not null
+    .get()
+    .then(snapshot => {
+      const collaborations = snapshot.docs.map(doc => {
+
+        return ({...doc.data(), id: doc.id})
+      })
+      // console.log("collaborations :", JSON.stringify(collaborations))
+      
+      return collaborations;
     });
+}
+  
+
+/* */
+// export const fetchCollaborationsByUser_ = (uid: string, company: string ) => {
+  
+//   const companyRef = conn.createRef("company", company);
+//   const userRef = conn.createRef("users", uid);
+
+//   return db
+//     .collection("collaborations")
+//     .where("company", "==", companyRef)   // to company
+//     .where("toUser", "==", userRef)   // to user
+//     .where("handleAt", "!=", false)// handleAt is not null
+//     .get()
+//     .then(snapshot => {
+//       const collaborations = snapshot.docs.map(doc => {
+
+//         return (
+//           {id: doc.id,
+            
+//           }
+//         )
+//       })
+//       console.log("collaborations :", JSON.stringify(collaborations))
+      
+//       return collaborations;
+//     });
+// } 

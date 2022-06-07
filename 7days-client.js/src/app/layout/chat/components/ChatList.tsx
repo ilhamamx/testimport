@@ -1,12 +1,16 @@
-import { FC , useState} from "react";
+import { FC , useEffect, useState} from "react";
 import ChatItem from "./ChatItem";
 import {HandledMessageListItem} from "../models/ChatItem.model"
 import { Timestamp } from "../../../../db";
 
+import * as chat from "../../../modules/chat/redux/ChatSlice"
+
+import { connect, ConnectedProps, useDispatch } from "react-redux";
+
 import { useSelector } from "react-redux";
 import {RootState} from "../../../../setup/redux/store";
 
-import * as Collaborations from "../../../../db/serviceCollaborations";
+import * as Chat from "../../../../actions/chat";
 
 // unreadCount: number,
 //   className: string,
@@ -22,185 +26,40 @@ const lastActivity = (time: number) => {
   // return Timestamp.fromMillis((Timestamp.now().toMillis()+time)).toDate();
 }
 
-const DUMMY_DATA: HandledMessageListItem[] = [
-  {
-    id: "a1",
-    fullName: "Brian Cox",
-    image: "/media/avatars/300-25.jpg",
-    mail: "brian@exchange.com",
-    unreadMessages: [
-      {
-        unreadCount: 4,
-        className: "badge-light-success",
-        channel: "Tokopedia"
-      },
-      {
-        unreadCount: 3,
-        className: "badge-light-warning",
-        channel: "Shopee"
-      }
-    ],
-    lastActivityAt: lastActivity(300),
-  },
-  {
-    id: "a2",
-    fullName: "Sean Bean",
-    image: "/media/avatars/300-5.jpg",
-    mail: "sean@dellito.com",
-    unreadMessages: [
-      {
-        unreadCount: 2,
-        className: "badge-light-warning",
-        channel: "Shopee"
-      },
-      {
-        unreadCount: 4,
-        className: "badge-light-warning",
-        channel: "Blibli"
-      },
-      {
-        unreadCount: 2,
-        className: "badge-light-warning",
-        channel: "Whatsapp"
-      }
-    ],
-    lastActivityAt: lastActivity(360000000),
-  },
-  {
-    id: "a3",
-    fullName: "Max Smith",
-    image: "/media/avatars/300-1.jpg",
-    mail: "sean@dellito.com",
-    unreadMessages: [
-      {
-        unreadCount: 1,
-        className: "badge-light-warning",
-        channel: "Sabunzone"
-      }
-    ],
-    lastActivityAt: lastActivity(3600000),
-  },
-  {
-    id: "a4",
-    fullName: "Dan Wilson",
-    image: "/media/avatars/300-23.jpg",
-    mail: "dam@consilting.com",
-    unreadMessages: [],
-    lastActivityAt: lastActivity(60000),
-    // lastActivityAt: moment("20120620", "YYYYMMDD").fromNow().toString
-  },
-  {
-    id: "a5",
-    fullName: "Dan Wilson",
-    image: "/media/avatars/300-23.jpg",
-    mail: "dam@consilting.com",
-    unreadMessages: [
-      {
-        unreadCount: 2,
-        className: "badge-light-warning",
-        channel: "Whatsapp"
-      }
-    ],
-    lastActivityAt: lastActivity(60000),
-    // lastActivityAt: moment("20120620", "YYYYMMDD").fromNow().toString
-  },
-  {
-    id: "a6",
-    fullName: "Dan Wilson",
-    image: "/media/avatars/300-23.jpg",
-    mail: "dam@consilting.com",
-    unreadMessages: [
-      {
-        unreadCount: 3,
-        className: "badge-light-warning",
-        channel: "Shopee"
-      },
-      {
-        unreadCount: 4,
-        className: "badge-light-warning",
-        channel: "Blibli"
-      },
-      {
-        unreadCount: 4,
-        className: "badge-light-success",
-        channel: "Tokopedia"
-      },
-      {
-        unreadCount: 2,
-        className: "badge-light-warning",
-        channel: "Whatsapp"
-      }
-    ],
-    lastActivityAt: lastActivity(60000),
-    // lastActivityAt: moment("20120620", "YYYYMMDD").fromNow().toString
-  },
-  {
-    id: "a7",
-    fullName: "Dan Wilson",
-    image: "/media/avatars/300-23.jpg",
-    mail: "dam@consilting.com",
-    unreadMessages: [
-      {
-        unreadCount: 3,
-        className: "badge-light-warning",
-        channel: "Whatsapp"
-      },
-      {
-        unreadCount: 4,
-        className: "badge-light-success",
-        channel: "Tokopedia"
-      },
-      {
-        unreadCount: 2,
-        className: "badge-light-warning",
-        channel: "Shopee"
-      }
-    ],
-    lastActivityAt: lastActivity(60000),
-    // lastActivityAt: moment("20120620", "YYYYMMDD").fromNow().toString
-  },
-  {
-    id: "a8",
-    fullName: "Dan Wilson",
-    image: "/media/avatars/300-23.jpg",
-    mail: "dam@consilting.com",
-    unreadMessages: [
-      {
-        unreadCount: 3,
-        className: "badge-light-warning",
-        channel: "Tokopedia"
-      },
-      {
-        unreadCount: 4,
-        className: "badge-light-success",
-        channel: "Whatsapp"
-      },
-      {
-        unreadCount: 2,
-        className: "badge-light-warning",
-        channel: "Shopee"
-      },
-      {
-        unreadCount: 1,
-        className: "badge-light-warning",
-        channel: "Sabunzone"
-      }
-    ],
-    lastActivityAt: lastActivity(60000),
-  }
-];
+const mapState = (state: RootState) => ({ chat: state.Chat })
+const connector = connect(mapState, chat.ChatSlice.actions)
+type PropsFromRedux = ConnectedProps<typeof connector>
 
-const ChatList: FC = (props) => {
 
-  const [handledMessageList, setHandledMessagesList] = useState(DUMMY_DATA);
 
-  const user = {
-    uid: "8BccV9T1R8huPSiJ9fGNway4yVD3",
-    company: "cWt6gXnRGTFqL5TbYn6r"
-  }
+const ChatList: FC<PropsFromRedux> = (props) => {
 
-  console.log("Get Data"+Collaborations.fetchCollaborationsByUser(user.uid,user.company));
+  //const [handledMessageList, setHandledMessagesList] = useState(DUMMY_DATA);
+
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    const user = {
+      uid: "8BccV9T1R8huPSiJ9fGNway4yVD3",
+      company: "cWt6gXnRGTFqL5TbYn6r"
+    }
+
+    Chat.fetchCollaborations(user.uid, user.company)
+      .then(collabs => {
+        dispatch(chat.setChatList(collabs))
+      })
+
   
+
+  },[dispatch]);
+
+  
+  /****/
+
+  
+
+  /****/
+  // console.log("Check : "+JSON.stringify(collaborations));
   
   return (
     <div className="card-body pt-5" id="kt_chat_contacts_body">
@@ -214,9 +73,11 @@ const ChatList: FC = (props) => {
               data-kt-scroll-offset="0px"
             >
               
-            {handledMessageList.map((handledMessage) => 
-              <ChatItem item={handledMessage} key={handledMessage.id}/>
-            )}
+            {
+              props.chat.chatList.map((chatListItem) => {
+                return <ChatItem item={chatListItem} key={chatListItem.id} />
+              })
+            }
 
             
             </div>
@@ -224,4 +85,5 @@ const ChatList: FC = (props) => {
   );
 }
 
-export default ChatList; 
+
+export default connector(ChatList);

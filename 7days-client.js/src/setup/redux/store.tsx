@@ -3,6 +3,7 @@ import AuthSlice from "../../app/modules/auth/redux/AuthSlice";
 import {persistStore} from 'redux-persist'
 import {reduxBatch} from '@manaflair/redux-batch'
 import createSagaMiddleware from 'redux-saga'
+import ChatSlice from "../../app/modules/chat/redux/ChatSlice";
 
 const sagaMiddleware = createSagaMiddleware()
 const middleware = [
@@ -17,6 +18,7 @@ const middleware = [
 const store = configureStore({
   reducer: {
     Auth: AuthSlice,
+    Chat: ChatSlice,
   },
   middleware,
   devTools: process.env.NODE_ENV !== 'production',

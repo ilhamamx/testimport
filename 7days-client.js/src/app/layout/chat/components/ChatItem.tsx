@@ -26,7 +26,7 @@ const ChatItem: FC<ChatItemProps> = (props) => {
           >
             {item.fullName}
           </a>
-          <div className="fw-bold text-gray-400">{item.mail}</div>
+          <div className="fw-bold text-gray-400">{item.lastMessages}</div>
         </div>
       </div>
 
