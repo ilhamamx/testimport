@@ -135,7 +135,7 @@ const parseJSONWhatsAppMessage = async (req) => {
             companyID: companyRef
           })
           .then((ref) => {
-            customerRef = createRef("customers", ref);
+            customerRef = createRef("customers", ref.id);
           })
           .catch((error) => {
             //TODO error harus ngapain
