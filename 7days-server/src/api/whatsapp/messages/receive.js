@@ -126,13 +126,13 @@ const parseJSONWhatsAppMessage = async (req) => {
       // if customer is null, create customer by phone number, then createRef from customerID
       if (!customer[0]) {
         const customersRef = await db.collection("customers");
-        customersRef
+        await customersRef
           .add({
             phoneNumber: messages_from,
             profile_name: profile_name ? profile_name : "",
             createdAt: new Date(),
             updatedAt: new Date(),
-            companyID: account[0].company.id,
+            companyID: companyRef
           })
           .then((ref) => {
             customerRef = createRef("customers", ref);
@@ -189,13 +189,18 @@ const parseJSONWhatsAppMessage = async (req) => {
         "collaborations/" + collaboration.id + "/messages"
       );
 
-      // create message by message type
+      // handle message by type
       if (messages_type === "text") {
       } else if (messages_type === "image") {
         if(messages_img_id){
-          const dataMedia = await getMediaByID(messages_img_id, "EAAerGJUyyNcBAKNyN5N4VvpWqAu9GTBc8ctRir9LQ5TG4UkXNgkHQvkNLmA4TNdVdecp8SLt2TzMQHTEx1GxWZA3YsNpzZAQU7aB5aqjp0Ydzs2RUTssZAlZBXJ6MJ3oQDZCaY5gzffuc1QKr9mVZC7m98mmZCqZB02gqXUEyewKCqZC0BZA38xFNahCWN9iX2DrZC9IBz4pV17ajlqLJ5ZBdZC3GiB5Dg6yMjS0ZD")  
+          //hardcode token for testing purpose
+          //get url from facebook whatsapp cloud API
+          // const dataMedia = await getMediaByID(messages_img_id, "EAAerGJUyyNcBAKNyN5N4VvpWqAu9GTBc8ctRir9LQ5TG4UkXNgkHQvkNLmA4TNdVdecp8SLt2TzMQHTEx1GxWZA3YsNpzZAQU7aB5aqjp0Ydzs2RUTssZAlZBXJ6MJ3oQDZCaY5gzffuc1QKr9mVZC7m98mmZCqZB02gqXUEyewKCqZC0BZA38xFNahCWN9iX2DrZC9IBz4pV17ajlqLJ5ZBdZC3GiB5Dg6yMjS0ZD")  
+          const dataMedia = await getMediaByID(messages_img_id, account[0].company.id)
           if(dataMedia){
-            const file = await downloadFromUrl(dataMedia.url, "EAAerGJUyyNcBAKNyN5N4VvpWqAu9GTBc8ctRir9LQ5TG4UkXNgkHQvkNLmA4TNdVdecp8SLt2TzMQHTEx1GxWZA3YsNpzZAQU7aB5aqjp0Ydzs2RUTssZAlZBXJ6MJ3oQDZCaY5gzffuc1QKr9mVZC7m98mmZCqZB02gqXUEyewKCqZC0BZA38xFNahCWN9iX2DrZC9IBz4pV17ajlqLJ5ZBdZC3GiB5Dg6yMjS0ZD")
+            //get media file from facebook whatsapp cloud API
+            // const file = await downloadFromUrl(dataMedia.url, "EAAerGJUyyNcBAKNyN5N4VvpWqAu9GTBc8ctRir9LQ5TG4UkXNgkHQvkNLmA4TNdVdecp8SLt2TzMQHTEx1GxWZA3YsNpzZAQU7aB5aqjp0Ydzs2RUTssZAlZBXJ6MJ3oQDZCaY5gzffuc1QKr9mVZC7m98mmZCqZB02gqXUEyewKCqZC0BZA38xFNahCWN9iX2DrZC9IBz4pV17ajlqLJ5ZBdZC3GiB5Dg6yMjS0ZD")
+            const file = await downloadFromUrl(dataMedia.url, account[0].company.id)
             if(file){
               const fileBase64 = await Buffer.from(file.data, 'binary').toString('base64')
               const fileUpload64 = Buffer.from(fileBase64, 'base64');
@@ -206,6 +211,8 @@ const parseJSONWhatsAppMessage = async (req) => {
               }
 
               const path = `images/${account[0].company.id}/chat/${messages_img_id}`
+
+              //upload file to firebase storage
               messages_img_url = await uploadTaskPromise(path, fileUpload64, metadata);
 
             }
