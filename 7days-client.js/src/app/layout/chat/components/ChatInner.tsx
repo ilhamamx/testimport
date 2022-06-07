@@ -5,6 +5,7 @@ import {
   defaultMessages,
   MessageModel,
   messageFromClient,
+  toAbsoluteUrl,
 } from "../../../../resources/helpers/";
 import ChatMessage from "./ChatMessage";
 import { useTranslation } from "react-i18next";
@@ -106,14 +107,6 @@ const ChatInner: FC<Props> = ({ isDrawer = false }) => {
 
         <div className="d-flex flex-stack">
           <div className="d-flex align-items-center me-2">
-            {/* <button
-              className="btn btn-sm btn-icon btn-active-light-primary me-1"
-              type="button"
-              data-bs-toggle="tooltip"
-              title="Coming soon"
-            >
-              <i className="bi bi-paperclip fs-3"></i>
-            </button> */}
             <button
               className="btn btn-sm btn-icon btn-active-light-primary me-1"
               type="button"
@@ -123,14 +116,55 @@ const ChatInner: FC<Props> = ({ isDrawer = false }) => {
               <i className="bi bi-upload text-custom fs-3"></i>
             </button>
           </div>
-          <button
-            className="btn btn-primary"
-            type="button"
-            data-kt-element="send"
-            onClick={sendMessage}
-          >
-            {t("Chat.Button.SendFrom").toUpperCase()}
-          </button>
+
+          <div className="d-flex align-items-center me-2">
+            <div className="btn-group">
+              <button
+                className="btn btn-primary"
+                type="button"
+                data-kt-element="send"
+                onClick={sendMessage}
+              >
+                {t("Chat.Button.SendFrom").toUpperCase()}
+              </button>
+
+              <div className="dropdown">
+                <img
+                  className="dropdown-toggle"
+                  data-bs-toggle="dropdown"
+                  aria-expanded="false"
+                  alt="arroy-right"
+                  src={toAbsoluteUrl("/media/icons/channel/whatsapp.png")}
+                  style={{
+                    width: "25px",
+                    height: "25px",
+                    marginTop: "50px",
+                    marginLeft: "15px",
+                  }}
+                ></img>
+                <ul
+                  className="dropdown-menu"
+                  aria-labelledby="dropdownMenuLink"
+                >
+                  <li>
+                    <a className="dropdown-item" href="#">
+                      Whatsapp
+                    </a>
+                  </li>
+                  <li>
+                    <a className="dropdown-item" href="#">
+                      Shopee
+                    </a>
+                  </li>
+                  <li>
+                    <a className="dropdown-item" href="#">
+                      Something else here
+                    </a>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>

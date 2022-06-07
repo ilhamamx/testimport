@@ -49,7 +49,7 @@ const ChatMessage: FC<MessageProps> = (props) => {
         {...templateAttr}
       >
         {message.type === "in" && (
-          <div className="symbol  symbol-35px symbol-circle ">
+          <div className="symbol  symbol-35px symbol-circle" style={{padding: "5px"}}>
             <img alt="Pic" src={toAbsoluteUrl(`/media/${userInfo.avatar}`)} />
           </div>
         )}
@@ -57,7 +57,9 @@ const ChatMessage: FC<MessageProps> = (props) => {
           <div
             className={clsx(
               "p-5 rounded",
-              `bg-light-${state}`,
+            //   `bg-light-${state}`,
+              `bg-${state}`,
+              `bg-opacity-50`,
               "text-dark fw-bold mw-lg-400px",
               `text-${message.type === "in" ? "start" : "end"}`
             )}
@@ -75,7 +77,7 @@ const ChatMessage: FC<MessageProps> = (props) => {
         </div>
 
         {message.type !== "in" && (
-          <div className="symbol  symbol-35px symbol-circle ">
+          <div className="symbol  symbol-35px symbol-circle" style={{padding: "5px"}}>
             <img alt="Pic" src={toAbsoluteUrl(`/media/${userInfo.avatar}`)} />
           </div>
         )}

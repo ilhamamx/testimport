@@ -63,7 +63,11 @@ const ChatWrapper: FC = () => {
             </div>
 
             <div className="card-toolbar">
-              <div className="me-n3"><button className="btn btn-primary"><i className="fas fa-plus fs-4 me-2"></i>{t("Chat.Button.AddToContact")}</button>
+              <div className="me-n3">
+                <button className="btn btn-primary">
+                  <i className="fas fa-plus fs-4 me-2"></i>
+                  {t("Chat.Button.AddToContact")}
+                </button>
               </div>
             </div>
           </div>

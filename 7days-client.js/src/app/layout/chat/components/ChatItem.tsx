@@ -34,7 +34,7 @@ const ChatItem: FC<ChatItemProps> = (props) => {
         <span className="text-muted fs-7 mb-1">
           {moment(item.lastActivityAt).fromNow().toString()}
         </span>
-        <div>
+        <div className="symbol-group symbol-hover">
             {item.unreadMessages?.map((unreadMessage) => (
               <span
                 className="symbol symbol-35px symbol-circle"
