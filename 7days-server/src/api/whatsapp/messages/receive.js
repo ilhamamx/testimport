@@ -31,11 +31,12 @@ const parseJSONWhatsAppMessage = async (req) => {
       let messages_timestamp = undefined;
       let messages_text = undefined;
       let messages_type = undefined;
-      let messages_img_caption = undefined;
-      let messages_img_mime_type = undefined;
-      let messages_img_sha256 = undefined;
-      let messages_img_id = undefined;
-      let messages_img_url = undefined;
+      let messages_media_caption = undefined;
+      let messages_media_filename = undefined;
+      let messages_media_mime_type = undefined;
+      let messages_media_sha256 = undefined;
+      let messages_media_id = undefined;
+      let messages_media_url = undefined;
       let field = undefined;
       // parsing JSON whatsapp
       if (req.entry[0].changes[0].value.metadata) {
@@ -81,23 +82,28 @@ const parseJSONWhatsAppMessage = async (req) => {
                 req.entry[0].changes[0].value.messages[0].text.body;
             }
           }
-        }else if (messages_type == "image") {
-          if (req.entry[0].changes[0].value.messages[0].image) {
-            if (req.entry[0].changes[0].value.messages[0].image.caption) {
-              messages_img_caption =
-                req.entry[0].changes[0].value.messages[0].image.caption;
+        }else if (messages_type == "image" || messages_type == "document") {
+          let mediaJSON
+          if(messages_type == "image"){
+            mediaJSON = req.entry[0].changes[0].value.messages[0].image
+          } else if(messages_type == "document"){
+            mediaJSON = req.entry[0].changes[0].value.messages[0].document
+          }
+          if (mediaJSON) {
+            if (mediaJSON.caption) {
+              messages_media_caption = mediaJSON.caption;
             }
-            if (req.entry[0].changes[0].value.messages[0].image.mime_type) {
-              messages_img_mime_type =
-                req.entry[0].changes[0].value.messages[0].image.mime_type;
+            if (mediaJSON.filename) {
+              messages_media_filename = mediaJSON.filename;
             }
-            if (req.entry[0].changes[0].value.messages[0].image.sha256) {
-              messages_img_sha256 =
-                req.entry[0].changes[0].value.messages[0].image.sha256;
+            if (mediaJSON.mime_type) {
+              messages_media_mime_type = mediaJSON.mime_type;
             }
-            if (req.entry[0].changes[0].value.messages[0].image.id) {
-              messages_img_id =
-                req.entry[0].changes[0].value.messages[0].image.id;
+            if (mediaJSON.sha256) {
+              messages_media_sha256 = mediaJSON.sha256;
+            }
+            if (mediaJSON.id) {
+              messages_media_id = mediaJSON.id;
             }
           }
         }
@@ -191,29 +197,31 @@ const parseJSONWhatsAppMessage = async (req) => {
 
       // handle message by type
       if (messages_type === "text") {
-      } else if (messages_type === "image") {
-        if(messages_img_id){
+      } else if (messages_type === "image" || messages_type === "document") {
+        if(messages_media_id){
           //hardcode token for testing purpose
           //get url from facebook whatsapp cloud API
-          // const dataMedia = await getMediaByID(messages_img_id, "EAAerGJUyyNcBAKNyN5N4VvpWqAu9GTBc8ctRir9LQ5TG4UkXNgkHQvkNLmA4TNdVdecp8SLt2TzMQHTEx1GxWZA3YsNpzZAQU7aB5aqjp0Ydzs2RUTssZAlZBXJ6MJ3oQDZCaY5gzffuc1QKr9mVZC7m98mmZCqZB02gqXUEyewKCqZC0BZA38xFNahCWN9iX2DrZC9IBz4pV17ajlqLJ5ZBdZC3GiB5Dg6yMjS0ZD")  
-          const dataMedia = await getMediaByID(messages_img_id, account[0].company.id)
+          // const dataMedia = await getMediaByID(messages_media_id, "EAAerGJUyyNcBAIUB09Qgsxh4MlQHq79XZAZAmZBVOGmqVbkZAI6NPSe6iWI7upvI1jZAFtoGlaP5jI7TJmDpHuAQsLdau6xdf49q0p9iFxA5d7eCGE97QlZCgHFt3elFZB82zk1zgyIrxDEQh9G73jqlaEEBkcrbgLDzMgDxxirV2SS0nZA5cqZAZAaheyFzRfmjpDLsISv3eZBBuAmcb7JWmQ6nMbmMLz9ZAcgZD")  
+          const dataMedia = await getMediaByID(messages_media_id, account[0].access_token)
           if(dataMedia){
             //get media file from facebook whatsapp cloud API
-            // const file = await downloadFromUrl(dataMedia.url, "EAAerGJUyyNcBAKNyN5N4VvpWqAu9GTBc8ctRir9LQ5TG4UkXNgkHQvkNLmA4TNdVdecp8SLt2TzMQHTEx1GxWZA3YsNpzZAQU7aB5aqjp0Ydzs2RUTssZAlZBXJ6MJ3oQDZCaY5gzffuc1QKr9mVZC7m98mmZCqZB02gqXUEyewKCqZC0BZA38xFNahCWN9iX2DrZC9IBz4pV17ajlqLJ5ZBdZC3GiB5Dg6yMjS0ZD")
-            const file = await downloadFromUrl(dataMedia.url, account[0].company.id)
+            // const file = await downloadFromUrl(dataMedia.url, "EAAerGJUyyNcBAIUB09Qgsxh4MlQHq79XZAZAmZBVOGmqVbkZAI6NPSe6iWI7upvI1jZAFtoGlaP5jI7TJmDpHuAQsLdau6xdf49q0p9iFxA5d7eCGE97QlZCgHFt3elFZB82zk1zgyIrxDEQh9G73jqlaEEBkcrbgLDzMgDxxirV2SS0nZA5cqZAZAaheyFzRfmjpDLsISv3eZBBuAmcb7JWmQ6nMbmMLz9ZAcgZD")
+            const file = await downloadFromUrl(dataMedia.url, account[0].access_token)
             if(file){
               const fileBase64 = await Buffer.from(file.data, 'binary').toString('base64')
               const fileUpload64 = Buffer.from(fileBase64, 'base64');
 
               const metadata = {
-                contentType: messages_img_mime_type,
-                fileName: messages_img_id,
+                contentType: messages_media_mime_type,
+                fileName: messages_media_id,
               }
 
-              const path = `images/${account[0].company.id}/chat/${messages_img_id}`
+              const path = `${account[0].company.id}/${messages_type}s/chat/${messages_media_id}${
+                messages_media_filename ? "/" + messages_media_filename : ""
+              }`;
 
               //upload file to firebase storage
-              messages_img_url = await uploadTaskPromise(path, fileUpload64, metadata);
+              messages_media_url = await uploadTaskPromise(path, fileUpload64, metadata);
 
             }
           }
@@ -227,8 +235,9 @@ const parseJSONWhatsAppMessage = async (req) => {
           createdAt: new Date(),
           updatedAt: new Date(),
           messageType: messages_type,
-          textContent: messages_text ? messages_text : messages_img_caption ? messages_img_caption : "",
-          mediaUrl: messages_img_url ? messages_img_url : "",
+          textContent: messages_text ? messages_text : messages_media_caption ? messages_media_caption : "",
+          filename: messages_media_filename ? messages_media_filename : "",
+          mediaUrl: messages_media_url ? messages_media_url : "",
           // user: //jika outbound
           customer: customerRef,
           // status: //jika outbound
@@ -246,4 +255,5 @@ const parseJSONWhatsAppMessage = async (req) => {
 module.exports = {
   parseJSONWhatsAppMessage,
 };
+
 
