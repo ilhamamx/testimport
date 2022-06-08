@@ -1,3 +1,4 @@
+import {DocumentReference} from "@firebase/firestore-types"
 export interface BadgeItem {
   unreadCount: number,
   className: string,
@@ -5,16 +6,21 @@ export interface BadgeItem {
 }
 
 export interface Customer {
-  profile_name: string,
-  lastInteractionAt: string
+  firstName: string,
+  lastName: string,
+  lastInteractionAt: string,
+  avatar: ImageBitmap
+  id: string
 }
 
 export interface HandledMessageListItem {
-    id: string;
-    fullName: string;
-    image: string;
-    lastMessages: string;
-    unreadMessages?: BadgeItem[];
-    lastActivityAt: Date;
-    customer: Customer
+    id: string,
+    fullName: string,
+    image: string,
+    lastMessages: string,
+    unreadMessages: BadgeItem[],
+    lastActivityAt: Date,
+    customer?: DocumentReference,
+    customerModel?: Customer,
+    lastInteractionChannel: string
 }

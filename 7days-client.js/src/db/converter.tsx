@@ -18,7 +18,6 @@ export const converter2 = <T extends unknown>() => {
     fromFirestore:
       (snap: firebase.firestore.QueryDocumentSnapshot) => {
         return snap.data() as T;
-
       },
   };
 }

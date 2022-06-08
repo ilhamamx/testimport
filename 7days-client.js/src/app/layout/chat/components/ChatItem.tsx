@@ -15,8 +15,7 @@ const ChatItem: FC<ChatItemProps> = (props) => {
     <div className="d-flex flex-stack py-4" key={item.id}>
       <div className="d-flex align-items-center">
         <div className="symbol symbol-45px symbol-circle">
-          <img alt="Pic" src={toAbsoluteUrl(`${item.image}`)} />
-          {/* <img alt='Pic' src={item.image} /> */}
+          <img alt="Pic" src={toAbsoluteUrl(`${item.customerModel?.avatar}`)} />
         </div>
 
         <div className="ms-5">
@@ -24,9 +23,10 @@ const ChatItem: FC<ChatItemProps> = (props) => {
             href="#"
             className="fs-5 fw-bolder text-gray-900 text-hover-primary mb-2"
           >
-            {item.fullName}
+            {item.customerModel?.firstName} {item.customerModel?.lastName}
           </a>
-          <div className="fw-bold text-gray-400">{item.lastMessages}</div>
+          
+          <div className="fw-bold text-gray-400">Last Messages{item.lastMessages}</div>
         </div>
       </div>
 

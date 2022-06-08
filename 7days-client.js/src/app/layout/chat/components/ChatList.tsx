@@ -34,8 +34,6 @@ type PropsFromRedux = ConnectedProps<typeof connector>
 
 const ChatList: FC<PropsFromRedux> = (props) => {
 
-  //const [handledMessageList, setHandledMessagesList] = useState(DUMMY_DATA);
-
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -44,22 +42,11 @@ const ChatList: FC<PropsFromRedux> = (props) => {
       company: "cWt6gXnRGTFqL5TbYn6r"
     }
 
-    Chat.fetchCollaborations(user.uid, user.company)
-      .then(collabs => {
-        dispatch(chat.setChatList(collabs))
-      })
-
-  
-
-  },[dispatch]);
-
-  
-  /****/
-
-  
-
-  /****/
-  // console.log("Check : "+JSON.stringify(collaborations));
+    Chat
+      .fetchCollaborations(user.uid, user.company)
+      .then(collabs => dispatch(chat.setChatList(collabs)))
+    
+  },[]);
   
   return (
     <div className="card-body pt-5" id="kt_chat_contacts_body">
