@@ -74,7 +74,7 @@ const MasterLayout = () => {
   function LayoutWeb() {
     return (
       <PageDataProvider>
-        <div className="page d-flex flex-column">
+        <div className="page d-flex flex-column bg-light">
           <CustomHeader />
            <div
             className="d-flex flex-row"
@@ -136,7 +136,7 @@ const MasterLayout = () => {
   function LayoutMobile() {
     return (
       // <PageDataProvider>
-      <div className="container page d-flex flex-column flex-column-fluid">
+      <div className="container page d-flex flex-column flex-column-fluid bg-light">
         <div className="page d-flex flex-row flex-column-fluid">
           <div
             className="d-flex flex-column flex-row-fluid"

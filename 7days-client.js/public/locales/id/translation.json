@@ -71,6 +71,7 @@
   "Contacts.Button.Export": "Eksport",
   "Contacts.Button.AddUser": "Tambah Kontak",
   "Contacts.Button.DeleteSelected": "Hapus Kontak Dipilih",
+  "Contacts.Button.SearchUser": "Cari Pengguna",
   "Contacts.Info.Selected": "Dipilih",
   "Contacts.Column.Name": "Nama",
   "Contacts.Column.PhoneNumber": "Nomor Handphone",
@@ -94,6 +95,8 @@
   "CD.Input.Country": "Negara",
   "CD.Input.Address": "Alamat",
   "CD.Option.Female": "Wanita",
-  "CD.Option.Male": "Pria"
+  "CD.Option.Male": "Pria",
+  "CD.Option.Single": "Lajang",
+  "CD.Option.Married": "Menikah"
 
 }

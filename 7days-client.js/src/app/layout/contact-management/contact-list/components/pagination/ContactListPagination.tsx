@@ -9,8 +9,10 @@ import { useQueryRequest } from "../../core/QueryRequestProvider";
 import { fetchCountCustomers } from "../../../../../../db";
 import { count } from "console";
 import { useTranslation } from "react-i18next";
+import { useMediaQuery } from "react-responsive";
 
 const ContactsListPagination = () => {
+  const isTabletOrMobile = useMediaQuery({ query: "(max-width: 900px)" });
   const { t } = useTranslation();
   const isLoading = useQueryResponseLoading();
   const { state, updateState } = useQueryRequest();
@@ -64,6 +66,7 @@ const ContactsListPagination = () => {
           className="dataTables_length"
           id="kt_customers_table_length"
         >
+          {!isTabletOrMobile && 
           <label>
             <select
               name="kt_customers_table_length"
@@ -83,6 +86,7 @@ const ContactsListPagination = () => {
               <option value={100}>100</option>
             </select>
           </label>
+          }
         </div>
       </div>
       <div className="col-sm-12 col-md-7 d-flex align-items-center justify-content-center justify-content-md-end">

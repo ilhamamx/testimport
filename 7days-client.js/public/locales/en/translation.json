@@ -72,6 +72,7 @@
   "Contacts.Button.Export": "Export",
   "Contacts.Button.AddUser": "Add User",
   "Contacts.Button.DeleteSelected": "Delete Selected",
+  "Contacts.Button.SearchUser": "Search User",
   "Contacts.Info.Selected": "Selected",
   "Contacts.Column.Name": "Name",
   "Contacts.Column.PhoneNumber": "Phone Number",
@@ -95,5 +96,7 @@
   "CD.Input.Country": "Country",
   "CD.Input.Address": "Address",
   "CD.Option.Female": "Female",
-  "CD.Option.Male": "Male"
+  "CD.Option.Male": "Male",
+  "CD.Option.Single": "Single",
+  "CD.Option.Married": "Married"
 }

@@ -1,4 +1,4 @@
-import { FC, useState } from "react";
+import { FC, SetStateAction, useState, useEffect } from "react";
 import * as Yup from "yup";
 import { useFormik } from "formik";
 import { isNotEmpty, toAbsoluteUrl } from "../../../../../resources/helpers";
@@ -11,6 +11,11 @@ import { useQueryResponse } from "../core/QueryResponseProvider"
 import { createRef } from "../../../../../db/connection";
 import { getItemLC } from "../../../../modules/localstorage";
 import { useTranslation } from "react-i18next";
+import { storage } from "../../../../../../src/db"
+import { isNull } from "util";
+import { v4 as uuidv4 } from 'uuid';
+// uuidv4();
+
 
 type Props = {
   isUserLoading: boolean;
@@ -66,6 +71,58 @@ const ContactEditModalForm: FC<Props> = ({ contact, isUserLoading }) => {
   const blankImg = toAbsoluteUrl("/media/svg/avatars/blank.svg");
   // const userAvatarImg = toAbsoluteUrl(`/media/${contactForEdit.avatar}`);
   const userAvatarImg = toAbsoluteUrl(`${contactForEdit.avatar}`);
+  // const avatarPath = document.querySelector("#contact-avatar").files[0];
+ 
+  const [file, setFile] = useState(null);
+  const [picture, setPicture] = useState('');
+  const [imgUrl, setImgUrl] = useState('');
+
+  useEffect(() => {
+    // console.log("image effect : " + imgUrl)
+    console.log("picture effect : " + picture)
+    // setImgUrl(image)
+  }, [picture]) 
+  
+
+  const setPreviewImage = (event: any) => {
+    if (event.target.files[0]) {
+      setPicture(URL.createObjectURL(event.target.files[0]))
+      setFile(event.target.files[0])
+    } 
+  }
+
+  const uploadAvatar = async () => {
+    let fileURL = '';
+    if (file !== null ) {
+      // setPicture(event.target.files[0])
+      console.log("file data avatar ===>>>"+file);
+      const uuid = uuidv4()
+      const task = storage
+        .ref(getItemLC('CID')+"/images/avatar/customers")
+        .child(uuid)
+        .put(file);
+      await task
+        .then(async(snapshot) => {
+          return storage
+            .ref(getItemLC('CID')+"/images/avatar/customers")
+            .child(uuid)
+            .getDownloadURL()
+            .then((url) => {
+              console.log("media url : " + url);
+              // setImgUrl(url);
+              fileURL = url;
+              // image = url;
+            // document.querySelector("#image").src = url;
+            });
+        })
+        .catch((error) => {
+          console.log("error : " + error.message);
+        });
+        
+    }
+    return fileURL 
+  }
+
 
   const formik = useFormik({
     initialValues: contactForEdit,
@@ -74,7 +131,8 @@ const ContactEditModalForm: FC<Props> = ({ contact, isUserLoading }) => {
       setSubmitting(true);
       try {
         if (Object.values(values).includes('id')) {
-          await updateContact(values);
+          // await upload();
+          await updateContact(values);          
         } else {
 
           if(values.phoneNumber!.startsWith("0")){
@@ -82,10 +140,14 @@ const ContactEditModalForm: FC<Props> = ({ contact, isUserLoading }) => {
           }
           const fnameInsensitive = values.firstName!.toLowerCase();
           values.firstNameInsensitive = fnameInsensitive;
-          if(values.gender === 'male')
-            values.avatar = toAbsoluteUrl('/media/icons/avatar/m-avatar.png')
-          else if(values.gender === 'female')
-            values.avatar = toAbsoluteUrl('/media/icons/avatar/f-avatar.png')
+          values.avatar = await uploadAvatar();   
+          console.log("Avatar ini : " + values.avatar)       
+          if(values.avatar === null || values.avatar === '' || values.avatar === undefined){
+            if(values.gender === 'male')
+              values.avatar = toAbsoluteUrl('/media/icons/avatar/m-avatar.png')
+            else if(values.gender === 'female')
+              values.avatar = toAbsoluteUrl('/media/icons/avatar/f-avatar.png')
+          }
           await createContact(values);
         }
       } catch (ex) {
@@ -96,6 +158,7 @@ const ContactEditModalForm: FC<Props> = ({ contact, isUserLoading }) => {
       }
     },
   });
+  
 
   return (
     <>
@@ -126,17 +189,21 @@ const ContactEditModalForm: FC<Props> = ({ contact, isUserLoading }) => {
             <div
               className="image-input image-input-outline"
               data-kt-image-input="true"
-              style={{ backgroundImage: `url('${blankImg}')` }}
+              // style={{ backgroundImage: `url('${imgUrl}')` }}
+              //style="background-image: url(${imgUrl});"
             >
               {/* begin::Preview existing avatar */}
               <div
                 className="image-input-wrapper w-125px h-125px"
-                style={{ backgroundImage: `url('${userAvatarImg}')` }}
-              ></div>
+                style={{ backgroundImage: `url('${picture}')` }}
+                // style={{ backgroundImage: `url('${toAbsoluteUrl(picture)}')` }}
+                
+              > 
+              </div>
               {/* end::Preview existing avatar */}
 
               {/* begin::Label */}
-              {/* <label
+              <label
                 className="btn btn-icon btn-circle btn-active-color-primary w-25px h-25px bg-body shadow"
                 data-kt-image-input-action="change"
                 data-bs-toggle="tooltip"
@@ -144,20 +211,20 @@ const ContactEditModalForm: FC<Props> = ({ contact, isUserLoading }) => {
               >
                 <i className="bi bi-pencil-fill fs-7"></i>
 
-                <input type="file" name="avatar" accept=".png, .jpg, .jpeg" />
-                <input type="hidden" name="avatar_remove" />
-              </label> */}
+                <input id="contact-avatar" onChange={setPreviewImage} type="file" name="avatar" accept=".png, .jpg, .jpeg" />
+                {/* <input type="hidden" name="avatar_remove" /> */}
+              </label>
               {/* end::Label */}
 
               {/* begin::Cancel */}
-              {/* <span
+              <span
                 className="btn btn-icon btn-circle btn-active-color-primary w-25px h-25px bg-body shadow"
                 data-kt-image-input-action="cancel"
                 data-bs-toggle="tooltip"
                 title="Cancel avatar"
               >
                 <i className="bi bi-x fs-2"></i>
-              </span> */}
+              </span>
               {/* end::Cancel */}
 
               {/* begin::Remove */}
@@ -174,7 +241,7 @@ const ContactEditModalForm: FC<Props> = ({ contact, isUserLoading }) => {
             {/* end::Image input */}
 
             {/* begin::Hint */}
-            {/* <div className='form-text'>Allowed file types: png, jpg, jpeg.</div> */}
+            <div className='form-text'>Allowed file types: png, jpg, jpeg.</div>
             {/* end::Hint */}
           </div>
           {/* end::Input group */}
@@ -187,7 +254,7 @@ const ContactEditModalForm: FC<Props> = ({ contact, isUserLoading }) => {
 
             {/* begin::Input */}
             <input
-              placeholder="First name"
+              placeholder={t("CD.Input.FirstName")}
               {...formik.getFieldProps("firstName")}
               type="text"
               name="firstName"
@@ -224,7 +291,7 @@ const ContactEditModalForm: FC<Props> = ({ contact, isUserLoading }) => {
 
             {/* begin::Input */}
             <input
-              placeholder="Last name"
+              placeholder={t("CD.Input.LastName")}
               {...formik.getFieldProps("lastName")}
               type="text"
               name="lastName"
@@ -257,7 +324,7 @@ const ContactEditModalForm: FC<Props> = ({ contact, isUserLoading }) => {
 
             {/* begin::Input */}
             <input
-              placeholder="Phone Number"
+              placeholder={t('Contacts.Column.PhoneNumber')}
               {...formik.getFieldProps("phoneNumber")}
               className={clsx(
                 "form-control form-control-solid mb-3 mb-lg-0",
@@ -294,7 +361,7 @@ const ContactEditModalForm: FC<Props> = ({ contact, isUserLoading }) => {
 
             {/* begin::Input */}
             <input
-              placeholder="Email"
+              placeholder={t('Contacts.Column.Email')}
               {...formik.getFieldProps("email")}
               className={clsx(
                 "form-control form-control-solid mb-3 mb-lg-0",
@@ -333,8 +400,8 @@ const ContactEditModalForm: FC<Props> = ({ contact, isUserLoading }) => {
               disabled={formik.isSubmitting || isUserLoading}
             >
               <option value=''>Select gender . . .</option>
-              <option value="male">{t('CD.Option.Female')}</option>
-              <option value="female">{t('CD.Option.Male')}</option>
+              <option value="male">{t('CD.Option.Male')}</option>
+              <option value="female">{t('CD.Option.Female')}</option>
               {/* <option value="other">Other</option> */}
             </select>
             {/* end::Input */}
@@ -378,8 +445,8 @@ const ContactEditModalForm: FC<Props> = ({ contact, isUserLoading }) => {
               disabled={formik.isSubmitting || isUserLoading}
             >
               <option value=''>Select status. . .</option>
-              <option value="single">Single</option>
-              <option value="married">Married</option>
+              <option value="single">{t('CD.Option.Single')}</option>
+              <option value="married">{t('CD.Option.Married')}</option>
               {/* <option value="other">Other</option> */}
             </select>
             {/* end::Input */}
@@ -394,7 +461,7 @@ const ContactEditModalForm: FC<Props> = ({ contact, isUserLoading }) => {
 
             {/* begin::Input */}
             <input
-              placeholder="City"
+              placeholder={t('CD.Input.City')}
               {...formik.getFieldProps("city")}
               type="text"
               name="city"
@@ -680,7 +747,7 @@ const ContactEditModalForm: FC<Props> = ({ contact, isUserLoading }) => {
 
             {/* begin::Input */}
             <input
-              placeholder="Zip Code"
+              placeholder={t("CD.Input.ZipCode")}
               {...formik.getFieldProps("zipcode")}
               type="text"
               name="zipcode"

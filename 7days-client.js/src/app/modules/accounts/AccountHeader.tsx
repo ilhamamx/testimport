@@ -25,7 +25,7 @@ const AccountHeader = ({customer} : {customer: Contact}) => {
             <div className='d-flex justify-content-between align-items-start flex-wrap mb-2'>
               <div className='d-flex flex-column'>
                 <div className='d-flex align-items-center mb-2'>
-                  <a href='#' className='text-gray-800 text-hover-primary fs-2 fw-bolder me-1'>
+                  <a className='text-gray-800 text-hover-primary fs-2 fw-bolder me-1'>
                     {customer.firstName} {customer.lastName}
                   </a>
                   {/* <a href='#'>
@@ -35,10 +35,10 @@ const AccountHeader = ({customer} : {customer: Contact}) => {
                     />
                   </a> */}
                   <a
-                    href='#'
+                    
                     className='btn btn-sm btn-light-success fw-bolder ms-2 fs-8 py-1 px-3'
-                    data-bs-toggle='modal'
-                    data-bs-target='#kt_modal_upgrade_plan'
+                    // data-bs-toggle='modal'
+                    // data-bs-target='#kt_modal_upgrade_plan'
                   >
                     Loyal
                   </a>
@@ -46,7 +46,7 @@ const AccountHeader = ({customer} : {customer: Contact}) => {
 
                 <div className='d-flex flex-wrap fw-bold fs-6 mb-4 pe-2'>
                   <a
-                    href='#'
+                    // href='#'
                     className='d-flex align-items-center text-gray-400 text-hover-primary me-5 mb-2'
                   >
                     <KTSVG
@@ -66,7 +66,7 @@ const AccountHeader = ({customer} : {customer: Contact}) => {
                     SF, Bay Area
                   </a> */}
                   <a
-                    href='#'
+                    // href='#'
                     className='d-flex align-items-center text-gray-400 text-hover-primary mb-2'
                   >
                     <KTSVG

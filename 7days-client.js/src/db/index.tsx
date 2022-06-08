@@ -1,6 +1,7 @@
 import firebase from "firebase/compat/app";
 import "firebase/compat/firestore";
 import "firebase/compat/auth";
+import "firebase/compat/storage"
 // import * as admin from "firebase-admin";
 import { LCName, setItemLC, getItemLC } from "../app/modules/localstorage";
 import * as lc from "../app/modules/localstorage/index";
@@ -25,6 +26,8 @@ console.log("call firebase ");
 export const firebases = firebase.initializeApp(firebaseConfig);
 const db = firebase.firestore(); // getFirestore()
 export default db;
+
+export const storage = firebase.storage();
 
 const { Timestamp } = firebase.firestore;
 export { Timestamp };
