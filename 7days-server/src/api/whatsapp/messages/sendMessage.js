@@ -12,6 +12,8 @@ const sendWhatsappMessage = async (req, callback) => {
   let message_type = "text";
   let preview_url = false;
   let text = undefined;
+  let media_url = undefined;
+  let caption = undefined;
   if (req.whatsapp) {
     if (req.whatsapp.company) {
       companyID = req.whatsapp.company;
@@ -43,6 +45,19 @@ const sendWhatsappMessage = async (req, callback) => {
         }
       } else {
         return callback(resultCode("SM", "01", "text"), null, 400);
+      }
+    } else if(message_type == "image"){
+      if(req.whatsapp.image){
+        if(req.whatsapp.image.link){
+          media_url = req.whatsapp.image.link;
+        } else{
+          return callback(resultCode("SM", "01", "link image"), null, 400);
+        }
+        if (req.whatsapp.image.caption) {
+          caption = req.whatsapp.image.caption;
+        }
+      }else{
+        return callback(resultCode("SM", "01", "image"), null, 400);
       }
     } else {
       return callback(resultCode("SM", "02", "type"), null, 400);
@@ -76,6 +91,12 @@ const sendWhatsappMessage = async (req, callback) => {
       "body" : "${text}"
       }`;
     }
+    if(message_type == "image"){
+      return `"image" : {
+        "link" : "${media_url}"
+        ${caption ? `,"caption" : "${caption}"` : ""}
+      }`
+    }
   }
   console.log("access_token : " + dataAccount[0].access_token);
   const header = {
@@ -99,7 +120,6 @@ const sendWhatsappMessage = async (req, callback) => {
 
 async function sendRequest(header, url, json, callback) {
   console.log("masuk send request");
-
   await axios({
     method: "POST", // Required, HTTP method, a string, e.g. POST, GET
     // url: "https://coordinated-honey-taste.glitch.me/test", //for testing purpose using sandbox
