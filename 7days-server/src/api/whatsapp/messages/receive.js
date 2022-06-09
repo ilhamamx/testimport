@@ -82,12 +82,14 @@ const parseJSONWhatsAppMessage = async (req) => {
                 req.entry[0].changes[0].value.messages[0].text.body;
             }
           }
-        }else if (messages_type == "image" || messages_type == "document") {
+        }else if (messages_type == "image" || messages_type == "document" || messages_type == "video") {
           let mediaJSON
-          if(messages_type == "image"){
-            mediaJSON = req.entry[0].changes[0].value.messages[0].image
-          } else if(messages_type == "document"){
-            mediaJSON = req.entry[0].changes[0].value.messages[0].document
+          if (messages_type == "image") {
+            mediaJSON = req.entry[0].changes[0].value.messages[0].image;
+          } else if (messages_type == "document") {
+            mediaJSON = req.entry[0].changes[0].value.messages[0].document;
+          } else if (messages_type == "video") {
+            mediaJSON = req.entry[0].changes[0].value.messages[0].video;
           }
           if (mediaJSON) {
             if (mediaJSON.caption) {
@@ -207,19 +209,28 @@ const parseJSONWhatsAppMessage = async (req) => {
 
       // handle message by type
       if (messages_type === "text") {
-      } else if (messages_type === "image" || messages_type === "document") {
+      } else if (messages_type === "image" || messages_type === "document" || messages_type === "video") {
         if(messages_media_id){
           //hardcode token for testing purpose
           //get url from facebook whatsapp cloud API
-          // const dataMedia = await getMediaByID(messages_media_id, "EAAerGJUyyNcBAIUB09Qgsxh4MlQHq79XZAZAmZBVOGmqVbkZAI6NPSe6iWI7upvI1jZAFtoGlaP5jI7TJmDpHuAQsLdau6xdf49q0p9iFxA5d7eCGE97QlZCgHFt3elFZB82zk1zgyIrxDEQh9G73jqlaEEBkcrbgLDzMgDxxirV2SS0nZA5cqZAZAaheyFzRfmjpDLsISv3eZBBuAmcb7JWmQ6nMbmMLz9ZAcgZD")  
+          // const dataMedia = await getMediaByID(messages_media_id, "EAAerGJUyyNcBAE6zh3OzqHBoWQwYZAyylVbCTd8xsLa3pVtAnXelTYI3ZA6elvTV9R4043APXtSZBVMZAPTaQOZAiXOtaOc019H0C1mxOfUVUPrdb4YUdYe5Tu4fr4J84ONEqpatOcjS9XfxmBTuWT0rugtQ6AY3ZCRD22MFG1ZBqpDV41JjgtVuyPfZB3Y9ZCVu2azlVqtvgtPYSaZB4U6mqZBA1gC7i5ZBVrkZD");  
           const dataMedia = await getMediaByID(messages_media_id, account[0].access_token)
           if(dataMedia){
             //get media file from facebook whatsapp cloud API
-            // const file = await downloadFromUrl(dataMedia.url, "EAAerGJUyyNcBAIUB09Qgsxh4MlQHq79XZAZAmZBVOGmqVbkZAI6NPSe6iWI7upvI1jZAFtoGlaP5jI7TJmDpHuAQsLdau6xdf49q0p9iFxA5d7eCGE97QlZCgHFt3elFZB82zk1zgyIrxDEQh9G73jqlaEEBkcrbgLDzMgDxxirV2SS0nZA5cqZAZAaheyFzRfmjpDLsISv3eZBBuAmcb7JWmQ6nMbmMLz9ZAcgZD")
+            // const file = await downloadFromUrl( dataMedia.url, "EAAerGJUyyNcBAE6zh3OzqHBoWQwYZAyylVbCTd8xsLa3pVtAnXelTYI3ZA6elvTV9R4043APXtSZBVMZAPTaQOZAiXOtaOc019H0C1mxOfUVUPrdb4YUdYe5Tu4fr4J84ONEqpatOcjS9XfxmBTuWT0rugtQ6AY3ZCRD22MFG1ZBqpDV41JjgtVuyPfZB3Y9ZCVu2azlVqtvgtPYSaZB4U6mqZBA1gC7i5ZBVrkZD");
             const file = await downloadFromUrl(dataMedia.url, account[0].access_token)
             if(file){
               const fileBase64 = await Buffer.from(file.data, 'binary').toString('base64')
               const fileUpload64 = Buffer.from(fileBase64, 'base64');
+
+              let videoFormat;
+              if (messages_media_mime_type) {
+                const array = messages_media_mime_type.split("/");
+                if (array.length > 0) {
+                  videoFormat = array[1];
+                }
+                console.log("video format : " + videoFormat);
+              }
 
               const metadata = {
                 contentType: messages_media_mime_type,
@@ -227,7 +238,7 @@ const parseJSONWhatsAppMessage = async (req) => {
               }
 
               const path = `${account[0].company.id}/${messages_type}s/chat/${messages_media_id}${
-                messages_media_filename ? "/" + messages_media_filename : ""
+                messages_media_filename ? "/" + messages_media_filename : messages_type == "video" ? "." + videoFormat : ""
               }`;
 
               //upload file to firebase storage
