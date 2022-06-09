@@ -1,10 +1,13 @@
 import { FC } from "react";
+import { Link } from "react-router-dom";
 import { toAbsoluteUrl } from "../../../../resources/helpers";
 import { HandledMessageListItem } from "../models/ChatItem.model";
 import moment from "moment";
+import {ChatTime} from "../ChatTime";
 
 interface ChatItemProps {
   item: HandledMessageListItem;
+  onOpenChat: (id:string) => void;
 }
 
 const ChatItem: FC<ChatItemProps> = (props) => {
@@ -22,17 +25,21 @@ const ChatItem: FC<ChatItemProps> = (props) => {
           <a
             href="#"
             className="fs-5 fw-bolder text-gray-900 text-hover-primary mb-2"
+            // onClick={props.onOpenChat.bind(null,item.id)})}
           >
             {item.customerModel?.firstName} {item.customerModel?.lastName}
           </a>
-          
-          <div className="fw-bold text-gray-400">Last Messages{item.lastMessages}</div>
+          <div className="fw-bold text-gray-400">
+            {item.lastInteractionMessage}
+            {/* check message type + message */}
+            
+            </div>
         </div>
       </div>
 
       <div className="d-flex flex-column align-items-end ms-2">
         <span className="text-muted fs-7 mb-1">
-          {moment(item.lastActivityAt).fromNow().toString()}
+          {ChatTime(item.lastInteractionAt)}
         </span>
         <div className="symbol-group symbol-hover">
             {item.unreadMessages?.map((unreadMessage) => (

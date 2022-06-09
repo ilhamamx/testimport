@@ -1,7 +1,9 @@
-import { HandledMessageListItem } from "../../../layout/chat/models/ChatItem.model";
+import { HandledMessageListItem, Message } from "../../../layout/chat/models/ChatItem.model";
 
 interface InitialState {
   chatList: HandledMessageListItem[];
+  selectedCollaboration: HandledMessageListItem;
+  listMessage: Message[];
 }
 const UpdateChatListAction: string = "UpdateChatList";
 

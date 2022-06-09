@@ -16,6 +16,12 @@ type Props = {
 
 const bufferMessages = defaultMessages;
 
+// Noted : luar chat : 
+// 1. klik chat list
+// 2. panggil finction, update reduct Selected Chat (berisi semua data message)
+// 3. di chatinner di tambahkan use effect yang akan melakukan process ketika selected chat di ganti 
+
+
 const ChatInner: FC<Props> = ({ isDrawer = false }) => {
   const { t } = useTranslation();
 
@@ -118,7 +124,6 @@ const ChatInner: FC<Props> = ({ isDrawer = false }) => {
           </div>
 
           <div className="d-flex align-items-center me-2">
-            <div className="btn-group">
               <button
                 className="btn btn-primary"
                 type="button"
@@ -127,43 +132,6 @@ const ChatInner: FC<Props> = ({ isDrawer = false }) => {
               >
                 {t("Chat.Button.SendFrom").toUpperCase()}
               </button>
-
-              <div className="dropdown">
-                <img
-                  className="dropdown-toggle"
-                  data-bs-toggle="dropdown"
-                  aria-expanded="false"
-                  alt="arroy-right"
-                  src={toAbsoluteUrl("/media/icons/channel/whatsapp.png")}
-                  style={{
-                    width: "25px",
-                    height: "25px",
-                    marginTop: "50px",
-                    marginLeft: "15px",
-                  }}
-                ></img>
-                <ul
-                  className="dropdown-menu"
-                  aria-labelledby="dropdownMenuLink"
-                >
-                  <li>
-                    <a className="dropdown-item" href="#">
-                      Whatsapp
-                    </a>
-                  </li>
-                  <li>
-                    <a className="dropdown-item" href="#">
-                      Shopee
-                    </a>
-                  </li>
-                  <li>
-                    <a className="dropdown-item" href="#">
-                      Something else here
-                    </a>
-                  </li>
-                </ul>
-              </div>
-            </div>
           </div>
         </div>
       </div>

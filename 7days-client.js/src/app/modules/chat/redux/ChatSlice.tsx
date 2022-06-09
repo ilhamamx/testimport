@@ -1,9 +1,24 @@
 import InitialState, { UpdateChatListAction } from "./ChatRedux";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { HandledMessageListItem } from "../../../layout/chat/models/ChatItem.model";
+import { HandledMessageListItem,Message } from "../../../layout/chat/models/ChatItem.model";
 
 const initialState: InitialState = {
   chatList: [],
+  selectedCollaboration: {
+    id: "",
+    fullName: "",
+    image: "",
+    lastMessages: "",
+    unreadMessages: [],
+    lastInteractionAt: new Date(),
+    lastInteractionChannel: "",
+    lastInteractionType: "",
+    lastInteractionMessage: "",
+    customer: undefined,
+    customerModel: undefined,
+    LastMessageModel: undefined,
+  },
+  listMessage:[],
 };
 
 export const ChatSlice = createSlice({
@@ -14,11 +29,19 @@ export const ChatSlice = createSlice({
       state.chatList = action.payload;
       console.log(action.payload)
     },
+    setSelectedCollaboration: (state, action: PayloadAction<HandledMessageListItem>) => {
+      state.selectedCollaboration = action.payload;
+      console.log(action.payload)
+    },
+    setListMessages: (state, action: PayloadAction<Message[]>) => {
+      state.listMessage = action.payload;
+      console.log(action.payload)
+    },
   },
 });
 
 // Action creators are generated for each case reducer function
-export const { setChatList } =
+export const { setChatList, setSelectedCollaboration, setListMessages } =
 ChatSlice.actions;
 // You must export the reducer as follows for it to be able to be read by the store.
 export default ChatSlice.reducer;

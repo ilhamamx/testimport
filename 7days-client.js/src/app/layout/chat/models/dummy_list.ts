@@ -13,6 +13,17 @@ const lastActivity = (time: number) => {
     // return Timestamp.fromMillis((Timestamp.now().toMillis()+time)).toDate();
   }
 
+  const lastActivity_2 = (time: number) => {
+        
+    let timeMillis = Timestamp.now().toMillis();
+  
+    timeMillis = timeMillis - time;
+    
+    return Timestamp.fromMillis(timeMillis).toDate();
+    
+    // return Timestamp.fromMillis((Timestamp.now().toMillis()+time)).toDate();
+  }
+
 export const DUMMY_DATA: {}[] = [
   {
     id: "a1",

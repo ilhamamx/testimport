@@ -13,14 +13,28 @@ export interface Customer {
   id: string
 }
 
+export interface Message {
+  channel: string,
+  createdAt:Date,
+  customer?: DocumentReference,
+  mediaUrl?: string,
+  messageType: string,
+  textContent: string,
+  updatedAt:Date
+  id: string
+}
+
 export interface HandledMessageListItem {
     id: string,
     fullName: string,
     image: string,
     lastMessages: string,
     unreadMessages: BadgeItem[],
-    lastActivityAt: Date,
+    lastInteractionAt: Date,
+    lastInteractionChannel: string,
+    lastInteractionType: string,
+    lastInteractionMessage: string,
     customer?: DocumentReference,
     customerModel?: Customer,
-    lastInteractionChannel: string
+    LastMessageModel?: Message,
 }

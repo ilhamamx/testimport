@@ -12,11 +12,10 @@ import {RootState} from "../../../../setup/redux/store";
 
 import * as Chat from "../../../../actions/chat";
 
-// unreadCount: number,
-//   className: string,
-//   channel: string
-
 const lastActivity = (time: number) => {
+
+  
+  /* OLD */
   let timeMillis = Timestamp.now().toMillis();
 
   timeMillis = timeMillis - time;
@@ -30,11 +29,14 @@ const mapState = (state: RootState) => ({ chat: state.Chat })
 const connector = connect(mapState, chat.ChatSlice.actions)
 type PropsFromRedux = ConnectedProps<typeof connector>
 
-
-
 const ChatList: FC<PropsFromRedux> = (props) => {
 
   const dispatch = useDispatch();
+
+  const chatOpenHandler = (id: string) => {
+    console.log("Chat clicked >> "+id)
+    // 
+  }
 
   useEffect(() => {
     const user = {
@@ -62,7 +64,7 @@ const ChatList: FC<PropsFromRedux> = (props) => {
               
             {
               props.chat.chatList.map((chatListItem) => {
-                return <ChatItem item={chatListItem} key={chatListItem.id} />
+                return <ChatItem item={chatListItem} key={chatListItem.id} onOpenChat={chatOpenHandler}/>
               })
             }
 
