@@ -166,7 +166,7 @@ const parseJSONWhatsAppMessage = async (req) => {
             company: companyRef,
             isActive: true,
             lastInteractionChannel: "whatsapp",
-            lastInteractionAt: new Date(),
+            lastInteractionAt: dateObject,
             lastInteractionType: messages_type,
             lastInteractionMessage: 
               messages_text ? messages_text : 
@@ -188,7 +188,7 @@ const parseJSONWhatsAppMessage = async (req) => {
         collaborationRef = await db.collection(`collaborations`).doc(getCollaboration[0].id);
         await collaborationRef.update({
           lastInteractionChannel: "whatsapp",
-          lastInteractionAt: new Date(),
+          lastInteractionAt: dateObject,
           lastInteractionType: messages_type,
           lastInteractionMessage: 
             messages_text ? messages_text : 
@@ -242,7 +242,7 @@ const parseJSONWhatsAppMessage = async (req) => {
       await collaborationMessagesRef
         .add({
           channel: "whatsapp",
-          createdAt: new Date(),
+          createdAt: dateObject,
           updatedAt: new Date(),
           messageType: messages_type,
           textContent: messages_text ? messages_text : messages_media_caption ? messages_media_caption : "",
