@@ -167,6 +167,11 @@ const parseJSONWhatsAppMessage = async (req) => {
             isActive: true,
             lastInteractionChannel: "whatsapp",
             lastInteractionAt: new Date(),
+            lastInteractionType: messages_type,
+            lastInteractionMessage: 
+              messages_text ? messages_text : 
+              messages_media_caption ? messages_media_caption : 
+              messages_media_filename ? messages_media_filename : messages_type,
           })
           .then((ref) => {
             console.log("collaboration id x : " + ref.id);
@@ -184,6 +189,11 @@ const parseJSONWhatsAppMessage = async (req) => {
         await collaborationRef.update({
           lastInteractionChannel: "whatsapp",
           lastInteractionAt: new Date(),
+          lastInteractionType: messages_type,
+          lastInteractionMessage: 
+            messages_text ? messages_text : 
+            messages_media_caption ? messages_media_caption : 
+            messages_media_filename ? messages_media_filename : messages_type,
           updatedAt: new Date(),
         }).then(() => {
           collaboration = collaborationRef;
