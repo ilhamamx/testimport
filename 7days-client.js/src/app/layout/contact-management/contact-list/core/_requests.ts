@@ -12,6 +12,7 @@ import { format,} from "date-fns";
 import { getItemLC } from "../../../../modules/localstorage";
 import { createRef } from "../../../../../db/connection";
 
+
 const API_URL = process.env.REACT_APP_THEME_API_URL;
 const USER_URL = `${API_URL}/user`;
 const GET_USERS_URL = `https://preview.keenthemes.com/theme-api/api/users/query`; //`${API_URL}/users/query`
@@ -308,6 +309,7 @@ const deleteSelectedContacts = (contactIds: Array<ID>): Promise<void> => {
     } else {
       console.log("Delete id : " + id);
       deleteCustomer(id.toString());
+      
     }
   });
 

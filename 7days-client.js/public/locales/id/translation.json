@@ -97,6 +97,19 @@
   "CD.Option.Female": "Wanita",
   "CD.Option.Male": "Pria",
   "CD.Option.Single": "Lajang",
-  "CD.Option.Married": "Menikah"
-
+  "CD.Option.Married": "Sudah Menikah",
+  "CD.PH.Gender": "Silahkan pilih jenis kelamin",
+  "CD.PH.MarietalStatus": "Silahkan pilih status",
+  "CD.PH.Country": "Silahkan pilih Negara",
+  "CD.Error.FirstName": "Nama depan Diperlukan",
+  "CD.Error.PhoneNumber": "No. HP Diperlukan",
+  "CD.Error.Email": "Email Diperlukan",
+  "CD.Error.Birthdate": "Tanggal lahir diperlukan",
+  "CD.Button.Discard": "Batalkan",
+  "CD.Input.Avatar": "Foto Profil",
+  "CD.Button.Submit": "Kirim",
+  "CD.Info.AvatarFormat": "Format yang diperbolehkan: png, jpg, jpeg",
+  "CD.Button.SaveChanges": "Simpan Perubahan",
+  "CD.Info.Overview": "Profil",
+  "CD.Info.Settings": "Pengaturan"
 }

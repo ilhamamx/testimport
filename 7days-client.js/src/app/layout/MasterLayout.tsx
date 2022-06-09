@@ -165,7 +165,7 @@ const MasterLayout = () => {
                       <Dropdown style={{ marginLeft: "auto" }}>
                         <Dropdown.Toggle
                           style={{ border: "none" }}
-                          className="bg-white align-text-bottom mr-0 ml-auto border-start-0 "
+                          className="bg-light align-text-bottom mr-0 ml-auto border-start-0 "
                           id="profile-dropdown"
                         >
                           <Avatar

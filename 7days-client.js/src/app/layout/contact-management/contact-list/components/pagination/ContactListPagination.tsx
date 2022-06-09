@@ -21,7 +21,7 @@ const ContactsListPagination = () => {
   const [page, setPage] = useState(1);
   const [totalItems, setTotalItems] = useState(10);
   // const [maxPage, setMaxPage] = useState(10)
-
+  
   useEffect(() => {
     setPage(1);
     updateState({ items_per_page: totalItems, action: "noAction", page: 1 });

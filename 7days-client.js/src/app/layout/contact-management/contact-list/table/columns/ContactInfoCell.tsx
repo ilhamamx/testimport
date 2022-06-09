@@ -17,13 +17,11 @@ const ContactInfoCell: FC<Props> = ({ contact }) => (
       <Link
          to={
           "/contact/contact-detail/overview/" +
-          contact.firstName +
-          "-" +
-          contact.lastName
+          contact.firstName! + (contact.lastName? "-" + contact.lastName : '')
         }
         state={{
           id: contact.id,
-          name: contact.firstName + " " + contact.lastName,
+          name: contact.firstName! + (contact.lastName? " " + contact.lastName : ''),
         }}
         
       >
@@ -52,17 +50,15 @@ const ContactInfoCell: FC<Props> = ({ contact }) => (
       <Link
         to={
           "/contact/contact-detail/overview/" +
-          contact.firstName +
-          "-" +
-          contact.lastName
+          contact.firstName! + (contact.lastName? "-" + contact.lastName : '')
         }
         state={{
           id: contact.id,
-          name: contact.firstName + " " + contact.lastName,
+          name: contact.firstName! + (contact.lastName? " " + contact.lastName : ''),
         }}
         className="text-gray-800 text-hover-primary mb-1"
       >
-        {contact.firstName} {contact.lastName}
+        {contact.firstName} {contact.lastName? contact.lastName : ''}
       </Link>
       
       {/* <span>{contact.email}</span> */}

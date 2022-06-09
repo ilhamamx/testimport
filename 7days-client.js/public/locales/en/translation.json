@@ -98,5 +98,19 @@
   "CD.Option.Female": "Female",
   "CD.Option.Male": "Male",
   "CD.Option.Single": "Single",
-  "CD.Option.Married": "Married"
+  "CD.Option.Married": "Married",
+  "CD.PH.Gender": "Select gender",
+  "CD.PH.MarietalStatus": "Select status",
+  "CD.PH.Country": "Select a Country",
+  "CD.Error.FirstName": "First Name is required",
+  "CD.Error.PhoneNumber": "Phone Number is required",
+  "CD.Error.Email": "Email is required",
+  "CD.Error.Birthdate": "Birthdate is required",
+  "CD.Button.Discard": "Discard",
+  "CD.Input.Avatar": "Avatar",
+  "CD.Button.Submit": "Submit",
+  "CD.Info.AvatarFormat": "Format yang diperbolehkan: png, jpg, jpeg",
+  "CD.Button.SaveChanges": "Save Changes",
+  "CD.Info.Overview": "Overview",
+  "CD.Info.Settings": "Settings"
 }

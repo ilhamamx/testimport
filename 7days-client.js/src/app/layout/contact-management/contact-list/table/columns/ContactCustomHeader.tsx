@@ -20,7 +20,7 @@ const ContactCustomHeader: FC<Props> = ({className, title, tableProps}) => {
     // console.log("is selected "+state.sort + " - " + id);
     return state.sort && state.sort === id
   }, [state, id])
-  const order: 'asc' | 'desc' | undefined = useMemo(() => state.order, [state])
+  const order: 'asc' | 'desc' | 'delete' | undefined = useMemo(() => state.order, [state])
 
   const sortColumn = () => {
     // avoid sorting for these columns

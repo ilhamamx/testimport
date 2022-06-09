@@ -2,8 +2,10 @@
 import React from 'react'
 import {KTSVG} from '../../../../resources/helpers'
 import {Card4} from '../../../../resources/partials/content/cards/Card4'
+import { useTranslation } from "react-i18next";
 
 export function Documents() {
+  const { t } = useTranslation();
   return (
     <>
       <div className='d-flex flex-wrap flex-stack mb-6'>
@@ -22,7 +24,7 @@ export function Documents() {
               type='text'
               id='kt_filter_search'
               className='form-control form-control-white form-control-sm w-150px ps-9'
-              placeholder='Search'
+              placeholder={t('HeaderBar.Input.Search')}
             />
           </div>
 

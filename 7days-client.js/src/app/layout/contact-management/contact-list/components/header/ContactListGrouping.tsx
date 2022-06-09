@@ -4,19 +4,23 @@ import {useListView} from '../../core/ListViewProvider'
 import {useQueryResponse} from '../../core/QueryResponseProvider'
 import {deleteSelectedContacts} from '../../core/_requests'
 import { useTranslation } from "react-i18next";
+import { useQueryRequest } from "../../core/QueryRequestProvider";
 
 const ContactsListGrouping = () => {
   const { t } = useTranslation();
   const {selected, clearSelected} = useListView()
   const queryClient = useQueryClient()
   const {query} = useQueryResponse()
+  const { state, updateState } = useQueryRequest();
 
   const deleteSelectedItems = useMutation(() => deleteSelectedContacts(selected), {
     // 💡 response of the mutation is passed to onSuccess
     onSuccess: () => {
       // ✅ update detail view directly
-      queryClient.invalidateQueries([`${QUERIES.USERS_LIST}-${query}`])
+      // queryClient.invalidateQueries([`${QUERIES.USERS_LIST}-${query}`])
+      updateState({sort: 'delete', items_per_page: state.items_per_page, page: 1, action: "noAction"})
       clearSelected()
+      
     },
   })
 

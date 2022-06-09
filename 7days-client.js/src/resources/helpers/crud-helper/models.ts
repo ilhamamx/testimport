@@ -10,7 +10,7 @@ export type PaginationState = {
 
 export type SortState = {
   sort?: string
-  order?: 'asc' | 'desc'
+  order?: 'asc' | 'desc' | 'delete'
 }
 
 export type FilterState = {
@@ -22,7 +22,7 @@ export type SearchState = {
 }
 
 export type ActionState = {
-  action?: 'next' | 'prev' | 'noAction'
+  action?: 'next' | 'prev' | 'noAction' 
   lastId?: string 
 }
 

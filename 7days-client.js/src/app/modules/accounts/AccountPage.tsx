@@ -7,6 +7,7 @@ import { AccountHeader } from "./AccountHeader";
 import { useTranslation } from "react-i18next";
 import { getCustomerByID } from "../../../db";
 import { Contact } from "../../layout/contact-management/contact-list/core/_models";
+import { title } from "process";
 
 type Props = {
   id: string;
@@ -19,6 +20,7 @@ const AccountPage: React.FC = () => {
   const { t } = useTranslation();
   let dataContact: Contact;
   const [contactData, setContactData] = useState({});
+  const [title, setTitle] = useState(data.name);
 
   useEffect(() => {
     getCustomerDetail();
@@ -29,6 +31,11 @@ const AccountPage: React.FC = () => {
       await getCustomerByID(data.id).then((doc) => {
         console.log("get customer by id " + JSON.stringify(doc));
         dataContact = doc as Contact;
+        setTitle(
+          dataContact.firstName! +
+            " " +
+            (dataContact.lastName ? dataContact.lastName : "")
+        );
         setContactData(dataContact);
         // console.log("Test : " + JSON.stringify(contactData));
       });
@@ -70,9 +77,7 @@ const AccountPage: React.FC = () => {
           path="overview/*"
           element={
             <>
-              <PageTitle breadcrumbs={accountBreadCrumbs}>
-                {data.name}
-              </PageTitle>
+              <PageTitle breadcrumbs={accountBreadCrumbs}>{title}</PageTitle>
               <Overview customer={contactData} />
             </>
           }

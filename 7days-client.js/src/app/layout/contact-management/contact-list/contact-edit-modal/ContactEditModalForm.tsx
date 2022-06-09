@@ -54,6 +54,7 @@ const ContactEditModalForm: FC<Props> = ({ contact, isUserLoading }) => {
     avatar: contact.avatar || initialContact.avatar,
     phoneNumber: contact.phoneNumber || initialContact.phoneNumber,
     firstName: contact.firstName || initialContact.firstName,
+    birthdate: '',
     email: contact.email || initialContact.email,
     isActive: true,
     companyID: companyRef,
@@ -147,6 +148,8 @@ const ContactEditModalForm: FC<Props> = ({ contact, isUserLoading }) => {
               values.avatar = toAbsoluteUrl('/media/icons/avatar/m-avatar.png')
             else if(values.gender === 'female')
               values.avatar = toAbsoluteUrl('/media/icons/avatar/f-avatar.png')
+            else
+              values.avatar = toAbsoluteUrl('/media/icons/avatar/def-avatar.png')
           }
           await createContact(values);
         }
@@ -182,7 +185,7 @@ const ContactEditModalForm: FC<Props> = ({ contact, isUserLoading }) => {
           {/* begin::Input group */}
           <div className="fv-row mb-7">
             {/* begin::Label */}
-            <label className="d-block fw-bold fs-6 mb-5">Avatar</label>
+            <label className="d-block fw-bold fs-6 mb-5">{t('CD.Input.Avatar')}</label>
             {/* end::Label */}
 
             {/* begin::Image input */}
@@ -241,7 +244,7 @@ const ContactEditModalForm: FC<Props> = ({ contact, isUserLoading }) => {
             {/* end::Image input */}
 
             {/* begin::Hint */}
-            <div className='form-text'>Allowed file types: png, jpg, jpeg.</div>
+            <div className='form-text'>{t('CD.Info.AvatarFormat')}</div>
             {/* end::Hint */}
           </div>
           {/* end::Input group */}
@@ -275,7 +278,7 @@ const ContactEditModalForm: FC<Props> = ({ contact, isUserLoading }) => {
             {formik.touched.firstName && formik.errors.firstName && (
               <div className="fv-plugins-message-container">
                 <div className="fv-help-block">
-                  <span role="alert">{formik.errors.firstName}</span>
+                  <span role="alert">{t('CD.Error.FirstName')}</span>
                 </div>
               </div>
             )}
@@ -346,7 +349,7 @@ const ContactEditModalForm: FC<Props> = ({ contact, isUserLoading }) => {
             {formik.touched.phoneNumber && formik.errors.phoneNumber && (
                 <div className="fv-plugins-message-container">
                 <div className="fv-help-block">
-                  <span role="alert">{formik.errors.phoneNumber}</span>
+                  <span role="alert">{t('CD.Error.PhoneNumber')}</span>
                 </div>
               </div>
             )}
@@ -379,7 +382,7 @@ const ContactEditModalForm: FC<Props> = ({ contact, isUserLoading }) => {
             {formik.touched.email && formik.errors.email && (
              <div className="fv-plugins-message-container">
              <div className="fv-help-block">
-               <span role="alert">{formik.errors.email}</span>
+               <span role="alert">{t('CD.Error.Email')}</span>
              </div>
            </div>
             )}
@@ -389,7 +392,7 @@ const ContactEditModalForm: FC<Props> = ({ contact, isUserLoading }) => {
           {/* begin::Input group */}
           <div className="fv-row mb-7">
             {/* begin::Label */}
-            <label className="required fw-bold fs-6 mb-2">{t('CD.Input.Gender')}</label>
+            <label className="fw-bold fs-6 mb-2">{t('CD.Input.Gender')}</label>
             {/* end::Label */}
 
             {/* begin::Input */}
@@ -399,7 +402,7 @@ const ContactEditModalForm: FC<Props> = ({ contact, isUserLoading }) => {
               name="gender"
               disabled={formik.isSubmitting || isUserLoading}
             >
-              <option value=''>Select gender . . .</option>
+              <option value=''>{t('CD.PH.Gender')} . . .</option>
               <option value="male">{t('CD.Option.Male')}</option>
               <option value="female">{t('CD.Option.Female')}</option>
               {/* <option value="other">Other</option> */}
@@ -411,7 +414,7 @@ const ContactEditModalForm: FC<Props> = ({ contact, isUserLoading }) => {
           {/* begin::Input group */}
           <div className="fv-row mb-7">
             {/* begin::Label */}
-            <label className="required fw-bold fs-6 mb-2">{t('CD.Input.Birthdate')}</label>
+            <label className="fw-bold fs-6 mb-2">{t('CD.Input.Birthdate')}</label>
             {/* end::Label */}
 
             {/* begin::Input */}
@@ -424,10 +427,12 @@ const ContactEditModalForm: FC<Props> = ({ contact, isUserLoading }) => {
             </span> */}
             {/* end::Input */}
             {/* {formik.touched.birthdate && formik.errors.birthdate && (
-              <div className="fv-plugins-message-container">
-                <span role="alert">{formik.errors.birthdate}</span>
-              </div>
-            )} */}
+                <div className="fv-plugins-message-container">
+                  <div className="fv-help-block">
+                    <span role="alert">{t('CD.Error.Birthdate')}</span>
+                  </div>
+                </div>
+              )} */}
           </div>
           {/* end::Input group */}
 
@@ -444,7 +449,7 @@ const ContactEditModalForm: FC<Props> = ({ contact, isUserLoading }) => {
               name="maritalStatus"
               disabled={formik.isSubmitting || isUserLoading}
             >
-              <option value=''>Select status. . .</option>
+              <option value=''>{t('CD.PH.MarietalStatus')} . . .</option>
               <option value="single">{t('CD.Option.Single')}</option>
               <option value="married">{t('CD.Option.Married')}</option>
               {/* <option value="other">Other</option> */}
@@ -486,7 +491,7 @@ const ContactEditModalForm: FC<Props> = ({ contact, isUserLoading }) => {
                   className='form-select form-select-solid form-select-lg fw-bold'
                   {...formik.getFieldProps('country')}
                 >
-                  <option value=''>Select a Country...</option>
+                  <option value=''>{t('CD.PH.Country')}...</option>
                   <option value='AF'>Afghanistan</option>
                   <option value='AX'>Aland Islands</option>
                   <option value='AL'>Albania</option>
@@ -744,7 +749,6 @@ const ContactEditModalForm: FC<Props> = ({ contact, isUserLoading }) => {
             {/* begin::Label */}
             <label className="fw-bold fs-6 mb-2">{t('CD.Input.ZipCode')}</label>
             {/* end::Label */}
-
             {/* begin::Input */}
             <input
               placeholder={t("CD.Input.ZipCode")}
@@ -775,7 +779,7 @@ const ContactEditModalForm: FC<Props> = ({ contact, isUserLoading }) => {
             data-kt-users-modal-action="cancel"
             disabled={formik.isSubmitting || isUserLoading}
           >
-            Discard
+            {t('CD.Button.Discard')}
           </button>
 
           <button
@@ -790,10 +794,10 @@ const ContactEditModalForm: FC<Props> = ({ contact, isUserLoading }) => {
               !formik.touched
             }
           >
-            <span className="indicator-label">Submit</span>
+            <span className="indicator-label">{t('CD.Button.Submit')}</span>
             {(formik.isSubmitting || isUserLoading) && (
               <span className="indicator-progress">
-                Please wait...{" "}
+                {t("Login.Button.Loading")} {" "}
                 <span className="spinner-border spinner-border-sm align-middle ms-2"></span>
               </span>
             )}

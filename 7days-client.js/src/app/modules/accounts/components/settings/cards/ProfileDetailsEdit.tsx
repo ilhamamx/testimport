@@ -46,13 +46,13 @@ export const ProfileDetailsEdit = ({ customer }: { customer: Contact }) => {
     id: customer.id,
     avatar: customer.avatar,
     firstName: customer.firstName,
-    lastName: customer.lastName,
-    gender: customer.gender,
+    lastName: customer.lastName? customer.lastName : '',
+    gender: customer.gender? customer.gender : '',
     birthdate: customer.birthdate,
-    maritalStatus: customer.maritalStatus,
-    city: customer.city,
-    zipcode: customer.zipcode,
-    country: customer.country,
+    maritalStatus: customer.maritalStatus? customer.maritalStatus : '' ,
+    city: customer.city? customer.city : '' ,
+    zipcode: customer.zipcode? customer.zipcode : '',
+    country: customer.country? customer.country : '',
     firstNameInsensitive: "",
 
   });
@@ -73,10 +73,6 @@ export const ProfileDetailsEdit = ({ customer }: { customer: Contact }) => {
         console.log("masuk update ==>> " + values);
           const fnameInsensitive = values.firstName!.toLowerCase();
           values.firstNameInsensitive = fnameInsensitive;
-          if(values.gender === 'male')
-            values.avatar = toAbsoluteUrl('/media/icons/avatar/m-avatar.png')
-          else if(values.gender === 'female')
-            values.avatar = toAbsoluteUrl('/media/icons/avatar/f-avatar.png')
           await updateContact(values);
       } catch (ex) {
         console.error(ex);
@@ -132,19 +128,20 @@ export const ProfileDetailsEdit = ({ customer }: { customer: Contact }) => {
             type="submit"
             data-kt-users-modal-action="submit"
             className="btn btn-primary align-self-center"            
-            onClick={() => {console.log(formik.values)}}>
-            Save Changes
+            onClick={() => {console.log(formik.values)}}
+            disabled={!formik.isValid || !formik.touched}>
+            {t('CD.Button.SaveChanges')}
           </button>
         </div>
  
         <div className="card-body p-9">
           <div className="row align-items-start pb-3 mb-3">
-            <label className="col-sm-2 mt-4 text-dark">{t('CD.Input.FirstName')}</label>
+            <label className="required col-sm-2 mt-4 text-dark">{t('CD.Input.FirstName')}</label>
             <div className="col-sm-2">
               <input
                 type="text"
                 // className="form-control form-control-lg form-control-solid mb-3 mb-lg-0"
-                placeholder="First name"
+                placeholder={t("CD.Input.FirstName")}
                 {...formik.getFieldProps("firstName")}
                 name="firstName"
                 className={clsx(
@@ -164,7 +161,7 @@ export const ProfileDetailsEdit = ({ customer }: { customer: Contact }) => {
               {formik.touched.firstName && formik.errors.firstName && (
                 <div className="fv-plugins-message-container">
                   <div className="fv-help-block">
-                    <span role="alert">{formik.errors.firstName}</span>
+                    <span role="alert">{t('CD.Error.FirstName')}</span>
                   </div>
                 </div>
               )}
@@ -175,7 +172,7 @@ export const ProfileDetailsEdit = ({ customer }: { customer: Contact }) => {
               <input
                 type="text"
                 className="form-control form-control-lg form-control-solid mb-3 mb-lg-0"
-                placeholder="last name"
+                placeholder={t('CD.Input.LastName')}
                 {...formik.getFieldProps("lastName")}
                 name="lastName"
               />
@@ -205,6 +202,13 @@ export const ProfileDetailsEdit = ({ customer }: { customer: Contact }) => {
                 {...formik.getFieldProps('birthdate')}
                 name="birthdate"
               />
+              {formik.touched.birthdate && formik.errors.birthdate && (
+                <div className="fv-plugins-message-container">
+                  <div className="fv-help-block">
+                    <span role="alert">{t('CD.Error.Birthdate')}</span>
+                  </div>
+                </div>
+              )}
             </div>
 
             <label className="col-sm-2 text-dark mt-4">{t('CD.Input.MaritalStatus')}</label>
@@ -271,7 +275,7 @@ export const ProfileDetailsEdit = ({ customer }: { customer: Contact }) => {
                   {...formik.getFieldProps('country')}
                   name="country"
                 >
-                  <option value=''>Select a Country...</option>
+                  <option value=''>{t('CD.PH.Country')}...</option>
                   <option value='AF'>Afghanistan</option>
                   <option value='AX'>Aland Islands</option>
                   <option value='AL'>Albania</option>
