@@ -18,9 +18,10 @@ const ContactsListGrouping = () => {
     onSuccess: () => {
       // ✅ update detail view directly
       // queryClient.invalidateQueries([`${QUERIES.USERS_LIST}-${query}`])
-      updateState({sort: 'delete', items_per_page: state.items_per_page, page: 1, action: "noAction"})
-      clearSelected()
+      updateState({sort:(state.sort === 'delete' ? 'asc' : 'delete' ), items_per_page: state.items_per_page, page: 1, action: "noAction"}) 
       
+      clearSelected()
+      // return updateState({sort:(state.sort === 'delete' ? 'asc' : 'delete' ), items_per_page: state.items_per_page, page: 1, action: "noAction"}) 
     },
   })
 
