@@ -77,7 +77,7 @@ const AccountPage: React.FC = () => {
           path="overview/*"
           element={
             <>
-              <PageTitle breadcrumbs={accountBreadCrumbs}>{t('CD.Info.Overview')}</PageTitle>
+              <PageTitle breadcrumbs={accountBreadCrumbs}>{title}</PageTitle>
               <Overview customer={contactData} />
             </>
           }
