@@ -1,5 +1,6 @@
 const firebase = require("firebase/compat/app");
 const firestore = require("firebase/compat/firestore");
+require("firebase/compat/database");
 require("firebase/compat/storage");
 require("firebase/compat/auth");
 
@@ -18,8 +19,8 @@ const firebaseConfig = {
 // Initialize Firebase
 firebase.initializeApp(firebaseConfig);
 const db = firebase.firestore(); // getFirestore()
+const realtimedb = firebase.database();
 const storage = firebase.storage();
-
 const { Timestamp } = firebase.firestore;
 // export { Timestamp }
 
@@ -53,6 +54,7 @@ async function uploadTaskPromise(path, file, metadata) {
 
 module.exports = {
   db,
+  realtimedb,
   vari,
   Timestamp,
   createRef,
