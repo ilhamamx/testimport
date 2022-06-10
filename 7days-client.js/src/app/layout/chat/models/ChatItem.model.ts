@@ -1,4 +1,7 @@
-import {DocumentReference} from "@firebase/firestore-types"
+import {DocumentReference} from "@firebase/firestore-types";
+import { Timestamp } from "../../../../db";
+import firebase from 'firebase/compat/app';
+
 export interface BadgeItem {
   unreadCount: number,
   className: string,
@@ -30,7 +33,11 @@ export interface HandledMessageListItem {
     image: string,
     lastMessages: string,
     unreadMessages: BadgeItem[],
-    lastInteractionAt: Date,
+    lastInteractionAt: {
+      seconds: number,
+      nanoseconds: number
+    }
+    // lastInteractionAt: typeof firebase.firestore.Timestamp;
     lastInteractionChannel: string,
     lastInteractionType: string,
     lastInteractionMessage: string,

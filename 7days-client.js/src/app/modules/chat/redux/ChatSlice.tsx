@@ -1,6 +1,8 @@
 import InitialState, { UpdateChatListAction } from "./ChatRedux";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { HandledMessageListItem,Message } from "../../../layout/chat/models/ChatItem.model";
+import firebase from 'firebase/compat/app';
+import { Timestamp } from "../../../../db";
 
 const initialState: InitialState = {
   chatList: [],
@@ -10,7 +12,7 @@ const initialState: InitialState = {
     image: "",
     lastMessages: "",
     unreadMessages: [],
-    lastInteractionAt: new Date(),
+    lastInteractionAt: Timestamp.fromDate(new Date()),
     lastInteractionChannel: "",
     lastInteractionType: "",
     lastInteractionMessage: "",

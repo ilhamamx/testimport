@@ -2,10 +2,6 @@ import React from 'react';
 import logo from './logo.svg';
 import './App.css';
 import { useTranslation } from 'react-i18next';
-import TimeAgo from 'javascript-time-ago'
-import en from 'javascript-time-ago/locale/en.json'
-
-TimeAgo.addDefaultLocale(en)
 
 function App() {
 

@@ -3,17 +3,29 @@ import { Link } from "react-router-dom";
 import { toAbsoluteUrl } from "../../../../resources/helpers";
 import { HandledMessageListItem } from "../models/ChatItem.model";
 import moment from "moment";
-import {ChatTime} from "../ChatTime";
+import ChatTimeFromFirebase from "../components/ChatTime";
+import { Timestamp } from "../../../../db";
+import firebase from 'firebase/compat/app';
 
 interface ChatItemProps {
   item: HandledMessageListItem;
   onOpenChat: (id:string) => void;
 }
 
+const lastActivity = (time: number) => {
+
+  let timeMillis = Timestamp.now().toMillis();
+
+  timeMillis = timeMillis - (time*1000);
+  
+  return Timestamp.fromMillis(time).toDate();
+  
+  // return Timestamp.fromMillis((Timestamp.now().toMillis()+time)).toDate();
+}
+
 const ChatItem: FC<ChatItemProps> = (props) => {
   const { item } = props;
-  const channelIcon = "/media/icons/channel/";
-
+  const channelIcon = "/media/icons/channel/"
   return (
     <div className="d-flex flex-stack py-4" key={item.id}>
       <div className="d-flex align-items-center">
@@ -39,7 +51,10 @@ const ChatItem: FC<ChatItemProps> = (props) => {
 
       <div className="d-flex flex-column align-items-end ms-2">
         <span className="text-muted fs-7 mb-1">
-          {ChatTime(item.lastInteractionAt)}
+          {/* {lastActivity(item.lastInteractionAt.seconds)} */}
+          {ChatTimeFromFirebase(item.lastInteractionAt.seconds)}
+          {/* {item.lastInteractionAt.seconds} */}
+
         </span>
         <div className="symbol-group symbol-hover">
             {item.unreadMessages?.map((unreadMessage) => (

@@ -12,18 +12,6 @@ import {RootState} from "../../../../setup/redux/store";
 
 import * as Chat from "../../../../actions/chat";
 
-const lastActivity = (time: number) => {
-
-  
-  /* OLD */
-  let timeMillis = Timestamp.now().toMillis();
-
-  timeMillis = timeMillis - time;
-  
-  return Timestamp.fromMillis(timeMillis).toDate();
-  
-  // return Timestamp.fromMillis((Timestamp.now().toMillis()+time)).toDate();
-}
 
 const mapState = (state: RootState) => ({ chat: state.Chat })
 const connector = connect(mapState, chat.ChatSlice.actions)

@@ -9,6 +9,10 @@ import {
   StickyComponent,
   ToggleComponent,
 } from '../resources/assets/ts/components'
+import TimeAgo from 'javascript-time-ago'
+import en from 'javascript-time-ago/locale/en.json'
+
+TimeAgo.addDefaultLocale(en)
 
 
 const App = () => {
