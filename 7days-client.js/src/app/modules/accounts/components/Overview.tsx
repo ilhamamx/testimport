@@ -1,20 +1,19 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import React, { FC } from "react";
 import { Link, useLocation } from "react-router-dom";
-import { getCustomerByID } from "../../../../db";
-import { KTSVG } from "../../../../resources/helpers";
-import {
-  ChartsWidget1,
-  TablesWidget1,
-  ListsWidget5,
-  TablesWidget5,
-} from "../../../../resources/partials/widgets";
+// import { KTSVG } from "../../../../resources/helpers";
+// import {
+//   ChartsWidget1,
+//   TablesWidget1,
+//   ListsWidget5,
+//   TablesWidget5,
+// } from "../../../../resources/partials/widgets";
 import { Contact } from "../../../layout/contact-management/contact-list/core/_models";
 import { useTranslation } from "react-i18next";
 
 export const Overview = ({ customer }: { customer: Contact }) => {
   const location = useLocation();
-  const customerData: Contact = customer;
+  // const customerData: Contact = customer;
   const { t } = useTranslation();
   console.log("customersss ==>> " + customer.id);
 
@@ -76,7 +75,7 @@ export const Overview = ({ customer }: { customer: Contact }) => {
             <label className="col-sm-2 text-dark">{t("CD.Input.Gender")}</label>
             <div className="col-sm-2">
               {customer.gender ? (
-                <span className="fs-6 text-muted">{customer.gender}</span>
+                customer.gender ==='male' ?  <span className="fs-6 text-muted"> {t("CD.Option.Male")} </span> : <span className="fs-6 text-muted"> {t("CD.Option.Female")} </span> 
               ) : (
                 <span className="fs-6 text-muted">-</span>
               )}
@@ -100,9 +99,7 @@ export const Overview = ({ customer }: { customer: Contact }) => {
             </label>
             <div className="col-sm fv-row">
               {customer.maritalStatus ? (
-                <span className="fs-6 text-muted">
-                  {customer.maritalStatus}
-                </span>
+                customer.maritalStatus ==='single' ?  <span className="fs-6 text-muted"> {t("CD.Option.Single")} </span> : <span className="fs-6 text-muted"> {t("CD.Option.Married")} </span> 
               ) : (
                 <span className="fs-6 text-muted">-</span>
               )}

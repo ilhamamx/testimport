@@ -19,7 +19,7 @@ const ContactDetail: FC = () => {
   
   const usersBreadcrumbs: Array<PageLink> = [
     {
-      title: 'Contacts',
+      title: t('SideBar.MenuItem.Contacts'),
       path: '/contact/list',
       isSeparator: false,
       isActive: false,

@@ -44,7 +44,7 @@ const AccountPage: React.FC = () => {
 
   const accountBreadCrumbs: Array<PageLink> = [
     {
-      title: "Contacts",
+      title: t('SideBar.MenuItem.Contacts'),
       path: "contact/list",
       isSeparator: false,
       isActive: false,
@@ -77,7 +77,7 @@ const AccountPage: React.FC = () => {
           path="overview/*"
           element={
             <>
-              <PageTitle breadcrumbs={accountBreadCrumbs}>{title}</PageTitle>
+              <PageTitle breadcrumbs={accountBreadCrumbs}>{t('CD.Info.Overview')}</PageTitle>
               <Overview customer={contactData} />
             </>
           }
@@ -86,7 +86,7 @@ const AccountPage: React.FC = () => {
           path="settings/*"
           element={
             <>
-              <PageTitle breadcrumbs={accountBreadCrumbs}>Settings</PageTitle>
+              <PageTitle breadcrumbs={accountBreadCrumbs}>{t('CD.Info.Settings')}</PageTitle>
               <Settings customer={contactData} />
             </>
           }

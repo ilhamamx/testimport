@@ -1,29 +1,28 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import React, { FC, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
-import { getCustomerByID } from "../../../../../../db";
-import { KTSVG } from "../../../../../../resources/helpers";
-import {
-  ChartsWidget1,
-  TablesWidget1,
-  ListsWidget5,
-  TablesWidget5,
-} from "../../../../../../resources/partials/widgets";
-import {toAbsoluteUrl} from '../../../../../../resources/helpers'
-import {IProfileDetails, profileDetailsInitValues as initialValues} from '../SettingsModel'
+import { useNavigate } from "react-router-dom";
+// import { KTSVG } from "../../../../../../resources/helpers";
+// import {
+//   ChartsWidget1,
+//   TablesWidget1,
+//   ListsWidget5,
+//   TablesWidget5,
+// } from "../../../../../../resources/partials/widgets";
+// import {toAbsoluteUrl} from '../../../../../../resources/helpers'
+// import { profileDetailsInitValues as initialValues} from '../SettingsModel'
 import * as Yup from 'yup'
 import {useFormik} from 'formik'
-import { initialContact, Contact } from "../../../../../layout/contact-management/contact-list/core/_models";
-import { createContact, updateContact } from "../../../../../layout/contact-management/contact-list/core/_requests";
+import {  Contact } from "../../../../../layout/contact-management/contact-list/core/_models";
+import { updateContact } from "../../../../../layout/contact-management/contact-list/core/_requests";
 import { useListView } from "../../../../../layout/contact-management/contact-list/core/ListViewProvider";
 import { useQueryResponse } from "../../../../../layout/contact-management/contact-list/core/QueryResponseProvider";
 import { useTranslation } from "react-i18next";
 import clsx from "clsx";
 
-type Props = {
-  isUserLoading: boolean;
-  contact: Contact;
-};
+// type Props = {
+//   isUserLoading: boolean;
+//   contact: Contact;
+// };
 
 const editContactSchema = Yup.object().shape({
   firstName: Yup.string()
@@ -38,6 +37,7 @@ export const ProfileDetailsEdit = ({ customer }: { customer: Contact }) => {
   const { setItemIdForUpdate } = useListView();
   const { refetch } = useQueryResponse();
   const nav = useNavigate();
+  // const customerGender = (customerData.gender === 'female' ?  t('CD.Options.Female') : t('CD.Options.Male')) 
 
   console.log("customersss ==>> " + customer.id);
 
@@ -49,7 +49,7 @@ export const ProfileDetailsEdit = ({ customer }: { customer: Contact }) => {
     lastName: customer.lastName? customer.lastName : '',
     gender: customer.gender? customer.gender : '',
     birthdate: customer.birthdate,
-    maritalStatus: customer.maritalStatus? customer.maritalStatus : '' ,
+    maritalStatus: customer.maritalStatus? customer.maritalStatus : '' , 
     city: customer.city? customer.city : '' ,
     zipcode: customer.zipcode? customer.zipcode : '',
     country: customer.country? customer.country : '',
@@ -185,9 +185,10 @@ export const ProfileDetailsEdit = ({ customer }: { customer: Contact }) => {
                 {...formik.getFieldProps('gender')}
                 name="gender"  
               >
-                {/* <option selected>Open this select menu</option> */}
-                <option value="male">{t('CD.Option.Male')}</option>
-                <option value="female">{t('CD.Option.Female')}</option>
+               {/* <option selected>Open this select menu</option> */}
+               <option value=''>{t('CD.PH.Gender')} . . .</option>
+               { customerData.gender === 'male' ?  <option value="male"  selected > {t('CD.Option.Male')} </option> :  <option value="male" > {t('CD.Option.Male')} </option> }
+               { customerData.gender === 'female' ?  <option value="female"  selected > {t('CD.Option.Female')} </option> :  <option value="female" > {t('CD.Option.Female')} </option> }
                 {/* <option value="other">Other</option> */}
               </select>
             </div>
@@ -219,8 +220,11 @@ export const ProfileDetailsEdit = ({ customer }: { customer: Contact }) => {
                 name="maritalStatus"
               >
                 {/* <option selected>Open this select menu</option> */}
-                <option value="single">{t('CD.Option.Single')}</option>
-                <option value="married">{t('CD.Option.Married')}</option>
+                {/* <option value="single">{t('CD.Option.Single')}</option>
+                <option value="married">{t('CD.Option.Married')}</option> */}
+                <option value=''>{t('CD.PH.MarietalStatus')} . . .</option>
+                { customerData.maritalStatus === 'single' ?  <option value="single"  selected > {t('CD.Option.Single')} </option> :  <option value="single" > {t('CD.Option.Single')} </option> }
+               { customerData.maritalStatus === 'married' ?  <option value="married"  selected > {t('CD.Option.Married')} </option> :  <option value="married" > {t('CD.Option.Married')} </option> }
                 {/* <option value="other">Other</option> */}
               </select>
             </div>

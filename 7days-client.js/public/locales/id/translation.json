@@ -111,5 +111,6 @@
   "CD.Info.AvatarFormat": "Format yang diperbolehkan: png, jpg, jpeg",
   "CD.Button.SaveChanges": "Simpan Perubahan",
   "CD.Info.Overview": "Profil",
-  "CD.Info.Settings": "Pengaturan"
+  "CD.Info.Settings": "Pengaturan",
+  "Contact.BC.ContactList": "Kontak"
 }
