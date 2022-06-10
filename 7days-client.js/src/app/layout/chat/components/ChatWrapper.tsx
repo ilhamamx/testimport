@@ -1,4 +1,4 @@
-import { FC } from "react";
+import { FC, useState,useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { KTSVG } from "../../../../resources/helpers/components/KTSVG";
 
@@ -6,10 +6,24 @@ import ChatList from "./ChatList";
 import { ChatInner } from "./ChatInner";
 
 const ChatWrapper: FC = () => {
-  const { t, i18n } = useTranslation();
+  const { t } = useTranslation();
+  const [userName, setUserName] = useState("");
+  
+  const chatOpen = (id: string) => {
+    console.log("Chat clicked >> "+id)
+  }
+
+  useEffect(() => {
+    setUserName("Testing");
+  },[userName]);
 
   return (
     <div className="d-flex flex-column flex-lg-row">
+    {
+    /***
+     * Chat List Sebelah Kiri
+     */
+    }
       <div
         className="flex-column flex-lg-row-auto w-100 w-lg-300px w-xl-400px mb-10 mb-lg-0"
         style={{
@@ -38,6 +52,10 @@ const ChatWrapper: FC = () => {
           <ChatList />
         </div>
       </div>
+
+      {/***
+      * Chat List Sebelah Kanan
+      */}
 
       <div className="flex-lg-row-fluid ms-lg-7 ms-xl-10">
         <div

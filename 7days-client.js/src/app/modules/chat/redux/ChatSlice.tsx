@@ -21,6 +21,7 @@ const initialState: InitialState = {
     LastMessageModel: undefined,
   },
   listMessage:[],
+  selectedChat: ''
 };
 
 export const ChatSlice = createSlice({
@@ -39,11 +40,16 @@ export const ChatSlice = createSlice({
       state.listMessage = action.payload;
       console.log(action.payload)
     },
+    setSelectedChat: (state, action: PayloadAction<string>) => {
+      state.selectedChat = action.payload;
+      console.log(action.payload)
+    },
+    
   },
 });
 
 // Action creators are generated for each case reducer function
-export const { setChatList, setSelectedCollaboration, setListMessages } =
+export const { setChatList, setSelectedCollaboration, setListMessages, setSelectedChat } =
 ChatSlice.actions;
 // You must export the reducer as follows for it to be able to be read by the store.
 export default ChatSlice.reducer;

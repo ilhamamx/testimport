@@ -37,7 +37,6 @@ export interface HandledMessageListItem {
       seconds: number,
       nanoseconds: number
     }
-    // lastInteractionAt: typeof firebase.firestore.Timestamp;
     lastInteractionChannel: string,
     lastInteractionType: string,
     lastInteractionMessage: string,

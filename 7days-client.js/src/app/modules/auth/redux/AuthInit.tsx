@@ -56,6 +56,7 @@ const AuthInit: FC<PropsFromRedux> = (props) => {
       //dispacth for log out
       dispatch(props.setAuth(false))
       setShowLoading(false)
+      lc.removeSession();
     }
     // eslint-disable-next-line
   }, [])

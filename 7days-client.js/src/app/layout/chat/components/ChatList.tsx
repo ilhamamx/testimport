@@ -1,17 +1,9 @@
 import { FC , useEffect, useState} from "react";
+import { connect, ConnectedProps, useDispatch , useSelector} from "react-redux";
 import ChatItem from "./ChatItem";
-import {HandledMessageListItem} from "../models/ChatItem.model"
-import { Timestamp } from "../../../../db";
-
-import * as chat from "../../../modules/chat/redux/ChatSlice"
-
-import { connect, ConnectedProps, useDispatch } from "react-redux";
-
-import { useSelector } from "react-redux";
+import * as chat from "../../../modules/chat/redux/ChatSlice";
 import {RootState} from "../../../../setup/redux/store";
-
 import * as Chat from "../../../../actions/chat";
-
 
 const mapState = (state: RootState) => ({ chat: state.Chat })
 const connector = connect(mapState, chat.ChatSlice.actions)
@@ -23,7 +15,6 @@ const ChatList: FC<PropsFromRedux> = (props) => {
 
   const chatOpenHandler = (id: string) => {
     console.log("Chat clicked >> "+id)
-    // 
   }
 
   useEffect(() => {
@@ -55,10 +46,8 @@ const ChatList: FC<PropsFromRedux> = (props) => {
                 return <ChatItem item={chatListItem} key={chatListItem.id} onOpenChat={chatOpenHandler}/>
               })
             }
-
-            
-            </div>
-          </div>
+      </div>
+    </div>
   );
 }
 

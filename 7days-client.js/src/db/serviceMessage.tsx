@@ -1,16 +1,15 @@
 import db from "../db";
 import { converter2 } from "./converter";
-import { Message } from "../app/layout/chat/models/ChatItem.model";
+import { Message,BadgeItem } from "../app/layout/chat/models/ChatItem.model";
+import firebase from 'firebase/compat/app'
 
-
-export const fetchLastMessage = async (collaboration: string) => {
+export const fetchMessage = async (collaboration: string) => {
   return await db
     .collection("collaborations")
     .doc(collaboration)
     .collection("messages")
     .withConverter(converter2<Message>())
     .orderBy("createdAt")
-    .limitToLast(1)
     .get()
     .then(snapshot => {
       const message = snapshot.docs.map(doc => {
@@ -19,3 +18,26 @@ export const fetchLastMessage = async (collaboration: string) => {
       return message;
     });
 }
+
+export const unreadMessage = (collaborationId: string) => { 
+  return firebase.database()
+  .ref("/collaborations/"+collaborationId+"/")
+  .once('value').then((snapshot) => {
+    let bi:BadgeItem[] = [];
+    console.log(`snapshot val ${JSON.stringify(snapshot.val())}`)
+    snapshot.forEach(node => {
+      if(node.exists()){
+        bi.push({
+          unreadCount:node.val().unreadMessage,
+          className: "",
+          channel: node.key!
+        });
+      }
+    })
+    
+    // console.log("Hasil Function : "+JSON.stringify(bi));
+    return bi;
+  });
+} 
+
+

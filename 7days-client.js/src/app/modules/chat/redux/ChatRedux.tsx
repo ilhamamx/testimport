@@ -4,6 +4,7 @@ interface InitialState {
   chatList: HandledMessageListItem[];
   selectedCollaboration: HandledMessageListItem;
   listMessage: Message[];
+  selectedChat: string;
 }
 const UpdateChatListAction: string = "UpdateChatList";
 

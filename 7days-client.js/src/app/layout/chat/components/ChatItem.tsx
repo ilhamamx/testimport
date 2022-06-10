@@ -2,10 +2,10 @@ import { FC } from "react";
 import { Link } from "react-router-dom";
 import { toAbsoluteUrl } from "../../../../resources/helpers";
 import { HandledMessageListItem } from "../models/ChatItem.model";
-import moment from "moment";
 import ChatTimeFromFirebase from "../components/ChatTime";
 import { Timestamp } from "../../../../db";
-import firebase from 'firebase/compat/app';
+import { ChatLastMessage } from "./ChatLastMessage"
+import { format } from 'timeago.js';  
 
 interface ChatItemProps {
   item: HandledMessageListItem;
@@ -19,8 +19,6 @@ const lastActivity = (time: number) => {
   timeMillis = timeMillis - (time*1000);
   
   return Timestamp.fromMillis(time).toDate();
-  
-  // return Timestamp.fromMillis((Timestamp.now().toMillis()+time)).toDate();
 }
 
 const ChatItem: FC<ChatItemProps> = (props) => {
@@ -34,16 +32,21 @@ const ChatItem: FC<ChatItemProps> = (props) => {
         </div>
 
         <div className="ms-5">
-          <a
-            href="#"
+          <Link
+            to="#"
             className="fs-5 fw-bolder text-gray-900 text-hover-primary mb-2"
+            onClick={props.onOpenChat.bind(null,item.id)}
             // onClick={props.onOpenChat.bind(null,item.id)})}
           >
             {item.customerModel?.firstName} {item.customerModel?.lastName}
-          </a>
+          </Link>
           <div className="fw-bold text-gray-400">
-            {item.lastInteractionMessage}
-            {/* check message type + message */}
+            <ChatLastMessage 
+             lastmessage= {item.lastInteractionMessage}
+             lastmessagetype= {item.lastInteractionType}
+             id= {item.id}
+            />
+            {/* {item.lastInteractionMessage} */}
             
             </div>
         </div>
@@ -51,10 +54,8 @@ const ChatItem: FC<ChatItemProps> = (props) => {
 
       <div className="d-flex flex-column align-items-end ms-2">
         <span className="text-muted fs-7 mb-1">
-          {/* {lastActivity(item.lastInteractionAt.seconds)} */}
           {ChatTimeFromFirebase(item.lastInteractionAt.seconds)}
-          {/* {item.lastInteractionAt.seconds} */}
-
+          {/* format(new Date(item.lastInteractionAt.seconds*1000), "en_US") */}
         </span>
         <div className="symbol-group symbol-hover">
             {item.unreadMessages?.map((unreadMessage) => (
