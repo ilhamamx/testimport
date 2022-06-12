@@ -15,6 +15,7 @@ const ChatList: FC<PropsFromRedux> = (props) => {
 
   const chatOpenHandler = (id: string) => {
     console.log("Chat clicked >> "+id)
+    dispatch(chat.setSelectedChat(id));
   }
 
   useEffect(() => {

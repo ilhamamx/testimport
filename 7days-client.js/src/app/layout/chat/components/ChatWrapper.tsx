@@ -1,30 +1,40 @@
-import { FC, useState,useEffect } from "react";
+import { FC, useState, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { KTSVG } from "../../../../resources/helpers/components/KTSVG";
-
+import { useSelector } from "react-redux";
 import ChatList from "./ChatList";
 import { ChatInner } from "./ChatInner";
+import { useDispatch } from "react-redux";
+import { RootState } from '../../../../setup/redux/store'
+import * as chat from "../../../modules/chat/redux/ChatSlice";
 
 const ChatWrapper: FC = () => {
   const { t } = useTranslation();
   const [userName, setUserName] = useState("");
-  
-  const chatOpen = (id: string) => {
-    console.log("Chat clicked >> "+id)
-  }
+  const dispatch = useDispatch();
+
+  const selectedChat = useSelector((state: RootState) => state.Chat.selectedChat);
+  const collabbls = useSelector((state: RootState) => state.Chat.chatList);
+  console.log("selected Chat: " + selectedChat);
+  console.log("Collaboration List : " + JSON.stringify(collabbls));
+  const colabs = collabbls.find(obj => {
+    return obj.id === selectedChat
+  });
+  console.log("Selected Colaboration : " + JSON.stringify(colabs));
 
   useEffect(() => {
     setUserName("Testing");
-  },[userName]);
+  }, [userName]);
 
   return (
     <div className="d-flex flex-column flex-lg-row">
-    {
-    /***
-     * Chat List Sebelah Kiri
-     */
-    }
+      {
+        /***
+         * Chat List Sebelah Kiri
+         */
+      }
       <div
+        // className="flex-column flex-lg-row-auto w-100 w-lg-300px w-xl-400px mb-10 mb-lg-0"
         className="flex-column flex-lg-row-auto w-100 w-lg-300px w-xl-400px mb-10 mb-lg-0"
         style={{
           backgroundColor: "#F5F7F8",
@@ -75,11 +85,12 @@ const ChatWrapper: FC = () => {
                   href="#"
                   className="fs-4 fw-bolder text-gray-900 text-hover-primary me-1 mb-2 lh-1"
                 >
-                  Brian Cox
+                 {colabs?.customerModel?.firstName} {colabs?.customerModel?.lastName}
                 </a>
               </div>
             </div>
 
+            {colabs !== undefined && (
             <div className="card-toolbar">
               <div className="me-n3">
                 <button className="btn btn-primary">
@@ -87,9 +98,9 @@ const ChatWrapper: FC = () => {
                   {t("Chat.Button.AddToContact")}
                 </button>
               </div>
-            </div>
+            </div>)}
           </div>
-          <ChatInner />
+          {colabs !== undefined && (<ChatInner />)}
         </div>
       </div>
     </div>

@@ -9,12 +9,16 @@ import {
 } from "../../../../resources/helpers/";
 import ChatMessage from "./ChatMessage";
 import { useTranslation } from "react-i18next";
+import { DropdownDefault } from "../../dropdown/DropdownDefault"
+import { Dropdown } from "react-bootstrap";
+import { RootState } from '../../../../setup/redux/store'
+import { useSelector } from "react-redux";
 
 type Props = {
   isDrawer?: boolean;
 };
 
-const bufferMessages = defaultMessages;
+const bufferMessages = defaultMessages;// ganti dengan get message dari firebase, dan 
 
 // Noted : luar chat : 
 // 1. klik chat list
@@ -37,15 +41,18 @@ const ChatInner: FC<Props> = ({ isDrawer = false }) => {
       time: "Just now",
     };
 
-    bufferMessages.push(newMessage);
-    setMessages(bufferMessages);
+    bufferMessages.push(newMessage);// tambahkan pesan baru
+    setMessages(bufferMessages); //set varibale message dengan array buffered message yang sudah di rambahkan chat baru
     toggleChatUpdateFlat(!chatUpdateFlag);
-    setMessage("");
-    setTimeout(() => {
-      bufferMessages.push(messageFromClient);
-      setMessages(() => bufferMessages);
-      toggleChatUpdateFlat((flag) => !flag);
-    }, 1000);
+    setMessage("");//message kembalid di kosongkan setelah di tambahkan ke list chat
+    /***
+     * Untuk Balasan pesan
+     */
+    // setTimeout(() => {
+    //   bufferMessages.push(messageFromClient);
+    //   setMessages(() => bufferMessages);
+    //   toggleChatUpdateFlat((flag) => !flag);
+    // }, 1000);
   };
 
   const onEnterPress = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
@@ -54,6 +61,8 @@ const ChatInner: FC<Props> = ({ isDrawer = false }) => {
       sendMessage();
     }
   };
+
+
 
   return (
     <div
@@ -124,14 +133,52 @@ const ChatInner: FC<Props> = ({ isDrawer = false }) => {
           </div>
 
           <div className="d-flex align-items-center me-2">
-              <button
+            {/* <button
+              className="btn btn-primary"
+              type="button"
+              data-kt-element="send"
+              onClick={sendMessage}
+            >
+              {t("Chat.Button.SendFrom").toUpperCase()}
+            </button> */}
+
+            {/* Coba Dropdown */}
+
+            <Dropdown style={{ marginLeft: "auto" }}>
+              <Dropdown.Toggle
                 className="btn btn-primary"
                 type="button"
                 data-kt-element="send"
-                onClick={sendMessage}
+                // style={{ border: "none" }}
+                // className="bg-white align-text-bottom mr-0 ml-auto border-start-0 "
+                id="send-dropdown"
               >
-                {t("Chat.Button.SendFrom").toUpperCase()}
-              </button>
+                {/* Label */}
+                <label>{t("Chat.Button.SendFrom").toUpperCase()}</label>
+                {/* Channel Logo */}
+                <span
+                  className="symbol symbol-5px symbol-circle"
+                >
+                  <img
+                    className="symbol-label bg-primary"
+                    alt=""
+                    src={toAbsoluteUrl(`/media/icons/channel/whatsapp.png`)}
+                    // style={{ backgroundColor: "#FFFFFF", }}
+                  />
+                </span>
+              </Dropdown.Toggle>
+
+              <Dropdown.Menu>
+                {/* maps customer channel, jangan lupa default nya lastInteractionChannel */}
+                <Dropdown.Item
+                  href="#"
+                  onClick={sendMessage}
+                  id="dropdown-logout"
+                >
+                  Log Out
+                </Dropdown.Item>
+              </Dropdown.Menu>
+            </Dropdown>
           </div>
         </div>
       </div>

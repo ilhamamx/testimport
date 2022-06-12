@@ -21,11 +21,16 @@ const lastActivity = (time: number) => {
   return Timestamp.fromMillis(time).toDate();
 }
 
+
+
+
 const ChatItem: FC<ChatItemProps> = (props) => {
   const { item } = props;
   const channelIcon = "/media/icons/channel/"
   return (
-    <div className="d-flex flex-stack py-4" key={item.id}>
+    <div className="d-flex flex-stack py-4 bg-active-secondary bg-hover-secondary cl-graywhite" 
+    style={{paddingLeft: "10px", paddingRight: "15px",paddingBottom: "15px", paddingTop: "15px"}}
+    key={item.id} onClick={props.onOpenChat.bind(null,item.id)}>
       <div className="d-flex align-items-center">
         <div className="symbol symbol-45px symbol-circle">
           <img alt="Pic" src={toAbsoluteUrl(`${item.customerModel?.avatar}`)} />
@@ -36,7 +41,6 @@ const ChatItem: FC<ChatItemProps> = (props) => {
             to="#"
             className="fs-5 fw-bolder text-gray-900 text-hover-primary mb-2"
             onClick={props.onOpenChat.bind(null,item.id)}
-            // onClick={props.onOpenChat.bind(null,item.id)})}
           >
             {item.customerModel?.firstName} {item.customerModel?.lastName}
           </Link>

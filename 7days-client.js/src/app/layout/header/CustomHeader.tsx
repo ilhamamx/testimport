@@ -89,7 +89,7 @@ const CustomHeader: FC = () => {
                         className="nav-item mt-0 flex-fill w-auto"
                         style={{ display: "flex" }}
                       >
-                        <Dropdown style={{ marginLeft: "auto" }}>
+                          <Dropdown style={{ marginLeft: "auto" }}>
                           <Dropdown.Toggle
                             style={{ border: "none" }}
                             className="bg-white align-text-bottom mr-0 ml-auto border-start-0 "

@@ -16,6 +16,17 @@ export interface Customer {
   id: string
 }
 
+// export interface MessageModel {
+//   user: number
+//   type: 'in' | 'out'
+//   text: string
+//   time: string
+//   // messagetype: string 
+//   channel?: string
+//   mediaUrl?: string 
+//   template?: boolean
+// }
+
 export interface Message {
   channel: string,
   createdAt:Date,
