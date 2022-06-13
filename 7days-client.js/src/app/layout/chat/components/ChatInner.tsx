@@ -1,6 +1,7 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
-import { FC, useState } from "react";
+import { FC, useEffect, useState } from "react";
 import clsx from "clsx";
+import * as Chat from "../../../../actions/chat";
 import {
   defaultMessages,
   MessageModel,
@@ -12,33 +13,74 @@ import { useTranslation } from "react-i18next";
 import { DropdownDefault } from "../../dropdown/DropdownDefault"
 import { Dropdown } from "react-bootstrap";
 import { RootState } from '../../../../setup/redux/store'
-import { useSelector } from "react-redux";
+import * as chat from "../../../modules/chat/redux/ChatSlice";
+import { connect, ConnectedProps, useDispatch, useSelector } from "react-redux";
+import * as reduxmessage from "../../../modules/chat/redux/ChatSlice";
+// import { } from "../../../../../../../app/layout/chat/models/ChatItem.model"
+import { Message as newMessageModel } from "../../../layout/chat/models/ChatItem.model"
+import { Timestamp } from "../../../../db";
+
+const capitalizeLetter = (letter: string) => {
+  return letter.charAt(0).toUpperCase() + letter.slice(1);
+}
+
+const mapState = (state: RootState) => ({ chat: state.Chat })
+const connector = connect(mapState, chat.ChatSlice.actions)
 
 type Props = {
-  isDrawer?: boolean;
+  isDrawer?: boolean,
+  propsredux?: ConnectedProps<typeof connector>
 };
 
-const bufferMessages = defaultMessages;// ganti dengan get message dari firebase, dan 
+// const bufferMessages = defaultMessages;// ganti dengan get message dari firebase, dan 
 
-// Noted : luar chat : 
-// 1. klik chat list
-// 2. panggil finction, update reduct Selected Chat (berisi semua data message)
-// 3. di chatinner di tambahkan use effect yang akan melakukan process ketika selected chat di ganti 
-
-
-const ChatInner: FC<Props> = ({ isDrawer = false }) => {
+const ChatInner: FC<Props> = ({ isDrawer = false }, props) => {
   const { t } = useTranslation();
+  const channelIcon = "/media/icons/channel/"
 
   const [chatUpdateFlag, toggleChatUpdateFlat] = useState<boolean>(false);
   const [message, setMessage] = useState<string>("");
-  const [messages, setMessages] = useState<MessageModel[]>(bufferMessages);
+
+  const dispatch = useDispatch();
+  const selectedChat = useSelector((state: RootState) => state.Chat.selectedChat);
+
+  useEffect(() => {
+    console.log("Selected chat : " + selectedChat);
+    console.log("hasil chat : " + Chat.fetchMessageCollaboration(selectedChat));
+    Chat
+      .fetchMessageCollaboration(selectedChat)
+      .then(newMessage => dispatch(reduxmessage.setListMessages(newMessage)))
+  }, [selectedChat]);
+
+  const bufferMessages = useSelector((state: RootState) => state.Chat.listMessage);
+  console.log("--->> Pesan dari redux : " + JSON.stringify(bufferMessages));
+  let [messages, setMessages] = useState<newMessageModel[]>(bufferMessages);
+  useEffect(() => {
+    setMessages(bufferMessages);
+  }, bufferMessages);
+  // setMessages(bufferMessages);
+
+  const collabls = useSelector((state: RootState) => state.Chat.chatList);
+  const collabs = collabls.find(obj => {
+    return obj.id === selectedChat
+  });
 
   const sendMessage = () => {
-    const newMessage: MessageModel = {
-      user: 2,
-      type: "out",
-      text: message,
-      time: "Just now",
+    const newMessage: newMessageModel = {
+      channel: "whatsapp",
+      textContent: message,
+      // lastInteractionAt: Timestamp.fromDate(new Date())
+      createdAt: Timestamp.fromDate(new Date()),
+      // createdAt: {
+      //   seconds: 0,
+      //   nanoseconds: new Date().getTime()
+      // },
+      messageType: "",
+      updatedAt: {
+        seconds: 0,
+        nanoseconds: new Date().getTime()
+      },
+      id: ""
     };
 
     bufferMessages.push(newMessage);// tambahkan pesan baru
@@ -61,8 +103,6 @@ const ChatInner: FC<Props> = ({ isDrawer = false }) => {
       sendMessage();
     }
   };
-
-
 
   return (
     <div
@@ -90,13 +130,16 @@ const ChatInner: FC<Props> = ({ isDrawer = false }) => {
         }
         data-kt-scroll-offset={isDrawer ? "0px" : "-2px"}
       >
-        {messages.map((message, index) => {
+        {bufferMessages.map((message, index) => {
+          // console.log("------------>> cs model map chat : " + JSON.stringify(message.customerModel) + " --- " + index);
           return (
             <ChatMessage
               message={message}
               key={index}
               index={index}
               isDrawer={isDrawer}
+              customer={message?.customerModel}
+              user={message?.userModel}
             />
           );
         })}
@@ -132,18 +175,15 @@ const ChatInner: FC<Props> = ({ isDrawer = false }) => {
             </button>
           </div>
 
-          <div className="d-flex align-items-center me-2">
-            {/* <button
-              className="btn btn-primary"
-              type="button"
-              data-kt-element="send"
-              onClick={sendMessage}
+          <div className="d-flex align-items-center me-2 bg-primary">
+            <button
+              className='btn btn-primary'
+              type='button'
+              data-kt-element='send'
+              onClick={alert}
             >
-              {t("Chat.Button.SendFrom").toUpperCase()}
-            </button> */}
-
-            {/* Coba Dropdown */}
-
+              {t("HC.Button.SendFrom").toUpperCase()}
+            </button> 
             <Dropdown style={{ marginLeft: "auto" }}>
               <Dropdown.Toggle
                 className="btn btn-primary"
@@ -153,30 +193,47 @@ const ChatInner: FC<Props> = ({ isDrawer = false }) => {
                 // className="bg-white align-text-bottom mr-0 ml-auto border-start-0 "
                 id="send-dropdown"
               >
-                {/* Label */}
-                <label>{t("Chat.Button.SendFrom").toUpperCase()}</label>
-                {/* Channel Logo */}
                 <span
-                  className="symbol symbol-5px symbol-circle"
+                  className="symbol symbol-20px symbol-circle img"
                 >
                   <img
-                    className="symbol-label bg-primary"
+                    className="symbol-label bg-primary h-10"
                     alt=""
-                    src={toAbsoluteUrl(`/media/icons/channel/whatsapp.png`)}
-                    // style={{ backgroundColor: "#FFFFFF", }}
+                    src={toAbsoluteUrl(
+                      `${channelIcon}${collabs?.lastInteractionChannel.toLowerCase()}.png`
+                    )}
+                  // style={{ backgroundColor: "#FFFFFF", }}
                   />
                 </span>
               </Dropdown.Toggle>
-
               <Dropdown.Menu>
-                {/* maps customer channel, jangan lupa default nya lastInteractionChannel */}
-                <Dropdown.Item
-                  href="#"
-                  onClick={sendMessage}
-                  id="dropdown-logout"
-                >
-                  Log Out
-                </Dropdown.Item>
+                {collabs?.unreadMessages.length === 0 && collabs?.lastInteractionChannel !== undefined &&
+                  <Dropdown.Item href="#" onClick={sendMessage} id="dropdown-send" style={{paddingLeft: "0px"}}>
+                    <span className="symbol symbol-20px symbol-circle">
+                      <img
+                        className="symbol-label"
+                        alt=""
+                        src={toAbsoluteUrl(`${channelIcon}${collabs.lastInteractionChannel.toLowerCase()}.png`)}
+                        style={{ backgroundColor: "#FFFFFF", }}
+                      />
+                    </span>
+                    <span style={{padding: "5px"}}>{capitalizeLetter(collabs.lastInteractionChannel)}</span>
+                  </Dropdown.Item>
+                }
+                {collabs !== undefined &&
+                  collabs?.unreadMessages.map((activeChannel) =>
+                    <Dropdown.Item href="#" onClick={sendMessage} id="dropdown-send">
+                      <span className="symbol symbol-20px symbol-circle">
+                        <img
+                          className="symbol-label"
+                          alt=""
+                          src={toAbsoluteUrl(`/media/icons/channel/${activeChannel.channel.toString().toLowerCase()}.png`)}
+                          style={{ backgroundColor: "#FFFFFF", }}
+                        />
+                      </span>
+                      <span style={{padding: "5px"}}>{capitalizeLetter(activeChannel.channel)}</span>
+                    </Dropdown.Item>
+                  )}
               </Dropdown.Menu>
             </Dropdown>
           </div>
@@ -186,4 +243,23 @@ const ChatInner: FC<Props> = ({ isDrawer = false }) => {
   );
 };
 
-export { ChatInner };
+export default connector(ChatInner);
+// export { ChatInner };
+
+// const test: Array<newMessageModel> = [
+//   {
+//     channel: "whatsapp",
+//     textContent: "halo",
+//     createdAt: new Date(),
+//     messageType: "text",
+//     updatedAt: new Date(),
+//     id: "2"
+//   },
+//   {
+//     channel: "whatsapp",
+//       textContent: "message",
+//       createdAt: new Date(),
+//       messageType: "text",
+//       updatedAt: new Date(),
+//       id: "1"
+//   }]

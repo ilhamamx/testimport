@@ -2,6 +2,7 @@ import { HandledMessageListItem, Message } from "../../../layout/chat/models/Cha
 
 interface InitialState {
   chatList: HandledMessageListItem[];
+  messageList: Message[];
   selectedCollaboration: HandledMessageListItem;
   listMessage: Message[];
   selectedChat: string;

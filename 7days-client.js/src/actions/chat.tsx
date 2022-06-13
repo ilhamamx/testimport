@@ -2,7 +2,7 @@ import * as collaboration from "../db/serviceCollaborations"
 import * as ChatMessage from "../db/serviceMessage"
 import * as message from "../db/serviceMessage"
 import Moment from 'moment';
-import { Customer} from "../app/layout/chat/models/ChatItem.model"
+import { Users,Customer} from "../app/layout/chat/models/ChatItem.model"
 
 export const fetchCollaborations = (uid: string, company: string ) => {
   return collaboration
@@ -23,6 +23,28 @@ export const fetchCollaborations = (uid: string, company: string ) => {
     )
     return newCollabs
   })
+}
+
+export const fetchMessageCollaboration = (collaborationid: string) => {
+  return message
+  .fetchMessage(collaborationid)
+  .then(async messages => {
+    const newMessage = 
+    await Promise.all(
+      messages.map(async messages => {
+        const customer = await messages.customer?.get();
+        const user = await messages.user?.get();
+        if(customer !== undefined){
+          messages.customerModel = customer.data() as Customer;
+        }
+        if(user !== undefined){
+          messages.userModel = user.data() as Users;
+        }
+        return messages
+      })
+    )
+    return newMessage
+  });
 }
 
 export const convertPresentTime = (convertime:Date) => {

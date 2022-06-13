@@ -16,6 +16,18 @@ export interface Customer {
   id: string
 }
 
+export interface Users {
+  address: string,
+  email: string,
+  companyID: string,
+  last_changed: Date
+  name: string
+  phoneNumber: string
+  session_id: string
+  sessiontoken: string
+  state: string
+}
+
 // export interface MessageModel {
 //   user: number
 //   type: 'in' | 'out'
@@ -29,12 +41,21 @@ export interface Customer {
 
 export interface Message {
   channel: string,
-  createdAt:Date,
+  createdAt:{
+    seconds: number,
+    nanoseconds: number
+  },
   customer?: DocumentReference,
+  user?: DocumentReference,
+  customerModel?: Customer,
+  userModel?: Users,
   mediaUrl?: string,
   messageType: string,
   textContent: string,
-  updatedAt:Date
+  updatedAt:{
+    seconds: number,
+    nanoseconds: number
+  }
   id: string
 }
 

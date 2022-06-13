@@ -6,6 +6,7 @@ import { Timestamp } from "../../../../db";
 
 const initialState: InitialState = {
   chatList: [],
+  messageList: [],
   selectedCollaboration: {
     id: "",
     fullName: "",
@@ -32,6 +33,10 @@ export const ChatSlice = createSlice({
       state.chatList = action.payload;
       console.log(action.payload)
     },
+    setMessageList: (state, action: PayloadAction<Message[]>) => {
+      state.messageList = action.payload;
+      console.log(action.payload)
+    },
     setSelectedCollaboration: (state, action: PayloadAction<HandledMessageListItem>) => {
       state.selectedCollaboration = action.payload;
       console.log(action.payload)
@@ -49,7 +54,7 @@ export const ChatSlice = createSlice({
 });
 
 // Action creators are generated for each case reducer function
-export const { setChatList, setSelectedCollaboration, setListMessages, setSelectedChat } =
+export const { setChatList, setSelectedCollaboration, setListMessages, setSelectedChat,setMessageList } =
 ChatSlice.actions;
 // You must export the reducer as follows for it to be able to be read by the store.
 export default ChatSlice.reducer;

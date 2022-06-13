@@ -64,7 +64,7 @@ const ChatItem: FC<ChatItemProps> = (props) => {
         <div className="symbol-group symbol-hover">
             {item.unreadMessages?.map((unreadMessage) => (
               <span
-                className="symbol symbol-35px symbol-circle"
+                className="symbol symbol-30px symbol-circle"
                 key={unreadMessage.channel}
               >
                 <img

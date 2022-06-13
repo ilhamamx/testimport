@@ -3,15 +3,15 @@ import { useTranslation } from "react-i18next";
 import { KTSVG } from "../../../../resources/helpers/components/KTSVG";
 import { useSelector } from "react-redux";
 import ChatList from "./ChatList";
-import { ChatInner } from "./ChatInner";
+import ChatInner from "./ChatInner";
 import { useDispatch } from "react-redux";
 import { RootState } from '../../../../setup/redux/store'
 import * as chat from "../../../modules/chat/redux/ChatSlice";
+import { toAbsoluteUrl } from "../../../../resources/helpers";
 
 const ChatWrapper: FC = () => {
   const { t } = useTranslation();
   const [userName, setUserName] = useState("");
-  const dispatch = useDispatch();
 
   const selectedChat = useSelector((state: RootState) => state.Chat.selectedChat);
   const collabbls = useSelector((state: RootState) => state.Chat.chatList);
@@ -54,7 +54,8 @@ const ChatWrapper: FC = () => {
                 type="text"
                 className="form-control form-control-solid px-15"
                 name="search"
-                placeholder="Search by username or email..."
+                // placeholder="Search by username or email..." 
+                placeholder={t("HC.Input.Search")}
                 style={{ background: "#FFFFFF" }}
               />
             </form>
@@ -85,20 +86,20 @@ const ChatWrapper: FC = () => {
                   href="#"
                   className="fs-4 fw-bolder text-gray-900 text-hover-primary me-1 mb-2 lh-1"
                 >
-                 {colabs?.customerModel?.firstName} {colabs?.customerModel?.lastName}
+                  {colabs?.customerModel?.firstName} {colabs?.customerModel?.lastName}
                 </a>
               </div>
             </div>
 
             {colabs !== undefined && (
-            <div className="card-toolbar">
-              <div className="me-n3">
-                <button className="btn btn-primary">
-                  <i className="fas fa-plus fs-4 me-2"></i>
-                  {t("Chat.Button.AddToContact")}
-                </button>
-              </div>
-            </div>)}
+              <div className="card-toolbar">
+                <div className="me-n3">
+                  <button className="btn btn-primary">
+                    <i className="fas fa-plus fs-4 me-2"></i>
+                    {t("HC.Button.AddToContact")}
+                  </button>
+                </div>
+              </div>)}
           </div>
           {colabs !== undefined && (<ChatInner />)}
         </div>
