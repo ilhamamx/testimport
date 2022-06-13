@@ -126,6 +126,7 @@ const parseJSONWhatsAppMessage = async (req) => {
       const dateObject = new Date(milliseconds);
       console.log("tanggal : " + dateObject);
 
+      let collaborationsRef;
       let customerRef;
       let companyRef;
 
@@ -210,9 +211,9 @@ const parseJSONWhatsAppMessage = async (req) => {
       }
 
       console.log("collaboration : " + collaboration);
-      let collaborationMessagesRef = await db.collection(
-        "collaborations/" + collaboration.id + "/messages"
-      );
+
+      collaborationsRef = createRef("collaborations", collaboration.id);
+      let collaborationMessagesRef = await db.collection("messages");
 
       // handle message by type
       if (messages_type === "text") {
@@ -268,6 +269,7 @@ const parseJSONWhatsAppMessage = async (req) => {
           filename: messages_media_filename ? messages_media_filename : "",
           mediaUrl: messages_media_url ? messages_media_url : "",
           voice: messages_media_voice,
+          collaboration: collaborationsRef,
           // user: //jika outbound
           customer: customerRef,
           // status: //jika outbound
@@ -287,5 +289,3 @@ const parseJSONWhatsAppMessage = async (req) => {
 module.exports = {
   parseJSONWhatsAppMessage,
 };
-
-
