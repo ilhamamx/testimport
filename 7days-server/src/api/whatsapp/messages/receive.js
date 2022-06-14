@@ -276,8 +276,9 @@ const parseJSONWhatsAppMessage = async (req) => {
           voice: messages_media_voice,
           collaboration: collaborationsRef,
           isActive: true,
-          // user: //jika outbound
+          user: userRef,
           customer: customerRef,
+          destination: "inbound",
           // status: //jika outbound
           // submitedAt: //jika outbound
           // deliveredAt: //jika outbound
