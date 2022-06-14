@@ -40,6 +40,7 @@ export default function Notification({
     }
   }, [autoClose]);
 
+  //custom notification style
   return createPortal(
     <div className={cn([styles.container, { [styles.shrink]: isClosing }])}>
       <div
@@ -51,6 +52,9 @@ export default function Notification({
         ])}
       >
         {children}
+
+        this is a type
+
         <button
           onClick={() => setIsClosing(true)}
           className={styles.closeButton}

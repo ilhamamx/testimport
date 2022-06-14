@@ -54,6 +54,7 @@ const AuthInit: FC<PropsFromRedux> = (props) => {
       requestUser()
     } else {
       //dispacth for log out
+      lc.removeSession()
       dispatch(props.setAuth(false))
       setShowLoading(false)
       lc.removeSession();
