@@ -1,5 +1,4 @@
 import {DocumentReference} from "@firebase/firestore-types";
-import { Timestamp } from "../../../../db";
 import firebase from 'firebase/compat/app';
 
 export interface BadgeItem {
@@ -13,10 +12,14 @@ export interface Customer {
   lastName: string,
   lastInteractionAt: string,
   avatar: ImageBitmap
-  id: string
+  id: string,
+  gender: string,
+  phoneNumber: string
 }
 
-export interface Users {
+export interface User {
+  id?: string,
+  uid?: string,
   address: string,
   email: string,
   companyID: string,
@@ -41,22 +44,16 @@ export interface Users {
 
 export interface Message {
   channel: string,
-  createdAt:{
-    seconds: number,
-    nanoseconds: number
-  },
+  createdAt: firebase.firestore.Timestamp;
   customer?: DocumentReference,
   user?: DocumentReference,
   customerModel?: Customer,
-  userModel?: Users,
+  userModel?: User,
   mediaUrl?: string,
   messageType: string,
   textContent: string,
-  updatedAt:{
-    seconds: number,
-    nanoseconds: number
-  }
-  id: string
+  updatedAt: firebase.firestore.Timestamp;
+  id?: string
 }
 
 export interface HandledMessageListItem {
@@ -65,14 +62,13 @@ export interface HandledMessageListItem {
     image: string,
     lastMessages: string,
     unreadMessages: BadgeItem[],
-    lastInteractionAt: {
-      seconds: number,
-      nanoseconds: number
-    }
+    lastInteractionAt: firebase.firestore.Timestamp;
     lastInteractionChannel: string,
     lastInteractionType: string,
     lastInteractionMessage: string,
     customer?: DocumentReference,
     customerModel?: Customer,
+    toUser?: DocumentReference,
+    userModel?: User,
     LastMessageModel?: Message,
 }

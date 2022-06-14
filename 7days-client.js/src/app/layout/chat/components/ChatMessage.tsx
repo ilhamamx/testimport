@@ -6,24 +6,30 @@ import {
   toAbsoluteUrl,
 } from "../../../../resources/helpers/";
 import clsx from "clsx";
-import {Users,Customer,Message as newMessageModel} from "../../../layout/chat/models/ChatItem.model"
+import {
+  User,
+  Customer,
+  Message as newMessageModel,
+} from "../../../layout/chat/models/ChatItem.model";
 import ChatTimeFromFirebase from "../components/ChatTime";
-import '../../../../styles/css/color.css';
+import "../../../../styles/css/color.css";
 
 interface MessageProps {
   message: newMessageModel;
   isDrawer?: boolean;
   index: number;
   customer?: Customer;
-  user?: Users;
+  user?: User;
 }
 
 const ChatMessage: FC<MessageProps> = (props) => {
-  const { message, index, isDrawer, customer,user } = props;
+  const { message, index, isDrawer, customer, user } = props;
   const [userInfos] = useState<UserInfoModel[]>(defaultUserInfos);
   // const customer = message.customerModel;
-  console.log('----------------------------------------------->> Masuk Chat Message');
-  
+  console.log(
+    "----------------------------------------------->> Masuk Chat Message"
+  );
+
   // const userInfo = userInfos[message.customerModel];
   const state = message.customerModel !== null ? "info" : "primary";
   const templateAttr = {};
@@ -34,25 +40,25 @@ const ChatMessage: FC<MessageProps> = (props) => {
   //   });
   // }
   let msgtype = "out";
-  if(customer!=null){
+  if (customer != null) {
     msgtype = "in";
   }
-  
-  let bgChat = "cl-"
-  let txChat = "black"
-  if (user!==undefined){
-    bgChat="cl-7days"
-  }else{
-    bgChat+=message.channel.toString().toLowerCase();
+
+  let bgChat = "cl-";
+  let txChat = "black";
+  if (user !== undefined) {
+    bgChat = "cl-7days";
+  } else {
+    bgChat += message.channel.toString().toLowerCase();
     txChat = "white";
   }
 
-  console.log("---------->> ini adalah bg chat : "+bgChat+" -- "+user); 
+  console.log("---------->> ini adalah bg chat : " + bgChat + " -- " + user);
 
   const contentClass = `${isDrawer ? "" : "d-flex"} justify-content-${
     msgtype === "in" ? "start" : "end"
   } mb-10`;
-  
+
   return (
     <>
       {/* <div>
@@ -66,16 +72,29 @@ const ChatMessage: FC<MessageProps> = (props) => {
       {/* with classname & style */}
       <div
         key={`message${index}`}
-        className={clsx("d-flex", contentClass, "mb-10", 
-        // {
-        //   "d-none": message.template,
-        // }
+        className={clsx(
+          "d-flex",
+          contentClass,
+          "mb-10"
+          // {
+          //   "d-none": message.template,
+          // }
         )}
         {...templateAttr}
       >
         {msgtype === "in" && (
-          <div className="symbol  symbol-35px symbol-circle" style={{padding: "5px"}}>
-            <img alt="Pic" src={toAbsoluteUrl(`/media/icons/channel/${message.channel.toString().toLowerCase()}.png`)} />
+          <div
+            className="symbol  symbol-35px symbol-circle"
+            style={{ padding: "5px" }}
+          >
+            <img
+              alt="Pic"
+              src={toAbsoluteUrl(
+                `/media/icons/channel/${message.channel
+                  .toString()
+                  .toLowerCase()}.png`
+              )}
+            />
           </div>
         )}
         <div>
@@ -91,8 +110,10 @@ const ChatMessage: FC<MessageProps> = (props) => {
             )}
             // dangerouslySetInnerHTML={{ __html: message.textContent }}
           >
-            <div style = {{color:txChat}} dangerouslySetInnerHTML={{ __html: message.textContent }}>
-            </div>
+            <div
+              style={{ color: txChat }}
+              dangerouslySetInnerHTML={{ __html: message.textContent }}
+            ></div>
           </div>
           <div
             className={clsx(
@@ -100,13 +121,35 @@ const ChatMessage: FC<MessageProps> = (props) => {
               `text-${msgtype === "in" ? "start" : "end"}`
             )}
           >
-            <span className="text-muted fs-7 mb-1">{ChatTimeFromFirebase(message.createdAt.seconds)}</span>
+            <span className="d-flex flex-row text-muted fs-7 mb-1">
+              {/* status read */}
+              {msgtype !== "in" && (
+                <i
+                  className="bi bi-check2-all"
+                  style={{ paddingRight: "5px" }}
+                ></i>
+              )}
+              {ChatTimeFromFirebase(message.createdAt.seconds)}
+            </span>
+            {/* <span className="d-flex flex-row text-muted fs-7 mb-1">
+              {ChatTimeFromFirebase(message.createdAt.seconds)}
+            </span> */}
           </div>
         </div>
 
         {msgtype !== "in" && (
-          <div className="symbol  symbol-35px symbol-circle" style={{padding: "5px"}}>
-            <img alt="Pic" src={toAbsoluteUrl(`/media/icons/channel/${message.channel.toString().toLowerCase()}.png`)} />
+          <div
+            className="symbol  symbol-35px symbol-circle"
+            style={{ padding: "5px" }}
+          >
+            <img
+              alt="Pic"
+              src={toAbsoluteUrl(
+                `/media/icons/channel/${message.channel
+                  .toString()
+                  .toLowerCase()}.png`
+              )}
+            />
           </div>
         )}
       </div>

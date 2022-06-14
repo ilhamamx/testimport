@@ -1,8 +1,7 @@
 import * as collaboration from "../db/serviceCollaborations"
 import * as ChatMessage from "../db/serviceMessage"
 import * as message from "../db/serviceMessage"
-import Moment from 'moment';
-import { Users,Customer} from "../app/layout/chat/models/ChatItem.model"
+import { User,Customer} from "../app/layout/chat/models/ChatItem.model"
 
 export const fetchCollaborations = (uid: string, company: string ) => {
   return collaboration
@@ -12,12 +11,15 @@ export const fetchCollaborations = (uid: string, company: string ) => {
     await Promise.all(
       collaborations.map(async collaboration => {
         const customer = await collaboration.customer!.get();
+        const user = await collaboration.toUser?.get();
         const message = await ChatMessage.unreadMessage(collaboration.id);
         collaboration.unreadMessages = message;
-        if(customer === undefined){
-          return collaboration
+        if(customer !== undefined){
+          collaboration.customerModel = customer.data() as Customer;
         }
-        collaboration.customerModel = customer.data() as Customer;
+        if(user !== undefined){
+          collaboration.userModel = user.data() as User;
+        }
         return collaboration
       })
     )
@@ -26,6 +28,7 @@ export const fetchCollaborations = (uid: string, company: string ) => {
 }
 
 export const fetchMessageCollaboration = (collaborationid: string) => {
+  console.log("------>>fetchMessageCollaboration");
   return message
   .fetchMessage(collaborationid)
   .then(async messages => {
@@ -38,7 +41,7 @@ export const fetchMessageCollaboration = (collaborationid: string) => {
           messages.customerModel = customer.data() as Customer;
         }
         if(user !== undefined){
-          messages.userModel = user.data() as Users;
+          messages.userModel = user.data() as User;
         }
         return messages
       })
@@ -47,8 +50,6 @@ export const fetchMessageCollaboration = (collaborationid: string) => {
   });
 }
 
-export const convertPresentTime = (convertime:Date) => {
-  Moment.locale('en');
-  const fullDate = Moment().format('yyyy/MM/dd');
-  const timeFormat = Moment().format('hh:mm a');
-}
+export const createCollaborationMessage = (Message: any, collaboration: String) => {
+  return message.createMessage(Message,collaboration);
+} 

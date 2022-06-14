@@ -40,4 +40,18 @@ export const unreadMessage = (collaborationId: string) => {
   });
 } 
 
+export const createMessage = (Message: any, collaboration: String) => {
+  return db
+    .collection("collaborations/"+collaboration+"/messages")
+    .add(Message)
+    .then((docRef) => {
+      console.log("New customer : " + docRef.id);
+    })
+    .catch((err) => {
+      console.log("Error create customer : ", err);
+    });
+};
+
+
+
 

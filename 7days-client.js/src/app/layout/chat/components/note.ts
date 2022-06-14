@@ -25,3 +25,13 @@ import { Link } from "react-router-dom";
  * 
  * 1. tambah last message yg berisi isi pesannya aja di colaboration
  * 2. tambah last message type , */
+
+
+/***
+ * 1. send message ke firebase                            -
+ * 2. tambah foto profile customer di bagian atas chat    V
+ * 3. tambah centang 2 di pesan                           -
+ * 4. tambah translate untuk waktu                        V
+ * 5. button sampai bisa kirim channel ke function        -
+ * 6. simpan data chat ke local storage                   -
+ */

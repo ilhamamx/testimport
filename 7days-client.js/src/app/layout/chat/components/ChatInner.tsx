@@ -2,12 +2,7 @@
 import { FC, useEffect, useState } from "react";
 import clsx from "clsx";
 import * as Chat from "../../../../actions/chat";
-import {
-  defaultMessages,
-  MessageModel,
-  messageFromClient,
-  toAbsoluteUrl,
-} from "../../../../resources/helpers/";
+import {toAbsoluteUrl} from "../../../../resources/helpers/";
 import ChatMessage from "./ChatMessage";
 import { useTranslation } from "react-i18next";
 import { DropdownDefault } from "../../dropdown/DropdownDefault"
@@ -15,14 +10,8 @@ import { Dropdown } from "react-bootstrap";
 import { RootState } from '../../../../setup/redux/store'
 import * as chat from "../../../modules/chat/redux/ChatSlice";
 import { connect, ConnectedProps, useDispatch, useSelector } from "react-redux";
-import * as reduxmessage from "../../../modules/chat/redux/ChatSlice";
-// import { } from "../../../../../../../app/layout/chat/models/ChatItem.model"
-import { Message as newMessageModel } from "../../../layout/chat/models/ChatItem.model"
+import { User ,Customer, Message as newMessageModel, HandledMessageListItem } from "../../../layout/chat/models/ChatItem.model"
 import { Timestamp } from "../../../../db";
-
-const capitalizeLetter = (letter: string) => {
-  return letter.charAt(0).toUpperCase() + letter.slice(1);
-}
 
 const mapState = (state: RootState) => ({ chat: state.Chat })
 const connector = connect(mapState, chat.ChatSlice.actions)
@@ -30,63 +19,80 @@ const connector = connect(mapState, chat.ChatSlice.actions)
 type Props = {
   isDrawer?: boolean,
   propsredux?: ConnectedProps<typeof connector>
+  customer?: Customer;
+  user?: User;
 };
+
+
 
 // const bufferMessages = defaultMessages;// ganti dengan get message dari firebase, dan 
 
 const ChatInner: FC<Props> = ({ isDrawer = false }, props) => {
   const { t } = useTranslation();
   const channelIcon = "/media/icons/channel/"
-
+  const { propsredux, customer,user } = props;
   const [chatUpdateFlag, toggleChatUpdateFlat] = useState<boolean>(false);
+  const [customerChat, setCustomerChat] = useState<Customer>();
+  const [userChat, setUserChat] = useState<User>();
+  const [collabs, setcollabs] = useState<HandledMessageListItem>();
   const [message, setMessage] = useState<string>("");
-
   const dispatch = useDispatch();
   const selectedChat = useSelector((state: RootState) => state.Chat.selectedChat);
+  const collablist = useSelector((state: RootState) => state.Chat.chatList);
+  const [messages, setMessages] = useState<newMessageModel[]>([]);
 
   useEffect(() => {
     console.log("Selected chat : " + selectedChat);
     console.log("hasil chat : " + Chat.fetchMessageCollaboration(selectedChat));
+    //Set Selected Collaboration 
+    setcollabs(collablist.find(obj => {
+      return obj.id === selectedChat
+    }));
+    //Set User from Selected Collaboration 
+    setUserChat(collabs?.userModel);
+    //Set Customer from Selected Collaboration 
+    setCustomerChat(collabs?.customerModel);
+
+    //TODO - Check Ke Local Storage, Jika ada ambil dari local storage, jika tidak ada query dari firebase
+    //Get and Set List Chat By Selected Collaboration
     Chat
-      .fetchMessageCollaboration(selectedChat)
-      .then(newMessage => dispatch(reduxmessage.setListMessages(newMessage)))
+    .fetchMessageCollaboration(selectedChat)
+    .then(async(newMessage) => {
+      //Set Messagelist State
+      setMessages(newMessage);
+      //Set Messagelist To Redux
+      dispatch(chat.setListMessages(newMessage))
+    });
+
   }, [selectedChat]);
 
-  const bufferMessages = useSelector((state: RootState) => state.Chat.listMessage);
-  console.log("--->> Pesan dari redux : " + JSON.stringify(bufferMessages));
-  let [messages, setMessages] = useState<newMessageModel[]>(bufferMessages);
-  useEffect(() => {
-    setMessages(bufferMessages);
-  }, bufferMessages);
-  // setMessages(bufferMessages);
-
-  const collabls = useSelector((state: RootState) => state.Chat.chatList);
-  const collabs = collabls.find(obj => {
-    return obj.id === selectedChat
-  });
-
   const sendMessage = () => {
+    //Create New Message Model
     const newMessage: newMessageModel = {
       channel: "whatsapp",
+      createdAt: Timestamp.now(),
+      // customerModel: customerChat,
+      user: collabs?.toUser,
+      mediaUrl: "string",
+      messageType: "text",
       textContent: message,
-      // lastInteractionAt: Timestamp.fromDate(new Date())
-      createdAt: Timestamp.fromDate(new Date()),
-      // createdAt: {
-      //   seconds: 0,
-      //   nanoseconds: new Date().getTime()
-      // },
-      messageType: "",
-      updatedAt: {
-        seconds: 0,
-        nanoseconds: new Date().getTime()
-      },
-      id: ""
+      updatedAt: Timestamp.now(),
     };
 
-    bufferMessages.push(newMessage);// tambahkan pesan baru
-    setMessages(bufferMessages); //set varibale message dengan array buffered message yang sudah di rambahkan chat baru
+    //Set New Message To List Message
+    setMessages(prevMessage => [
+      ...prevMessage,newMessage]); 
+    
+    //Save New Message To Redux
+    dispatch(chat.setListMessages(messages));
+    
+    //Update Text Box to Empty Text
     toggleChatUpdateFlat(!chatUpdateFlag);
     setMessage("");//message kembalid di kosongkan setelah di tambahkan ke list chat
+
+    //Save New Message to Firebase
+    Chat.createCollaborationMessage(newMessage, selectedChat);
+
     /***
      * Untuk Balasan pesan
      */
@@ -130,7 +136,7 @@ const ChatInner: FC<Props> = ({ isDrawer = false }, props) => {
         }
         data-kt-scroll-offset={isDrawer ? "0px" : "-2px"}
       >
-        {bufferMessages.map((message, index) => {
+        {messages?.map((message, index) => {
           // console.log("------------>> cs model map chat : " + JSON.stringify(message.customerModel) + " --- " + index);
           return (
             <ChatMessage
@@ -180,7 +186,7 @@ const ChatInner: FC<Props> = ({ isDrawer = false }, props) => {
               className='btn btn-primary'
               type='button'
               data-kt-element='send'
-              onClick={alert}
+              onClick={sendMessage}
             >
               {t("HC.Button.SendFrom").toUpperCase()}
             </button> 
@@ -192,6 +198,7 @@ const ChatInner: FC<Props> = ({ isDrawer = false }, props) => {
                 // style={{ border: "none" }}
                 // className="bg-white align-text-bottom mr-0 ml-auto border-start-0 "
                 id="send-dropdown"
+                name={collabs?.lastInteractionChannel.toLowerCase()}
               >
                 <span
                   className="symbol symbol-20px symbol-circle img"
@@ -208,7 +215,9 @@ const ChatInner: FC<Props> = ({ isDrawer = false }, props) => {
               </Dropdown.Toggle>
               <Dropdown.Menu>
                 {collabs?.unreadMessages.length === 0 && collabs?.lastInteractionChannel !== undefined &&
-                  <Dropdown.Item href="#" onClick={sendMessage} id="dropdown-send" style={{paddingLeft: "0px"}}>
+                  <Dropdown.Item key={collabs.lastInteractionChannel} href="#" onClick={sendMessage} id="dropdown-send" style={{paddingLeft: "0px"}} name={collabs.lastInteractionChannel.toLowerCase()}>
+                  {/* <Dropdown.Item href="#" onClick={sendMessage} id="dropdown-send" style={{paddingLeft: "0px"}} name={collabs.lastInteractionChannel.toLowerCase()}> */}
+                  <span style={{paddingRight: "5px"}}>{t("HC.Button.SendFrom").toUpperCase()}</span>
                     <span className="symbol symbol-20px symbol-circle">
                       <img
                         className="symbol-label"
@@ -217,12 +226,12 @@ const ChatInner: FC<Props> = ({ isDrawer = false }, props) => {
                         style={{ backgroundColor: "#FFFFFF", }}
                       />
                     </span>
-                    <span style={{padding: "5px"}}>{capitalizeLetter(collabs.lastInteractionChannel)}</span>
                   </Dropdown.Item>
                 }
                 {collabs !== undefined &&
                   collabs?.unreadMessages.map((activeChannel) =>
-                    <Dropdown.Item href="#" onClick={sendMessage} id="dropdown-send">
+                    <Dropdown.Item key={activeChannel.channel} href="#" onClick={sendMessage} id="dropdown-send" name={activeChannel.channel.toLowerCase()}>
+                      <span style={{paddingRight: "5px"}}>{t("HC.Button.SendFrom").toUpperCase()}</span>
                       <span className="symbol symbol-20px symbol-circle">
                         <img
                           className="symbol-label"
@@ -231,7 +240,6 @@ const ChatInner: FC<Props> = ({ isDrawer = false }, props) => {
                           style={{ backgroundColor: "#FFFFFF", }}
                         />
                       </span>
-                      <span style={{padding: "5px"}}>{capitalizeLetter(activeChannel.channel)}</span>
                     </Dropdown.Item>
                   )}
               </Dropdown.Menu>

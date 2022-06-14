@@ -1,25 +1,41 @@
 import moment from 'moment';
-import ReactTimeAgo from 'react-time-ago';
-import { format } from 'timeago.js';  
+import "moment/locale/id";
+import {useTranslation} from "react-i18next";
 
-// function getLanguage() {
-//   console.log(i18n.language);
-//   return i18n.language;
-// }
 
-export default function ChatTime(dateconvert:number) {
+export default function ChatTime2(dateconvert:number) {
+  const { i18n } = useTranslation();
 
-  console.log("Check Date 1: "+dateconvert);
-  console.log("Check Date 2: "+new Date());
-  console.log("Test Moment : "+moment(new Date(dateconvert*1000)).fromNow())
-  console.log("Test Time Ago X: "+format(new Date(dateconvert*1000), 'zh_CN'));
-  console.log("Test Time Ago ID: "+format(new Date(dateconvert*1000), 'id_ID'));
+  function getLanguage() {
+    console.log(i18n.language);
+    return i18n.language;
+  }
 
-  // const dateFromTimeStamp = new Date(dateconvert*1000);
+  moment.locale(getLanguage());
+  console.log("Test Moment ID: "+moment(new Date(dateconvert*1000)).fromNow());
 
   return (
     <div>
-      <ReactTimeAgo date={new Date(dateconvert*1000)} locale="en-US"/>
+      {moment(new Date(dateconvert*1000)).fromNow()}
     </div>
   )
 }
+
+
+export function ChatTime(dateconvert:Date) {
+  const { i18n } = useTranslation();
+
+  function getLanguage() {
+    console.log(i18n.language);
+    return i18n.language;
+  }
+
+  moment.locale(getLanguage());
+
+  return (
+    <div>
+      {moment(dateconvert).fromNow()}
+    </div>
+  )
+}
+

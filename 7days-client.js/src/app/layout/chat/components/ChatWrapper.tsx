@@ -5,7 +5,7 @@ import { useSelector } from "react-redux";
 import ChatList from "./ChatList";
 import ChatInner from "./ChatInner";
 import { useDispatch } from "react-redux";
-import { RootState } from '../../../../setup/redux/store'
+import { RootState } from "../../../../setup/redux/store";
 import * as chat from "../../../modules/chat/redux/ChatSlice";
 import { toAbsoluteUrl } from "../../../../resources/helpers";
 
@@ -13,12 +13,14 @@ const ChatWrapper: FC = () => {
   const { t } = useTranslation();
   const [userName, setUserName] = useState("");
 
-  const selectedChat = useSelector((state: RootState) => state.Chat.selectedChat);
+  const selectedChat = useSelector(
+    (state: RootState) => state.Chat.selectedChat
+  );
   const collabbls = useSelector((state: RootState) => state.Chat.chatList);
   console.log("selected Chat: " + selectedChat);
   console.log("Collaboration List : " + JSON.stringify(collabbls));
-  const colabs = collabbls.find(obj => {
-    return obj.id === selectedChat
+  const colabs = collabbls.find((obj) => {
+    return obj.id === selectedChat;
   });
   console.log("Selected Colaboration : " + JSON.stringify(colabs));
 
@@ -28,11 +30,9 @@ const ChatWrapper: FC = () => {
 
   return (
     <div className="d-flex flex-column flex-lg-row">
-      {
-        /***
-         * Chat List Sebelah Kiri
-         */
-      }
+      {/***
+       * Chat List Sebelah Kiri
+       */}
       <div
         // className="flex-column flex-lg-row-auto w-100 w-lg-300px w-xl-400px mb-10 mb-lg-0"
         className="flex-column flex-lg-row-auto w-100 w-lg-300px w-xl-400px mb-10 mb-lg-0"
@@ -54,7 +54,7 @@ const ChatWrapper: FC = () => {
                 type="text"
                 className="form-control form-control-solid px-15"
                 name="search"
-                // placeholder="Search by username or email..." 
+                // placeholder="Search by username or email..."
                 placeholder={t("HC.Input.Search")}
                 style={{ background: "#FFFFFF" }}
               />
@@ -65,8 +65,8 @@ const ChatWrapper: FC = () => {
       </div>
 
       {/***
-      * Chat List Sebelah Kanan
-      */}
+       * Chat List Sebelah Kanan
+       */}
 
       <div className="flex-lg-row-fluid ms-lg-7 ms-xl-10">
         <div
@@ -79,18 +79,28 @@ const ChatWrapper: FC = () => {
           }}
         >
           <div className="card-header" id="kt_chat_messenger_header">
-            <div className="card-title">
-              <div className="symbol-group symbol-hover"></div>
-              <div className="d-flex justify-content-center flex-column me-3">
-                <a
-                  href="#"
-                  className="fs-4 fw-bolder text-gray-900 text-hover-primary me-1 mb-2 lh-1"
+            {colabs !== undefined && (
+              <div className="card-title">
+                <span
+                  className="symbol symbol-45px symbol-circle"
+                  style={{ paddingRight: "10px" }}
                 >
-                  {colabs?.customerModel?.firstName} {colabs?.customerModel?.lastName}
-                </a>
+                  <img
+                    alt="Pic"
+                    src={toAbsoluteUrl(`${colabs?.customerModel?.avatar}`)}
+                  />
+                </span>
+                <div className="d-flex justify-content-center flex-column me-3">
+                  <a
+                    href="#"
+                    className="fs-4 fw-bolder text-gray-900 text-hover-primary me-1 lh-1"
+                  >
+                    {colabs?.customerModel?.firstName}{" "}
+                    {colabs?.customerModel?.lastName}
+                  </a>
+                </div>
               </div>
-            </div>
-
+            )}
             {colabs !== undefined && (
               <div className="card-toolbar">
                 <div className="me-n3">
@@ -99,9 +109,10 @@ const ChatWrapper: FC = () => {
                     {t("HC.Button.AddToContact")}
                   </button>
                 </div>
-              </div>)}
+              </div>
+            )}
           </div>
-          {colabs !== undefined && (<ChatInner />)}
+          {colabs !== undefined && <ChatInner />}
         </div>
       </div>
     </div>
