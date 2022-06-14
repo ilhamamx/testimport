@@ -9,8 +9,9 @@ import { useDispatch } from "react-redux";
 import { removeLC, LCName } from "../../modules/localstorage/index";
 import { logout } from "../../../api/index";
 import * as Log from "../../../util/SDayslogger";
-import { deleteUser } from "../../modules/auth/redux/AuthSlice";
-
+import { deleteUser, setAuth } from "../../modules/auth/redux/AuthSlice";
+import * as lc from "../../modules/localstorage/index";
+import { setUserOffline } from '../../../api/server/connection';
 
 const CustomHeader: FC = () => {
   const { t } = useTranslation();
@@ -18,24 +19,31 @@ const CustomHeader: FC = () => {
   const dispatch = useDispatch();
   const nav = useNavigate();
   function handleLogout() {
-  
-    logout()
-      .then(() => {
-        dispatch(deleteUser());
-        removeLC(LCName.User);
-        window.location.reload();
-        console.log("succes logout");
-      })
-      .catch((error) => {
-        Log.SDayslogger(
-          nav,
-          "Testing Error Message",
-          Log.SDLOGGER_INFO,
-          false,
-          true
-        );
-        console.log("failed logout");
-      });
+    const currentUser = lc.getItemLC(lc.LCName.User);
+    const sessionid = lc.getItemLC(lc.LCName.SessionID);
+    if (currentUser === null || sessionid === null) {
+      dispatch(setAuth(false));
+      nav("/auth");
+    } else {
+      logout()
+        .then(() => {
+          setUserOffline(currentUser.uid, sessionid);
+          dispatch(deleteUser());
+          lc.removeSession();
+          dispatch(setAuth(false));
+          nav("/auth");
+        })
+        .catch((error) => {
+          Log.SDayslogger(
+            nav,
+            "Testing Error Message",
+            Log.SDLOGGER_INFO,
+            false,
+            true
+          );
+          console.log("failed logout");
+        });
+    }
   }
   
   return (
