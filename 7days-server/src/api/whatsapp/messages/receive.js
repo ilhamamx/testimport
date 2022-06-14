@@ -5,7 +5,7 @@ const { getAccountByPhone } = require("../../account");
 const { getCollaborationByCustomerAndCompany } = require("../../collaboration");
 const { getMediaByID, downloadFromUrl } = require("../facebook/media");
 const { increaseUnreadMessage } = require("../../../db/realtime/collaborations");
-
+const { getUserByCompanyRef } = require("../../user");
 
 const parseJSONWhatsAppMessage = async (req) => {
   let collaborationRef = await db.collection("collaborations");
@@ -145,10 +145,11 @@ const parseJSONWhatsAppMessage = async (req) => {
         await customersRef
           .add({
             phoneNumber: messages_from,
-            profile_name: profile_name ? profile_name : "",
+            firstName: profile_name ? profile_name : "",
+            isActive: true,
             createdAt: new Date(),
             updatedAt: new Date(),
-            companyID: companyRef
+            company: companyRef
           })
           .then((ref) => {
             customerRef = createRef("customers", ref.id);
@@ -168,6 +169,9 @@ const parseJSONWhatsAppMessage = async (req) => {
       let collaboration;
       // cek jika percakapan pertama maka buat collaboration
       if (!getCollaboration[0]) {
+        // get user array 0 where company ref xxxx
+        let getUsers = await getUserByCompanyRef(companyRef);
+        let userRef = createRef("users", getUsers[0].id)
         await collaborationRef
           .add({
             created: new Date(),
@@ -182,6 +186,7 @@ const parseJSONWhatsAppMessage = async (req) => {
               messages_text ? messages_text : 
               messages_media_caption ? messages_media_caption : 
               messages_media_filename ? messages_media_filename : messages_type,
+            toUser: userRef
           })
           .then((ref) => {
             console.log("collaboration id x : " + ref.id);
@@ -270,6 +275,7 @@ const parseJSONWhatsAppMessage = async (req) => {
           mediaUrl: messages_media_url ? messages_media_url : "",
           voice: messages_media_voice,
           collaboration: collaborationsRef,
+          isActive: true,
           // user: //jika outbound
           customer: customerRef,
           // status: //jika outbound

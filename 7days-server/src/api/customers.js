@@ -10,6 +10,7 @@ const getCustomerByPhone = async phoneNumber => {
 
   return await db.collection('customers')
     .where('phoneNumber', '==', phoneNumber)
+    .where('isActive', '==', true)
     .get()
     .then(snaps => {
 

@@ -10,6 +10,7 @@ const getAccountByPhone = async phoneNumber => {
 
   return await db.collection('account')
     .where('whatsappNumber', '==', phoneNumber)
+    .where('isActive', '==', true)
     .get()
     .then(snaps => {
 
@@ -35,6 +36,7 @@ const getAccountByPhoneNumberTypeCompany = async(phoneNumber, type, companyRef) 
     .where("company", "==", companyRef)
     .where("type", "==", type)
     .where("whatsappNumber", "==", phoneNumber)
+    .where('isActive', '==', true)
     .get()
     .then((snaps) => {
       // console.log("snaps", snaps);

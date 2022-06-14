@@ -10,6 +10,7 @@ const getUserEMailByPhone = async phoneNumber => {
 
   return await db.collection('users')
     .where('phoneNumber', '==', phoneNumber)
+    .where('isActive', '==', true)
     .get()
     .then(snaps => {
 
@@ -41,7 +42,28 @@ const fetchUsers = () => {
     })  
 }
 
+const getUserByCompanyRef = async(companyRef) => {
+  if (!companyRef)
+    return null;
+
+  return await db.collection('users')
+    .where('company', '==',  companyRef)
+    .where('isActive', '==', true)
+    .get()
+    .then(snaps => {
+      console.log('snaps', snaps.docs)
+      return snaps.docs.map(snap => 
+        ({...snap.data(), id: snap.id}) 
+      )
+    })
+    .catch(error => {
+      //TODO
+      console.log(error);
+    });
+}
+
 module.exports = {
   getUserEMailByPhone,
-  fetchUsers
+  fetchUsers,
+  getUserByCompanyRef
 }

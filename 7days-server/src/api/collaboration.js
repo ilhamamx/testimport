@@ -10,6 +10,7 @@ const getCollaborationByCustomerAndCompany = async (customerRef, companyRef) => 
   return await db.collection('collaborations')
     .where('company', '==',  companyRef)
     .where('customer', '==', customerRef)
+    .where('isActive', '==', true)
     .get()
     .then(snaps => {
       console.log('snaps', snaps.docs)
