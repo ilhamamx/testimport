@@ -1,12 +1,10 @@
 import React, {FC} from 'react'
-import { DropdownDefault } from "../dropdown/DropdownDefault";
-import { Link, Outlet, useLocation, useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { toAbsoluteUrl } from "../../../resources/helpers/AssetHelpers";
 import { useTranslation } from "react-i18next";
 import { Dropdown } from "react-bootstrap";
 import Avatar from "../../../../src/styles/components/Avatar";
 import { useDispatch } from "react-redux";
-import { removeLC, LCName } from "../../modules/localstorage/index";
 import { logout } from "../../../api/index";
 import * as Log from "../../../util/SDayslogger";
 import { deleteUser, setAuth } from "../../modules/auth/redux/AuthSlice";
