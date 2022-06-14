@@ -84,8 +84,13 @@ const parseJSONWhatsAppMessage = async (req) => {
                 req.entry[0].changes[0].value.messages[0].text.body;
             }
           }
-        }else if (messages_type == "image" || messages_type == "document" || messages_type == "video" || messages_type == "audio") {
-          let mediaJSON
+        } else if (
+          messages_type == "image" ||
+          messages_type == "document" ||
+          messages_type == "video" ||
+          messages_type == "audio"
+        ) {
+          let mediaJSON;
           if (messages_type == "image") {
             mediaJSON = req.entry[0].changes[0].value.messages[0].image;
           } else if (messages_type == "document") {
@@ -149,7 +154,7 @@ const parseJSONWhatsAppMessage = async (req) => {
             isActive: true,
             createdAt: new Date(),
             updatedAt: new Date(),
-            company: companyRef
+            company: companyRef,
           })
           .then((ref) => {
             customerRef = createRef("customers", ref.id);
@@ -161,6 +166,10 @@ const parseJSONWhatsAppMessage = async (req) => {
         customerRef = createRef("customers", customer[0].id);
       }
 
+      // get user array 0 where company ref xxxx
+      let getUsers = await getUserByCompanyRef(companyRef);
+      let userRef = createRef("users", getUsers[0].id);
+
       // get collaboration, yang di cek adalah jika customer sama, company sama
       let getCollaboration = await getCollaborationByCustomerAndCompany(
         customerRef,
@@ -169,9 +178,6 @@ const parseJSONWhatsAppMessage = async (req) => {
       let collaboration;
       // cek jika percakapan pertama maka buat collaboration
       if (!getCollaboration[0]) {
-        // get user array 0 where company ref xxxx
-        let getUsers = await getUserByCompanyRef(companyRef);
-        let userRef = createRef("users", getUsers[0].id)
         await collaborationRef
           .add({
             created: new Date(),
@@ -182,11 +188,14 @@ const parseJSONWhatsAppMessage = async (req) => {
             lastInteractionChannel: "whatsapp",
             lastInteractionAt: dateObject,
             lastInteractionType: messages_type,
-            lastInteractionMessage: 
-              messages_text ? messages_text : 
-              messages_media_caption ? messages_media_caption : 
-              messages_media_filename ? messages_media_filename : messages_type,
-            toUser: userRef
+            lastInteractionMessage: messages_text
+              ? messages_text
+              : messages_media_caption
+              ? messages_media_caption
+              : messages_media_filename
+              ? messages_media_filename
+              : messages_type,
+            toUser: userRef,
           })
           .then((ref) => {
             console.log("collaboration id x : " + ref.id);
@@ -200,19 +209,26 @@ const parseJSONWhatsAppMessage = async (req) => {
       else {
         console.log("collaboration id y : " + getCollaboration[0].id);
 
-        collaborationRef = await db.collection(`collaborations`).doc(getCollaboration[0].id);
-        await collaborationRef.update({
-          lastInteractionChannel: "whatsapp",
-          lastInteractionAt: dateObject,
-          lastInteractionType: messages_type,
-          lastInteractionMessage: 
-            messages_text ? messages_text : 
-            messages_media_caption ? messages_media_caption : 
-            messages_media_filename ? messages_media_filename : messages_type,
-          updatedAt: new Date(),
-        }).then(() => {
-          collaboration = collaborationRef;
-        })
+        collaborationRef = await db
+          .collection(`collaborations`)
+          .doc(getCollaboration[0].id);
+        await collaborationRef
+          .update({
+            lastInteractionChannel: "whatsapp",
+            lastInteractionAt: dateObject,
+            lastInteractionType: messages_type,
+            lastInteractionMessage: messages_text
+              ? messages_text
+              : messages_media_caption
+              ? messages_media_caption
+              : messages_media_filename
+              ? messages_media_filename
+              : messages_type,
+            updatedAt: new Date(),
+          })
+          .then(() => {
+            collaboration = collaborationRef;
+          });
       }
 
       console.log("collaboration : " + collaboration);
@@ -222,19 +238,33 @@ const parseJSONWhatsAppMessage = async (req) => {
 
       // handle message by type
       if (messages_type === "text") {
-      } else if (messages_type === "image" || messages_type === "document" || messages_type === "video" || messages_type === "audio") {
-        if(messages_media_id){
+      } else if (
+        messages_type === "image" ||
+        messages_type === "document" ||
+        messages_type === "video" ||
+        messages_type === "audio"
+      ) {
+        if (messages_media_id) {
           //hardcode token for testing purpose
           //get url from facebook whatsapp cloud API
-          // const dataMedia = await getMediaByID(messages_media_id, "EAAerGJUyyNcBAKMwD8ITwe40XINcu3TGEYWgrl1u2qLqvoDperQ52mP92vWLsojmpGs6yBq5lEDZAXacwR1c6H2xZAPPv2qSO5WRpIsgF4gZBHQdB5EqsNaokPaYXNZC02VKGO3icUOetZCLGCfsQWxrdRDqH7vfwcAlq39xT1nZCA7aHpnwfG5shhxYc0Um5ZCBZB5PFv8JWu7JyvVGm5JsmwPMe569u9gZD");  
-          const dataMedia = await getMediaByID(messages_media_id, account[0].access_token)
-          if(dataMedia){
+          // const dataMedia = await getMediaByID(messages_media_id, "EAAerGJUyyNcBAKMwD8ITwe40XINcu3TGEYWgrl1u2qLqvoDperQ52mP92vWLsojmpGs6yBq5lEDZAXacwR1c6H2xZAPPv2qSO5WRpIsgF4gZBHQdB5EqsNaokPaYXNZC02VKGO3icUOetZCLGCfsQWxrdRDqH7vfwcAlq39xT1nZCA7aHpnwfG5shhxYc0Um5ZCBZB5PFv8JWu7JyvVGm5JsmwPMe569u9gZD");
+          const dataMedia = await getMediaByID(
+            messages_media_id,
+            account[0].access_token
+          );
+          if (dataMedia) {
             //get media file from facebook whatsapp cloud API
             // const file = await downloadFromUrl( dataMedia.url, "EAAerGJUyyNcBAKMwD8ITwe40XINcu3TGEYWgrl1u2qLqvoDperQ52mP92vWLsojmpGs6yBq5lEDZAXacwR1c6H2xZAPPv2qSO5WRpIsgF4gZBHQdB5EqsNaokPaYXNZC02VKGO3icUOetZCLGCfsQWxrdRDqH7vfwcAlq39xT1nZCA7aHpnwfG5shhxYc0Um5ZCBZB5PFv8JWu7JyvVGm5JsmwPMe569u9gZD");
-            const file = await downloadFromUrl(dataMedia.url, account[0].access_token)
-            if(file){
-              const fileBase64 = await Buffer.from(file.data, 'binary').toString('base64')
-              const fileUpload64 = Buffer.from(fileBase64, 'base64');
+            const file = await downloadFromUrl(
+              dataMedia.url,
+              account[0].access_token
+            );
+            if (file) {
+              const fileBase64 = await Buffer.from(
+                file.data,
+                "binary"
+              ).toString("base64");
+              const fileUpload64 = Buffer.from(fileBase64, "base64");
 
               let fileFormat;
               if (messages_media_mime_type) {
@@ -249,15 +279,24 @@ const parseJSONWhatsAppMessage = async (req) => {
               const metadata = {
                 contentType: messages_media_mime_type,
                 fileName: messages_media_id,
-              }
+              };
 
-              const path = `${account[0].company.id}/${messages_type}s/chat/${messages_media_id}${
-                messages_media_filename ? "/" + messages_media_filename : fileFormat ? "." + fileFormat : ""
+              const path = `${
+                account[0].company.id
+              }/${messages_type}s/chat/${messages_media_id}${
+                messages_media_filename
+                  ? "/" + messages_media_filename
+                  : fileFormat
+                  ? "." + fileFormat
+                  : ""
               }`;
 
               //upload file to firebase storage
-              messages_media_url = await uploadTaskPromise(path, fileUpload64, metadata);
-
+              messages_media_url = await uploadTaskPromise(
+                path,
+                fileUpload64,
+                metadata
+              );
             }
           }
         }
@@ -270,7 +309,11 @@ const parseJSONWhatsAppMessage = async (req) => {
           createdAt: dateObject,
           updatedAt: new Date(),
           messageType: messages_type,
-          textContent: messages_text ? messages_text : messages_media_caption ? messages_media_caption : "",
+          textContent: messages_text
+            ? messages_text
+            : messages_media_caption
+            ? messages_media_caption
+            : "",
           filename: messages_media_filename ? messages_media_filename : "",
           mediaUrl: messages_media_url ? messages_media_url : "",
           voice: messages_media_voice,
