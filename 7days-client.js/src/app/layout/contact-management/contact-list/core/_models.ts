@@ -12,7 +12,7 @@ export type Contact = {
   state?: string
   city?: string
   zipcode?: string
-  companyID?: string
+  company?: string
   lastInteractionAgent?: string
   lastInteractionChannel?: string
   lastInteractionAt?: Date

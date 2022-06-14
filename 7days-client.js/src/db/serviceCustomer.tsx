@@ -7,10 +7,10 @@ import firebase from "firebase/compat/app";
 let firstVisible: firebase.firestore.QueryDocumentSnapshot;
 let lastVisible: firebase.firestore.QueryDocumentSnapshot;
 // let field = "firstName";
-export const fetchCustomers = (search: string, limit: number, companyID: firebase.firestore.DocumentReference ) =>
+export const fetchCustomers = (search: string, limit: number, company: firebase.firestore.DocumentReference ) =>
   db
     .collection("customers")
-    .where("companyID", "==", companyID)
+    .where("company", "==", company)
     .where("isActive", "==", true)
     .orderBy("firstNameInsensitive")
     .startAt(search.toLowerCase())
@@ -33,12 +33,12 @@ export const fetchCustomers = (search: string, limit: number, companyID: firebas
     });
 
 export const deleteCustomer = (id: string) =>
-  db.collection("customers").doc(id).update({ isActive: false });
+  db.collection("customers").doc(id).update({ isActive: false, updatedAt: new Date() });
 
-export const fetchCustomersNext = (search: string, limit: number, companyID: firebase.firestore.DocumentReference) =>
+export const fetchCustomersNext = (search: string, limit: number, company: firebase.firestore.DocumentReference) =>
   db
     .collection("customers")
-    .where("companyID", "==", companyID)
+    .where("company", "==", company)
     .where("isActive", "==", true)
     .orderBy("firstNameInsensitive")
     .startAt(search.toLowerCase())
@@ -59,10 +59,10 @@ export const fetchCustomersNext = (search: string, limit: number, companyID: fir
       return customers;
     });
 
-export const fetchCustomersPrev = (search: string, limit: number, companyID: firebase.firestore.DocumentReference) =>
+export const fetchCustomersPrev = (search: string, limit: number, company: firebase.firestore.DocumentReference) =>
   db
     .collection("customers")
-    .where("companyID", "==", companyID)
+    .where("company", "==", company)
     .where("isActive", "==", true)
     .orderBy("firstNameInsensitive")
     .startAt(search.toLowerCase())

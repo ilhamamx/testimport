@@ -24,8 +24,7 @@ export const getUserByID = async (id: string) =>
         } else {
           const user = doc.data();
           if (user) {
-            //console.log("Document data:", company.customerCount);
-            companyRef = user.companyID.id; //oke, mantap
+            companyRef = user.company.id; 
             console.log("getCompanyRefByUserID =>>> " + companyRef);     
           }
         }

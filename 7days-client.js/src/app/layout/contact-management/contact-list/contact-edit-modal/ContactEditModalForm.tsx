@@ -57,8 +57,10 @@ const ContactEditModalForm: FC<Props> = ({ contact, isUserLoading }) => {
     birthdate: '',
     email: contact.email || initialContact.email,
     isActive: true,
-    companyID: companyRef,
+    company: companyRef,
     firstNameInsensitive: '',
+    createdAt: new Date(),
+    updatedAt: new Date(),
     gender: ''
   });
 
@@ -140,7 +142,10 @@ const ContactEditModalForm: FC<Props> = ({ contact, isUserLoading }) => {
             values.phoneNumber = '62' + values.phoneNumber!.substring(1);
           }
           const fnameInsensitive = values.firstName!.toLowerCase();
+          const now = new Date();
           values.firstNameInsensitive = fnameInsensitive;
+          values.createdAt = now
+          values.updatedAt = now
           values.avatar = await uploadAvatar();   
           console.log("Avatar ini : " + values.avatar)       
           if(values.avatar === null || values.avatar === '' || values.avatar === undefined){

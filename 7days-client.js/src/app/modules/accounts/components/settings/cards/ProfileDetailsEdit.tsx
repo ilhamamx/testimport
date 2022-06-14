@@ -54,7 +54,7 @@ export const ProfileDetailsEdit = ({ customer }: { customer: Contact }) => {
     zipcode: customer.zipcode? customer.zipcode : '',
     country: customer.country? customer.country : '',
     firstNameInsensitive: "",
-
+    updatedAt: new Date()
   });
 
   const cancel = (withRefresh?: boolean) => {
@@ -73,6 +73,7 @@ export const ProfileDetailsEdit = ({ customer }: { customer: Contact }) => {
         console.log("masuk update ==>> " + values);
           const fnameInsensitive = values.firstName!.toLowerCase();
           values.firstNameInsensitive = fnameInsensitive;
+          values.updatedAt = new Date()
           await updateContact(values);
       } catch (ex) {
         console.error(ex);
