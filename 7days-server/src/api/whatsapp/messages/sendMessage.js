@@ -46,12 +46,14 @@ const sendWhatsappMessage = async (req, callback) => {
       } else {
         return callback(resultCode("SM", "01", "text"), null, 400);
       }
-    } else if(message_type == "image" || message_type == "document") {
+    } else if(message_type == "image" || message_type == "document" || message_type == "audio") {
       let contextJSON;
       if(message_type == "image") {
         contextJSON = req.whatsapp.image;
       }else if(message_type == "document") {
         contextJSON = req.whatsapp.document;
+      }else if(message_type == "audio") {
+        contextJSON = req.whatsapp.audio;
       }
       if(contextJSON){
         if(contextJSON.link){
@@ -102,6 +104,11 @@ const sendWhatsappMessage = async (req, callback) => {
         "link" : "${media_url}"
         ${caption ? `,"caption" : "${caption}"` : ""}
       }`
+    }
+    if (message_type == "audio") {
+      return `"${message_type}" : {
+        "link" : "${media_url}"
+      }`;
     }
   }
   console.log("access_token : " + dataAccount[0].access_token);
