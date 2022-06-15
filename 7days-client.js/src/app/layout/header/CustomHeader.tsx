@@ -13,7 +13,6 @@ import { setUserOffline } from '../../../api/server/connection';
 
 const CustomHeader: FC = () => {
   const { t } = useTranslation();
-
   const dispatch = useDispatch();
   const nav = useNavigate();
   function handleLogout() {
@@ -85,6 +84,12 @@ const CustomHeader: FC = () => {
                           {t("HeaderBar.Button.FAQ")}
                         </Link>
                       </div>
+                      <div className="nav-item mt-4 flex-fill w-auto">
+                        <Link to="#" className="nav-link" id="link-notif">
+                           Notif
+                        </Link>
+                      </div>
+                      
                       <div
                         className="nav-item mt-0 flex-fill w-auto"
                         style={{ display: "flex" }}

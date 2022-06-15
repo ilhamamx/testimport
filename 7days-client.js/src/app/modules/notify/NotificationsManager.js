@@ -9,14 +9,13 @@ export default function NotificationsManager({ setNotify }) {
 
   let createNotification = ({ color, autoClose, children }) => {
     setNotifications((prevNotifications) => {
-      return [
+      return [{
+        children,
+        color,
+        autoClose,
+        id: prevNotifications.length,
+      },
         ...prevNotifications,
-        {
-          children,
-          color,
-          autoClose,
-          id: prevNotifications.length,
-        },
       ];
     });
   };

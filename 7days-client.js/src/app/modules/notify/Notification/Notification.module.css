@@ -12,7 +12,7 @@
 
 .container {
   overflow: hidden;
-  max-height: 200px;
+  max-height: 300px;
   transition: max-height 0.3s ease-out;
 }
 
@@ -25,16 +25,17 @@
 }
 
 .notification {
+
   max-width: 430px;
   overflow: hidden;
   padding: 12px 48px 12px 12px;
-  z-index: 99;
   display: grid;
   grid-auto-flow: column;
   grid-gap: 24px;
   font-weight: bold;
-  position: relative;
   transition: transform 0.3s ease-out;
+  border-radius: 30px;
+  position: relative;
 }
 
 .notification:not(:last-child) {
@@ -42,7 +43,12 @@
 }
 
 .notification.info {
-  background-color: #2196f3;
+  background-color: #565674;  
+
+}
+
+.notification.message {
+  background-color: #565674;
 }
 
 .notification.success {
@@ -70,8 +76,8 @@
 
 .notification .closeButton {
   position: absolute;
-  top: 12px;
-  right: 12px;
+  top: 8px;
+  left: 8px;
   background: transparent;
   padding: 0;
   border: none;

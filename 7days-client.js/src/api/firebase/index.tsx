@@ -77,12 +77,12 @@ export const subsToMessages = (
     .where("notifiedAt", "==", null)
     // .orderBy("isNotified")
     .onSnapshot(
-      (querySnapshot) => {
+      async(querySnapshot) => {
         console.log("Masuk subsTo Messages ======>");
 
-        querySnapshot.forEach((doc) => {
+        await querySnapshot.forEach(async(doc) => {
           console.log(`New ${doc.id}: messages ${doc.data()}`);
-          db.collection("messages")
+          await db.collection("messages")
             .doc(doc.id)
             .update({ notifiedAt: new Date() })
             .catch((err) => {

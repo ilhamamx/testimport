@@ -23,7 +23,7 @@ const PrivateRoutes = () => {
 
   const onNewData = (messageContent: Message) => {
     // TODO: tampilkan notification
-    console.log("new Data Exists : ", message);
+    console.log("new Notif Exists : ", message);
     message = messageContent.textContent;
     info(message, true);
   };
