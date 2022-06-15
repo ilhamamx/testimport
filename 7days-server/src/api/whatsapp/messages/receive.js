@@ -322,12 +322,14 @@ const parseJSONWhatsAppMessage = async (req) => {
           user: userRef,
           customer: customerRef,
           destination: "inbound",
+          notifiedAt: null,
           // status: //jika outbound
           // submitedAt: //jika outbound
           // deliveredAt: //jika outbound
           // readAt: //jika outbound
         })
         .then((ref) => {
+          console.log("message id : " + ref.id);
           console.log("message created");
         });
 

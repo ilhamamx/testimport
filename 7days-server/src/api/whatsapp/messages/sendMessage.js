@@ -46,18 +46,24 @@ const sendWhatsappMessage = async (req, callback) => {
       } else {
         return callback(resultCode("SM", "01", "text"), null, 400);
       }
-    } else if(message_type == "image"){
-      if(req.whatsapp.image){
-        if(req.whatsapp.image.link){
-          media_url = req.whatsapp.image.link;
+    } else if(message_type == "image" || message_type == "document") {
+      let contextJSON;
+      if(message_type == "image") {
+        contextJSON = req.whatsapp.image;
+      }else if(message_type == "document") {
+        contextJSON = req.whatsapp.document;
+      }
+      if(contextJSON){
+        if(contextJSON.link){
+          media_url = contextJSON.link;
         } else{
-          return callback(resultCode("SM", "01", "link image"), null, 400);
+          return callback(resultCode("SM", "01", `link ${message_type}`), null, 400);
         }
-        if (req.whatsapp.image.caption) {
-          caption = req.whatsapp.image.caption;
+        if (contextJSON.caption) {
+          caption = contextJSON.caption;
         }
       }else{
-        return callback(resultCode("SM", "01", "image"), null, 400);
+        return callback(resultCode("SM", "01", message_type), null, 400);
       }
     } else {
       return callback(resultCode("SM", "02", "type"), null, 400);
@@ -91,8 +97,8 @@ const sendWhatsappMessage = async (req, callback) => {
       "body" : "${text}"
       }`;
     }
-    if(message_type == "image"){
-      return `"image" : {
+    if(message_type == "image" || message_type == "document"){
+      return `"${message_type}" : {
         "link" : "${media_url}"
         ${caption ? `,"caption" : "${caption}"` : ""}
       }`
