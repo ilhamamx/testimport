@@ -5,7 +5,8 @@ export const LCName = {
   SessionToken : "SessionToken",
   Messages: "Message_",
   Account: "Account_",
-  CompanyID: "CID"
+  CompanyID: "CID",
+  Notification: "Notif"
 };
 
 export function setItemLCWithExpiry(key: string, value: any, ttl: number) {
@@ -52,7 +53,8 @@ export function removeSession(){
    removeLC(LCName.SessionID);
    removeLC(LCName.SessionCreated);
    removeLC(LCName.SessionToken);
-   removeLC("CID");
+   removeLC(LCName.CompanyID);
    removeLC("UID");
+   removeLC(LCName.Notification);
 }
 

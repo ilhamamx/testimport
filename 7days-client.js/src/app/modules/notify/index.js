@@ -19,11 +19,13 @@ ReactDOM.render(
 
 export { Notification, Color };
 
-export function infoNewMessage(children, autoClose) {
+export function infoNewMessage(children, autoClose, message, contact) {
   return notify({
     color: Color.info,
     children,
     autoClose,
+    message,
+    contact
   });
 }
 

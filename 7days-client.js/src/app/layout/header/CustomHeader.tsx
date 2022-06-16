@@ -10,6 +10,10 @@ import * as Log from "../../../util/SDayslogger";
 import { deleteUser, setAuth } from "../../modules/auth/redux/AuthSlice";
 import * as lc from "../../modules/localstorage/index";
 import { setUserOffline } from '../../../api/server/connection';
+import clsx from 'clsx';
+import { KTSVG } from '../../../resources/helpers';
+import { HeaderNotificationsMenu } from './header-menus/HeaderNotificationsMenu';
+import { EditHeaderNotificationsMenu } from './header-menus/EditHeaderNotificationsMenu';
 
 const CustomHeader: FC = () => {
   const { t } = useTranslation();
@@ -43,6 +47,11 @@ const CustomHeader: FC = () => {
     }
   }
   
+  const toolbarButtonMarginClass = 'ms-1 ms-lg-3',
+        toolbarButtonHeightClass = 'w-30px h-30px w-md-40px h-md-40px',
+        toolbarUserAvatarHeightClass = 'symbol-30px symbol-md-40px',
+        toolbarButtonIconSizeClass = 'svg-icon-1'
+
   return (
     <>
       <nav className="navbar navbar-expand-lg navbar-light">
@@ -84,10 +93,31 @@ const CustomHeader: FC = () => {
                           {t("HeaderBar.Button.FAQ")}
                         </Link>
                       </div>
-                      <div className="nav-item mt-4 flex-fill w-auto">
-                        <Link to="#" className="nav-link" id="link-notif">
-                           Notif
-                        </Link>
+                      <div className={clsx('d-flex align-items-center symbol symbol-50px', toolbarButtonMarginClass)}>
+                        {/* begin::Menu- wrapper */}
+                        <div
+                          className={clsx(
+                              'btn btn-icon btn-active-light-primary btn-custom',
+                              toolbarButtonHeightClass
+                              )}
+                          data-kt-menu-trigger='click'
+                          data-kt-menu-attach='parent'
+                          data-kt-menu-placement='bottom-end'
+                          data-kt-menu-flip='bottom'
+                        >
+                          <KTSVG
+                            path='/media/icons/duotune/general/gen007.svg'
+                            className= {toolbarButtonIconSizeClass} //'svg-icon-2hx svg-icon-light me-4 mb-5 mb-sm-0'
+                          />
+                        {/* <span className="badge badge-circle bg-danger"/> */}
+                        
+                        </div>
+                        
+                        <HeaderNotificationsMenu />
+                        
+                        <span className="badge badge-circle badge-success "/>
+                        {/* <EditHeaderNotificationsMenu /> */}
+                        {/* end::Menu wrapper */}
                       </div>
                       
                       <div

@@ -1,6 +1,7 @@
-import db from "../../db";
+import db, { getCustomerByID } from "../../db";
 import { createRef } from "../../db/connection";
 import { Collaboration, Message } from "../../app/modules/collaboration/model";
+import { Contact } from "../../app/layout/contact-management/contact-list/core/_models";
 
 export const subsToCollaborations = (
   userId: string,
@@ -15,7 +16,7 @@ export const subsToCollaborations = (
         console.log("Masuk observe test ======>");
 
         querySnapshot.forEach((doc) => {
-          console.log(`New ${doc.id}: collab ${doc.data()}`);
+          console.log(`New ${doc.id}: collab ${doc.data()} : Interaction ${doc.data().lastInteractionMessage}`);
           onNewData({
             lastInteractionMessage: doc.data().lastInteractionMessage,
           });
@@ -43,7 +44,7 @@ export const subsToCollaborations = (
 
 export const subsToMessages = (
   userId: string,
-  onNewData: (data: Message) => void
+  onNewData: (msg: Message, contact: Contact) => void
 ) => {
   const userRef = createRef("users", userId);
   return db
@@ -57,14 +58,33 @@ export const subsToMessages = (
         console.log("Masuk subsTo Messages ======>");
 
         await querySnapshot.forEach(async(doc) => {
-          console.log(`New ${doc.id}: messages ${doc.data()}`);
+          console.log(`New ${doc.id}: messages ${JSON.stringify(doc.data())}`);
+          // let messageReceive : Message
+          // messageReceive = doc.data() as Message;
+          // let customerRef = doc.data
           await db.collection("messages")
             .doc(doc.id)
             .update({ notifiedAt: new Date() })
             .catch((err) => {
               console.log("Error setNotified : ", err);
             });
-          onNewData({ textContent: doc.data().textContent });
+ 
+            let dataContact!: Contact;
+            await getCustomerByID(doc.data().customer.id).then(async(doc) => {
+              console.log("get customer by id new message: " + JSON.stringify(doc));
+               dataContact = doc as Contact;
+              // console.log("Test : " + JSON.stringify(contactData));
+            }).catch((err) => {
+              console.log("Error get customer for notif : ", err);
+            });
+           
+            onNewData({ textContent : doc.data().textContent,
+              channel: doc.data().channel,
+              createdAt: doc.data().createdAt, 
+              messageType: doc.data().messageType, 
+              updatedAt: doc.data().updatedAt
+              }, dataContact);
+
         });
 
         // querySnapshot.docChanges().forEach(change => {

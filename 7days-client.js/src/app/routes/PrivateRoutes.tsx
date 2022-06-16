@@ -1,7 +1,6 @@
 import { Navigate, Route, Routes } from "react-router-dom";
 import { MasterLayout } from "../layout/MasterLayout";
 import { About } from "../pages/About";
-import { Contact } from "../pages/Contact";
 import ContacsListPage from "../../app/layout/contact-management/ContactPage";
 import { CustomerInQueue } from "../pages/CustomerInQueue";
 import { Dashboard } from "../pages/Dashboard";
@@ -12,8 +11,9 @@ import AccountPage from "../modules/accounts/AccountPage"
 import { useEffect, useState } from "react";
 import { subsToMessages } from "../../api/firebase";
 import { Message } from "../modules/collaboration/model";
-import { info } from "../modules/notify";
+import { infoNewMessage } from "../modules/notify";
 import { getItemLC } from "../modules/localstorage";
+import { Contact } from "../layout/contact-management/contact-list/core/_models";
 
 const PrivateRoutes = () => {
 
@@ -21,11 +21,11 @@ const PrivateRoutes = () => {
   console.log("Local Storage private route ===>>" + userId);
   let message: any;
 
-  const onNewData = (messageContent: Message) => {
+  const onNewData = (messageContent: Message, customer: Contact) => {
     // TODO: tampilkan notification
     console.log("new Notif Exists : ", message);
     message = messageContent.textContent;
-    info(message, true);
+    infoNewMessage(message, true, messageContent, customer);
   };
 
   const [notifications, setNotifications] = useState<any>([]);

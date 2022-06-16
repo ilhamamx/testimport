@@ -13,7 +13,7 @@ import { createRef } from "../../db/connection";
 
 import { Collaboration, Message } from "../../app/modules/collaboration/model";
 import { id } from "date-fns/locale";
-import { v4 as uuidv4 } from 'uuid';
+import { v4 as uuidv4 } from "uuid";
 
 const usersBreadcrumbs: Array<PageLink> = [
   {
@@ -84,18 +84,18 @@ export function Dashboard() {
   //   message = messageContent.textContent;
   //   info(message, true);
 
-    //setNotifications([...notifications, { Color, id: notifications.length }]);
-    // return (
-    //   <Notification
-    //     key={0}
-    //     onDelete={() => deleteNotification(0)}
-    //     color={Color.info}
-    //     autoClose={true}
-    //   >
-    //     {collaboration.lastInteractionMessage}
-    //   </Notification>
+  //setNotifications([...notifications, { Color, id: notifications.length }]);
+  // return (
+  //   <Notification
+  //     key={0}
+  //     onDelete={() => deleteNotification(0)}
+  //     color={Color.info}
+  //     autoClose={true}
+  //   >
+  //     {collaboration.lastInteractionMessage}
+  //   </Notification>
 
-    //   )
+  //   )
   // };
 
   //
@@ -110,24 +110,24 @@ export function Dashboard() {
 
   // const [notifications, setNotifications] = useState<any>([]);
 
-    const messageDummy = {
-      collaboration: createRef("collaboration", "zojfWIhOoy3rhtR0ppne"),
-      customer: createRef("customers", "jfi5G083kqEWa5OrtWTI"), //razor
-      user: createRef("users", userId),
-      destination: "inbound",
-      channel: "whatsapp",
-      isActive: true,
-      createdAt: Timestamp.now(),
-      updateAt: Timestamp.now(),
-      messageType: "text",
-      textContent: "Ini pesan : " + uuidv4(),
-      notifiedAt: null, 
-    };
-  
-    const createMessageDummy = () => {
-      console.log("ini create message");
-      createMessage(messageDummy);
-    };
+  const messageDummy = {
+    collaboration: createRef("collaboration", "zojfWIhOoy3rhtR0ppne"),
+    customer: createRef("customers", "jfi5G083kqEWa5OrtWTI"), //razor
+    user: createRef("users", userId),
+    destination: "inbound",
+    channel: "shopee",
+    isActive: true,
+    createdAt: Timestamp.now(),
+    updateAt: Timestamp.now(),
+    messageType: "text",
+    textContent: "Ini pesan : " + uuidv4(),
+    notifiedAt: null,
+  };
+
+  const createMessageDummy = () => {
+    console.log("ini create message");
+    createMessage(messageDummy);
+  };
 
   return (
     <div>

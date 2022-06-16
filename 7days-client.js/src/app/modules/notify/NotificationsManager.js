@@ -6,12 +6,14 @@ import Notification from "./Notification";
 export default function NotificationsManager({ setNotify }) {
   let [notifications, setNotifications] = React.useState([]);
 
-  let createNotification = ({ color, autoClose, children }) => {
+  let createNotification = ({ color, autoClose, children, message, contact}) => {
     setNotifications((prevNotifications) => {
       return [{
         children,
         color,
         autoClose,
+        message, 
+        contact,
         id: prevNotifications.length,
       },
         ...prevNotifications,
@@ -20,8 +22,8 @@ export default function NotificationsManager({ setNotify }) {
   };
 
   React.useEffect(() => {
-    setNotify(({ color, autoClose, children }) =>
-      createNotification({ color, autoClose, children })
+    setNotify(({ color, autoClose, children, message, contact }) =>
+      createNotification({ color, autoClose, children, message, contact })
     );
   }, [setNotify]);
 
