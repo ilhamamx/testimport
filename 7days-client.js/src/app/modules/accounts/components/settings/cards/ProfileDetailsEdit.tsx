@@ -1,5 +1,5 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
-import React, { FC, useState } from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 // import { KTSVG } from "../../../../../../resources/helpers";
 // import {

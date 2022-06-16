@@ -1,15 +1,15 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
-import React, { useState } from "react";
+import React from "react";
 import { KTSVG, toAbsoluteUrl } from "../../../resources/helpers";
 import { Link } from "react-router-dom";
-import { Dropdown1 } from "../../../resources/partials";
+// import { Dropdown1 } from "../../../resources/partials";
 import { useLocation } from "react-router-dom";
 import { Contact } from "../../layout/contact-management/contact-list/core/_models";
 import { useTranslation } from "react-i18next";
 
 const AccountHeader = ({ customer }: { customer: Contact }) => {
   const location = useLocation();
-  const customerData: Contact = customer;
+  // const customerData: Contact = customer;
   const { t } = useTranslation();
 
   return (
@@ -18,7 +18,7 @@ const AccountHeader = ({ customer }: { customer: Contact }) => {
         <div className="d-flex flex-wrap flex-sm-nowrap mb-3">
           <div className="me-7 mb-4">
             <div className="symbol symbol-100px symbol-lg-160px symbol-fixed position-relative">
-              <img src={customer.avatar} alt={customer.firstName} />
+              <img src={customer.avatar ? customer.avatar : toAbsoluteUrl("/media/icons/avatar/def-avatar.png") } alt={customer.firstName} />
               <div className="position-absolute translate-middle bottom-0 start-100 mb-6 bg-success rounded-circle border border-4 border-white h-20px w-20px"></div>
             </div>
           </div>

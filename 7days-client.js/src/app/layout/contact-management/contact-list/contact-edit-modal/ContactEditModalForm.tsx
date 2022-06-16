@@ -1,7 +1,7 @@
-import { FC, SetStateAction, useState, useEffect } from "react";
+import { FC, useState, useEffect } from "react";
 import * as Yup from "yup";
 import { useFormik } from "formik";
-import { isNotEmpty, toAbsoluteUrl } from "../../../../../resources/helpers";
+import { toAbsoluteUrl } from "../../../../../resources/helpers";
 import { initialContact, Contact } from "../core/_models";
 import clsx from "clsx";
 import { useListView } from "../core/ListViewProvider";
@@ -12,7 +12,6 @@ import { createRef } from "../../../../../db/connection";
 import { getItemLC } from "../../../../modules/localstorage";
 import { useTranslation } from "react-i18next";
 import { storage } from "../../../../../../src/db"
-import { isNull } from "util";
 import { v4 as uuidv4 } from 'uuid';
 // uuidv4();
 
@@ -71,14 +70,14 @@ const ContactEditModalForm: FC<Props> = ({ contact, isUserLoading }) => {
     setItemIdForUpdate(undefined);
   };
 
-  const blankImg = toAbsoluteUrl("/media/svg/avatars/blank.svg");
+  // const blankImg = toAbsoluteUrl("/media/svg/avatars/blank.svg");
   // const userAvatarImg = toAbsoluteUrl(`/media/${contactForEdit.avatar}`);
-  const userAvatarImg = toAbsoluteUrl(`${contactForEdit.avatar}`);
+  // const userAvatarImg = toAbsoluteUrl(`${contactForEdit.avatar}`);
   // const avatarPath = document.querySelector("#contact-avatar").files[0];
  
   const [file, setFile] = useState(null);
   const [picture, setPicture] = useState('');
-  const [imgUrl, setImgUrl] = useState('');
+  // const [imgUrl, setImgUrl] = useState('');
 
   useEffect(() => {
     // console.log("image effect : " + imgUrl)

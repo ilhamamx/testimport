@@ -7,7 +7,7 @@ import {
 import { fetchCustomers, deleteCustomer } from "../../../../../actions";
 //import { Contact } from '../../../../pages/Contact'
 import firebase from "firebase/compat/app";
-import { fetchCustomersNext, fetchCustomersPrev , fetchCountCustomers, createCustomer, updateCustomer, getCompanyRefByUserID } from "../../../../../db";
+import { fetchCustomersNext, fetchCustomersPrev, createCustomer, updateCustomer } from "../../../../../db";
 import { format,} from "date-fns";
 import { getItemLC } from "../../../../modules/localstorage";
 import { createRef } from "../../../../../db/connection";
@@ -15,7 +15,7 @@ import { createRef } from "../../../../../db/connection";
 
 const API_URL = process.env.REACT_APP_THEME_API_URL;
 const USER_URL = `${API_URL}/user`;
-const GET_USERS_URL = `https://preview.keenthemes.com/theme-api/api/users/query`; //`${API_URL}/users/query`
+// const GET_USERS_URL = `https://preview.keenthemes.com/theme-api/api/users/query`; //`${API_URL}/users/query`
 
 const getContacts = (
   sort: string | undefined,
@@ -33,7 +33,7 @@ const getContacts = (
   console.log("item : " + limit)
   console.log("action : " + action)
 
-  let sortBy: string = "firstName";
+  let sortBy: string = "firstNameInsensitive";
   let orderBy: firebase.firestore.OrderByDirection = "asc";
   let searchBy: string = "";
 

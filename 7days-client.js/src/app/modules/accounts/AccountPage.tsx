@@ -7,7 +7,7 @@ import { AccountHeader } from "./AccountHeader";
 import { useTranslation } from "react-i18next";
 import { getCustomerByID } from "../../../db";
 import { Contact } from "../../layout/contact-management/contact-list/core/_models";
-import { title } from "process";
+// import { title } from "process";
 
 type Props = {
   id: string;
@@ -24,7 +24,7 @@ const AccountPage: React.FC = () => {
 
   useEffect(() => {
     getCustomerDetail();
-  }, [data]);
+  }, []);
 
   const getCustomerDetail = async () => {
     if (data.id) {

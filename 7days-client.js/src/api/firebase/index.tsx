@@ -2,30 +2,6 @@ import db from "../../db";
 import { createRef } from "../../db/connection";
 import { Collaboration, Message } from "../../app/modules/collaboration/model";
 
-const observerTest = db
-  .collection("customers")
-  .where("uid", "==", "E5rBXFOn0cAn4wQzBsP1")
-  .onSnapshot(
-    (querySnapshot) => {
-      console.log("Masuk observe test ======>");
-
-      querySnapshot.docChanges().forEach((change) => {
-        if (change.type === "added") {
-          console.log("New : customer ", change.doc.data());
-        }
-        if (change.type === "modified") {
-          console.log("Modified customer: ", change.doc.data());
-        }
-        if (change.type === "removed") {
-          console.log("Removed customer: ", change.doc.data());
-        }
-      });
-    },
-    (error) => {
-      console.log("Error observe test ======> " + error);
-    }
-  );
-
 export const subsToCollaborations = (
   userId: string,
   onNewData: (data: Collaboration) => void

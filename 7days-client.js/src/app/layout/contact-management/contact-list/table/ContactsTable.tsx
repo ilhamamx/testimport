@@ -14,7 +14,6 @@ import { Contact } from "../core/_models";
 import { ContactsListLoading } from "../components/loading/ContactListLoading";
 import { ContactsListPagination } from "../components/pagination/ContactListPagination";
 import { KTCardBody } from "../../../../../resources/helpers";
-import { fetchCustomers } from "../../../../../actions";
 
 const ContactsTable = () => {
   const contacts = useQueryResponseData();
