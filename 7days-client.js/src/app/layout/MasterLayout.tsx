@@ -21,12 +21,16 @@ import * as lc from '../modules/localstorage/index';
 import { Toolbar } from "../layout/toolbar/Toolbar";
 import { PageDataProvider } from "./core";
 import { CustomHeader } from "./header/CustomHeader"
+import {MenuComponent} from '../../resources/assets/ts/components'
 
 
 const MasterLayout = () => {
   const { t } = useTranslation();
   useEffect(() => {
     document.body.classList.add("bg-white");
+    setTimeout(() => {
+      MenuComponent.reinitialization()
+    }, 500)
     return () => {
       document.body.classList.remove("bg-white");
     };

@@ -93,7 +93,7 @@ const CustomHeader: FC = () => {
                           {t("HeaderBar.Button.FAQ")}
                         </Link>
                       </div>
-                      <div className={clsx('d-flex align-items-center symbol symbol-50px', toolbarButtonMarginClass)}>
+                      <div className={clsx('d-flex align-items-center', toolbarButtonMarginClass)}>
                         {/* begin::Menu- wrapper */}
                         <div
                           className={clsx(
