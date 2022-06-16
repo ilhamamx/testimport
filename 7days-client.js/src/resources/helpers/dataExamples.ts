@@ -228,11 +228,7 @@ const defaultAlerts: Array<AlertModel> = [
     state: 'warning',
   },
   {
-<<<<<<< HEAD
     title: 'Project Redux',
-=======
-    title: 'Project Red',
->>>>>>> 277642a... init push
     description: 'New frontend admin theme',
     time: '2 days',
     icon: 'icons/duotune/files/fil023.svg',
