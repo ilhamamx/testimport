@@ -128,7 +128,7 @@ exports.findEmailByPhone = functions.https
     console.log("New Customer created, data : " + JSON.stringify(newValue));
 
     // perform desired operations ...
-    if(newValue.companyID !== null ){
+    if(newValue.company !== null ){
       console.log("New Customer created, update customer count . . .");
       firestore.collection("company").doc(newValue.companyID.id).update({customerCount: admin.firestore.FieldValue.increment(1)})
     }
@@ -143,7 +143,7 @@ exports.findEmailByPhone = functions.https
     console.log("Deleted data : " + JSON.stringify(deletedValue));
 
     // perform desired operations ...
-    if(deletedValue.companyID !== null ){
+    if(deletedValue.company !== null ){
       console.log("Delete Customer, update customer count . . .");
       firestore.collection("company").doc(deletedValue.companyID.id).update({customerCount: admin.firestore.FieldValue.increment(-1)})
     }
@@ -162,7 +162,7 @@ exports.findEmailByPhone = functions.https
      // perform desired operations ...
     if(newValue.isActive !== previousValue.isActive){
       console.log("Is Active Change . . .");
-      if(newValue.companyID !== null ){
+      if(newValue.company !== null ){
         console.log("Update customer count . . .");
         if(newValue.isActive){
           firestore.collection("company").doc(newValue.companyID.id).update({customerCount: admin.firestore.FieldValue.increment(1)}) 
