@@ -138,8 +138,8 @@ async function sendRequest(header, url, json, callback) {
   console.log("masuk send request");
   await axios({
     method: "POST", // Required, HTTP method, a string, e.g. POST, GET
-    // url: "https://coordinated-honey-taste.glitch.me/test", //for testing purpose using sandbox
-    url: url,
+    url: "https://coordinated-honey-taste.glitch.me/test", //for testing purpose using sandbox
+    // url: url,
     data: json,
     headers: header,
   })
@@ -147,7 +147,7 @@ async function sendRequest(header, url, json, callback) {
       let respJSON = response.data;
       console.log("response : " + JSON.stringify(respJSON, null, 2));
       let jsonResponse = resultCode("SM", "00");
-      jsonResponse = { ...jsonResponse, "whatsapp" : {...respJSON} };
+      jsonResponse = { ...jsonResponse, "messageID" : respJSON.messages[0].id, "whatsapp" : {...respJSON} };
       return callback(null, jsonResponse, 200);
     })
     .catch((error) => {
@@ -155,7 +155,7 @@ async function sendRequest(header, url, json, callback) {
       console.log("errorJSON : " + JSON.stringify(errorJSON, null, 2));
       let jsonResponse;
       jsonResponse = resultCode("SM", "03");
-      jsonResponse = { ...jsonResponse, "whatsapp" : {...errorJSON} };
+      jsonResponse = { ...jsonResponse, "errorCode" : errorJSON.error.code, "whatsapp" : {...errorJSON} };
       return callback(jsonResponse, null, error.response.status);
     });
 }
