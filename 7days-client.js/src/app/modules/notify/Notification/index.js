@@ -108,11 +108,11 @@ export default function Notification({
               <a to="#" className="text-white text-hover-primary mb-1">
                 Nama Kontak
               </a>
-              <p>0857123445</p>
+              <p>6281234567890</p>
               {/* <span>{contact.email}</span> */}
             </div>
             <div className="align-text-bottom">
-              <button type="button" class="btn btn-primary btn-sm align-text-bottom">Replay</button>
+              <button type="button" className="btn btn-primary btn-sm align-text-bottom">Replay</button>
             </div>
           </div>
           {/* <p className="mb-0">{children}</p> */}
