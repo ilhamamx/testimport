@@ -23,11 +23,10 @@ const ChatList: FC<PropsFromRedux> = (props) => {
   useEffect(() => {
     let userSessionToken = lc.getItemLC(lc.LCName.SessionToken);
     const currentUser = lc.getItemLC(lc.LCName.User);
-    // console.log("------->> check LC "+currentUser.company.id);
     
     const user = {
       // uid: "8BccV9T1R8huPSiJ9fGNway4yVD3",
-      company: "cWt6gXnRGTFqL5TbYn6r",
+      company: "V06TSgxpzWfy3B5xbrvi",
       uid: currentUser.uid,
       // company: currentUser.company
     }

@@ -41,7 +41,9 @@ import { Link } from "react-router-dom";
  * 11. button edit contact                                V
  * 12. bubble unread count side bar menu harus sama 
  *     jumlahnya dengan unread message                    V
- * 13. batasan pesan yg tampil (nantik dlu.. gajadi)      - 
- * 14. add new message
+ * 13. batasan pesan yg tampil (nantik dlu.. gajadi)      X 
+ * 14. add new message (function)                         V 
+ * 15. tambah save to local storage ketika simpan keredux V
+ * 16.
  */
 

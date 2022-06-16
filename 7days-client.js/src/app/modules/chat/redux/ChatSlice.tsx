@@ -3,6 +3,7 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { HandledMessageListItem,Message } from "../../../layout/chat/models/ChatItem.model";
 import { Timestamp } from "../../../../db";
 import * as lc from "../../localstorage/index"
+import createRef from "firebase/compat/app";
 
 const initialState: InitialState = {
   chatList: [],
@@ -79,6 +80,12 @@ export const ChatSlice = createSlice({
       state.selectedChat = action.payload;
       console.log(action.payload)
     },    
+
+    addIncomingMessages: (state, action: PayloadAction<Message>) => {
+      state.listMessage = [...state.listMessage,action.payload];
+      lc.setItemLC(lc.LCName.Messages+state.selectedChat,action.payload)
+      console.log(action.payload)
+    },
   },
 });
 

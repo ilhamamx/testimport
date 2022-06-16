@@ -26,7 +26,6 @@ export function ChatTime(dateconvert:Date) {
   const { i18n } = useTranslation();
 
   function getLanguage() {
-    console.log(i18n.language);
     return i18n.language;
   }
 

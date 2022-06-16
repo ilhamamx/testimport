@@ -2,30 +2,38 @@ import axios from "axios";
 
 export const sendRequestMessage = async (
     type: string, 
-    company: string, from: string, to: string, msgtype: string, previewurl:string, text: string) => {
+    company: string, from: string, to: string, msgtype: string, previewurl:boolean|undefined, text: string) => {
   const url = "http://localhost:3001/messages/sendMessage";
 
-      const jsonFormarter = `
-      {
-        "type" : ${type},
-        ${type} : {
-          "company" : ${company},
-          "from" : ${from},
-          "to" : ${to},
-          "type" : ${msgtype},
-          "text" : {
-            "preview_url" : ${previewurl},
-            "text" : ${text},
-          }
-        }
+  const Value = `
+  {
+    "type" : "${type}",
+    "${type}" : {
+      "company" : "${company}",
+      "from" : "${from}",
+      "to" : "${to}",
+      "type" : "${msgtype}",
+      "text" : {
+        "preview_url" : "${previewurl}",
+        "text" : "${text}"
       }
-      `
+    }
+  }`;let defaultResponse = `
+  {
+    "responseCode" : <<responseCode>>,
+    "response" : <<response>>,
+  }`;
+  console.log("JSON Pengiriman : "+Value);
+  
+  const RequestValue = JSON.parse(Value);
+
+
 
   try {
     //using axios
     const response = await axios.post(
       url,
-      {jsonFormarter},
+      {RequestValue},
       {
         headers: {
           "Content-Type": "application/json",
@@ -38,11 +46,14 @@ export const sendRequestMessage = async (
     console.log(response);
     //convert response to json
     const responseJson = await response.data;
+    const responseCode = await response.status;
     console.log(responseJson);
-    //return email
-    return responseJson.email;
+    console.log(responseCode);
+    defaultResponse = defaultResponse.replace("<<responseCode>>",""+responseCode).replace("<<response>>",responseJson);
+    return defaultResponse;
   } catch (error) {
     console.log(error);
-    return "";
+    defaultResponse = defaultResponse.replace("<<responseCode>>","400").replace("<<response>>","Error "+error);
+    return defaultResponse
   }
 };

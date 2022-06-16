@@ -2,17 +2,18 @@
 import { FC, SetStateAction, useEffect, useState } from "react";
 import clsx from "clsx";
 import * as Chat from "../../../../actions/chat";
+import * as actAccount from "../../../../actions/account";
 import {toAbsoluteUrl} from "../../../../resources/helpers/";
 import ChatMessage from "./ChatMessage";
 import { useTranslation } from "react-i18next";
-import { DropdownDefault } from "../../dropdown/DropdownDefault"
 import { Dropdown } from "react-bootstrap";
 import { RootState } from '../../../../setup/redux/store'
 import * as chat from "../../../modules/chat/redux/ChatSlice";
 import { connect, ConnectedProps, useDispatch, useSelector } from "react-redux";
-import { User ,Customer, Message as newMessageModel, HandledMessageListItem } from "../../../layout/chat/models/ChatItem.model"
+import { User ,Account,Customer, Message as newMessageModel, HandledMessageListItem } from "../../../layout/chat/models/ChatItem.model"
 import { Timestamp } from "../../../../db";
-import * as lc from '../../../modules/localstorage/index'
+import * as lc from "../../../modules/localstorage/index"
+
 
 const mapState = (state: RootState) => ({ chat: state.Chat })
 const connector = connect(mapState, chat.ChatSlice.actions)
@@ -24,7 +25,6 @@ type Props = {
   user?: User;
 };
 
-
 // const bufferMessages = defaultMessages;// ganti dengan get message dari firebase, dan 
 
 const ChatInner: FC<Props> = ({ isDrawer = false }, props) => {
@@ -32,10 +32,13 @@ const ChatInner: FC<Props> = ({ isDrawer = false }, props) => {
   const channelIcon = "/media/icons/channel/"
   const { propsredux, customer,user } = props;
   const [chatUpdateFlag, toggleChatUpdateFlat] = useState<boolean>(false);
-  const [customerChat, setCustomerChat] = useState<Customer>(); // Selected Customer
+  const [customerChat, setCustomerChat] = useState<Customer>(customer); // Selected Customer
+  const [accountChat, setAccountChat] = useState<Account>(); // Selected Customer
+  const [ListAccountChat, setListAccountChat] = useState<Account[]>([]); //List Message 
   const [userChat, setUserChat] = useState<User>(); // Selected User
   const [collabs, setcollabs] = useState<HandledMessageListItem>(); //Selected Collaboration
   const [message, setMessage] = useState<string>(""); // Input Message
+  const [companyID, setCompanyID] = useState<string>(lc.getItemLC(lc.LCName.CompanyID).toString()); // Input Message
   const dispatch = useDispatch();
   const selectedChat = useSelector((state: RootState) => state.Chat.selectedChat); //Uid Collaboration
   const collablist = useSelector((state: RootState) => state.Chat.chatList); //list Collaboration
@@ -43,6 +46,11 @@ const ChatInner: FC<Props> = ({ isDrawer = false }, props) => {
   const [channel, setChannel] = useState<string>(""); //Selected Channel or Last Interaction Channel
 
   useEffect(() => {
+    // tambah untuk manggil function di action account -> di dalam action account terdapat process untuk check account di redux, jika 
+    // di redux ada ambil dari redux, jika gada ambil dari firebase.
+
+    console.log("INI ADALAH CUSTOMER : "+JSON.stringify(customer));
+    
     // Update Unread Messages
     Chat.clearUnreadMessages(selectedChat);
     // Clear Unread Message On Redux
@@ -54,16 +62,23 @@ const ChatInner: FC<Props> = ({ isDrawer = false }, props) => {
     }else{
       setChannel("whatsapp")
     }
+
     //SelectedChat = Uid From Collaboration
     //Set Selected Collaboration 
     setcollabs(collablist.find(obj => {
-      return obj.id === selectedChat
-    }));
-    //Set User from Selected Collaboration 
+      return obj.id === selectedChat;
+    }));     
+
+    console.log("INI ADALAH CUSTOMER 1 : "+JSON.stringify(collabs));
+    console.log("INI ADALAH CUSTOMER 2 : "+JSON.stringify(collabs?.customerModel));
     setUserChat(collabs?.userModel);
     //Set Customer from Selected Collaboration 
-    setCustomerChat(collabs?.customerModel);
+    // setCustomerChat(collabs?.customerModel);
 
+    // Check customer
+    console.log("Check customer ID: "+customerChat?.id);
+    console.log("Check customer Data: "+JSON.stringify(customerChat));
+    
     //Get and Set List Chat By Selected Collaboration
     Chat
     .fetchMessageCollaboration(selectedChat)
@@ -75,6 +90,7 @@ const ChatInner: FC<Props> = ({ isDrawer = false }, props) => {
     });
   }, [selectedChat]);
 
+  
   const sendMessage = () => {
     //Create New Message Model
     const newMessage: newMessageModel = {
@@ -85,6 +101,7 @@ const ChatInner: FC<Props> = ({ isDrawer = false }, props) => {
       mediaUrl: "string",
       messageType: "text",
       textContent: message,
+      previewurl: true,
       updatedAt: Timestamp.now(),
     };
 
@@ -99,8 +116,35 @@ const ChatInner: FC<Props> = ({ isDrawer = false }, props) => {
     toggleChatUpdateFlat(!chatUpdateFlag);
     setMessage("");
 
-    //Save New Message to Firebase
-    Chat.createCollaborationMessage(newMessage, selectedChat);
+    // Check CompanyID, Channel
+    console.log("Check company ID: "+companyID);
+    console.log("Check channel: "+channel);
+    
+    
+    const onFetchAccountFinished = (accountChat: Account|undefined) => {
+      if(accountChat){
+        //Save New Message to Firebase
+        console.log("Check Account Pengiriman : "+JSON.stringify(accountChat));
+        Chat.createCollaborationMessage(newMessage, companyID ,selectedChat, accountChat, customerChat);
+        // Chat.createCollaborationMessage(newMessage, selectedChat, undefined, undefined);
+      }else{
+        console.log("Check Account Pengiriman No Data Account");
+      }
+      //error
+    }
+
+    actAccount.fetchAccountByCompanyAndChannel(companyID,channel)
+    .then(async response => {
+      console.log("Check Response account Data: "+JSON.stringify(response));
+      const temAccount = response.find(obj => {
+        // Check account
+        console.log("Check account ID: "+obj?.id);
+        console.log("Check account Data: "+JSON.stringify(response));
+        
+        return obj;
+      });
+      onFetchAccountFinished(temAccount);
+    });
   };
 
   const onEnterPress = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
@@ -251,22 +295,3 @@ const ChatInner: FC<Props> = ({ isDrawer = false }, props) => {
 };
 
 export default connector(ChatInner);
-// export { ChatInner };
-
-// const test: Array<newMessageModel> = [
-//   {
-//     channel: "whatsapp",
-//     textContent: "halo",
-//     createdAt: new Date(),
-//     messageType: "text",
-//     updatedAt: new Date(),
-//     id: "2"
-//   },
-//   {
-//     channel: "whatsapp",
-//       textContent: "message",
-//       createdAt: new Date(),
-//       messageType: "text",
-//       updatedAt: new Date(),
-//       id: "1"
-//   }]

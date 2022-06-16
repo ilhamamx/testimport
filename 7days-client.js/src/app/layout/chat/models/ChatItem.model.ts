@@ -1,5 +1,6 @@
 import {DocumentReference} from "@firebase/firestore-types";
 import firebase from 'firebase/compat/app';
+import { boolean, string } from "yup";
 
 export interface BadgeItem {
   unreadCount: number,
@@ -44,7 +45,7 @@ export interface User {
 
 export interface Message {
   channel: string,
-  createdAt: firebase.firestore.Timestamp;
+  createdAt: firebase.firestore.Timestamp,
   customer?: DocumentReference,
   user?: DocumentReference,
   customerModel?: Customer,
@@ -52,8 +53,16 @@ export interface Message {
   mediaUrl?: string,
   messageType: string,
   textContent: string,
-  updatedAt: firebase.firestore.Timestamp;
-  id?: string
+  updatedAt: firebase.firestore.Timestamp,
+  id?: string,
+  messageStatus?: string
+  resultCode?: string,
+  resultMessage?: string,
+  errorCode?: string,
+  resultMessageId?: string,
+  responseJson?: string,
+  responseCode?: string,
+  previewurl?:boolean
 }
 
 export interface HandledMessageListItem {
@@ -71,4 +80,37 @@ export interface HandledMessageListItem {
     toUser?: DocumentReference,
     userModel?: User,
     LastMessageModel?: Message,
+    company?: DocumentReference,
+    companyModel?: Company
 }
+
+export const MessageStatus = {
+  sent: "sent",
+  submitted : "submitted",
+  delivered : "delivered",
+  failed : "failed",
+  read: "read"
+};
+
+export interface Account {
+  id: string,
+  type:	string,
+  isActive:	boolean,
+  whatsappNumber:	string,
+  company: DocumentReference,
+  companyModel?: Company
+  access_token:	string,
+  whatsappNumber_ID:	string
+};
+
+export interface Company {
+  id: string,
+  uid: string,
+  companyName:	string,
+  address:	string,
+  currency:	string,
+  isActive:	boolean
+  quotaBalance?:	number,
+  paymentTerm?:	string,
+  creditLimit?:	number
+};

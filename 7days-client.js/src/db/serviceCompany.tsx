@@ -1,5 +1,4 @@
 import db from ".";
-import firebase from "firebase/compat/app";
 
 export const getCustomerCountByCompanyID = (id: string) =>
   db

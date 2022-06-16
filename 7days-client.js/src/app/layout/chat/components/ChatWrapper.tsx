@@ -27,6 +27,7 @@ const ChatWrapper: FC = () => {
 
   useEffect(() => {
     setUserName("Testing");
+    
   }, [userName]);
 
   return (
@@ -116,7 +117,8 @@ const ChatWrapper: FC = () => {
                     className="fs-4 fw-bolder text-gray-900 text-hover-primary me-1 lh-1"
                   >
                     {colabs?.customerModel?.firstName === undefined && `+${colabs?.customerModel?.phoneNumber}`}
-                    {colabs?.customerModel?.firstName !== undefined && `${colabs?.customerModel?.firstName} ${colabs?.customerModel?.lastName}`}
+                    {colabs?.customerModel?.firstName !== undefined && colabs?.customerModel?.lastName === undefined && `${colabs?.customerModel?.firstName}`}
+                    {colabs?.customerModel?.firstName !== undefined && colabs?.customerModel?.lastName !== undefined && `${colabs?.customerModel?.firstName} ${colabs?.customerModel?.lastName}`}
                   </a>
                 </div>
               </div>
@@ -137,7 +139,8 @@ const ChatWrapper: FC = () => {
               </div>
             )}
           </div>
-          {colabs !== undefined && <ChatInner />}
+          {colabs !== undefined && <ChatInner 
+              customer={colabs?.customerModel}/>}
         </div>
       </div>
     </div>
