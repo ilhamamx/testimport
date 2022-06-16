@@ -7,6 +7,7 @@ import createContainer from "../createContainer";
 import { ReactComponent as Times } from "./times.svg";
 import styles from "./Notification.module.css";
 import clsx from "clsx";
+import Icon from "../../../../styles/components/Icon";
 
 const container = createContainer();
 
@@ -72,20 +73,29 @@ export default function Notification({
           styles[color],
           { [styles.slideIn]: !isClosing },
           { [styles.slideOut]: isClosing },
-          `pt-0 pe-0 pb-0`,
+          `pt-0 pe-0 pb-0 m-3`,
         ])}
       >
+        {/* <label
+          className="btn btn-icon btn-circle btn-active-color-primary w-20px h-20px shadow top-0 start-0 translate-middle flex-fill" //
+          title="closeNotif"
+          style={{backgroundColor: "#565674"}}
+          
+          onClick={() => setIsClosing(true)}
+        >
+          <i className="bi bi-x fw-bold fs-6"></i>
+        </label> */}
         {/* {children}  */}
         <div className="alert mt-0 mb-0" role="alert">
           <div className="d-flex align-items-center">
             <div className="d-flex flex-column">
               <KTSVG
                 path="/media/icons/duotune/communication/com002.svg"
-                className="svg-icon svg-icon-3hx svg-icon-light"
+                className="svg-icon svg-icon-2hx svg-icon-light"
               />
             </div>
             <div className="px-2 pt-2">
-              <h4 className="alert-heading"> Receive a Message! </h4>{" "}
+              <h6 className="alert-heading"> Receive a Message! </h6>{" "}
             </div>
             <div className="ps-3">
               <span> today 12.00</span>
@@ -99,30 +109,47 @@ export default function Notification({
           <hr className="my-0"></hr>
           <div className="d-flex align-items-center">
             {/* begin:: Avatar */}
-            <div className="symbol symbol-circle symbol-50px overflow-hidden me-3">
+            <div className="symbol symbol-circle symbol-40px overflow-hidden me-2">
               <a to="#">
-                <div className={clsx("symbol-label fs-3")}>tes nama</div>
+                <button className={clsx("symbol-label fs-3")}>tes nama</button>
+                {/* <span className="badge badge-circle bg-info"></span> */}
+                {/* <Icon
+                  id="icon-handled-customer"
+                  imgSrc="/media/icons/duotune/communication/com002.svg"
+                  size="4hx"
+                  badgeStyle="bg-danger"
+                ></Icon> */}
+                <span className="position-absolute top-0 start-100 translate-middle p-2 bg-danger border border-light rounded-circle">
+                    <span className="visually-hidden">New alerts</span>
+                </span>
+
               </a>
             </div>
-            <div className="pt-3 d-flex flex-column">
-              <a to="#" className="text-white text-hover-primary mb-1">
+            <div className="pt-3 d-flex flex-column mt-3">
+              <a to="#" className="text-white text-hover-primary mb-0">
                 Nama Kontak
               </a>
               <p>6281234567890</p>
               {/* <span>{contact.email}</span> */}
             </div>
-            <div className="align-text-bottom">
-              <button type="button" className="btn btn-primary btn-sm align-text-bottom">Replay</button>
+            <div className="align-text-bottom list-inline mb-4 mb-lg-1 d-flex flex-row justify-content-end flex-fill w-auto ">
+              <button
+                type="button"
+                className="btn btn-primary btn-sm align-text-bottom p-7 pt-1 pb-1 mt-2"
+              >
+                Reply
+              </button>
             </div>
           </div>
           {/* <p className="mb-0">{children}</p> */}
         </div>
-
         <button
           onClick={() => setIsClosing(true)}
-          className={styles.closeButton}
-        > 
-          <Times height={18} />
+          // className= "btn btn-info btn-circle translate-middle"
+          className={cn([styles.closeButton, `translate-middle`])}
+        >
+          <Times height={14} />
+          {/* <i className="bi bi-x fw-bold fs-6"></i> */}
         </button>
       </div>
     </div>,

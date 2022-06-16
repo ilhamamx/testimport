@@ -11,7 +11,7 @@
 }
 
 .container {
-  overflow: hidden;
+  /* overflow: hidden; */
   max-height: 300px;
   transition: max-height 0.3s ease-out;
 }
@@ -27,7 +27,7 @@
 .notification {
 
   max-width: 430px;
-  overflow: hidden;
+  /* overflow: hidden; */
   padding: 12px 48px 12px 12px;
   display: grid;
   grid-auto-flow: column;
@@ -78,9 +78,13 @@
   position: absolute;
   top: 8px;
   left: 8px;
-  background: transparent;
-  padding: 0;
-  border: none;
+  background: #565674;
+  padding: 7px 7px;
+  border-radius: 100%;
+  font-size: 7px;
+  text-align: center;
+  border: solid 0.5px;
+  border-color: white;
   cursor: pointer;
 }
 
