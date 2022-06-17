@@ -28,7 +28,7 @@ const PrivateRoutes = () => {
     infoNewMessage(message, true, messageContent, customer);
   };
 
-  const [notifications, setNotifications] = useState<any>([]);
+  // const [notifications, setNotifications] = useState<any>([]);
   useEffect(() => {
     // const unsubs = subsToCollaborations(userId, onNewData);
     const unsubs = subsToMessages(userId, onNewData);

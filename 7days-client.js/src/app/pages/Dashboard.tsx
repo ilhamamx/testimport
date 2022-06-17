@@ -7,7 +7,7 @@ import { PageTitle, PageLink } from "../layout/core/PageData";
 import { useState } from "react";
 import { Notification, Color, info } from "../modules/notify";
 import db, { Timestamp } from "../../db";
-import { subsToCollaborations, subsToMessages } from "../../api/firebase";
+import { subsToMessages } from "../../api/firebase";
 import { getItemLC } from "../modules/localstorage";
 import { createRef } from "../../db/connection";
 

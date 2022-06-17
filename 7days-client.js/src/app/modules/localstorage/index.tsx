@@ -1,12 +1,12 @@
 export const LCName = {
   User: "User",
-  SessionID : "SessionID",
-  SessionCreated : "SessionCreated",
-  SessionToken : "SessionToken",
+  SessionID: "SessionID",
+  SessionCreated: "SessionCreated",
+  SessionToken: "SessionToken",
   Messages: "Message_",
   Account: "Account_",
   CompanyID: "CID",
-  Notification: "Notif"
+  Notification: "Notif",
 };
 
 export function setItemLCWithExpiry(key: string, value: any, ttl: number) {
@@ -46,15 +46,33 @@ export function setItemLC(key: string, value: any) {
     value: value,
   };
   localStorage.setItem(key, JSON.stringify(item));
+  if(key === LCName.Notification){
+    window.dispatchEvent(new Event("storageNotif"));
+  }
+
 }
 
-export function removeSession(){
-   removeLC(LCName.User);
-   removeLC(LCName.SessionID);
-   removeLC(LCName.SessionCreated);
-   removeLC(LCName.SessionToken);
-   removeLC(LCName.CompanyID);
-   removeLC("UID");
-   removeLC(LCName.Notification);
+const f = () => {
+  let eventTarget = new EventTarget();
+  // eventTarget.dispatchEvent()
+
+  let event = new Event("storage");
+  // event.target.key = 
+
+
 }
 
+export function removeSession() {
+  removeLC(LCName.User);
+  removeLC(LCName.SessionID);
+  removeLC(LCName.SessionCreated);
+  removeLC(LCName.SessionToken);
+  removeLC(LCName.CompanyID);
+  removeLC("UID");
+  removeLC(LCName.Notification);
+  removeNotification();
+}
+
+export function removeNotification() {
+  removeLC(LCName.Notification);
+}

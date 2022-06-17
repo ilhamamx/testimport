@@ -4,14 +4,16 @@ import {FC} from 'react'
 import {Link} from 'react-router-dom'
 import {KTSVG, toAbsoluteUrl, defaultAlerts, defaultLogs} from '../../../../resources/helpers'
 
-const EditHeaderNotificationsMenu: FC = () => (
+const EditHeaderNotificationsMenu : FC = () => (
   <div
     className='menu menu-sub menu-sub-dropdown menu-column w-500px w-lg-375px'  //350   375
     data-kt-menu='true'
   >
     <div className="alert mt-0 mb-0" role="alert">
-          <div className="d-flex mt-0 flex-fill w-auto">
-            <div className="ps-3">
+          <div className="row d-flex mt-0 flex-fill w-auto">
+            <div className='col'></div>
+            <div className='col'></div>
+            <div className="col">
               <span>Today, 11:25</span>
             </div>
           </div>  

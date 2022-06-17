@@ -11,7 +11,7 @@ import Icon from "../../../../styles/components/Icon";
 import Avatar from "../../../../styles/components/Avatar";
 import { Contact } from "../../../layout/contact-management/contact-list/core/_models";
 import { format } from "date-fns";
-import {useTranslation} from "react-i18next";
+import { useTranslation } from "react-i18next";
 
 const container = createContainer();
 
@@ -24,7 +24,7 @@ export default function Notification({
   onDelete,
   children,
   message,
-  contact
+  contact,
 }) {
   const [isClosing, setIsClosing] = React.useState(false);
   const { i18n } = useTranslation();
@@ -105,9 +105,15 @@ export default function Notification({
               <h6 className="alert-heading"> Receive a Message! </h6>{" "}
             </div>
             <div className="ps-3">
-              <span> { message.createdAt? (format(
-            new Date(message.createdAt.seconds * 1000),
-            "EEEE h:mm")) : (format (new Date(), "EEEE h:mm")) }</span>
+              <span>
+                {" "}
+                {message.createdAt
+                  ? format(
+                      new Date(message.createdAt.seconds * 1000),
+                      "EEEE h:mm"
+                    )
+                  : format(new Date(), "EEEE h:mm")}
+              </span>
             </div>
           </div>
           {/* <p>
@@ -120,16 +126,18 @@ export default function Notification({
             {/* begin:: Avatar */}
             <div className="symbol symbol symbol-40px me-4">
               <div className="symbol-label fs-3 fw-bold">
-                <img src={`${contact.avatar}`}
-              // alt={contact.firstName}
-              className="w-75"></img>
+                <img
+                  src={`${contact.avatar}`}
+                  alt={contact.firstName}
+                  className="w-75"
+                ></img>
               </div>
               <span className="symbol-badge badge badge-circle top-100 start-100 bg-light">
                 <Avatar
                   height="18"
                   width="18"
                   imgRadius="0%"
-                  imgSrc= {getIconChannelUrl(message.channel)}
+                  imgSrc={getIconChannelUrl(message.channel)}
                 />
                 {/* <KTSVG path="/media/icons/channel/blibli.png"
                 className="svg-icon svg-icon-2hx svg-icon-light" /> */}
@@ -154,7 +162,9 @@ export default function Notification({
             </div>
             <div className="pt-3 d-flex flex-column mt-2">
               <a to="#" className="text-white text-hover-primary mb-0">
-               { contact.lastName?  contact.firstName+ " " + contact.lastName : contact.firstName}
+                {contact.lastName
+                  ? contact.firstName + " " + contact.lastName
+                  : contact.firstName}
               </a>
               <p>{contact.phoneNumber}</p>
               {/* <span>{contact.email}</span> */}
@@ -197,5 +207,5 @@ Notification.propTypes = {
   onDelete: PropTypes.func.isRequired,
   children: PropTypes.string,
   message: PropTypes.any,
-  contact: PropTypes.any
+  contact: PropTypes.any,
 };
