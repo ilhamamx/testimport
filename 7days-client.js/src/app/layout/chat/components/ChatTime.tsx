@@ -33,9 +33,7 @@ export function ChatTime(dateconvert:Date) {
   moment.locale(getLanguage());
 
   return (
-    <div>
-      {moment(dateconvert).fromNow()}
-    </div>
+      moment(dateconvert).fromNow()
   )
 }
 

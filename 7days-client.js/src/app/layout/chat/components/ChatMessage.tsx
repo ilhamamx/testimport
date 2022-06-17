@@ -60,25 +60,12 @@ const ChatMessage: FC<MessageProps> = (props) => {
   } mb-10`;
 
   return (
-    <>
-      {/* <div>
-        <div>Avatar</div>
-        <div>
-          <div>Message</div>
-          <div>Sent</div>
-        </div>
-      </div> */}
-
-      {/* with classname & style */}
       <div
         key={`message${index}`}
         className={clsx(
           "d-flex",
           contentClass,
           "mb-10"
-          // {
-          //   "d-none": message.template,
-          // }
         )}
         {...templateAttr}
       >
@@ -97,43 +84,34 @@ const ChatMessage: FC<MessageProps> = (props) => {
             />
           </div>
         )}
-        <div>
-          <div
-            className={clsx(
-              "p-5 rounded",
-              `${bgChat}`,
-              // `bg-light-${state}`,
-              // `bg-${state}`,
-              // `bg-opacity-50`,
-              "text-dark fw-bold mw-lg-400px",
-              `text-${msgtype === "in" ? "start" : "end"}`
-            )}
-            // dangerouslySetInnerHTML={{ __html: message.textContent }}
+        <div className="d-flex flex-column">
+          <div className="d-flex justify-content-end"
           >
             <div
               style={{ color: txChat }}
               dangerouslySetInnerHTML={{ __html: message.textContent }}
+              className={clsx(
+              "p-5 rounded",
+              `${bgChat}`,
+              "text-dark fw-bold mw-lg-400px",
+            )}
             ></div>
           </div>
           <div
             className={clsx(
               "ms-3",
-              `text-${msgtype === "in" ? "start" : "end"}`
+              `d-flex justify-content-${msgtype === "in" ? "start" : "end"}`
             )}
           >
-            <span className="d-flex flex-row text-muted fs-7 mb-1">
-              {/* status read */}
+            <span className="d-flex flex-row text-muted fs-7 mb-1" >
               {msgtype !== "in" && (
                 <i
                   className="bi bi-check2-all"
-                  style={{ paddingRight: "5px" }}
+                  style={{ paddingRight: "3px", paddingTop: "3px"}}
                 ></i>
               )}
               {ChatTimeFromFirebase(message.createdAt.seconds)}
             </span>
-            {/* <span className="d-flex flex-row text-muted fs-7 mb-1">
-              {ChatTimeFromFirebase(message.createdAt.seconds)}
-            </span> */}
           </div>
         </div>
 
@@ -153,65 +131,6 @@ const ChatMessage: FC<MessageProps> = (props) => {
           </div>
         )}
       </div>
-
-      {/* 
-
-      <div
-        key={`message${index}`}
-        className={clsx("d-flex", contentClass, "mb-10", {
-          "d-none": message.template,
-        })}
-        {...templateAttr}
-      >
-        <div
-          className={clsx(
-            "d-flex flex-column align-items",
-            `align-items-${message.type === "in" ? "start" : "end"}`
-          )}
-        >
-          <div
-            className={clsx(
-              "p-5 rounded",
-              `bg-light-${state}`,
-              "text-dark fw-bold mw-lg-400px",
-              `text-${message.type === "in" ? "start" : "end"}`
-            )}
-            data-kt-element="message-text"
-            dangerouslySetInnerHTML={{ __html: message.text }}
-          ></div>
-
-          <div className="d-flex align-items-center mb-2">
-            {message.type === "in" ? (
-              <>
-                <div className="symbol  symbol-35px symbol-circle ">
-                  <img
-                    alt="Pic"
-                    src={toAbsoluteUrl(`/media/${userInfo.avatar}`)}
-                  />
-                </div>
-                <div className="ms-3">
-                  <span className="text-muted fs-7 mb-1">{message.time}</span>
-                </div>
-              </>
-            ) : (
-              <>
-                <div className="me-3">
-                  <span className="text-muted fs-7 mb-1">{message.time}</span>
-                </div>
-                <div className="symbol  symbol-35px symbol-circle ">
-                  <img
-                    alt="Pic"
-                    src={toAbsoluteUrl(`/media/${userInfo.avatar}`)}
-                  />
-                </div>
-              </>
-            )}
-          </div>
-        </div>
-      </div>
-
-      */}
-    </>
   );
 };
 

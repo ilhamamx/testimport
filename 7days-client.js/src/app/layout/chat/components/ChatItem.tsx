@@ -90,22 +90,22 @@ const ChatItem: FC<ChatItemProps> = (props) => {
         </span>
         <div className="symbol-group symbol-hover">
           {item.unreadMessages?.map(
-            (unreadMessage) =>
-              unreadMessage.unreadCount > 0 && (
+            (unreadMessages) =>
+              unreadMessages.unreadCount > 0 && (
                 <span
                   className="symbol symbol-30px symbol-circle"
-                  key={unreadMessage.channel}
+                  key={unreadMessages.channel}
                 >
                   <img
                     className="symbol-label"
                     alt=""
                     src={toAbsoluteUrl(
-                      `${channelIcon}${unreadMessage.channel.toLowerCase()}.png`
+                      `${channelIcon}${unreadMessages.channel.toLowerCase()}.png`
                     )}
                     style={{ backgroundColor: "#FFFFFF" }}
                   />
                   <span className="badge symbol-badge badge-sm badge-circle bg-success start-75">
-                    {unreadMessage.unreadCount}
+                    {unreadMessages.unreadCount}
                   </span>
                 </span>
               )

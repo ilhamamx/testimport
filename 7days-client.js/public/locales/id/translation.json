@@ -60,11 +60,11 @@
   "SideBar.MenuItem.HC": "Pelanggan Ditangani",
   "SideBar.MenuItem.Contacts": "Kontak",
 
+  "HC.Title.HandledCustomer": "Pelanggan Ditangani",
   "HC.Button.AddToContact": "Tambah Kontak",
+  "HC.Button.EditContact": "Edit Kontak",
   "HC.Button.SendFrom": "Kirim dari",
   "HC.Input.Search":"cari berdasarkan username atau No.HP",
-  "HC.Button.EditContact": "Edit Kontak",
-  "HC.Title.HandledCustomer": "Pelanggan Ditangani",
   "HC.Input.TextMessage":"Ketik pesanmu",
 
   "Contacts.Button.Filter": "Filter",

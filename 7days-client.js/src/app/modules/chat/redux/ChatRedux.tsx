@@ -6,6 +6,7 @@ interface InitialState {
   selectedCollaboration: HandledMessageListItem;
   listMessage: Message[];
   selectedChat: string;
+  countTotalUnreadMessages: number;
 }
 const UpdateChatListAction: string = "UpdateChatList";
 

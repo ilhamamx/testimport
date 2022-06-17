@@ -12,6 +12,7 @@ import { toAbsoluteUrl } from "../../../../resources/helpers";
 const ChatWrapper: FC = () => {
   const { t } = useTranslation();
   const [userName, setUserName] = useState("");
+  const avatarIcon = "/media/icons/avatar/";
 
   const selectedChat = useSelector(
     (state: RootState) => state.Chat.selectedChat
@@ -85,18 +86,37 @@ const ChatWrapper: FC = () => {
                   className="symbol symbol-45px symbol-circle"
                   style={{ paddingRight: "10px" }}
                 >
-                  <img
-                    alt="Pic"
-                    src={toAbsoluteUrl(`${colabs?.customerModel?.avatar}`)}
-                  />
+                  {
+                    colabs?.customerModel?.avatar !== undefined && 
+                      <img
+                        alt="custom"
+                        src={toAbsoluteUrl(`${colabs?.customerModel?.avatar}`)}
+                      />
+                  }
+                  {
+                    colabs?.customerModel?.avatar === undefined && (colabs?.customerModel?.gender === undefined || "male" ) &&
+                    <img
+                      alt="Pic"
+                      src={toAbsoluteUrl(`${avatarIcon}m-avatar.png`)}
+                    />
+                  }
+                  {
+                    colabs?.customerModel?.avatar === undefined && (colabs?.customerModel?.gender === "female" ) &&
+                    <img
+                      alt="Pic"
+                      src={toAbsoluteUrl(`${avatarIcon}f-avatar.png`)}
+                    />
+                  }
+
+                  
                 </span>
                 <div className="d-flex justify-content-center flex-column me-3">
                   <a
                     href="#"
                     className="fs-4 fw-bolder text-gray-900 text-hover-primary me-1 lh-1"
                   >
-                    {colabs?.customerModel?.firstName}{" "}
-                    {colabs?.customerModel?.lastName}
+                    {colabs?.customerModel?.firstName === undefined && `+${colabs?.customerModel?.phoneNumber}`}
+                    {colabs?.customerModel?.firstName !== undefined && `${colabs?.customerModel?.firstName} ${colabs?.customerModel?.lastName}`}
                   </a>
                 </div>
               </div>
@@ -105,8 +125,13 @@ const ChatWrapper: FC = () => {
               <div className="card-toolbar">
                 <div className="me-n3">
                   <button className="btn btn-primary">
-                    <i className="fas fa-plus fs-4 me-2"></i>
-                    {t("HC.Button.AddToContact")}
+                    {
+                      colabs?.customerModel?.firstName !== undefined ? (
+                        <span><i className="fas fa-plus fs-4 me-2"></i>{t("HC.Button.EditContact")}</span>
+                      ) : (
+                        <span><i className="bi bi-pencil-fill"></i>{t("HC.Button.AddToContact")}</span>
+                      )
+                    }
                   </button>
                 </div>
               </div>

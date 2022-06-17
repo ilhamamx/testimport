@@ -45,7 +45,7 @@ const AsideMenuItem: React.FC<Props> = ({
     <div className={clsx("menu-item",colorselect)} id={id}>
       <Link className={clsx("menu-link without-sub", {active: isActive})} to={to}>
         {icon && (
-          <div className="symbol symbol-50px">
+          <div className="symbol symbol-50px justify-content-end">
             <span className="menu-icon">
               <KTSVG path={icon} className="svg-icon-2hx svg-icon-dark"/>
             </span>
@@ -57,7 +57,7 @@ const AsideMenuItem: React.FC<Props> = ({
         )}
         <span className="menu-title">{title}</span>
         {bbcount > 0 && (
-          <span className="menu-title menu-badge">
+          <span className="menu-title menu-badge justify-content-end">
             <span
               className={clsx(
                 "badge badge-circle fw-bolder fs-7",

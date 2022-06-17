@@ -4,6 +4,7 @@ import ChatItem from "./ChatItem";
 import * as chat from "../../../modules/chat/redux/ChatSlice";
 import {RootState} from "../../../../setup/redux/store";
 import * as Chat from "../../../../actions/chat";
+import * as lc from '../../../modules/localstorage/index'
 
 const mapState = (state: RootState) => ({ chat: state.Chat })
 const connector = connect(mapState, chat.ChatSlice.actions)
@@ -17,11 +18,18 @@ const ChatList: FC<PropsFromRedux> = (props) => {
     console.log("Chat clicked >> "+id)
     dispatch(chat.setSelectedChat(id));
   }
+  
 
   useEffect(() => {
+    let userSessionToken = lc.getItemLC(lc.LCName.SessionToken);
+    const currentUser = lc.getItemLC(lc.LCName.User);
+    // console.log("------->> check LC "+currentUser.company.id);
+    
     const user = {
-      uid: "8BccV9T1R8huPSiJ9fGNway4yVD3",
-      company: "cWt6gXnRGTFqL5TbYn6r"
+      // uid: "8BccV9T1R8huPSiJ9fGNway4yVD3",
+      company: "cWt6gXnRGTFqL5TbYn6r",
+      uid: currentUser.uid,
+      // company: currentUser.company
     }
 
     Chat
@@ -29,6 +37,8 @@ const ChatList: FC<PropsFromRedux> = (props) => {
       .then(collabs => dispatch(chat.setChatList(collabs)))
     
   },[]);
+  
+  console.log("Mencoba menghitung unread messages: "+props.chat.countTotalUnreadMessages);
   
   return (
     <div className="card-body pt-5" id="kt_chat_contacts_body">

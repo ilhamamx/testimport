@@ -19,7 +19,7 @@ export const fetchMessage = async (collaboration: string) => {
     });
 }
 
-export const unreadMessage = (collaborationId: string) => { 
+export const unreadMessages = (collaborationId: string) => { 
   return firebase.database()
   .ref("/collaborations/"+collaborationId+"/")
   .once('value').then((snapshot) => {
@@ -28,14 +28,12 @@ export const unreadMessage = (collaborationId: string) => {
     snapshot.forEach(node => {
       if(node.exists()){
         bi.push({
-          unreadCount:node.val().unreadMessage,
+          unreadCount:node.val().unreadMessages,
           className: "",
           channel: node.key!
         });
       }
     })
-    
-    // console.log("Hasil Function : "+JSON.stringify(bi));
     return bi;
   });
 } 
@@ -52,6 +50,39 @@ export const createMessage = (Message: any, collaboration: String) => {
     });
 };
 
+export const clearUnreadMessages = async(collaborationId: string, channel:string ) => {
+  // const collabRef = firebase.database().ref(`/collaborations/${collaborationId}/${channel}`);
+  const collabRef = firebase.database().ref(`/collaborations/${collaborationId}`);
+  collabRef.set({
+    unreadMessages: 0
+  });
+}
 
+export const updateUnreadMessages = async(collaborationId: string ) => {
+  const collabRef = firebase.database().ref(`/collaborations/${collaborationId}`);
+  await collabRef.once("value", async(snapshot) => {
+    snapshot.forEach((questionSnapshot) => {
+      const collabChildRef = firebase.database().ref(`/collaborations/${collaborationId}/${questionSnapshot.key}`);
+      collabChildRef.update({
+        unreadMessages: 0
+      });
+    })
+  })
+}
+
+export const updateUnreadMessages2 = async(collaborationId: string, channel:string ) => {
+  // const collabRef = firebase.database().ref(`/collaborations/${collaborationId}/${channel}`);
+  const collabRef = firebase.database().ref(`/collaborations/${collaborationId}`);
+  await collabRef.once("value", async(snapshot) => {
+    if(!snapshot.val()){
+      await clearUnreadMessages(collaborationId, channel);
+    }else{
+      const unreadMessages = snapshot.val().unreadMessages;
+      await collabRef.update({
+        unreadMessages: 0
+      });
+    }
+  })
+}
 
 

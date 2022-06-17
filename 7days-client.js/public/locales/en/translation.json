@@ -60,12 +60,11 @@
   "SideBar.MenuItem.HC": "Handled Customer",
   "SideBar.MenuItem.Contacts": "Contacts",
 
-
+  "HC.Title.HandledCustomer": "Handled Customer",
   "HC.Button.AddToContact": "Add to Contact",
   "HC.Button.EditContact": "Edit Contact",
   "HC.Button.SendFrom": "Send from",
   "HC.Input.Search":"Search by username or Phone Number",
-  "HC.Title.HandledCustomer": "Handled Customer",
   "HC.Input.TextMessage":"Type a Message",
 
   "Contacts.Button.Filter": "Filter",

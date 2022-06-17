@@ -28,10 +28,20 @@ import { Link } from "react-router-dom";
 
 
 /***
- * 1. send message ke firebase                            -
+ * 1. send message ke firebase                            V
  * 2. tambah foto profile customer di bagian atas chat    V
- * 3. tambah centang 2 di pesan                           -
+ * 3. tambah centang 2 di pesan                           V
  * 4. tambah translate untuk waktu                        V
- * 5. button sampai bisa kirim channel ke function        -
- * 6. simpan data chat ke local storage                   -
+ * 5. button sampai bisa kirim channel ke function        V
+ * 6. simpan data chat ke local storage                   V
+ * 7. photo dan nomor hp di header chat                   V
+ * 8. diff chat masih tidak sesuai                        V
+ * 9. kirim ke server 7days react                         - 
+ * 10. update bubble count unread message                 V
+ * 11. button edit contact                                V
+ * 12. bubble unread count side bar menu harus sama 
+ *     jumlahnya dengan unread message                    V
+ * 13. batasan pesan yg tampil (nantik dlu.. gajadi)      - 
+ * 14. add new message
  */
+
