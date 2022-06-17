@@ -98,7 +98,7 @@ export const createCollaborationMessage = (Message: Message, companyID: string ,
             }
           }
         }
-        return message.createMessage(Message,selectedChat);
+        return message.createMessage(Message);
       } else if (resp.responseCode && !resp.response) {
         if(resp.responseCode && resp.responseCode!==""){
           Message.responseCode= resp.responseCode;
@@ -106,13 +106,13 @@ export const createCollaborationMessage = (Message: Message, companyID: string ,
       } else {
         Message.messageStatus = MessageStatus.failed;
         Message.resultMessage = "No response or reponsecode from server side."
-        return message.createMessage(Message,selectedChat);
+        return message.createMessage(Message);
       }
     }).catch(
       function (error) {
         Message.messageStatus = MessageStatus.failed;
         Message.resultMessage = error
-        return message.createMessage(Message,selectedChat);
+        return message.createMessage(Message);
       }
     ) ;
   } else {
@@ -127,7 +127,7 @@ export const createCollaborationMessage = (Message: Message, companyID: string ,
     }else{
       Message.resultMessage = "No data account was found."
     }
-    return message.createMessage(Message,selectedChat);
+    return message.createMessage(Message);
   }
   
 } 

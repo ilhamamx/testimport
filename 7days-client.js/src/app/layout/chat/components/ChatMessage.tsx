@@ -4,6 +4,7 @@ import {
   UserInfoModel,
   defaultUserInfos,
   toAbsoluteUrl,
+  getIconChannelUrl
 } from "../../../../resources/helpers/";
 import clsx from "clsx";
 import {
@@ -32,17 +33,20 @@ const ChatMessage: FC<MessageProps> = (props) => {
   const templateAttr = {};
 
   let msgtype = "out";
-  if (customer != null) {
+  if (message.destination == "inbound") {
     msgtype = "in";
   }
 
   let bgChat = "cl-";
   let txChat = "black";
-  if (user !== undefined) {
+  if (msgtype !== "in") {
     bgChat = "cl-7days";
   } else {
     bgChat += message.channel.toString().toLowerCase();
-    txChat = "white";
+    // sabunzone, tokopedia  : hitam
+    if (message.channel.toString().toLowerCase() !== "sabunzone" && message.channel.toString().toLowerCase() !== "tokopedia") {
+      txChat = "white";
+    } 
   }
 
   const contentClass = `${isDrawer ? "" : "d-flex"} justify-content-${
@@ -66,11 +70,7 @@ const ChatMessage: FC<MessageProps> = (props) => {
           >
             <img
               alt="Pic"
-              src={toAbsoluteUrl(
-                `/media/icons/channel/${message.channel
-                  .toString()
-                  .toLowerCase()}.png`
-              )}
+              src={toAbsoluteUrl(getIconChannelUrl(message.channel.toLowerCase()))}
             />
           </div>
         )}
@@ -83,7 +83,7 @@ const ChatMessage: FC<MessageProps> = (props) => {
               className={clsx(
               "p-5 rounded",
               `${bgChat}`,
-              "text-dark fw-bold mw-lg-400px",
+              " fw-bold mw-lg-400px",
             )}
             ></div>
           </div>
@@ -96,7 +96,7 @@ const ChatMessage: FC<MessageProps> = (props) => {
             <span className="d-flex flex-row text-muted fs-7 mb-1" >
               {msgtype !== "in" && (
                 <i
-                  className="bi bi-check2-all"
+                  className="bi bi-check2"    // kalau read dia check2-all
                   style={{ paddingRight: "3px", paddingTop: "3px"}}
                 ></i>
               )}

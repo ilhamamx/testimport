@@ -1,13 +1,16 @@
 import db from "../db";
+import * as conn from "./connection"
 import { converter2 } from "./converter";
 import { Message,BadgeItem } from "../app/layout/chat/models/ChatItem.model";
 import firebase from 'firebase/compat/app'
 
 export const fetchMessage = async (collaboration: string) => {
+  const collabRef = conn.createRef("collaborations", collaboration);
+
   return await db
-    .collection("collaborations")
-    .doc(collaboration)
     .collection("messages")
+    .where("collaboration","==",collabRef)
+    .where("isActive","==",true)
     .withConverter(converter2<Message>())
     .orderBy("createdAt")
     .get()
@@ -37,9 +40,9 @@ export const unreadMessages = (collaborationId: string) => {
   });
 } 
 
-export const createMessage = (Message: any, collaboration: String) => {
+export const createMessage = (Message: any) => {
   return db
-    .collection("collaborations/"+collaboration+"/messages")
+    .collection("messages")
     .add(Message)
     .then((docRef) => {
     })

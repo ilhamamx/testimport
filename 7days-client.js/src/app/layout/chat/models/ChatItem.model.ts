@@ -32,19 +32,15 @@ export interface User {
   state: string
 }
 
-// export interface MessageModel {
-//   user: number
-//   type: 'in' | 'out'
-//   text: string
-//   time: string
-//   // messagetype: string 
-//   channel?: string
-//   mediaUrl?: string 
-//   template?: boolean
-// }
+export type DestinationStatus = {
+  inbound: "inbound",
+  outbound : "outbound",
+  blast : "blast"
+};
 
 export interface Message {
   channel: string,
+  destination: DestinationStatus["inbound"]|DestinationStatus["outbound"]|DestinationStatus["blast"],
   createdAt: firebase.firestore.Timestamp,
   customer?: DocumentReference,
   user?: DocumentReference,
@@ -62,7 +58,9 @@ export interface Message {
   resultMessageId?: string,
   responseJson?: string,
   responseCode?: string,
-  previewurl?:boolean
+  previewurl?:boolean,
+  collaboration: DocumentReference,
+  isActive: boolean
 }
 
 export interface HandledMessageListItem {

@@ -12,6 +12,7 @@ import * as chat from "../../../modules/chat/redux/ChatSlice";
 import { connect, ConnectedProps, useDispatch, useSelector } from "react-redux";
 import { User ,Account,Customer, Message as newMessageModel, HandledMessageListItem } from "../../../layout/chat/models/ChatItem.model"
 import { Timestamp } from "../../../../db";
+import { createRef } from "../../../../db/connection";
 import * as lc from "../../../modules/localstorage/index"
 
 
@@ -44,7 +45,8 @@ const ChatInner: FC<Props> = ({ isDrawer = false }, props) => {
   const collablist = useSelector((state: RootState) => state.Chat.chatList); //list Collaboration
   const [messages, setMessages] = useState<newMessageModel[]>([]); //List Message 
   const [channel, setChannel] = useState<string>(""); //Selected Channel or Last Interaction Channel
-  const [cobaan, setCobaan] = useState<string>(""); // Input Message
+  const [file, setFile] = useState(null);
+  const [picture, setPicture] = useState('');
 
   useEffect(() => {
     // tambah untuk manggil function di action account -> di dalam action account terdapat process untuk check account di redux, jika 
@@ -84,34 +86,49 @@ const ChatInner: FC<Props> = ({ isDrawer = false }, props) => {
     setCustomerChat(collabs?.customerModel);
   },[collabs])
 
-  
+  //Noted : panggil function untuk buka 
+  const setPreviewImage = (event: any) => {
+  if (event.target.files[0]) {
+    setPicture(URL.createObjectURL(event.target.files[0]))
+    setFile(event.target.files[0])
+  } 
+}
   const sendMessage = () => {
     //Create New Message Model
     const newMessage: newMessageModel = {
       channel: channel,
       createdAt: Timestamp.now(),
-      // customerModel: customerChat,
+      destination: "outbound",
+      customer: collabs?.customer,
       user: collabs?.toUser,
       mediaUrl: "string",
+      isActive: true,
       messageType: "text",
       textContent: message,
       previewurl: true,
       updatedAt: Timestamp.now(),
+      collaboration: createRef("collaborations", selectedChat)
     };
-
-    //Set New Message To List Message
-    setMessages(prevMessage => [
-      ...prevMessage,newMessage]); 
-    
-    //Save New Message To Redux
-    dispatch(chat.setListMessages(messages));
+      
     
     //Update Text Box to Empty Text
     toggleChatUpdateFlat(!chatUpdateFlag);
     setMessage("");
 
+    const setNewMessage = (newMessage: newMessageModel) => {
+      //Set New Message To List Message
+      setMessages(prevMessage => [
+        ...prevMessage,newMessage]); 
+    }
+
     const onFetchAccountFinished = (accountChat: Account|undefined) => {
       if(accountChat){
+        setNewMessage(newMessage);
+        //Save New Message To Redux
+        console.log("---->>> ini adalah pesan yg akan di simpan ke redux : "+JSON.stringify(messages));
+        console.log("---->>> ini adalah save message ke redux");
+        dispatch(chat.setListMessages(messages));
+        
         //Save New Message to Firebase
         Chat.createCollaborationMessage(newMessage, companyID ,selectedChat, accountChat, customerChat);
         // Chat.createCollaborationMessage(newMessage, selectedChat, undefined, undefined);
@@ -202,14 +219,17 @@ const ChatInner: FC<Props> = ({ isDrawer = false }, props) => {
 
         <div className="d-flex flex-stack">
           <div className="d-flex align-items-center me-2">
-            <button
+            <label
               className="btn btn-sm btn-icon btn-active-light-primary me-1"
-              type="button"
+              // type="button"
               data-bs-toggle="tooltip"
-              title="Coming soon"
+              data-kt-image-input-action="change"
+              title="Change avatar"
             >
-              <i className="bi bi-upload text-custom fs-3"></i>
-            </button>
+              <i className="bi bi-upload text-custom fs-1 p-5"></i>
+
+              <input id="contact-avatar" onChange={setPreviewImage} type="file" name="avatar" accept=".png, .jpg, .jpeg" />
+            </label>
           </div>
 
           <div className="d-flex align-items-center me-2 bg-primary">

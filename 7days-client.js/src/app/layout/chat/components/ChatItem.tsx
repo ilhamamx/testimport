@@ -1,6 +1,6 @@
 import { FC } from "react";
 import { Link } from "react-router-dom";
-import { toAbsoluteUrl } from "../../../../resources/helpers";
+import { toAbsoluteUrl , getIconChannelUrl } from "../../../../resources/helpers";
 import { HandledMessageListItem } from "../models/ChatItem.model";
 import {ChatTime} from "../components/ChatTime";
 import { Timestamp } from "../../../../db";
@@ -99,9 +99,10 @@ const ChatItem: FC<ChatItemProps> = (props) => {
                   <img
                     className="symbol-label"
                     alt=""
-                    src={toAbsoluteUrl(
-                      `${channelIcon}${unreadMessages.channel.toLowerCase()}.png`
-                    )}
+                    // src={toAbsoluteUrl(
+                    //   `${channelIcon}${unreadMessages.channel.toLowerCase()}.png`
+                    // )}
+                    src={toAbsoluteUrl(getIconChannelUrl(unreadMessages.channel.toLowerCase()))}
                     style={{ backgroundColor: "#FFFFFF" }}
                   />
                   <span className="badge symbol-badge badge-sm badge-circle bg-success start-75">

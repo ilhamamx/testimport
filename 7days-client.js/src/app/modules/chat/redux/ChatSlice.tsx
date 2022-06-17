@@ -71,6 +71,9 @@ export const ChatSlice = createSlice({
 
     setListMessages: (state, action: PayloadAction<Message[]>) => {
       state.listMessage = action.payload;
+      console.log("---->>> ini adalah save message ke local storage");
+      console.log("---->>> ini adalah save message ke local storage1 : "+lc.LCName.Messages+state.selectedChat);
+      console.log("---->>> ini adalah save message ke local storage2 : "+JSON.stringify(action.payload));
       lc.setItemLC(lc.LCName.Messages+state.selectedChat,action.payload)
       console.log(action.payload)
     },
@@ -82,14 +85,14 @@ export const ChatSlice = createSlice({
 
     addIncomingMessages: (state, action: PayloadAction<Message>) => {
       state.listMessage = [...state.listMessage,action.payload];
-      lc.setItemLC(lc.LCName.Messages+state.selectedChat,action.payload)
+      lc.setItemLC(lc.LCName.Messages+state.selectedChat, state.listMessage)
       console.log(action.payload)
     },
   },
 });
 
 // Action creators are generated for each case reducer function
-export const { setChatList, setListMessages, setSelectedChat,updateUnreadMessage} =
+export const { setChatList, setListMessages, setSelectedChat,updateUnreadMessage,addIncomingMessages} =
 ChatSlice.actions;
 // You must export the reducer as follows for it to be able to be read by the store.
 export default ChatSlice.reducer;

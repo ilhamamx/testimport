@@ -25,7 +25,7 @@ const ChatList: FC<PropsFromRedux> = (props) => {
     
     const user = {
       // uid: "8BccV9T1R8huPSiJ9fGNway4yVD3",
-      company: "V06TSgxpzWfy3B5xbrvi",
+      company: lc.getItemLC(lc.LCName.CompanyID),
       uid: currentUser.uid,
       // company: currentUser.company
     }

@@ -47,3 +47,13 @@ import { Link } from "react-router-dom";
  * 16.
  */
 
+
+/***
+ * Document Message Chat                                  -
+ * 1. Refactor Process Message                            -
+ * 2. Process Upload file Document ke firestore           -
+ * 3. Tampilan Untuk pesan Document                       -
+ * 4. kirim pesan ke server side                          -
+ * 5. send new messages change chat position on bottom 
+ */
+
