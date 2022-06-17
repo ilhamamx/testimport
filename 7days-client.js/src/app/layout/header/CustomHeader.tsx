@@ -113,10 +113,10 @@ const CustomHeader: FC = () => {
                         
                         </div>
                         
-                        <HeaderNotificationsMenu />
+                        {/* <HeaderNotificationsMenu /> */}
                         
                         <span className="badge badge-circle badge-success "/>
-                        {/* <EditHeaderNotificationsMenu /> */}
+                        <EditHeaderNotificationsMenu />
                         {/* end::Menu wrapper */}
                       </div>
                       
