@@ -138,8 +138,8 @@ async function sendRequest(header, url, json, callback) {
   console.log("masuk send request");
   await axios({
     method: "POST", // Required, HTTP method, a string, e.g. POST, GET
-    url: "https://coordinated-honey-taste.glitch.me/test", //for testing purpose using sandbox
-    // url: url,
+    // url: "https://coordinated-honey-taste.glitch.me/test", //for testing purpose using sandbox
+    url: url,
     data: json,
     headers: header,
   })
