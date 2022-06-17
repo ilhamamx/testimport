@@ -26,19 +26,11 @@ const ChatMessage: FC<MessageProps> = (props) => {
   const { message, index, isDrawer, customer, user } = props;
   const [userInfos] = useState<UserInfoModel[]>(defaultUserInfos);
   // const customer = message.customerModel;
-  console.log(
-    "----------------------------------------------->> Masuk Chat Message"
-  );
-
+ 
   // const userInfo = userInfos[message.customerModel];
   const state = message.customerModel !== null ? "info" : "primary";
   const templateAttr = {};
 
-  // if (message.template) {
-  //   Object.defineProperty(templateAttr, "data-kt-element", {
-  //     value: `template-${message.type}`,
-  //   });
-  // }
   let msgtype = "out";
   if (customer != null) {
     msgtype = "in";
@@ -52,8 +44,6 @@ const ChatMessage: FC<MessageProps> = (props) => {
     bgChat += message.channel.toString().toLowerCase();
     txChat = "white";
   }
-
-  console.log("---------->> ini adalah bg chat : " + bgChat + " -- " + user);
 
   const contentClass = `${isDrawer ? "" : "d-flex"} justify-content-${
     msgtype === "in" ? "start" : "end"

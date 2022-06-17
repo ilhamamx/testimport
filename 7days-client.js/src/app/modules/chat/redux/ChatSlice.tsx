@@ -45,7 +45,6 @@ export const ChatSlice = createSlice({
       });
 
       state.countTotalUnreadMessages = totalUnreadMessages;
-      console.log(action.payload)
     },
 
     updateUnreadMessage: (state, action: PayloadAction<string>) => {

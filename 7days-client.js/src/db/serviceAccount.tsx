@@ -7,7 +7,6 @@ import { Account } from "../app/layout/chat/models/ChatItem.model";
 
 export const getAccountByCompanyAndChannel = (company: string, channel: string) =>{
     const companyRef = conn.createRef("company", company);
-    console.log("company ref : "+JSON.stringify(companyRef));
 
     return db
       .collection("account")

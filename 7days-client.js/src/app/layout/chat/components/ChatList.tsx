@@ -15,7 +15,6 @@ const ChatList: FC<PropsFromRedux> = (props) => {
   const dispatch = useDispatch();
 
   const chatOpenHandler = (id: string) => {
-    console.log("Chat clicked >> "+id)
     dispatch(chat.setSelectedChat(id));
   }
   
@@ -36,8 +35,6 @@ const ChatList: FC<PropsFromRedux> = (props) => {
       .then(collabs => dispatch(chat.setChatList(collabs)))
     
   },[]);
-  
-  console.log("Mencoba menghitung unread messages: "+props.chat.countTotalUnreadMessages);
   
   return (
     <div className="card-body pt-5" id="kt_chat_contacts_body">

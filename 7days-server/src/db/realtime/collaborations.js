@@ -10,7 +10,6 @@ const createInitCollaborations = async(collaborationId, channel) => {
 const increaseUnreadMessage = async(collaborationId, channel) => {
   const collabref = realtimedb.ref(`/collaborations/${collaborationId}/${channel}`);
   await collabref.once("value", async(snapshot) => {
-    console.log(snapshot.val());
     if(!snapshot.val()){
       console.log("createInitCollaborations")
       await createInitCollaborations(collaborationId, channel);

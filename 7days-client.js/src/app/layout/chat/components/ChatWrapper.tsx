@@ -18,13 +18,10 @@ const ChatWrapper: FC = () => {
     (state: RootState) => state.Chat.selectedChat
   );
   const collabbls = useSelector((state: RootState) => state.Chat.chatList);
-  console.log("selected Chat: " + selectedChat);
-  console.log("Collaboration List : " + JSON.stringify(collabbls));
   const colabs = collabbls.find((obj) => {
     return obj.id === selectedChat;
   });
-  console.log("Selected Colaboration : " + JSON.stringify(colabs));
-
+  
   useEffect(() => {
     setUserName("Testing");
     

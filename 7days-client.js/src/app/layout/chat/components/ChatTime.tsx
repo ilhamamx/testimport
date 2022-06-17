@@ -7,12 +7,10 @@ export default function ChatTime2(dateconvert:number) {
   const { i18n } = useTranslation();
 
   function getLanguage() {
-    console.log(i18n.language);
     return i18n.language;
   }
 
   moment.locale(getLanguage());
-  console.log("Test Moment ID: "+moment(new Date(dateconvert*1000)).fromNow());
 
   return (
     <div>

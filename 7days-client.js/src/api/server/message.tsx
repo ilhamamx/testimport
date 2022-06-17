@@ -3,7 +3,7 @@ import axios from "axios";
 export const sendRequestMessage = async (
     type: string, 
     company: string, from: string, to: string, msgtype: string, previewurl:boolean|undefined, text: string) => {
-  const url = "http://localhost:3001/messages/sendMessage";
+  const url = "http://192.168.20.22:3001/messages/sendMessage";
 
   const Value = `
   {
@@ -14,16 +14,17 @@ export const sendRequestMessage = async (
       "to" : "${to}",
       "type" : "${msgtype}",
       "text" : {
-        "preview_url" : "${previewurl}",
+        "preview_url" : ${previewurl},
         "text" : "${text}"
       }
     }
-  }`;let defaultResponse = `
+  }`;
+  
+  let defaultResponse = `
   {
     "responseCode" : <<responseCode>>,
-    "response" : <<response>>,
+    "response" : <<response>>
   }`;
-  console.log("JSON Pengiriman : "+Value);
   
   const RequestValue = JSON.parse(Value);
 
@@ -33,7 +34,7 @@ export const sendRequestMessage = async (
     //using axios
     const response = await axios.post(
       url,
-      {RequestValue},
+      RequestValue,
       {
         headers: {
           "Content-Type": "application/json",
@@ -43,16 +44,12 @@ export const sendRequestMessage = async (
         },
       }
     );
-    console.log(response);
     //convert response to json
     const responseJson = await response.data;
     const responseCode = await response.status;
-    console.log(responseJson);
-    console.log(responseCode);
-    defaultResponse = defaultResponse.replace("<<responseCode>>",""+responseCode).replace("<<response>>",responseJson);
+    defaultResponse = defaultResponse.replace("<<responseCode>>",""+responseCode).replace("<<response>>",JSON.stringify(responseJson));
     return defaultResponse;
   } catch (error) {
-    console.log(error);
     defaultResponse = defaultResponse.replace("<<responseCode>>","400").replace("<<response>>","Error "+error);
     return defaultResponse
   }

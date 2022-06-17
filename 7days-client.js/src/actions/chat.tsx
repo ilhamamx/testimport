@@ -61,7 +61,6 @@ export const fetchMessageCollaboration = (collaborationid: string) => {
 }
 
 export const createCollaborationMessage = (Message: Message, companyID: string ,selectedChat: string, account: Account|undefined, customer: Customer|undefined) => {
-  console.log("Check Pengiriman : "+JSON.stringify(account)+" --->> "+JSON.stringify(customer));
   //Send Request To Server Side
   if (account !== undefined && customer !== undefined) {
     server.sendRequestMessage(
@@ -74,39 +73,48 @@ export const createCollaborationMessage = (Message: Message, companyID: string ,
       Message.textContent)
     .then((response) => {
       const resp = JSON.parse(response);
-      if (resp.has("responseCode") && resp.has("response")) { 
-        if(resp.has("responseCode") && resp.get("responseCode").toString()!==""){
-          Message.responseCode=JSON.parse(response).get("responseCode").toString;
+      if (resp.responseCode && resp.response) { 
+        if(resp.responseCode!==""){
+          Message.responseCode=resp.responseCode;
         }
-        if (resp.has("response") && resp.get("response").toString()!=="") {
-          let tempResponse = resp.get("response");
-          if (tempResponse.has("resultCode") && resp.get("resultCode").toString()!=="") {
-            Message.resultCode = tempResponse.get("resultCode");
+        if (resp.response!=="") {
+          let tempResponse = resp.response;
+          const messageChannel = Message.channel;
+          if (tempResponse.resultCode && resp.resultCode!=="") {
+            Message.resultCode = tempResponse.resultCode;
           }
-          if (tempResponse.has("message") && resp.get("message").toString()!=="") {
-            Message.resultMessage = tempResponse.get("message");
+          if (tempResponse.message && resp.message!=="") {
+            Message.resultMessage = tempResponse.message;
           }
-          if (tempResponse.has("messageID") && resp.get("messageID").toString()!=="") {
-            Message.resultMessageId = tempResponse.get("messageID");
+          if (tempResponse.messageID && resp.messageID!=="") {
+            Message.resultMessageId = tempResponse.messageID;
           }
-          if (tempResponse.has("errorCode") && resp.get("errorCode").toString()!=="") {
-            Message.errorCode = tempResponse.get("errorCode");
+          if (tempResponse.errorCode && resp.errorCode!=="") {
+            Message.errorCode = tempResponse.errorCode;
           }
-          if (tempResponse.has(Message.channel) && resp.get(Message.channel).toString()!=="") {
-            Message.responseJson = tempResponse.get(Message.channel);
+          if(Message.channel==="whatsapp"){
+            if (tempResponse.whatsapp && resp.whatsapp!=="") {
+              Message.responseJson = tempResponse.whatsapp;
+            }
           }
         }
         return message.createMessage(Message,selectedChat);
-      } else if (JSON.parse(response).has("responseCode") && !JSON.parse(response).has("response")) {
-        if(resp.has("responseCode") && resp.get("responseCode").toString()!==""){
-          Message.responseCode=JSON.parse(response).get("responseCode").toString;
+      } else if (resp.responseCode && !resp.response) {
+        if(resp.responseCode && resp.responseCode!==""){
+          Message.responseCode= resp.responseCode;
         }
       } else {
         Message.messageStatus = MessageStatus.failed;
         Message.resultMessage = "No response or reponsecode from server side."
         return message.createMessage(Message,selectedChat);
       }
-    }) ;
+    }).catch(
+      function (error) {
+        Message.messageStatus = MessageStatus.failed;
+        Message.resultMessage = error
+        return message.createMessage(Message,selectedChat);
+      }
+    ) ;
   } else {
     //Create Firebase Message 
     Message.messageStatus = MessageStatus.failed;

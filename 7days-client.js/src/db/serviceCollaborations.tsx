@@ -18,7 +18,6 @@ export const fetchCollaborationsByUser = (uid: string, company: string ) => {
       const collaborations = snapshot.docs.map(doc => {
         return ({...doc.data(), id: doc.id})      
       })
-      console.log("Hasil query collab : "+JSON.stringify(collaborations)); 
       return collaborations;
     });
 }

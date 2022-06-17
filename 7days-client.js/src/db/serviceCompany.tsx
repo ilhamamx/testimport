@@ -20,11 +20,10 @@ export const fetchCountCustomers = () =>
       let count = 0;
       if (!doc.exists) {
         // doc.data() will be undefined in this case
-        console.log("No such document!");
+        console.error("No such document!");
       } else {
         const company = doc.data();
         if (company) {
-          //console.log("Document data:", company.customerCount);
           count = company.customerCount;
         }
       }

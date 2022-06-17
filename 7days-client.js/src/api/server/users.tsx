@@ -17,10 +17,8 @@ export const getEmailFromPhone = async (phoneNumber: string) => {
         },
       }
     );
-    console.log(response);
     //convert response to json
     const responseJson = await response.data;
-    console.log(responseJson);
     //return email
     return responseJson.email;
   } catch (error) {

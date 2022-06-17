@@ -24,7 +24,6 @@ export const unreadMessages = (collaborationId: string) => {
   .ref("/collaborations/"+collaborationId+"/")
   .once('value').then((snapshot) => {
     let bi:BadgeItem[] = [];
-    console.log(`snapshot val ${JSON.stringify(snapshot.val())}`)
     snapshot.forEach(node => {
       if(node.exists()){
         bi.push({
@@ -43,10 +42,9 @@ export const createMessage = (Message: any, collaboration: String) => {
     .collection("collaborations/"+collaboration+"/messages")
     .add(Message)
     .then((docRef) => {
-      console.log("New customer : " + docRef.id);
     })
     .catch((err) => {
-      console.log("Error create customer : ", err);
+      console.error("Error create customer : ", err);
     });
 };
 

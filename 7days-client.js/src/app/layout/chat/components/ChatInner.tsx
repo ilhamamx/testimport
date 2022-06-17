@@ -32,7 +32,7 @@ const ChatInner: FC<Props> = ({ isDrawer = false }, props) => {
   const channelIcon = "/media/icons/channel/"
   const { propsredux, customer,user } = props;
   const [chatUpdateFlag, toggleChatUpdateFlat] = useState<boolean>(false);
-  const [customerChat, setCustomerChat] = useState<Customer>(customer); // Selected Customer
+  const [customerChat, setCustomerChat] = useState<Customer|undefined>(customer); // Selected Customer
   const [accountChat, setAccountChat] = useState<Account>(); // Selected Customer
   const [ListAccountChat, setListAccountChat] = useState<Account[]>([]); //List Message 
   const [userChat, setUserChat] = useState<User>(); // Selected User
@@ -44,12 +44,11 @@ const ChatInner: FC<Props> = ({ isDrawer = false }, props) => {
   const collablist = useSelector((state: RootState) => state.Chat.chatList); //list Collaboration
   const [messages, setMessages] = useState<newMessageModel[]>([]); //List Message 
   const [channel, setChannel] = useState<string>(""); //Selected Channel or Last Interaction Channel
+  const [cobaan, setCobaan] = useState<string>(""); // Input Message
 
   useEffect(() => {
     // tambah untuk manggil function di action account -> di dalam action account terdapat process untuk check account di redux, jika 
     // di redux ada ambil dari redux, jika gada ambil dari firebase.
-
-    console.log("INI ADALAH CUSTOMER : "+JSON.stringify(customer));
     
     // Update Unread Messages
     Chat.clearUnreadMessages(selectedChat);
@@ -63,22 +62,11 @@ const ChatInner: FC<Props> = ({ isDrawer = false }, props) => {
       setChannel("whatsapp")
     }
 
-    //SelectedChat = Uid From Collaboration
-    //Set Selected Collaboration 
+    // Set Selected Collaboration = Uid From Collaboration
     setcollabs(collablist.find(obj => {
-      return obj.id === selectedChat;
+      return obj.id == selectedChat;
     }));     
 
-    console.log("INI ADALAH CUSTOMER 1 : "+JSON.stringify(collabs));
-    console.log("INI ADALAH CUSTOMER 2 : "+JSON.stringify(collabs?.customerModel));
-    setUserChat(collabs?.userModel);
-    //Set Customer from Selected Collaboration 
-    // setCustomerChat(collabs?.customerModel);
-
-    // Check customer
-    console.log("Check customer ID: "+customerChat?.id);
-    console.log("Check customer Data: "+JSON.stringify(customerChat));
-    
     //Get and Set List Chat By Selected Collaboration
     Chat
     .fetchMessageCollaboration(selectedChat)
@@ -89,6 +77,12 @@ const ChatInner: FC<Props> = ({ isDrawer = false }, props) => {
       dispatch(chat.setListMessages(ListMessages))
     });
   }, [selectedChat]);
+
+  useEffect(()=> {
+    setUserChat(collabs?.userModel);
+    //Set Customer from Selected Collaboration 
+    setCustomerChat(collabs?.customerModel);
+  },[collabs])
 
   
   const sendMessage = () => {
@@ -116,21 +110,15 @@ const ChatInner: FC<Props> = ({ isDrawer = false }, props) => {
     toggleChatUpdateFlat(!chatUpdateFlag);
     setMessage("");
 
-    // Check CompanyID, Channel
-    console.log("Check company ID: "+companyID);
-    console.log("Check channel: "+channel);
-    
-    
     const onFetchAccountFinished = (accountChat: Account|undefined) => {
       if(accountChat){
         //Save New Message to Firebase
-        console.log("Check Account Pengiriman : "+JSON.stringify(accountChat));
         Chat.createCollaborationMessage(newMessage, companyID ,selectedChat, accountChat, customerChat);
         // Chat.createCollaborationMessage(newMessage, selectedChat, undefined, undefined);
       }else{
+        //severe
         console.log("Check Account Pengiriman No Data Account");
       }
-      //error
     }
 
     actAccount.fetchAccountByCompanyAndChannel(companyID,channel)
