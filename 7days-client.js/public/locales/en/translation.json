@@ -67,6 +67,8 @@
   "HC.Input.Search":"Search by username or Phone Number",
   "HC.Input.TextMessage":"Type a Message",
 
+  "Chat.Button.AttachFile":"Attach file",
+
   "Contacts.Button.Filter": "Filter",
   "Contacts.Button.Export": "Export",
   "Contacts.Button.AddUser": "Add User",

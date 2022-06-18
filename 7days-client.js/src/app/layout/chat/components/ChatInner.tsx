@@ -14,6 +14,9 @@ import { User ,Account,Customer, Message as newMessageModel, HandledMessageListI
 import { Timestamp } from "../../../../db";
 import { createRef } from "../../../../db/connection";
 import * as lc from "../../../modules/localstorage/index"
+import { storage } from "../../../../../src/db"
+import { getItemLC } from "../../../modules/localstorage/index";
+import { v4 as uuidv4 } from 'uuid';
 
 
 const mapState = (state: RootState) => ({ chat: state.Chat })
@@ -46,7 +49,54 @@ const ChatInner: FC<Props> = ({ isDrawer = false }, props) => {
   const [messages, setMessages] = useState<newMessageModel[]>([]); //List Message 
   const [channel, setChannel] = useState<string>(""); //Selected Channel or Last Interaction Channel
   const [file, setFile] = useState(null);
-  const [picture, setPicture] = useState('');
+  const [fileType, setFileType] = useState("");
+  const [picture, setPicture] = useState("");
+
+  //Noted : panggil function untuk buka 
+  const setPreviewImage = (event: any) => {
+    console.log("Panggil function"+event.target.files[0]);
+    if (event.target.files[0]) {
+      setPicture(URL.createObjectURL(event.target.files[0]));
+      setFile(event.target.files[0]);
+      //Check File Type 
+      const tempArrFileType:string = event.target.files[0].type;
+      const arryFileType = tempArrFileType.split("/")
+      console.log("---->>> File type : "+tempArrFileType);
+      console.log("---->>> arr File type : "+arryFileType);
+    } 
+  }
+
+  const uploadAvatar = async (companyID : string) => {
+    let fileURL = '';
+    if (file !== null ) {
+      // setPicture(event.target.files[0])
+      console.log("file data avatar ===>>>"+file);
+      const uuid = uuidv4()
+      const task = storage
+        .ref(companyID+"/images/avatar/customers")
+        .child(uuid)
+        .put(file);
+      await task
+        .then(async(snapshot) => {
+          return storage
+            .ref(companyID+"/images/avatar/customers")
+            .child(uuid)
+            .getDownloadURL()
+            .then((url) => {
+              console.log("media url : " + url);
+              // setImgUrl(url);
+              fileURL = url;
+              // image = url;
+            // document.querySelector("#image").src = url;
+            });
+        })
+        .catch((error) => {
+          console.log("error : " + error.message);
+        });
+        
+    }
+    return fileURL 
+  }
 
   useEffect(() => {
     // tambah untuk manggil function di action account -> di dalam action account terdapat process untuk check account di redux, jika 
@@ -86,13 +136,6 @@ const ChatInner: FC<Props> = ({ isDrawer = false }, props) => {
     setCustomerChat(collabs?.customerModel);
   },[collabs])
 
-  //Noted : panggil function untuk buka 
-  const setPreviewImage = (event: any) => {
-  if (event.target.files[0]) {
-    setPicture(URL.createObjectURL(event.target.files[0]))
-    setFile(event.target.files[0])
-  } 
-}
   const sendMessage = () => {
     //Create New Message Model
     const newMessage: newMessageModel = {
@@ -224,11 +267,12 @@ const ChatInner: FC<Props> = ({ isDrawer = false }, props) => {
               // type="button"
               data-bs-toggle="tooltip"
               data-kt-image-input-action="change"
-              title="Change avatar"
+              title={t("Chat.Button.AttachFile")}
             >
               <i className="bi bi-upload text-custom fs-1 p-5"></i>
 
-              <input id="contact-avatar" onChange={setPreviewImage} type="file" name="avatar" accept=".png, .jpg, .jpeg" />
+              <input id="contact-avatar" onChange={setPreviewImage} type="file" name="avatar"/> 
+              {/* accept=".png, .jpg, .jpeg" /> */}
             </label>
           </div>
 

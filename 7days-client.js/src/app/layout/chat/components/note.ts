@@ -47,13 +47,33 @@ import { Link } from "react-router-dom";
  * 16.
  */
 
-
 /***
- * Document Message Chat                                  -
- * 1. Refactor Process Message                            -
- * 2. Process Upload file Document ke firestore           -
- * 3. Tampilan Untuk pesan Document                       -
- * 4. kirim pesan ke server side                          -
- * 5. send new messages change chat position on bottom 
+ * Document Message Chat                                              - (last chat masih nggak keload)
+ * 1. Refactor Process Message                                        -
+ * 2. Process Upload file Document ke firestore storage               -
+ * 3. Change message model biar bisa nerima dan ngirim tipe dokumen   -
+ * 4. Tampilan Untuk pesan Document incoming/outgoing                 -
+ * 5. kirim pesan ke server side                                      -
+ * 5. send new messages change chat position on bottom                -
+ * 6. Bubble sidebar mobile view
+ */ 
+
+
+// Notes Irun
+/**
+ * Tanya Perkara Desain ke Mba Ayu
+ * 
+ * 1. Attach file choose type yes/no
+ * 2. Translate attach file (udah ngide nambah hhhh)
+ *  - "Chat.Button.AttachFile"
  */
 
+/**
+ * Tanya ke Masfathur
+ * 
+ * 1. Buttonnya onchange? onclick? apa bedanya wkwkwk aku coba sm2 bisa sih
+ * 2. male avatar to default avatar
+ * 3. Kalau misal width nya textnya itu fix, kalau mobi
+ * 
+ * messageType: document, audio, text, image, video
+ */
