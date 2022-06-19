@@ -63,7 +63,7 @@ export const getUserSessionToken = async (uid: string): Promise<string> => {
         .doc(`${uid}`)
         .get()
         .then((snaps) => {
-          console.log("===>" + snaps.get("sessiontoken"));
+          // console.log("===>" + snaps.get("sessiontoken"));
           resolve(snaps.get("sessiontoken"));
         });
     } catch (error) {

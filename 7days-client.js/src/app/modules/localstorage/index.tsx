@@ -42,8 +42,6 @@ export function removeLC(key: string) {
 }
 
 export function setItemLC(key: string, value: any) {
-  console.log("Set Item LC Test >>>");
-    console.log("Set Item LC value >>>"+JSON.stringify(value));
   const item = {
     value: value,
   };

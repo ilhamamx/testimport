@@ -70,7 +70,8 @@ export const createCollaborationMessage = (Message: Message, companyID: string ,
       customer.phoneNumber, 
       Message.messageType, 
       Message.previewurl, 
-      Message.textContent)
+      Message.textContent,
+      Message.mediaUrl)
     .then((response) => {
       const resp = JSON.parse(response);
       if (resp.responseCode && resp.response) { 
@@ -110,6 +111,7 @@ export const createCollaborationMessage = (Message: Message, companyID: string ,
       }
     }).catch(
       function (error) {
+        console.log("Error : "+error);
         Message.messageStatus = MessageStatus.failed;
         Message.resultMessage = error
         return message.createMessage(Message);

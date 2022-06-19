@@ -32,6 +32,11 @@ const ChatMessage: FC<MessageProps> = (props) => {
   const state = message.customerModel !== null ? "info" : "primary";
   const templateAttr = {};
 
+  let mediaFileName = message.filename;
+  if (mediaFileName && mediaFileName?.length > 35) {
+    mediaFileName = mediaFileName?.substring(0,35)+"..."
+  } 
+
   let msgtype = "out";
   if (message.destination == "inbound") {
     msgtype = "in";
@@ -93,12 +98,45 @@ const ChatMessage: FC<MessageProps> = (props) => {
 
           {/* Message Type: Document */}
           {message.messageType === "document" && (
-            <div className={clsx("p-5 rounded", `${bgChat}`, "d-flex flex-row align-items-center")}>
-              <div className="bi bi-file-earmark-text fs-3x" style={{ color: txChat}}></div>
-              <div style={{ paddingLeft: "5px", color: txChat}}>{message.textContent}</div>
-              <div className="d-flex flex-column justify-content-end">
-                <div className="bi bi-download fs-3 p-5" style={{ color: txChat }}></div>
-                <div className="text-center">Size</div>
+            <div
+              className={clsx(
+                "p-2 rounded",
+                `${bgChat}`,
+                "d-flex flex-column",
+                "mw-lg-400px"
+              )}
+            >
+              <div
+                className={clsx(
+                  "p-2 rounded",
+                  `${bgChat}`,
+                  "d-flex flex-row align-items-center bg-opacity-25"
+                )}
+                title={message.filename}
+              >
+                <div
+                  className="bi bi-file-earmark-text fs-3x"
+                  style={{ color: txChat }}
+                ></div>
+                <div className="container-sm" style={{ paddingLeft: "5px", color: txChat }}>
+                  {mediaFileName}
+                </div>
+                <div className="d-flex flex-column justify-content-end">
+                  <div
+                    className="bi bi-download fs-3 p-5"
+                    style={{ color: txChat }}
+                  ></div>
+                  <div className="text-center">Size</div>
+                </div>
+              </div>
+              <div
+                className={clsx(
+                  "p-3 rounded",
+                  `${bgChat}`,
+                  "fluid align-items-center"
+                )}
+              > 
+                {message.textContent}
               </div>
             </div>
           )}

@@ -39,7 +39,8 @@ const ChatList: FC<PropsFromRedux> = (props) => {
   return (
     <div className="card-body pt-5" id="kt_chat_contacts_body">
             <div
-              className="scroll-y me-n5 pe-5 h-200px h-lg-auto"
+              className="scroll-y me-n5 pe-5 h-500px"
+              //  h-lg-auto"
               data-kt-scroll="true"
               data-kt-scroll-activate="{default: false, lg: true}"
               data-kt-scroll-max-height="auto"

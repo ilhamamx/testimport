@@ -47,7 +47,7 @@ export interface Message {
   customerModel?: Customer,
   userModel?: User,
   mediaUrl?: string,
-  messageType: string,
+  messageType: string|undefined,
   textContent: string,
   updatedAt: firebase.firestore.Timestamp,
   id?: string,
@@ -60,7 +60,10 @@ export interface Message {
   responseCode?: string,
   previewurl?:boolean,
   collaboration: DocumentReference,
-  isActive: boolean
+  isActive: boolean,
+  filename?: string,
+  filesize?: string,
+  voice: boolean
 }
 
 export interface HandledMessageListItem {

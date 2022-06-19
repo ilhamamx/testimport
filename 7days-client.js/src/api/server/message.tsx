@@ -2,10 +2,10 @@ import axios from "axios";
 
 export const sendRequestMessage = async (
     type: string, 
-    company: string, from: string, to: string, msgtype: string, previewurl:boolean|undefined, text: string) => {
+    company: string, from: string, to: string, msgtype: string|undefined, previewurl:boolean|undefined, text: string, fileURL : string|undefined) => {
   const url = "http://192.168.20.22:3001/messages/sendMessage";
 
-  const Value = `
+  const jsonMessageText = `
   {
     "type" : "${type}",
     "${type}" : {
@@ -19,6 +19,21 @@ export const sendRequestMessage = async (
       }
     }
   }`;
+
+  const jsonMessageDocument = `
+  {
+    "type" : "${type}",
+    "${type}" : {
+      "company" : "${company}",
+      "from" : "${from}",
+      "to" : "${to}",
+      "type" : "${msgtype}",
+      "document" : {
+        "link" : ${fileURL},
+        "caption" : "${text}"
+      }
+    }
+  }`;
   
   let defaultResponse = `
   {
@@ -26,15 +41,25 @@ export const sendRequestMessage = async (
     "response" : <<response>>
   }`;
   
-  const RequestValue = JSON.parse(Value);
+  const RequestValue = () => {
+    if(type==="text"){
+      return jsonMessageText
+    }else if(type==="document"){
+      return jsonMessageDocument
+    }else{
+      //Default Type
+      return jsonMessageText
+    }
+  };
 
 
 
   try {
     //using axios
+    console.log("ISI JSON : "+JSON.stringify(RequestValue()));
     const response = await axios.post(
       url,
-      RequestValue,
+      JSON.parse(RequestValue()),
       {
         headers: {
           "Content-Type": "application/json",

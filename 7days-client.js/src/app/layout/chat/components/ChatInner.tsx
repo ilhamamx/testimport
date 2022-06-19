@@ -15,7 +15,7 @@ import { Timestamp } from "../../../../db";
 import { createRef } from "../../../../db/connection";
 import * as lc from "../../../modules/localstorage/index"
 import { storage } from "../../../../../src/db"
-import { getItemLC } from "../../../modules/localstorage/index";
+import { checkFile,formatSize } from "./ChatUtil"
 import { v4 as uuidv4 } from 'uuid';
 
 
@@ -32,6 +32,7 @@ type Props = {
 // const bufferMessages = defaultMessages;// ganti dengan get message dari firebase, dan 
 
 const ChatInner: FC<Props> = ({ isDrawer = false }, props) => {
+  
   const { t } = useTranslation();
   const channelIcon = "/media/icons/channel/"
   const { propsredux, customer,user } = props;
@@ -49,37 +50,108 @@ const ChatInner: FC<Props> = ({ isDrawer = false }, props) => {
   const [messages, setMessages] = useState<newMessageModel[]>([]); //List Message 
   const [channel, setChannel] = useState<string>(""); //Selected Channel or Last Interaction Channel
   const [file, setFile] = useState(null);
-  const [fileType, setFileType] = useState("");
+  const [fileSize, setFileSize] =useState<string>("");
+  const [fileName, setFileName] =useState<string>("");
+  const [mediaURL, setMediaURL] =useState<string|undefined>("");
+  const [messageType, setmessageType] =useState<string|undefined>("text");
   const [picture, setPicture] = useState("");
 
-  //Noted : panggil function untuk buka 
-  const setPreviewImage = (event: any) => {
+  useEffect(() => {
+    // console.log("image effect : " + imgUrl)
+    console.log("picture effect : " + picture)
+    // setImgUrl(image)
+  }, [picture]) 
+
+  //Get Uploaded File
+  const setPreviewFile = async (event: any) => {
     console.log("Panggil function"+event.target.files[0]);
     if (event.target.files[0]) {
-      setPicture(URL.createObjectURL(event.target.files[0]));
       setFile(event.target.files[0]);
+      //Set File Attribut
+      const size: number = event.target.files[0].size;
+      // React.useCallback()
+      setPicture(URL.createObjectURL(event.target.files[0]));
+      setFileName(event.target.files[0].name);
+      setFileSize(await formatSize(size));
+
+      
       //Check File Type 
       const tempArrFileType:string = event.target.files[0].type;
       const arryFileType = tempArrFileType.split("/")
       console.log("---->>> File type : "+tempArrFileType);
       console.log("---->>> arr File type : "+arryFileType);
+      if(arryFileType===undefined || arryFileType.length < 1 || arryFileType[0]=== undefined){
+        //return error
+        alert("Invalid File Type, Please check your file");
+      }else{
+        setmessageType(await checkFile(arryFileType[0]));
+      } 
+
+      console.log("---->>> File URL ori: "+URL.createObjectURL(event.target.files[0]));
+      console.log("---->>> File type ori: "+event.target.files[0].type);
+      console.log("---->>> File Name ori: "+event.target.files[0].name);
+      console.log("---->>> File Size ori: "+event.target.files[0].Size);
+      console.log("---->>> File Size ori: "+await formatSize(size));
+      console.log("---->>> File ori: "+event.target.files[0]);
+      console.log("---->>> File type : "+messageType);
+      console.log("---->>> File Name : "+fileName);
+      console.log("---->>> File Size : "+fileSize);
+      console.log("---->>> File : "+file);
     } 
   }
 
-  const uploadAvatar = async (companyID : string) => {
+  // useEffect(async () => {
+  //   console.log("ISI FIle : "+file);
+  //   if(file){
+  //     //Set File Attribut
+  //     const size: number = file.size;
+  //     // React.useCallback()
+  //     setPicture(URL.createObjectURL(file));
+  //     setFileName(File.name);
+  //     setFileSize(await formatSize(size));
+
+      
+  //     //Check File Type 
+  //     const tempArrFileType:string = file.type;
+  //     const arryFileType = tempArrFileType.split("/")
+  //     console.log("---->>> File type : "+tempArrFileType);
+  //     console.log("---->>> arr File type : "+arryFileType);
+  //     if(arryFileType===undefined || arryFileType.length < 1 || arryFileType[0]=== undefined){
+  //       //return error
+  //       alert("Invalid File Type, Please check your file");
+  //     }else{
+  //       setmessageType(await checkFile(arryFileType[0]));
+  //     } 
+
+  //     console.log("---->>> File URL ori: "+URL.createObjectURL(file));
+  //     console.log("---->>> File type ori: "+file.type);
+  //     console.log("---->>> File Name ori: "+file.name);
+  //     console.log("---->>> File Size ori: "+file.Size);
+  //     console.log("---->>> File Size ori: "+await formatSize(size));
+  //     console.log("---->>> File ori: "+file);
+  //     console.log("---->>> File type : "+messageType);
+  //     console.log("---->>> File Name : "+fileName);
+  //     console.log("---->>> File Size : "+fileSize);
+  //     console.log("---->>> File : "+file);
+  //   }
+  // },[File])
+
+  //Upload File To Storage
+  const uploadFile = async (companyID : string) => {
+    console.log("---->>> File ...... : "+file);
     let fileURL = '';
     if (file !== null ) {
       // setPicture(event.target.files[0])
       console.log("file data avatar ===>>>"+file);
       const uuid = uuidv4()
       const task = storage
-        .ref(companyID+"/images/avatar/customers")
+        .ref(companyID+"/"+messageType+"/chat/sent")
         .child(uuid)
         .put(file);
       await task
         .then(async(snapshot) => {
           return storage
-            .ref(companyID+"/images/avatar/customers")
+            .ref(companyID+"/"+messageType+"/chat/sent")
             .child(uuid)
             .getDownloadURL()
             .then((url) => {
@@ -136,7 +208,12 @@ const ChatInner: FC<Props> = ({ isDrawer = false }, props) => {
     setCustomerChat(collabs?.customerModel);
   },[collabs])
 
-  const sendMessage = () => {
+  const sendMessage = async () => {
+    if(messageType !== "text"){
+      setMediaURL(await Promise.resolve(uploadFile(companyID)));
+    }
+    console.log("ISI Media URL : "+mediaURL);
+
     //Create New Message Model
     const newMessage: newMessageModel = {
       channel: channel,
@@ -144,15 +221,17 @@ const ChatInner: FC<Props> = ({ isDrawer = false }, props) => {
       destination: "outbound",
       customer: collabs?.customer,
       user: collabs?.toUser,
-      mediaUrl: "string",
+      mediaUrl: mediaURL,
       isActive: true,
-      messageType: "text",
+      messageType: messageType,
       textContent: message,
       previewurl: true,
       updatedAt: Timestamp.now(),
+      voice: false,
+      filename: fileName,
+      filesize: fileSize,
       collaboration: createRef("collaborations", selectedChat)
     };
-      
     
     //Update Text Box to Empty Text
     toggleChatUpdateFlat(!chatUpdateFlag);
@@ -168,8 +247,6 @@ const ChatInner: FC<Props> = ({ isDrawer = false }, props) => {
       if(accountChat){
         setNewMessage(newMessage);
         //Save New Message To Redux
-        console.log("---->>> ini adalah pesan yg akan di simpan ke redux : "+JSON.stringify(messages));
-        console.log("---->>> ini adalah save message ke redux");
         dispatch(chat.setListMessages(messages));
         
         //Save New Message to Firebase
@@ -183,11 +260,8 @@ const ChatInner: FC<Props> = ({ isDrawer = false }, props) => {
 
     actAccount.fetchAccountByCompanyAndChannel(companyID,channel)
     .then(async response => {
-      console.log("Check Response account Data: "+JSON.stringify(response));
       const temAccount = response.find(obj => {
         // Check account
-        console.log("Check account ID: "+obj?.id);
-        console.log("Check account Data: "+JSON.stringify(response));
         
         return obj;
       });
@@ -210,7 +284,7 @@ const ChatInner: FC<Props> = ({ isDrawer = false }, props) => {
     >
       <div
         className={clsx("scroll-y me-n5 pe-5", {
-          "h-300px ": !isDrawer,//h-lg-auto
+          "h-500px ": !isDrawer,//h-lg-auto
         })}
         data-kt-element="messages"
         data-kt-scroll="true"
@@ -271,7 +345,7 @@ const ChatInner: FC<Props> = ({ isDrawer = false }, props) => {
             >
               <i className="bi bi-upload text-custom fs-1 p-5"></i>
 
-              <input id="contact-avatar" onChange={setPreviewImage} type="file" name="avatar"/> 
+              <input id="contact-avatar" onChange={setPreviewFile} type="file" name="avatar"/> 
               {/* accept=".png, .jpg, .jpeg" /> */}
             </label>
           </div>
