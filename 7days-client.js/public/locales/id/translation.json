@@ -71,6 +71,8 @@
   "HC.Error.InvalidURL":"URL tidak sah, Silahkan coba kembali",
   "HC.Info.Upload":"Unggah berkas",
 
+  "Chat.Button.AttachFile":"Unggah berkas",
+
   "Contacts.Button.Filter": "Filter",
   "Contacts.Button.Export": "Eksport",
   "Contacts.Button.AddUser": "Tambah Kontak",
