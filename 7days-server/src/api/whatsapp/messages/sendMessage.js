@@ -54,25 +54,29 @@ const sendWhatsappMessage = async (req, callback) => {
           return callback(resultCode("SM", "01", message_type), null, 400);
         contextJSON = req.whatsapp.video;
       }
-      await formFreeMessageFormatFromClient(message_type, to, contextJSON, (resultJSON, error) => {
+      formFreeMessageFormatFromClient(message_type, to, contextJSON, (resultJSON, error) => {
         if (error) {
           return callback(error, null, 400);
         } else {
           jsonWhatsapp = resultJSON;
         }
       })
+      if (!jsonWhatsapp)
+        return;
     } else if(message_type == "template"){
       let contextJSON;
       if(!req.whatsapp.template)
         return callback(resultCode("SM", "01", message_type), null, 400);
       contextJSON = req.whatsapp.template;
-      await formTemplateMessageFormatFromClient(message_type, to, contextJSON, (resultJSON, error) => {
+      formTemplateMessageFormatFromClient(message_type, to, contextJSON, (resultJSON, error) => {
         if (error) {
           return callback(error, null, 400);
         } else {
           jsonWhatsapp = resultJSON;
         }
       })
+      if(!jsonWhatsapp)
+        return;
     }else {
       return callback(resultCode("SM", "02", "type"), null, 400);
     }

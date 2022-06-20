@@ -1,7 +1,7 @@
 
 const { resultCode } = require("../../../../helper/resultCode");
 
-const formFreeMessageFormatFromClient = async(type, to, clientJSON, callback) => {
+const formFreeMessageFormatFromClient = (type, to, clientJSON, callback) => {
   let text, preview_url = false, media_url, caption;
   if (type === "text") {
     if (clientJSON.text) {
@@ -59,7 +59,7 @@ const formFreeMessageFormatFromClient = async(type, to, clientJSON, callback) =>
   return callback(JSON.parse(json), null);
 }
 
-const formTemplateMessageFormatFromClient = async(type, to, clientJSON, callback) => {
+const formTemplateMessageFormatFromClient = (type, to, clientJSON, callback) => {
   let templateName, language
   if (clientJSON.name) {
     templateName = clientJSON.name;
