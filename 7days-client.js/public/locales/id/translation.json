@@ -66,8 +66,10 @@
   "HC.Button.SendFrom": "Kirim dari",
   "HC.Input.Search":"cari berdasarkan username atau No.HP",
   "HC.Input.TextMessage":"Ketik pesanmu",
-
-  "Chat.Button.AttachFile":"Unggah berkas",
+  "HC.Error.InvalidFiletype":	"File tidak sah, silahkan periksa file anda",
+  "HC.Error.FailedUpload":"Gagal mengunggah, Silahkan coba kembali",
+  "HC.Error.InvalidURL":"URL tidak sah, Silahkan coba kembali",
+  "HC.Info.Upload":"Unggah berkas",
 
   "Contacts.Button.Filter": "Filter",
   "Contacts.Button.Export": "Eksport",

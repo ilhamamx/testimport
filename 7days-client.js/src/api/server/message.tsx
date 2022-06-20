@@ -3,7 +3,7 @@ import axios from "axios";
 export const sendRequestMessage = async (
     type: string, 
     company: string, from: string, to: string, msgtype: string|undefined, previewurl:boolean|undefined, text: string, fileURL : string|undefined) => {
-  const url = "http://192.168.20.22:3001/messages/sendMessage";
+  const url = "http://192.168.20.27:3001/messages/sendMessage";
 
   const jsonMessageText = `
   {
@@ -29,7 +29,7 @@ export const sendRequestMessage = async (
       "to" : "${to}",
       "type" : "${msgtype}",
       "document" : {
-        "link" : ${fileURL},
+        "link" : "${fileURL}",
         "caption" : "${text}"
       }
     }
@@ -42,9 +42,9 @@ export const sendRequestMessage = async (
   }`;
   
   const RequestValue = () => {
-    if(type==="text"){
+    if(msgtype==="text"){
       return jsonMessageText
-    }else if(type==="document"){
+    }else if(msgtype==="document"){
       return jsonMessageDocument
     }else{
       //Default Type
@@ -56,7 +56,6 @@ export const sendRequestMessage = async (
 
   try {
     //using axios
-    console.log("ISI JSON : "+JSON.stringify(RequestValue()));
     const response = await axios.post(
       url,
       JSON.parse(RequestValue()),

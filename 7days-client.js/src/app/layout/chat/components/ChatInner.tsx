@@ -1,4 +1,3 @@
-/* eslint-disable jsx-a11y/anchor-is-valid */
 import { FC, SetStateAction, useEffect, useState } from "react";
 import clsx from "clsx";
 import * as Chat from "../../../../actions/chat";
@@ -49,131 +48,76 @@ const ChatInner: FC<Props> = ({ isDrawer = false }, props) => {
   const collablist = useSelector((state: RootState) => state.Chat.chatList); //list Collaboration
   const [messages, setMessages] = useState<newMessageModel[]>([]); //List Message 
   const [channel, setChannel] = useState<string>(""); //Selected Channel or Last Interaction Channel
-  const [file, setFile] = useState(null);
+  const [file, setFile] = useState<File>();
   const [fileSize, setFileSize] =useState<string>("");
   const [fileName, setFileName] =useState<string>("");
   const [mediaURL, setMediaURL] =useState<string|undefined>("");
   const [messageType, setmessageType] =useState<string|undefined>("text");
-  const [picture, setPicture] = useState("");
-
-  useEffect(() => {
-    // console.log("image effect : " + imgUrl)
-    console.log("picture effect : " + picture)
-    // setImgUrl(image)
-  }, [picture]) 
+  const [prevFile, setPrevFile] = useState("");
 
   //Get Uploaded File
   const setPreviewFile = async (event: any) => {
-    console.log("Panggil function"+event.target.files[0]);
     if (event.target.files[0]) {
       setFile(event.target.files[0]);
-      //Set File Attribut
-      const size: number = event.target.files[0].size;
-      // React.useCallback()
-      setPicture(URL.createObjectURL(event.target.files[0]));
-      setFileName(event.target.files[0].name);
-      setFileSize(await formatSize(size));
-
-      
-      //Check File Type 
-      const tempArrFileType:string = event.target.files[0].type;
-      const arryFileType = tempArrFileType.split("/")
-      console.log("---->>> File type : "+tempArrFileType);
-      console.log("---->>> arr File type : "+arryFileType);
-      if(arryFileType===undefined || arryFileType.length < 1 || arryFileType[0]=== undefined){
-        //return error
-        alert("Invalid File Type, Please check your file");
-      }else{
-        setmessageType(await checkFile(arryFileType[0]));
-      } 
-
-      console.log("---->>> File URL ori: "+URL.createObjectURL(event.target.files[0]));
-      console.log("---->>> File type ori: "+event.target.files[0].type);
-      console.log("---->>> File Name ori: "+event.target.files[0].name);
-      console.log("---->>> File Size ori: "+event.target.files[0].Size);
-      console.log("---->>> File Size ori: "+await formatSize(size));
-      console.log("---->>> File ori: "+event.target.files[0]);
-      console.log("---->>> File type : "+messageType);
-      console.log("---->>> File Name : "+fileName);
-      console.log("---->>> File Size : "+fileSize);
-      console.log("---->>> File : "+file);
     } 
   }
 
-  // useEffect(async () => {
-  //   console.log("ISI FIle : "+file);
-  //   if(file){
-  //     //Set File Attribut
-  //     const size: number = file.size;
-  //     // React.useCallback()
-  //     setPicture(URL.createObjectURL(file));
-  //     setFileName(File.name);
-  //     setFileSize(await formatSize(size));
+  useEffect(() => {
+    console.log(">>> ISI FIle : "+file);
+    if(file){
+      //Set File Attribut
+      const size: number = file.size;
+      setPrevFile(URL.createObjectURL(file));
+      setFileName(file.name);
+      setFileSize(formatSize(size));
 
-      
-  //     //Check File Type 
-  //     const tempArrFileType:string = file.type;
-  //     const arryFileType = tempArrFileType.split("/")
-  //     console.log("---->>> File type : "+tempArrFileType);
-  //     console.log("---->>> arr File type : "+arryFileType);
-  //     if(arryFileType===undefined || arryFileType.length < 1 || arryFileType[0]=== undefined){
-  //       //return error
-  //       alert("Invalid File Type, Please check your file");
-  //     }else{
-  //       setmessageType(await checkFile(arryFileType[0]));
-  //     } 
-
-  //     console.log("---->>> File URL ori: "+URL.createObjectURL(file));
-  //     console.log("---->>> File type ori: "+file.type);
-  //     console.log("---->>> File Name ori: "+file.name);
-  //     console.log("---->>> File Size ori: "+file.Size);
-  //     console.log("---->>> File Size ori: "+await formatSize(size));
-  //     console.log("---->>> File ori: "+file);
-  //     console.log("---->>> File type : "+messageType);
-  //     console.log("---->>> File Name : "+fileName);
-  //     console.log("---->>> File Size : "+fileSize);
-  //     console.log("---->>> File : "+file);
-  //   }
-  // },[File])
+      //Check File Type 
+      const tempArrFileType:string = file.type;
+      const arryFileType = tempArrFileType.split("/")
+      if(arryFileType===undefined || arryFileType.length < 1 || arryFileType[0]=== undefined){
+        //return error
+        alert(t("HC.Error.InvalidURL"));
+        return;
+      }else{
+        const check = checkFile(arryFileType[0]);
+        if(check === undefined){
+          alert(t("HC.Error.InvalidFiletype"));
+          return;
+        }
+        setmessageType(checkFile(arryFileType[0]));
+      } 
+    }
+  },[file])
 
   //Upload File To Storage
   const uploadFile = async (companyID : string) => {
-    console.log("---->>> File ...... : "+file);
     let fileURL = '';
-    if (file !== null ) {
+    if (file) {
       // setPicture(event.target.files[0])
-      console.log("file data avatar ===>>>"+file);
       const uuid = uuidv4()
       const task = storage
-        .ref(companyID+"/"+messageType+"/chat/sent")
-        .child(uuid)
+        .ref(companyID+"/"+messageType+"s/chat/sent/"+uuid)
+        .child(fileName)
         .put(file);
       await task
         .then(async(snapshot) => {
           return storage
-            .ref(companyID+"/"+messageType+"/chat/sent")
-            .child(uuid)
+            .ref(companyID+"/"+messageType+"s/chat/sent/"+uuid)
+            .child(fileName)
             .getDownloadURL()
             .then((url) => {
               console.log("media url : " + url);
-              // setImgUrl(url);
               fileURL = url;
-              // image = url;
-            // document.querySelector("#image").src = url;
             });
         })
         .catch((error) => {
           console.log("error : " + error.message);
         });
-        
     }
     return fileURL 
   }
 
-  useEffect(() => {
-    // tambah untuk manggil function di action account -> di dalam action account terdapat process untuk check account di redux, jika 
-    // di redux ada ambil dari redux, jika gada ambil dari firebase.
-    
+  useEffect(() => {    
     // Update Unread Messages
     Chat.clearUnreadMessages(selectedChat);
     // Clear Unread Message On Redux
@@ -209,19 +153,27 @@ const ChatInner: FC<Props> = ({ isDrawer = false }, props) => {
   },[collabs])
 
   const sendMessage = async () => {
+    let firebaseMediaURL = "";
     if(messageType !== "text"){
-      setMediaURL(await Promise.resolve(uploadFile(companyID)));
+      firebaseMediaURL = await Promise.resolve(uploadFile(companyID));
+      if(firebaseMediaURL === "" || firebaseMediaURL === undefined){
+        alert(t("HC.Error.FailedUpload"));
+        return
+      }
+    }else{
+      if(message === ""){
+        return
+      }
     }
-    console.log("ISI Media URL : "+mediaURL);
 
     //Create New Message Model
-    const newMessage: newMessageModel = {
+    let newMessage: newMessageModel = {
       channel: channel,
       createdAt: Timestamp.now(),
       destination: "outbound",
       customer: collabs?.customer,
       user: collabs?.toUser,
-      mediaUrl: mediaURL,
+      mediaUrl: firebaseMediaURL,
       isActive: true,
       messageType: messageType,
       textContent: message,
@@ -236,6 +188,12 @@ const ChatInner: FC<Props> = ({ isDrawer = false }, props) => {
     //Update Text Box to Empty Text
     toggleChatUpdateFlat(!chatUpdateFlag);
     setMessage("");
+    setFile(undefined);
+    setFileSize("");
+    setFileName("");
+    setMediaURL("");
+    setmessageType("text");
+    setPrevFile("");
 
     const setNewMessage = (newMessage: newMessageModel) => {
       //Set New Message To List Message
@@ -245,13 +203,13 @@ const ChatInner: FC<Props> = ({ isDrawer = false }, props) => {
 
     const onFetchAccountFinished = (accountChat: Account|undefined) => {
       if(accountChat){
+        //Save New Message to Firebase
+        // const NewListMessages = [...messages,newMessage];
         setNewMessage(newMessage);
+        // setMessages(NewListMessages);
         //Save New Message To Redux
         dispatch(chat.setListMessages(messages));
-        
-        //Save New Message to Firebase
         Chat.createCollaborationMessage(newMessage, companyID ,selectedChat, accountChat, customerChat);
-        // Chat.createCollaborationMessage(newMessage, selectedChat, undefined, undefined);
       }else{
         //severe
         console.log("Check Account Pengiriman No Data Account");
@@ -341,13 +299,15 @@ const ChatInner: FC<Props> = ({ isDrawer = false }, props) => {
               // type="button"
               data-bs-toggle="tooltip"
               data-kt-image-input-action="change"
-              title={t("Chat.Button.AttachFile")}
+              title={t("HC.Info.Upload")}
             >
               <i className="bi bi-upload text-custom fs-1 p-5"></i>
 
+              {/* <input id="contact-avatar" onChange={setPreviewFile} type="file" name="avatar"/>  */}
               <input id="contact-avatar" onChange={setPreviewFile} type="file" name="avatar"/> 
               {/* accept=".png, .jpg, .jpeg" /> */}
             </label>
+            {file && <label>{fileName}</label>}
           </div>
 
           <div className="d-flex align-items-center me-2 bg-primary">

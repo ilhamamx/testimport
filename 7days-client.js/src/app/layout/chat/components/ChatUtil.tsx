@@ -10,15 +10,15 @@ export const DocumentMediaType = [
 ];
 
 
-export const checkFile = async (FileType:string|undefined ) => {
+export const checkFile = (FileType:string|undefined ) => {
   if(FileType === undefined){
-    return "text";
-  }else if(FileType.toLocaleLowerCase() === "application"){
+    return undefined;
+  }else if(FileType.toLocaleLowerCase() === "application" || FileType.toLocaleLowerCase() === "text"){
     return "document";
   }
 }
 
-export const formatSize = async (bytes:number, decimals = 2) => {
+export const formatSize = (bytes:number, decimals = 2) => {
   if (bytes === 0) return '0 Bytes';
 
   const k = 1024;

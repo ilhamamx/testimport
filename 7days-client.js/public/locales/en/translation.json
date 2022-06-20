@@ -66,8 +66,11 @@
   "HC.Button.SendFrom": "Send from",
   "HC.Input.Search":"Search by username or Phone Number",
   "HC.Input.TextMessage":"Type a Message",
+  "HC.Error.InvalidFiletype":	"Invalid File Type, Please check your file",
+  "HC.Error.FailedUpload":"Failed to Upload, Please Retry Upload",
+  "HC.Error.InvalidURL":"Invalid URL Please Retry Download",
+  "HC.Info.Upload":"Upload File",
 
-  "Chat.Button.AttachFile":"Attach file",
 
   "Contacts.Button.Filter": "Filter",
   "Contacts.Button.Export": "Export",

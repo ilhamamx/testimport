@@ -4,6 +4,8 @@ import * as message from "../db/serviceMessage"
 import { User,Customer, HandledMessageListItem, Message, Company, Account, MessageStatus} from "../app/layout/chat/models/ChatItem.model"
 import * as lc from '../app/modules/localstorage/index'
 import * as server from "../api/server/message"
+import { getStorage, ref, getDownloadURL } from "firebase/storage";
+import FileSaver, { saveAs } from "file-saver";
 
 
 export const fetchCollaborations = (uid: string, company: string ) => {
@@ -63,6 +65,7 @@ export const fetchMessageCollaboration = (collaborationid: string) => {
 export const createCollaborationMessage = (Message: Message, companyID: string ,selectedChat: string, account: Account|undefined, customer: Customer|undefined) => {
   //Send Request To Server Side
   if (account !== undefined && customer !== undefined) {
+    console.log("---->>> Check Isi Message : "+JSON.stringify(Message));
     server.sendRequestMessage(
       Message.channel, 
       companyID, 
@@ -113,7 +116,7 @@ export const createCollaborationMessage = (Message: Message, companyID: string ,
       function (error) {
         console.log("Error : "+error);
         Message.messageStatus = MessageStatus.failed;
-        Message.resultMessage = error
+        Message.resultMessage = error.message
         return message.createMessage(Message);
       }
     ) ;
@@ -137,4 +140,47 @@ export const createCollaborationMessage = (Message: Message, companyID: string ,
 export const clearUnreadMessages = ( collaborationId: string) => {
   return message
   .updateUnreadMessages(collaborationId)
+}
+
+export const saveMessageMedia = (mediaUrl: string|undefined, filename: string|undefined) => {
+  if(mediaUrl && filename){
+    FileSaver.saveAs  (mediaUrl,filename);
+  }else{
+    alert("Invalid URL Please Retry Download");
+  }
+};
+
+export const saveFile = (mediaUrl: string|undefined, filename: string|undefined) =>{
+  if(mediaUrl && filename){
+      fetch('https://cors-anywhere.herokuapp.com/' + mediaUrl, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/pdf',
+      },
+      })
+      .then((response) => response.blob())
+      .then((blob) => {
+        // Create blob link to download
+        const url = window.URL.createObjectURL(
+          new Blob([blob]),
+        );
+        const link = document.createElement('a');
+        link.href = url;
+        link.setAttribute(
+          'download',
+          filename,
+        );
+
+        // Append to html link element page
+        document.body.appendChild(link);
+
+        // Start download
+        link.click();
+
+        // Clean up and remove the link
+        if(link.parentNode){
+          link.parentNode.removeChild(link);
+        }
+      });
+  }
 }

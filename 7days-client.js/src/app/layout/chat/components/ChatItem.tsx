@@ -86,7 +86,6 @@ const ChatItem: FC<ChatItemProps> = (props) => {
       <div className="d-flex flex-column align-items-end ms-2">
         <span className="text-muted fs-7 mb-1">
           {ChatTime(item.lastInteractionAt.toDate())}
-          {/* format(new Date(item.lastInteractionAt.seconds*1000), "en_US") */}
         </span>
         <div className="symbol-group symbol-hover">
           {item.unreadMessages?.map(

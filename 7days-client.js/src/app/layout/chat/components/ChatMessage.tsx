@@ -14,6 +14,9 @@ import {
 } from "../../../layout/chat/models/ChatItem.model";
 import ChatTimeFromFirebase from "../components/ChatTime";
 import "../../../../styles/css/color.css";
+import {saveMessageMedia} from "../../../../actions/chat"
+import { Link } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 
 interface MessageProps {
   message: newMessageModel;
@@ -24,6 +27,8 @@ interface MessageProps {
 }
 
 const ChatMessage: FC<MessageProps> = (props) => {
+
+  const { t } = useTranslation();
   const { message, index, isDrawer, customer, user } = props;
   const [userInfos] = useState<UserInfoModel[]>(defaultUserInfos);
   // const customer = message.customerModel;
@@ -60,6 +65,14 @@ const ChatMessage: FC<MessageProps> = (props) => {
   const contentClass = `${isDrawer ? "" : "d-flex"} justify-content-${
     msgtype === "in" ? "start" : "end"
   } mb-10`;
+
+  const saveMedia = () => {
+    if(message.mediaUrl && message.filename){
+      return (saveMessageMedia(message.mediaUrl, message.filename))
+    }else{
+      return (alert(t("HC.Error.FailedUpload")))
+    }
+  }
 
   return (
     <div
@@ -121,25 +134,33 @@ const ChatMessage: FC<MessageProps> = (props) => {
                 <div className="container-sm" style={{ paddingLeft: "5px", color: txChat }}>
                   {mediaFileName}
                 </div>
-                <div className="d-flex flex-column justify-content-end">
-                  <div
-                    className="bi bi-download fs-3 p-5"
-                    style={{ color: txChat }}
-                  ></div>
-                  <div className="text-center">Size</div>
+                <div className="d-flex flex-column justify-content-end" style={{width:"70px"}}>
+                    <div
+                      className="btn bi bi-download fs-3" onClick={saveMedia}
+                      style={{ color: txChat, paddingTop: "5px", paddingLeft: "0px", paddingRight: "0px", paddingBottom: "0px" }}
+                    ></div>
+                  <div className="text-center" style={{fontSize: "10px",color: txChat }}>{message.filesize}</div>
                 </div>
               </div>
+              {message.textContent && message.textContent !== "" &&
               <div
                 className={clsx(
                   "p-3 rounded",
                   `${bgChat}`,
                   "fluid align-items-center"
                 )}
+                  style={{color: txChat }}
               > 
                 {message.textContent}
               </div>
+              }
             </div>
           )}
+
+          {/* Message Type: Image */}
+          {/* Message Type: Video */}
+          {/* Message Type: Audio */}
+          {/* Message Type: Location */}
 
         </div>
         <div
