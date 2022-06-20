@@ -6,9 +6,11 @@ import {KTSVG, toAbsoluteUrl, defaultAlerts, defaultLogs} from '../../../../reso
 import { defaultNotifcation } from "../../../modules/notify/Notification/model"
 import Avatar from "../../../../styles/components/Avatar"
 import {NotificationListHeader} from "../NotificationListHeader"
+import { useTranslation } from "react-i18next";
 
 const HeaderNotificationsMenu: FC = () => 
 {
+  const { t } = useTranslation();
 
   return (
   <div

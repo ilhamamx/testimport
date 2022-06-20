@@ -27,7 +27,7 @@ export default function Notification({
   contact,
 }) {
   const [isClosing, setIsClosing] = React.useState(false);
-  const { i18n } = useTranslation();
+  const { t } = useTranslation();
 
   React.useEffect(() => {
     if (isClosing) {
