@@ -71,6 +71,9 @@ export const ChatSlice = createSlice({
 
     setListMessages: (state, action: PayloadAction<Message[]>) => {
       state.listMessage = action.payload;
+      console.log("---->>> ini adalah save message ke local storage");
+      console.log("---->>> ini adalah save message ke local storage1 : "+lc.LCName.Messages+state.selectedChat);
+      console.log("---->>> ini adalah save message ke local storage2 : "+JSON.stringify(action.payload));
       lc.setItemLC(lc.LCName.Messages+state.selectedChat,action.payload)
       console.log(action.payload)
     },
