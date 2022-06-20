@@ -283,7 +283,7 @@ const parseJSONWhatsAppMessage = async (req) => {
 
               const path = `${
                 account[0].company.id
-              }/${messages_type}s/chat/${messages_media_id}${
+              }/${messages_type}s/chat/receive/${messages_media_id}${
                 messages_media_filename
                   ? "/" + messages_media_filename
                   : fileFormat

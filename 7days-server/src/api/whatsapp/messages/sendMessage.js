@@ -103,7 +103,7 @@ const sendWhatsappMessage = async (req, callback) => {
   };
 
   const facebookEndpoint =
-    `https://graph.facebook.com/v13.0/${dataAccount[0].whatsappNumber_ID}/messages`;
+    `https://graph.facebook.com/v14.0/${dataAccount[0].whatsappNumber_ID}/messages`;
 
   await sendRequest(header, facebookEndpoint, jsonWhatsapp, function (error, response, responseCode) {
     if (error) {
@@ -120,8 +120,8 @@ async function sendRequest(header, url, json, callback) {
   console.log("masuk send request");
   await axios({
     method: "POST", // Required, HTTP method, a string, e.g. POST, GET
-    url: "https://coordinated-honey-taste.glitch.me/test", //for testing purpose using sandbox
-    // url: url,
+    // url: "https://coordinated-honey-taste.glitch.me/test", //for testing purpose using sandbox
+    url: url,
     data: json,
     headers: header,
   })

@@ -98,7 +98,7 @@ const formTemplateMessageFormatFromClient = (type, to, clientJSON, callback) => 
             "parameters" : [
               {
                 "type" : "${type}",
-                ${type == "text" ? `"text" : "${content}"` : `"${type}" : {"link": "${content}" ${type == "document" ? `,"filename": "${filename}"`: ""}}`}
+                ${type == "text" ? `"text" : "${content}"` : `"${type}" : {"link": "${content}" ${type == "document" && filename ? `,"filename": "${filename}"`: ""}}`}
               }
             ]
           }`
@@ -120,6 +120,8 @@ const formTemplateMessageFormatFromClient = (type, to, clientJSON, callback) => 
           return callback(null, resultCode("SM", "01", "header component"));
         }
       } else if (component.type == "body") {
+        if(!component.parameters)
+          return callback(null, resultCode("SM", "01", "parameters body component"))
         // parameters : [ param1, param2, param3]
         json = json.replace("<<components>>", `{
             "type" : "body",
@@ -156,6 +158,8 @@ const formTemplateMessageFormatFromClient = (type, to, clientJSON, callback) => 
             json = json.replace("<<components>>",
             `${formButton("quick_reply", i, component.payloads[i])}<<components>>`);
             }
+          }else{
+            return callback(null, resultCode("SM", "01", "payloads button component"));
           }
         } else if(component.url){
           json = json.replace("<<components>>",
