@@ -3,6 +3,7 @@ const { db, createRef } = firebaseDB;
 const { getAccountByPhoneNumberTypeCompany } = require("../../account");
 const { resultCode } = require("../../../helper/resultCode");
 const axios = require("axios");
+const { formFreeMessageFormatFromClient, formTemplateMessageFormatFromClient } = require("./helper/formMessage")
 
 const sendWhatsappMessage = async (req, callback) => {
   //parse JSON
@@ -10,10 +11,7 @@ const sendWhatsappMessage = async (req, callback) => {
   let from = undefined;
   let to = undefined;
   let message_type = "text";
-  let preview_url = false;
-  let text = undefined;
-  let media_url = undefined;
-  let caption = undefined;
+  let jsonWhatsapp
   if (req.whatsapp) {
     if (req.whatsapp.company) {
       companyID = req.whatsapp.company;
@@ -33,43 +31,49 @@ const sendWhatsappMessage = async (req, callback) => {
     if (req.whatsapp.type) {
       message_type = req.whatsapp.type;
     }
-    if (message_type === "text") {
-      if (req.whatsapp.text) {
-        if (req.whatsapp.text.text) {
-          text = req.whatsapp.text.text;
-        } else {
-          return callback(resultCode("SM", "01", "text message"), null, 400);
-        }
-        if (req.whatsapp.text.preview_url) {
-          preview_url = req.whatsapp.text.preview_url;
-        }
-      } else {
-        return callback(resultCode("SM", "01", "text"), null, 400);
-      }
-    } else if(message_type == "image" || message_type == "document" || message_type == "audio" || message_type == "video") {
+    if (message_type == "text" || message_type == "image" || message_type == "document" || message_type == "audio" || message_type == "video") {
       let contextJSON;
-      if(message_type == "image") {
+      if (message_type == "text") {
+        if(!req.whatsapp.text) 
+          return callback(resultCode("SM", "01", message_type), null, 400);
+        contextJSON = req.whatsapp.text;
+      } else if (message_type == "image") {
+        if(!req.whatsapp.image) 
+          return callback(resultCode("SM", "01", message_type), null, 400);
         contextJSON = req.whatsapp.image;
       }else if(message_type == "document") {
+        if(!req.whatsapp.document) 
+          return callback(resultCode("SM", "01", message_type), null, 400);
         contextJSON = req.whatsapp.document;
       }else if(message_type == "audio") {
+        if(!req.whatsapp.audio) 
+          return callback(resultCode("SM", "01", message_type), null, 400);
         contextJSON = req.whatsapp.audio;
       }else if(message_type == "video") {
+        if(!req.whatsapp.video) 
+          return callback(resultCode("SM", "01", message_type), null, 400);
         contextJSON = req.whatsapp.video;
       }
-      if(contextJSON){
-        if(contextJSON.link){
-          media_url = contextJSON.link;
-        } else{
-          return callback(resultCode("SM", "01", `link ${message_type}`), null, 400);
+      await formFreeMessageFormatFromClient(message_type, to, contextJSON, (resultJSON, error) => {
+        if (error) {
+          return callback(error, null, 400);
+        } else {
+          jsonWhatsapp = resultJSON;
         }
-        if (contextJSON.caption) {
-          caption = contextJSON.caption;
-        }
-      }else{
+      })
+    } else if(message_type == "template"){
+      let contextJSON;
+      if(!req.whatsapp.template)
         return callback(resultCode("SM", "01", message_type), null, 400);
-      }
-    } else {
+      contextJSON = req.whatsapp.template;
+      await formTemplateMessageFormatFromClient(message_type, to, contextJSON, (resultJSON, error) => {
+        if (error) {
+          return callback(error, null, 400);
+        } else {
+          jsonWhatsapp = resultJSON;
+        }
+      })
+    }else {
       return callback(resultCode("SM", "02", "type"), null, 400);
     }
   } else {
@@ -87,33 +91,7 @@ const sendWhatsappMessage = async (req, callback) => {
     return callback(resultCode("SM", "02", "company/from"), null, 400);
   }
   console.log("data account : " + dataAccount);
-  let json = `{
-    "messaging_product" : "${type}",
-    "recipient_type" : "individual",
-    "to" : "${to}",
-    "type" : "${message_type}",
-    ${jsonBody(message_type)}
-  }`;
-  function jsonBody(message_type) {
-    if (message_type === "text") {
-      return `"text" : { 
-      "preview_url" : ${preview_url},
-      "body" : "${text}"
-      }`;
-    }
-    else if(message_type == "image" || message_type == "document" || message_type == "video") {
-      return `"${message_type}" : {
-        "link" : "${media_url}"
-        ${caption ? `,"caption" : "${caption}"` : ""}
-      }`
-    }
-    else if (message_type == "audio") {
-      return `"${message_type}" : {
-        "link" : "${media_url}"
-      }`;
-    }
-  }
-  console.log("json : " + json);
+  console.log("json : " + JSON.stringify(jsonWhatsapp, null, 2));
   console.log("access_token : " + dataAccount[0].access_token);
   const header = {
     "Content-Type": "application/json",
@@ -123,7 +101,7 @@ const sendWhatsappMessage = async (req, callback) => {
   const facebookEndpoint =
     `https://graph.facebook.com/v13.0/${dataAccount[0].whatsappNumber_ID}/messages`;
 
-  await sendRequest(header, facebookEndpoint, JSON.parse(json), function (error, response, responseCode) {
+  await sendRequest(header, facebookEndpoint, jsonWhatsapp, function (error, response, responseCode) {
     if (error) {
       console.log("error : " + JSON.stringify(error, null, responseCode));
       return callback(error, null, responseCode);
@@ -163,3 +141,4 @@ async function sendRequest(header, url, json, callback) {
 module.exports = {
   sendWhatsappMessage,
 };
+
