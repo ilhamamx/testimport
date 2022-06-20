@@ -63,6 +63,7 @@ export interface Message {
   responseJson?: string,
   responseCode?: string,
   previewurl?:boolean
+  collaboration?: DocumentReference,
 }
 
 export interface HandledMessageListItem {

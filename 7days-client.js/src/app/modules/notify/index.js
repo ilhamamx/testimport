@@ -9,12 +9,13 @@ const containerElement = createContainer();
 let notify;
 
 ReactDOM.render(
+  
   <NotificationsManager
     setNotify={(notifyFn) => {
       notify = notifyFn;
     }}
   />,
-  containerElement
+  containerElement,
 );
 
 export { Notification, Color };

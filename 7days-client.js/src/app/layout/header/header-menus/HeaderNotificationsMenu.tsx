@@ -21,7 +21,7 @@ const HeaderNotificationsMenu: FC = () =>
     <div className='d-flex flex-column bgi-no-repeat rounded-top'
       style={{backgroundColor: "#150958"}}>
       <h3 className='text-white fw-bold px-9 mt-10 mb-6'>
-        Notifications 
+        {t("Notif.Info.Title")} 
         {/* <span className='fs-8 opacity-75 ps-3'>24 reports</span> */}
       </h3>
 
@@ -32,7 +32,7 @@ const HeaderNotificationsMenu: FC = () =>
             data-bs-toggle='tab'
             href='#kt_topbar_notifications_1'
           >
-            Alerts
+            {t("Notif.info.Alerts")}
           </a>
         </li>
 

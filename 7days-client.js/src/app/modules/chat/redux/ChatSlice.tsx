@@ -89,7 +89,7 @@ export const ChatSlice = createSlice({
 });
 
 // Action creators are generated for each case reducer function
-export const { setChatList, setListMessages, setSelectedChat,updateUnreadMessage} =
+export const { setChatList, setListMessages, setSelectedChat,updateUnreadMessage, addIncomingMessages} =
 ChatSlice.actions;
 // You must export the reducer as follows for it to be able to be read by the store.
 export default ChatSlice.reducer;

@@ -5,6 +5,7 @@ export interface Notification {
   avatar: string
   channel?: string
   createdAt?: any
+  collaborationID?: string
   state: 'primary' | 'danger' | 'warning' | 'success' | 'info'
 }
 
@@ -16,6 +17,7 @@ export const defaultNotifcation: Array<Notification> = [
     avatar: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS23M_znL-cMefe1j2TURdIxBSY71-X7WpxUg&usqp=CAU",
     channel: "tokopedia",
     createdAt: new Date(),
+    collaborationID: '',
     state: 'primary',
   },
   {
@@ -25,6 +27,7 @@ export const defaultNotifcation: Array<Notification> = [
     avatar: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS23M_znL-cMefe1j2TURdIxBSY71-X7WpxUg&usqp=CAU',
     channel: "blibli",
     createdAt: new Date(),
+    collaborationID: '',
     state: 'primary',
   }
 ]
