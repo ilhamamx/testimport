@@ -45,7 +45,7 @@ const ChatInner: FC<Props> = ({ isDrawer = false }, props) => {
   const [companyID, setCompanyID] = useState<string>(lc.getItemLC(lc.LCName.CompanyID).toString()); // Input Message
   const dispatch = useDispatch();
   const selectedChat = useSelector((state: RootState) => state.Chat.selectedChat); //Uid Collaboration
-  const collablist = useSelector((state: RootState) => state.Chat.chatList); //list Collaboration
+  let collablist = useSelector((state: RootState) => state.Chat.chatList); //list Collaboration
   const [messages, setMessages] = useState<newMessageModel[]>([]); //List Message 
   const [channel, setChannel] = useState<string>(""); //Selected Channel or Last Interaction Channel
   const [file, setFile] = useState<File>();
@@ -79,12 +79,21 @@ const ChatInner: FC<Props> = ({ isDrawer = false }, props) => {
         alert(t("HC.Error.InvalidURL"));
         return;
       }else{
-        const check = checkFile(arryFileType[0]);
-        if(check === undefined){
-          alert(t("HC.Error.InvalidFiletype"));
+        // const [result, error] = checkFile2("image","jpg",5);
+        // console.log("---->>"+result+"----"+error);
+        const [result, error,maxSize] = checkFile(arryFileType[0],arryFileType[1],size);
+        if(error !== undefined){
+          if (maxSize !== 0) {
+            alert(t("HC.Error."+error).replace("<<size>>",maxSize+" MB"));
+          } else {
+            alert(t("HC.Error."+error));
+          }
           return;
         }
-        setmessageType(checkFile(arryFileType[0]));
+        
+        if (result !== undefined) {
+          setmessageType(result.toString());
+        }
       } 
     }
   },[file])
@@ -210,6 +219,38 @@ const ChatInner: FC<Props> = ({ isDrawer = false }, props) => {
         //Save New Message To Redux
         dispatch(chat.setListMessages(messages));
         Chat.createCollaborationMessage(newMessage, companyID ,selectedChat, accountChat, customerChat);
+
+        const newCollabList: HandledMessageListItem[]= [];
+        if(collabs!== undefined){
+          let newCollab = collabs;
+          collablist.map((item) => {
+            if (item.id === selectedChat){
+              if(newMessage.messageType !== undefined){
+                let lastmessage = newMessage.textContent;
+                if ((newMessage.textContent === "" || newMessage.textContent === undefined) && newMessage.filename !== undefined) {
+                  lastmessage = newMessage.filename
+                }
+                item =  {...item, 
+                  lastInteractionAt: newMessage.createdAt,
+                  lastInteractionChannel: newMessage.channel,
+                  lastInteractionMessage: lastmessage,
+                  lastInteractionType: newMessage.messageType};
+                newCollab = item;
+                Chat.updateLastInteraction(selectedChat, newMessage);
+                newCollabList.push(newCollab);
+                return item;
+              }
+            }
+          });
+          collablist.map((item) => {
+            if (item.id !== selectedChat){
+              newCollabList.push(item);
+              return item;
+            }
+          });
+          setcollabs(newCollab);
+          dispatch(chat.setChatList(newCollabList));   
+        }
       }else{
         //severe
         console.log("Check Account Pengiriman No Data Account");

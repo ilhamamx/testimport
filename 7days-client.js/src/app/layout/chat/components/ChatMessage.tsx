@@ -158,6 +158,49 @@ const ChatMessage: FC<MessageProps> = (props) => {
           )}
 
           {/* Message Type: Image */}
+          {message.messageType === "image" && (
+            //bubble chat
+            <div
+              className={clsx(
+                "p-2 rounded",
+                `${bgChat}`,
+                "d-flex flex-column",
+                "mw-lg-320px"
+              )}
+            >
+              <div
+                  className="image-input image-input-outline bg-opacity-25"
+                  data-kt-image-input="true"
+                >
+                  {/* begin::Preview existing avatar */}
+                  <div
+                    className="image-input-wrapper w-300px h-300px"
+                    style={{ backgroundImage: `url('${message.mediaUrl}')` }}
+                  > 
+                  </div>
+                  {/* end::Preview existing avatar */}
+                </div>
+              {/***
+               * Caption
+               */}
+              {message.filename && message.filename !== "" &&
+              <div
+                className={clsx(
+                  "p-3 rounded",
+                  `${bgChat}`,
+                  "fluid align-items-center"
+                )}
+                  style={{color: txChat }}
+              > 
+                {message.filename}
+              </div>
+              }
+               {/***
+               * End Of Caption
+               */}
+            </div>
+            //End Of Bubble chat
+          )}
           {/* Message Type: Video */}
           {/* Message Type: Audio */}
           {/* Message Type: Location */}

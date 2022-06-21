@@ -71,19 +71,19 @@ export const updateUnreadMessages = async(collaborationId: string ) => {
   })
 }
 
-export const updateUnreadMessages2 = async(collaborationId: string, channel:string ) => {
-  // const collabRef = firebase.database().ref(`/collaborations/${collaborationId}/${channel}`);
-  const collabRef = firebase.database().ref(`/collaborations/${collaborationId}`);
-  await collabRef.once("value", async(snapshot) => {
-    if(!snapshot.val()){
-      await clearUnreadMessages(collaborationId, channel);
-    }else{
-      const unreadMessages = snapshot.val().unreadMessages;
-      await collabRef.update({
-        unreadMessages: 0
-      });
-    }
-  })
-}
+// export const updateUnreadMessages2 = async(collaborationId: string, channel:string ) => {
+//   // const collabRef = firebase.database().ref(`/collaborations/${collaborationId}/${channel}`);
+//   const collabRef = firebase.database().ref(`/collaborations/${collaborationId}`);
+//   await collabRef.once("value", async(snapshot) => {
+//     if(!snapshot.val()){
+//       await clearUnreadMessages(collaborationId, channel);
+//     }else{
+//       const unreadMessages = snapshot.val().unreadMessages;
+//       await collabRef.update({
+//         unreadMessages: 0
+//       });
+//     }
+//   })
+// }
 
 

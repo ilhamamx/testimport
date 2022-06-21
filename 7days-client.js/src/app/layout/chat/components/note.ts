@@ -58,22 +58,26 @@ import { Link } from "react-router-dom";
  * 6. Bubble sidebar mobile view
  */ 
 
-
-// Notes Irun
 /**
- * Tanya Perkara Desain ke Mba Ayu
- * 
- * 1. Attach file choose type yes/no
- * 2. Translate attach file (udah ngide nambah hhhh)
- *  - "Chat.Button.AttachFile"
+ * Image & Video Message Chat
+ * 1. Outgoing/incoming image message type
+ * 2. Outgoing/incoming video message type
+ * 3. chat ui vidio & image 
+ * 4. Video & Image preview
+ * 5. send to server side video or image
+ * 6. last sent vidio or image file
+ * 7. update collaboration on firebase 
+ * 8. update collaboration on local (lastInteractionMessage, lastInteractionChannel, lastInteractionAt,lastInteractionType)
  */
 
-/**
- * Tanya ke Masfathur
- * 
- * 1. Buttonnya onchange? onclick? apa bedanya wkwkwk aku coba sm2 bisa sih
- * 2. male avatar to default avatar
- * 3. Kalau misal width nya textnya itu fix, kalau mobi
- * 
- * messageType: document, audio, text, image, video
+/***
+ * NOTE BUG
+ * 1. pesan hilang ketika di reload - Bug last sent messages              
+ * 2. list message - update last message                                      
+ * 3. batasan type file
+ * 5. siapin file document untuk di test (pdf, excel, word, txt, ods, dll)    
+ * 6. siapin file image untuk di test (jpg, png, jpeg, bitmap, gif, dll)   
+ * 7. siapin file video untuk di test (mp4, 3gp, mov)   
+ * 8. check maximmum size file
+ * 9. chatlist tidak urut
  */

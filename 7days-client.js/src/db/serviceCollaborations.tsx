@@ -13,6 +13,7 @@ export const fetchCollaborationsByUser = (uid: string, company: string ) => {
     .withConverter(converter2<HandledMessageListItem>())
     .where("company", "==", companyRef)
     .where("toUser", "==", userRef) 
+    .orderBy("lastInteractionAt","desc")
     .get()
     .then(snapshot => {
       const collaborations = snapshot.docs.map(doc => {

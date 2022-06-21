@@ -30,7 +30,37 @@ export const sendRequestMessage = async (
       "type" : "${msgtype}",
       "document" : {
         "link" : "${fileURL}",
-        "caption" : "${text}"
+        ${text? `,"caption" : "${text}"`:""}
+      }
+    }
+  }`;
+
+  const jsonMessageImage = `
+  {
+    "type" : "${type}",
+    "${type}" : {
+      "company" : "${company}",
+      "from" : "${from}",
+      "to" : "${to}",
+      "type" : "${msgtype}",
+      "image" : {
+        "link" : "${fileURL}"
+        ${text? `,"caption" : "${text}"`:""}
+      }
+    }
+  }`;
+
+  const jsonMessageVideo = `
+  {
+    "type" : "${type}",
+    "${type}" : {
+      "company" : "${company}",
+      "from" : "${from}",
+      "to" : "${to}",
+      "type" : "${msgtype}",
+      "video" : {
+        "link" : "${fileURL}",
+        ${text? `,"caption" : "${text}"`:""}
       }
     }
   }`;
@@ -46,6 +76,10 @@ export const sendRequestMessage = async (
       return jsonMessageText
     }else if(msgtype==="document"){
       return jsonMessageDocument
+    }else if(msgtype==="image"){
+      return jsonMessageImage
+    }else if(msgtype==="video"){
+      return jsonMessageVideo
     }else{
       //Default Type
       return jsonMessageText
@@ -71,10 +105,12 @@ export const sendRequestMessage = async (
     //convert response to json
     const responseJson = await response.data;
     const responseCode = await response.status;
+    console.log("Success Request to Server Side");
     defaultResponse = defaultResponse.replace("<<responseCode>>",""+responseCode).replace("<<response>>",JSON.stringify(responseJson));
     return defaultResponse;
   } catch (error) {
-    defaultResponse = defaultResponse.replace("<<responseCode>>","400").replace("<<response>>","Error "+error);
+    console.log("Error Request To Server Side : "+error);
+    defaultResponse = defaultResponse.replace("<<responseCode>>","\"503\"").replace("<<response>>","\""+error+"\"");
     return defaultResponse
   }
 };

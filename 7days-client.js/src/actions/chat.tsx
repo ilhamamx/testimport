@@ -6,7 +6,7 @@ import * as lc from '../app/modules/localstorage/index'
 import * as server from "../api/server/message"
 import { getStorage, ref, getDownloadURL } from "firebase/storage";
 import FileSaver, { saveAs } from "file-saver";
-
+import db from "../db";
 
 export const fetchCollaborations = (uid: string, company: string ) => {
   return collaboration
@@ -76,10 +76,26 @@ export const createCollaborationMessage = (Message: Message, companyID: string ,
       Message.textContent,
       Message.mediaUrl)
     .then((response) => {
+      console.log("Response Request Server Side : "+response);
       const resp = JSON.parse(response);
       if (resp.responseCode && resp.response) { 
-        if(resp.responseCode!==""){
+        if(resp.responseCode && resp.responseCode!==""){
           Message.responseCode=resp.responseCode;
+          if(resp.responseCode==="200"||resp.responseCode==="202"){
+            Message.messageStatus = MessageStatus.sent;
+          }else{
+            Message.messageStatus = MessageStatus.failed;
+            Message.responseJson = response;
+            if (resp.response!=="") {
+              Message.resultMessage = resp.response;
+            }
+          }
+        }else{
+          Message.messageStatus = MessageStatus.failed;
+          Message.responseJson = response;
+          if (resp.response!=="") {
+            Message.resultMessage = resp.response;
+          }
         }
         if (resp.response!=="") {
           let tempResponse = resp.response;
@@ -105,21 +121,23 @@ export const createCollaborationMessage = (Message: Message, companyID: string ,
         return message.createMessage(Message);
       } else if (resp.responseCode && !resp.response) {
         if(resp.responseCode && resp.responseCode!==""){
-          Message.responseCode= resp.responseCode;
+          Message.responseCode=resp.responseCode;
+          if(resp.responseCode==="200"||resp.responseCode==="202"){
+            Message.messageStatus = MessageStatus.sent;
+          }else{
+            Message.messageStatus = MessageStatus.failed;
+          }
+        }else{
+          Message.messageStatus = MessageStatus.failed;
         }
+        Message.resultMessage = "Exmpty Response From Server Side";
+        return message.createMessage(Message);
       } else {
         Message.messageStatus = MessageStatus.failed;
-        Message.resultMessage = "No response or reponsecode from server side."
+        Message.resultMessage = "No response or reponsecode from server side.";
         return message.createMessage(Message);
       }
-    }).catch(
-      function (error) {
-        console.log("Error : "+error);
-        Message.messageStatus = MessageStatus.failed;
-        Message.resultMessage = error.message
-        return message.createMessage(Message);
-      }
-    ) ;
+    })
   } else {
     //Create Firebase Message 
     Message.messageStatus = MessageStatus.failed;
@@ -150,37 +168,20 @@ export const saveMessageMedia = (mediaUrl: string|undefined, filename: string|un
   }
 };
 
-export const saveFile = (mediaUrl: string|undefined, filename: string|undefined) =>{
-  if(mediaUrl && filename){
-      fetch('https://cors-anywhere.herokuapp.com/' + mediaUrl, {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/pdf',
-      },
-      })
-      .then((response) => response.blob())
-      .then((blob) => {
-        // Create blob link to download
-        const url = window.URL.createObjectURL(
-          new Blob([blob]),
-        );
-        const link = document.createElement('a');
-        link.href = url;
-        link.setAttribute(
-          'download',
-          filename,
-        );
-
-        // Append to html link element page
-        document.body.appendChild(link);
-
-        // Start download
-        link.click();
-
-        // Clean up and remove the link
-        if(link.parentNode){
-          link.parentNode.removeChild(link);
-        }
-      });
+export const updateLastInteraction = (collaborationid: string, newMessage: Message) => {
+  let lastMessage = newMessage.textContent;
+  if((newMessage.textContent === "" || newMessage.textContent === undefined) && newMessage.filename !== undefined){
+    lastMessage = newMessage.filename;
   }
+  db
+  .collection("collaborations")
+  .doc(collaborationid)
+  .update(
+    { 
+      lastInteractionChannel: newMessage.channel,
+      lastInteractionAt: newMessage.createdAt,
+      lastInteractionType: newMessage.messageType,
+      lastInteractionMessage: lastMessage
+    }
+  );
 }
