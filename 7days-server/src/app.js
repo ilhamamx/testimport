@@ -2,6 +2,7 @@ const express = require('express');
 const router = require('./routers/auth/user');
 const wa_router = require('./routers/whatsapp/messages/receive')
 const sendMessageRouter = require('./routers/messages/sendMessage')
+const wa_deliveryreport = require('./routers/whatsapp/delivery-report/deliveryreport')
 const { loginSuperUser } = require('./api/auth');
 const cors = require('cors')
 
@@ -21,6 +22,7 @@ app.use(cors())
 app.use(router);
 app.use(wa_router);
 app.use(sendMessageRouter);
+app.use(wa_deliveryreport);
 loginSuperUser(email, password);
 
 
