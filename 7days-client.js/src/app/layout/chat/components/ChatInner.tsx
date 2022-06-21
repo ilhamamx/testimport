@@ -206,20 +206,28 @@ const ChatInner: FC<Props> = ({ isDrawer = false }, props) => {
 
     const setNewMessage = (newMessage: newMessageModel) => {
       //Set New Message To List Message
-      setMessages(prevMessage => [
-        ...prevMessage,newMessage]); 
+      let newListMessage: newMessageModel[] = [];
+      messages.map((item) => {
+        newListMessage.push(item);
+      });
+      newListMessage.push(newMessage);
+      setMessages(newListMessage);
+      dispatch(chat.setListMessages(newListMessage));
+      // setMessages(prevMessage => [
+      //   ...prevMessage,newMessage]); 
     }
 
     const onFetchAccountFinished = (accountChat: Account|undefined) => {
       if(accountChat){
         //Save New Message to Firebase
         // const NewListMessages = [...messages,newMessage];
-        setNewMessage(newMessage);
+        // setNewMessage(newMessage);
         // setMessages(NewListMessages);
         //Save New Message To Redux
-        dispatch(chat.setListMessages(messages));
+        // dispatch(chat.setListMessages(messages));
         Chat.createCollaborationMessage(newMessage, companyID ,selectedChat, accountChat, customerChat);
 
+        setNewMessage(newMessage);
         const newCollabList: HandledMessageListItem[]= [];
         if(collabs!== undefined){
           let newCollab = collabs;
