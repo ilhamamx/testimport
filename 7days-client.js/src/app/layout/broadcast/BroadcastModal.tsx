@@ -11,12 +11,14 @@ import * as server from "../../../api/server/templateMessage";
 import * as serviceMessage from "../../../db/serviceMessage";
 import * as serviceTemplate from "../../../db/serviceTemplate";
 import * as lc from "../../../app/modules/localstorage/index";
+import { useTranslation } from "react-i18next";
 
 interface IProps {
   customerId: ID;
 }
 
 function BroadcastModal(props: IProps) {
+  const { t } = useTranslation();
   const [disable, setDisable] = useState(true);
   const [schedule, setSchedule] = useState(true);
   const companyID = lc.getItemLC("CID");
@@ -220,7 +222,7 @@ function BroadcastModal(props: IProps) {
           <div className="modal-content">
             <div className="modal-header">
               <div>
-                <h4 className="text-center">Broadcast Setup</h4>
+                <h4 className="text-center">{t('BS.Title.BroadcastSetup')}</h4>
               </div>
               <div
                 className="btn btn-icon btn-sm btn-active-light-primary ms-2"
@@ -236,19 +238,19 @@ function BroadcastModal(props: IProps) {
             <div className="modal-body scroll-y mx-5 mx-xl-1 my-7">
               <div className="form">
                 <div className="pt-2 mb-5">
-                  <h6 className="text-start">Template Title</h6>
+                  <h6 className="text-start">{t('BS.Info.TemplateTitle')}</h6>
                   <select
                     className="form-select form-control form-control-solid mb-3 mb-lg-0"
                     name="template-title"
                     id="template-title"
                     onChange={onChangeTemplate}
                   >
-                    <option value="">Select Template</option>
+                    <option value="">{t('BS.Input.Templatetitle')}</option>
                     {optionTemplate}
                   </select>
                 </div>
                 <div className="pt-2 mb-5">
-                  <h6 className="text-start">Language</h6>
+                  <h6 className="text-start">{t('BS.Info.Languages')}</h6>
                   <select
                     className="form-select form-control form-control-solid mb-3 mb-lg-0"
                     {...formik.getFieldProps("template-title")}
@@ -256,13 +258,13 @@ function BroadcastModal(props: IProps) {
                     onChange={onChangeLanguage}
                     disabled={disable}
                   >
-                    <option value="">Select Language . . .</option>
+                    <option value="">{t('BS.Input.Languages')} . . .</option>
                     {optionLanguage}
                     {/* <option diambil dari firebase template tergantung dengan template yang di select */}
                   </select>
                 </div>
                 <div className="pt-2 mb-5">
-                  <h6 className="text-start">Body Message</h6>
+                  <h6 className="text-start">{t('BS.Info.BodyMessage')}</h6>
                   {/* <label className="form-label">Body Message</label> */}
                   <textarea
                     className="form-control"
@@ -276,9 +278,9 @@ function BroadcastModal(props: IProps) {
                   {/* diambil dari body template berdasarkan language yang dipilih */}
                 </div>
                 <div className="pt-2 mb-5">
-                  <h6 className="text-start">Parameter</h6>
                   { template?.bodyParamCount ?? 0 > 0 ? (
                     <div>
+                      <h6 className="text-start">{t('BS.Input.Parameter')}</h6>
                       {
                         //make a loop to generate input parameter as much as bodyParamCount number is
                         Array.from(
@@ -308,11 +310,7 @@ function BroadcastModal(props: IProps) {
                       // ></input>
                       }
                     </div>
-                  ) : (
-                    <div>
-                      <label className="form-label">No Parameter</label>
-                    </div>
-                  )}
+                  ) : ''}
                   {/* <div>
                     <input
                       className="form-control"
@@ -336,7 +334,7 @@ function BroadcastModal(props: IProps) {
                 </div>
                 <div className="mb-5">
                   <div className="form-check form-switch form-check-custom form-check-solid me-10">
-                    <h6 className="pe-2 text-start mt-3">Scheduled Time</h6>
+                    <h6 className="pe-2 text-start mt-3">{t('BS.Info.Scheduled time')}</h6>
                     <input
                       className="form-check-input h-20px w-30px ps-2"
                       type="checkbox"
@@ -381,7 +379,7 @@ function BroadcastModal(props: IProps) {
                   path="/media/icons/duotune/general/gen016.svg"
                   className="svg-icon svg-icon-2x"
                 />
-                Send Message
+                {t('BS.Button.SendMessage')}
               </button>
             </div>
           </div>

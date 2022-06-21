@@ -87,6 +87,7 @@
   "Contacts.Column.Actions": "Actions",
   "Contacts.Menu.Delete": "Delete",
   "Contacts.Menu.Edit": "Edit",
+  "Contacts.Menu.Broadcast": "Broadcast",
   "Contacts.Pages.Previous": "Previous",
   "Contacts.Pages.Next" : "Next",
   "CD.Title.ProfileDetail": "Profile Details",
@@ -126,5 +127,16 @@
   "Notif.Info.Empty": "No Notifications",
   "Notif.Info.Title": "Notifications",
   "Notif.info.Alerts": "Alerts",
-  "Notif.info.From": "From"
+  "Notif.info.From": "From",
+
+  "BS.Title.BroadcastSetup": "",
+  "BS.Info.TemplateTitle": "",
+  "BS.Input.Templatetitle": "",
+  "BS.Info.Languages": "",
+  "BS.Input.Languages": "",
+  "BS.Info.BodyMessage": "",
+  "BS.Input.Parameter": "",
+  "BS.Info.Scheduled time": "",
+  "BS.Button.SendMessage": "",
+  "BS.Info.Sent": ""
 }
