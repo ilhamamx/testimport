@@ -1,4 +1,4 @@
-import React, { FC } from "react";
+import React, { FC, useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { toAbsoluteUrl } from "../../../resources/helpers/AssetHelpers";
 import { useTranslation } from "react-i18next";
@@ -14,11 +14,38 @@ import clsx from "clsx";
 import { KTSVG } from "../../../resources/helpers";
 import { HeaderNotificationsMenu } from "./header-menus/HeaderNotificationsMenu";
 import { EditHeaderNotificationsMenu } from "./header-menus/EditHeaderNotificationsMenu";
+import { getItemLC, LCName, setItemLC } from "../../../app/modules/localstorage";
 
 const CustomHeader: FC = () => {
   const { t } = useTranslation();
   const dispatch = useDispatch();
   const nav = useNavigate();
+  const [isHaveNotif, setIsHaveNotif] = useState(false);
+
+  useEffect(() => {
+    console.log("masuk use effect isHaveNotif");
+    // setArrNotif(getItemLC(LCName.Notification))
+    const isHaveNotif = getItemLC(LCName.isHaveNotif);
+    if (isHaveNotif!=null) {
+      console.log("have notif : " + isHaveNotif);
+      setIsHaveNotif(isHaveNotif);
+    }
+    // Respond to the `storage` event
+    function storageEventHandler(event: any) {
+      console.log("Event : " + JSON.stringify(event));
+      setIsHaveNotif(getItemLC(LCName.isHaveNotif));
+    }
+
+    // Hook up the event handler
+    window.addEventListener("storageHaveNotif", storageEventHandler);
+
+    return () => {
+      console.log("masuk return");
+      // Remove the handler when the component unmounts
+      window.removeEventListener("storageHaveNotif", storageEventHandler);
+    };
+  }, []);
+
   function handleLogout() {
     const currentUser = lc.getItemLC(lc.LCName.User);
     const sessionid = lc.getItemLC(lc.LCName.SessionID);
@@ -110,6 +137,7 @@ const CustomHeader: FC = () => {
                       data-kt-menu-attach="parent"
                       data-kt-menu-placement="bottom-start"
                       data-kt-menu-flip="bottom"
+                      onClick={() => setItemLC(LCName.isHaveNotif, false)}
                     >
                       <div className="symbol symbol-50px">
                         <div className="symbol-label fs-2 fw-bold position-relative">
@@ -118,7 +146,7 @@ const CustomHeader: FC = () => {
                             className={toolbarButtonIconSizeClass} //'svg-icon-2hx svg-icon-light me-4 mb-5 mb-sm-0'
                           />
                         </div>
-                        <span className="position-absolute top-25 start-75 translate-middle p-2 bg-success rounded-circle"></span>
+                        {isHaveNotif && <span className="position-absolute top-25 start-75 translate-middle p-2 bg-success rounded-circle"></span>}
                       </div>
                     </div>
 

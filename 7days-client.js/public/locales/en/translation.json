@@ -119,5 +119,12 @@
   "CD.Button.SaveChanges": "Save Changes",
   "CD.Info.Overview": "Overview",
   "CD.Info.Settings": "Settings",
-  "Contact.BC.ContactList": "Contact List"
+  "Contact.BC.ContactList": "Contact List",
+
+  "Notif.Info.Message": "Receive a Message!",
+  "Notif.Button.Reply": "Reply",
+  "Notif.Info.Empty": "No Notifications",
+  "Notif.Info.Title": "Notifications",
+  "Notif.info.Alerts": "Alerts",
+  "Notif.info.From": "From"
 }

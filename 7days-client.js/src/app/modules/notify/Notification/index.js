@@ -12,11 +12,14 @@ import Avatar from "../../../../styles/components/Avatar";
 import { Contact } from "../../../layout/contact-management/contact-list/core/_models";
 import { format } from "date-fns";
 import { useTranslation } from "react-i18next";
+import { Link } from "react-router-dom";
+import moment from 'moment';
+import "moment/locale/id";
 
 const container = createContainer();
 
-let timeToDelete = 300000;
-let timeToClose = 500000 * 10;
+let timeToDelete = 1000;
+let timeToClose = 1000 * 10;
 
 export default function Notification({
   color = Color.info,
@@ -27,7 +30,9 @@ export default function Notification({
   contact,
 }) {
   const [isClosing, setIsClosing] = React.useState(false);
-  const { i18n } = useTranslation();
+  
+  const { t,i18n } = useTranslation();
+  moment.locale(i18n.language)
 
   React.useEffect(() => {
     if (isClosing) {
@@ -72,7 +77,8 @@ export default function Notification({
     //     <span className="svg-icon svg-icon-1 svg-icon-primary">...</span>
     //   </button>
     // </div>,
-
+    
+    
     <div className={cn([styles.container, { [styles.shrink]: isClosing }])}>
       <div
         className={cn([
@@ -102,17 +108,13 @@ export default function Notification({
               />
             </div>
             <div className="px-2 pt-2">
-              <h6 className="alert-heading"> Receive a Message! </h6>{" "}
+              <h6 className="alert-heading"> {t("Notif.Info.Message")} </h6>{" "}
             </div>
             <div className="ps-3">
               <span>
-                {" "}
                 {message.createdAt
-                  ? format(
-                      new Date(message.createdAt.seconds * 1000),
-                      "EEEE h:mm"
-                    )
-                  : format(new Date(), "EEEE h:mm")}
+                  ? moment(new Date(message.createdAt.seconds*1000)).fromNow()
+                  : moment(new Date()).fromNow()}
               </span>
             </div>
           </div>
@@ -170,12 +172,15 @@ export default function Notification({
               {/* <span>{contact.email}</span> */}
             </div>
             <div className="align-text-bottom list-inline mb-4 mb-lg-1 d-flex flex-row justify-content-end flex-fill w-auto ">
-              <button
-                type="button"
+              <a
+                href="/handled-customer"
+                // onClick={() => {
+                //   dispatch(chat.setSelectedChat(message.collaboration.id));
+                // }}
                 className="btn btn-primary btn-sm align-text-bottom p-7 pt-1 pb-1 mt-2"
               >
-                Reply
-              </button>
+                {t("Notif.Button.Reply")}
+              </a>
             </div>
           </div>
           {/* <p className="mb-0">{children}</p> */}
@@ -189,8 +194,8 @@ export default function Notification({
           {/* <i className="bi bi-x fw-bold fs-6"></i> */}
         </button>
       </div>
-    </div>,
-    container
+    </div>
+    ,container
   );
 }
 

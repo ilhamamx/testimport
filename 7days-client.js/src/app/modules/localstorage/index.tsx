@@ -7,6 +7,7 @@ export const LCName = {
   Account: "Account_",
   CompanyID: "CID",
   Notification: "Notif",
+  isHaveNotif: "isHaveNotif",
 };
 
 export function setItemLCWithExpiry(key: string, value: any, ttl: number) {
@@ -48,8 +49,13 @@ export function setItemLC(key: string, value: any) {
     value: value,
   };
   localStorage.setItem(key, JSON.stringify(item));
+
   if(key === LCName.Notification){
     window.dispatchEvent(new Event("storageNotif"));
+  }
+
+  if(key === LCName.isHaveNotif){
+    window.dispatchEvent(new Event("storageHaveNotif"));
   }
 
 }
@@ -79,4 +85,5 @@ export function removeSession(){
 
 export function removeNotification() {
   removeLC(LCName.Notification);
+  removeLC(LCName.isHaveNotif);
 }

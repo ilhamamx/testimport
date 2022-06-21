@@ -2,17 +2,24 @@
 import clsx from "clsx";
 import { FC, useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import { KTSVG, getIconChannelUrl } from "../../../resources/helpers";
+import { KTSVG, getIconChannelUrl, toAbsoluteUrl } from "../../../resources/helpers";
 import Avatar from "../../../styles/components/Avatar";
 import { defaultNotifcation } from "../../modules/notify/Notification/model";
 import { format } from "date-fns";
 import { getItemLC, LCName } from "../../modules/localstorage";
 import { Notification } from "../../modules/notify/Notification/model";
+import { useTranslation } from "react-i18next";
+import moment from 'moment';
+import "moment/locale/id";
+import { useDispatch } from "react-redux";
+import * as chat from "../../../app/modules/chat/redux/ChatSlice"
 
 const NotificationListHeader: FC = () => {
   const [arrNotif, setArrNotif] = useState<Notification[]>([]);
-  // let array : Array<Notification> = getItemLC(LCName.Notification)
-  // const arrNotif: Array<Notification> = getItemLC(LCName.Notification) ;
+  const { t,i18n } = useTranslation();
+  moment.locale(i18n.language)
+  const dispatch = useDispatch();
+
   useEffect(() => {
     console.log("masuk use effect notif");
     // setArrNotif(getItemLC(LCName.Notification))
@@ -37,7 +44,7 @@ const NotificationListHeader: FC = () => {
     };
   }, []);
   console.log("Arr Notif ===>" + JSON.stringify(arrNotif));
-  // const notifications = JSON.stringify(arrNotif);
+
   return (
     <>
       {arrNotif != null && arrNotif.length > 0 ? (
@@ -53,12 +60,12 @@ const NotificationListHeader: FC = () => {
                     height="50"
                     width="50"
                     imgRadius="0%"
-                    imgSrc={alert.avatar}
+                    imgSrc={alert.avatar? alert.avatar : toAbsoluteUrl("/media/icons/avatar/def-avatar.png")}
                     // path={alert.avatar}
                     // className={`svg-icon-2 svg-icon-${alert.state}`}
                   />
                 </span>
-                <span className="symbol-badge badge badge-circle top-100 start-100 bg-light">
+                {alert.channel && <span className="symbol-badge badge badge-circle top-100 start-100 bg-light">
                   <Avatar
                     height="18"
                     width="18"
@@ -67,7 +74,7 @@ const NotificationListHeader: FC = () => {
                   />
                   {/* <KTSVG path="/media/icons/channel/blibli.png"
                 className="svg-icon svg-icon-2hx svg-icon-light" /> */}
-                </span>
+                </span> }        
               </div>
 
               <div className="mb-0 me-2">
@@ -75,38 +82,39 @@ const NotificationListHeader: FC = () => {
                   href="#"
                   className="fs-6 text-gray-800 text-hover-primary fw-bolder"
                 >
-                  {alert.notifType}
+                  {alert.notifType === 'newMessage' && t("Notif.Info.Message")}
                   {/* Receive new Messsage */}
                 </a>
-                <div className="text-gray-400 fs-7">{alert.name}</div>
+                <div className="text-gray-400 fs-7">{t("Notif.info.From")} {alert.name}</div>
               </div>
             </div>
             <div>
               <div className="ps-3">
                 <span>
-                  {" "}
                   {alert.createdAt
-                    ? format(
-                        new Date(alert.createdAt.seconds * 1000),
-                        "EEEE h:mm"
-                      )
-                    : format(new Date(), "EEEE h:mm")}
+                    ? moment(new Date(alert.createdAt.seconds*1000)).fromNow()
+                    : moment(new Date()).fromNow()}
                 </span>
               </div>
               {/* <h6 className='fs-8 mb-0 '>{ message.createdAt? (format(
                 new Date(message.createdAt.seconds * 1000),
                 "EEEE h:mm")) : (format (new Date(), "EEEE h:mm")) }</h6> */}
-              <button
-                type="button"
-                className="btn btn-primary btn-sm align-text-bottom p-7 pt-1 pb-1 mt-0"
+              <div style={{ textAlign: "right" }}>
+              <Link
+                to="/handled-customer"
+                onClick={() => {
+                  dispatch(chat.setSelectedChat(alert.collaborationID!));
+                }}
+                className="btn btn-primary btn-sm align-text-bottom p-7 pt-1 pb-1 mt-0 justify-content-end"
               >
-                Reply
-              </button>
+                {t("Notif.Button.Reply")}
+              </Link>
+              </div>
             </div>
           </div>
         ))
       ) : (
-        <p>no record</p>
+        <p>{t("Notif.Info.Empty")}</p>
       )}
     </>
   );

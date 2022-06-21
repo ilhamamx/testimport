@@ -10,20 +10,25 @@ import { ContactDetail } from "../pages/ContactDetail";
 import AccountPage from "../modules/accounts/AccountPage"
 import { useEffect, useState } from "react";
 import { subsToMessages } from "../../api/firebase";
-import { Message } from "../modules/collaboration/model";
+import { Message } from "../../app/layout/chat/models/ChatItem.model";
 import { infoNewMessage } from "../modules/notify";
 import { getItemLC } from "../modules/localstorage";
 import { Contact } from "../layout/contact-management/contact-list/core/_models";
+import { useDispatch } from "react-redux";
+import * as chat from "../modules/chat/redux/ChatSlice";
 
 const PrivateRoutes = () => {
 
   const userId = getItemLC("UID");
   console.log("Local Storage private route ===>>" + userId);
   let message: any;
+  const dispatch = useDispatch();
 
   const onNewData = (messageContent: Message, customer: Contact) => {
     // TODO: tampilkan notification
     console.log("new Notif Exists : ", message);
+    dispatch(chat.setSelectedChat(messageContent.collaboration!.id))
+    dispatch(chat.addIncomingMessages(messageContent))
     message = messageContent.textContent;
     infoNewMessage(message, true, messageContent, customer);
   };

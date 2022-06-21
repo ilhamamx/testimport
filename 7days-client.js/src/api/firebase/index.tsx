@@ -1,6 +1,6 @@
 import db, { getCustomerByID } from "../../db";
 import { createRef } from "../../db/connection";
-import { Message } from "../../app/modules/collaboration/model";
+import { Message } from "../../app/layout/chat/models/ChatItem.model";
 import { Contact } from "../../app/layout/contact-management/contact-list/core/_models";
 import { getItemLC, LCName, setItemLC } from "../../app/modules/localstorage";
 import { Notification } from "../../app/modules/notify/Notification/model";
@@ -55,6 +55,7 @@ export const subsToMessages = (
               phoneNumber: dataContact.phoneNumber!,
               channel: doc.data().channel,
               createdAt: doc.data().createdAt,
+              collaborationID: doc.data().collaboration.id,
               state: "primary",
             };
             let arrNotif: Array<Notification> = [];
@@ -67,17 +68,12 @@ export const subsToMessages = (
               new Date(b.createdAt.seconds * 1000)
                 ? -1
                 : 1
-            );
+            ); 
+            setItemLC(LCName.isHaveNotif, true);
             setItemLC(LCName.Notification, arrNotif);
-
+            
             onNewData(
-              {
-                textContent: doc.data().textContent,
-                channel: doc.data().channel,
-                createdAt: doc.data().createdAt,
-                messageType: doc.data().messageType,
-                updatedAt: doc.data().updatedAt,
-              },
+              doc.data() as Message,
               dataContact
             );
           });

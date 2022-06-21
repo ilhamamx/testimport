@@ -118,5 +118,12 @@
   "CD.Button.SaveChanges": "Simpan Perubahan",
   "CD.Info.Overview": "Profil",
   "CD.Info.Settings": "Pengaturan",
-  "Contact.BC.ContactList": "Kontak"
+  "Contact.BC.ContactList": "Kontak",
+
+  "Notif.Info.Message": "Menerima Pesan Baru!",
+  "Notif.Button.Reply": "Balas",
+  "Notif.Info.Empty": "Tidak ada pemberitahuan",
+  "Notif.Info.Title": "Pemberitahuan",
+  "Notif.info.Alerts": "Peringatan",
+  "Notif.info.From": "Dari"
 }
