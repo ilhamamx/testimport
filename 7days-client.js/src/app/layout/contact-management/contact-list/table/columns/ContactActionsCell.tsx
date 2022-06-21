@@ -8,6 +8,7 @@ import { useQueryResponse } from "../../core/QueryResponseProvider";
 import { deleteContact } from "../../core/_requests";
 import { useTranslation } from "react-i18next";
 import { useQueryRequest } from "../../core/QueryRequestProvider";
+import BroadcastModal from "../../../../broadcast/BroadcastModal";
 
 type Props = {
   id: ID;
@@ -19,6 +20,9 @@ const ContactActionsCell: FC<Props> = ({ id }) => {
   const queryClient = useQueryClient();
   const { t } = useTranslation();
   const { state, updateState } = useQueryRequest();
+  const openAddUserModal = () => {
+    setItemIdForUpdate(null)
+  }
   useEffect(() => {
     MenuComponent.reinitialization();
   }, []);
@@ -114,7 +118,26 @@ const ContactActionsCell: FC<Props> = ({ id }) => {
           {t("Contacts.Menu.Delete")}
         </a>
           </li>
+          <li>
+          {/* <a
+          // className="menu-link px-3"
+          className="dropdown-item btn btn-light btn-active-light-primary btn-sm"
+          // data-kt-users-table-filter="delete_row"
+          onClick={openAddUserModal}
+        >
+          Broadcast
+        </a> */}
+            <a type="button"
+                className="dropdown-item btn btn-light btn-active-light-primary btn-sm"
+                data-bs-toggle="modal"
+                data-bs-target="#broadcast_user_modal"
+                
+            >
+            Broadcast
+            </a>
+          </li>
         </ul>
+        <BroadcastModal customerId={id} />
       </div>
     </>
   );

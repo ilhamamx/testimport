@@ -63,7 +63,33 @@ export interface Message {
   isActive: boolean,
   filename?: string,
   filesize?: string,
-  voice: boolean
+  voice: boolean,
+  templateName?: string,
+  templateLanguage?: string,
+  header?: string,
+  headerUrl?: string,
+  headerParams?: Array<string>,
+  body?: string,
+  bodyParams?: Array<string>
+}
+
+export interface Templates {
+  id: string,
+  createdAt: firebase.firestore.Timestamp,
+  updatedAt: firebase.firestore.Timestamp,
+  company: DocumentReference,
+  templateName: string
+  //have sub collection template
+  language: Array<Language>
+}
+
+export interface Language {
+  id: string,
+  language: string,
+  body: string,
+  bodyParamCount: number,
+  header: string,
+  headerParamCount: number
 }
 
 export interface HandledMessageListItem {
