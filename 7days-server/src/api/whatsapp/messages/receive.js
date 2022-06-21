@@ -1,6 +1,6 @@
 firebaseDB = require("../../../db/firebase");
-const { db, createRef, storage, uploadTaskPromise } = firebaseDB;
-const { getCustomerByPhone } = require("../../customers");
+const { db, createRef, storage, uploadTaskPromise, firebase } = firebaseDB;
+const { getCustomerByPhone, getCustomerByPhoneAndCompany } = require("../../customers");
 const { getAccountByPhone } = require("../../account");
 const { getCollaborationByCustomerAndCompany } = require("../../collaboration");
 const { getMediaByID, downloadFromUrl } = require("../facebook/media");
@@ -40,6 +40,12 @@ const parseJSONWhatsAppMessage = async (req) => {
       let messages_media_url = undefined;
       let messages_media_voice = false;
       let field = undefined;
+      let latitude = undefined;
+      let longitude = undefined;
+      let location_name = undefined;
+      let location_address= undefined;
+      let geoLocation = undefined;
+      let location_url = undefined;
       // parsing JSON whatsapp
       if (req.entry[0].changes[0].value.metadata) {
         if (req.entry[0].changes[0].value.metadata.display_phone_number) {
@@ -120,6 +126,26 @@ const parseJSONWhatsAppMessage = async (req) => {
               messages_media_voice = mediaJSON.voice;
             }
           }
+        }else if(messages_type == "location"){
+          if (req.entry[0].changes[0].value.messages[0].location) {
+            if (req.entry[0].changes[0].value.messages[0].location.latitude) {
+              latitude = req.entry[0].changes[0].value.messages[0].location.latitude;
+            }
+            if (req.entry[0].changes[0].value.messages[0].location.longitude) {
+              longitude = req.entry[0].changes[0].value.messages[0].location.longitude;
+            }
+            if (req.entry[0].changes[0].value.messages[0].location.name) {
+              location_name = req.entry[0].changes[0].value.messages[0].location.name
+              if (req.entry[0].changes[0].value.messages[0].location.address) {
+                location_address =
+                  req.entry[0].changes[0].value.messages[0].location.address;
+              }
+            }
+            if(req.entry[0].changes[0].value.messages[0].location.url){
+              location_url = req.entry[0].changes[0].value.messages[0].location.url
+            }
+            geoLocation = new firebase.firestore.GeoPoint(latitude, longitude);
+          }
         }
       }
       if (req.entry[0].changes[0].field) {
@@ -143,7 +169,7 @@ const parseJSONWhatsAppMessage = async (req) => {
       }
 
       // get customer by (from) phone number
-      const customer = await getCustomerByPhone(messages_from);
+      const customer = await getCustomerByPhoneAndCompany(messages_from, companyRef);
       // if customer is null, create customer by phone number, then createRef from customerID
       if (!customer[0]) {
         const customersRef = await db.collection("customers");
@@ -155,6 +181,7 @@ const parseJSONWhatsAppMessage = async (req) => {
             createdAt: new Date(),
             updatedAt: new Date(),
             company: companyRef,
+            firstNameInsensitive: profile_name ? profile_name.toLowerCase() : ""
           })
           .then((ref) => {
             customerRef = createRef("customers", ref.id);
@@ -323,6 +350,10 @@ const parseJSONWhatsAppMessage = async (req) => {
           customer: customerRef,
           destination: "inbound",
           notifiedAt: null,
+          location: geoLocation ? geoLocation : "",
+          locationName : location_name ? location_name : "",
+          locationAddress: location_address ? location_address : "",
+          locationURL : location_url ? location_url : ""
           // status: //jika outbound
           // submitedAt: //jika outbound
           // deliveredAt: //jika outbound
