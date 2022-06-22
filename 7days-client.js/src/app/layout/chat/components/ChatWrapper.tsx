@@ -92,7 +92,7 @@ const ChatWrapper: FC = () => {
                       />
                   }
                   {
-                    colabs?.customerModel?.avatar === undefined && (colabs?.customerModel?.gender === undefined || "male" ) &&
+                    colabs?.customerModel?.avatar === undefined && (colabs?.customerModel?.gender === "male" ) &&
                     <img
                       alt="Pic"
                       src={toAbsoluteUrl(`${avatarIcon}m-avatar.png`)}
@@ -103,6 +103,13 @@ const ChatWrapper: FC = () => {
                     <img
                       alt="Pic"
                       src={toAbsoluteUrl(`${avatarIcon}f-avatar.png`)}
+                    />
+                  }
+                  {
+                    colabs?.customerModel?.avatar === undefined && (colabs?.customerModel?.gender === undefined ) &&
+                    <img
+                      alt="Pic"
+                      src={toAbsoluteUrl(`${avatarIcon}def-avatar.png`)}
                     />
                   }
 

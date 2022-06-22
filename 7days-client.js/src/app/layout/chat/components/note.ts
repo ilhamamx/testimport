@@ -68,6 +68,7 @@ import { Link } from "react-router-dom";
  * 6. last sent vidio or image file
  * 7. update collaboration on firebase 
  * 8. update collaboration on local (lastInteractionMessage, lastInteractionChannel, lastInteractionAt,lastInteractionType)
+ * 9. maximal bubble chat need to check in mobile view
  */
 
 /***
@@ -80,4 +81,10 @@ import { Link } from "react-router-dom";
  * 7. siapin file video untuk di test (mp4, 3gp, mov)   
  * 8. check maximmum size file
  * 9. chatlist tidak urut
+ */
+
+
+/**
+ * Translate
+ * 1. Failed to download file (ChatMessage doc, ChatFileView)
  */

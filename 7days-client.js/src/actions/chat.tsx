@@ -72,7 +72,18 @@ export const createCollaborationMessage = (newMessage: Message,companyID: string
   console.log("---->>> Check Isi Message : " + JSON.stringify(newMessage));
   let Message: Message;
   if (newMessage !== undefined) {
+    /***
+     * Convert Object To Updatable
+     */
     Message = JSON.parse(JSON.stringify(newMessage));
+    Message.collaboration= newMessage.collaboration;
+    Message.user= newMessage.user;
+    Message.customer= newMessage.customer;
+    Message.createdAt= newMessage.createdAt;
+    Message.updatedAt= newMessage.updatedAt;
+    /***
+     * End Convert Object To Updatable
+     */
     if (account !== undefined && customer !== undefined) {
       server
         .sendRequestMessage(

@@ -1,4 +1,4 @@
-import { FC, SetStateAction, useEffect, useState } from "react";
+import { FC, useEffect, useState } from "react";
 import clsx from "clsx";
 import * as Chat from "../../../../actions/chat";
 import * as actAccount from "../../../../actions/account";
@@ -318,6 +318,7 @@ const ChatInner: FC<Props> = ({ isDrawer = false }, props) => {
               isDrawer={isDrawer}
               customer={message?.customerModel}
               user={message?.userModel}
+              messages={messages}
             />
           );
         })}
@@ -352,9 +353,7 @@ const ChatInner: FC<Props> = ({ isDrawer = false }, props) => {
             >
               <i className="bi bi-upload text-custom fs-1 p-5"></i>
 
-              {/* <input id="contact-avatar" onChange={setPreviewFile} type="file" name="avatar"/>  */}
-              <input id="contact-avatar" onChange={setPreviewFile} type="file" name="avatar"/> 
-              {/* accept=".png, .jpg, .jpeg" /> */}
+              <input id="chat-media" onChange={setPreviewFile} type="file" name="avatar"/> 
             </label>
             {file && <label>{fileName}</label>}
           </div>

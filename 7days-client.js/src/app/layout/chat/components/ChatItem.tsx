@@ -1,7 +1,7 @@
 import { FC } from "react";
 import { Link } from "react-router-dom";
 import { toAbsoluteUrl , getIconChannelUrl } from "../../../../resources/helpers";
-import { HandledMessageListItem } from "../models/ChatItem.model";
+import { HandledMessageListItem,Message } from "../models/ChatItem.model";
 import {ChatTime} from "../components/ChatTime";
 import { Timestamp } from "../../../../db";
 import { ChatLastMessage } from "./ChatLastMessage";
@@ -24,8 +24,7 @@ const ChatItem: FC<ChatItemProps> = (props) => {
   const { item } = props;
   const channelIcon = "/media/icons/channel/";
   const avatarIcon = "/media/icons/avatar/";
-  // console.log("--->> customerModel : "+JSON.stringify(item.customerModel));
-  // console.log("--->> User : "+JSON.stringify(item.userModel));
+  
   return (
     <div
       className="d-flex flex-stack py-4 bg-active-secondary bg-hover-secondary cl-graywhite"
@@ -46,7 +45,7 @@ const ChatItem: FC<ChatItemProps> = (props) => {
               src={toAbsoluteUrl(`${item.customerModel?.avatar}`)}
             />
           }
-          {item.customerModel?.avatar === undefined && (item.customerModel?.gender !== "female" || undefined) &&
+          {item.customerModel?.avatar === undefined && (item.customerModel?.gender === "male") &&
             <img
               alt="Pic"
               src={toAbsoluteUrl(`${avatarIcon}m-avatar.png`)}
@@ -56,6 +55,12 @@ const ChatItem: FC<ChatItemProps> = (props) => {
             <img
               alt="Pic"
               src={toAbsoluteUrl(`${avatarIcon}f-avatar.png`)}
+            />
+          }
+          {item.customerModel?.avatar === undefined && item.customerModel?.gender === undefined &&
+            <img
+              alt="Pic"
+              src={toAbsoluteUrl(`${avatarIcon}def-avatar.png`)}
             />
           }
 

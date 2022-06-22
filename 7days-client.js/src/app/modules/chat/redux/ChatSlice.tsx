@@ -3,11 +3,9 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { HandledMessageListItem,Message } from "../../../layout/chat/models/ChatItem.model";
 import { Timestamp } from "../../../../db";
 import * as lc from "../../localstorage/index"
-import createRef from "firebase/compat/app";
 
 const initialState: InitialState = {
   chatList: [],
-  messageList: [],
   selectedCollaboration: {
     id: "",
     fullName: "",
@@ -24,7 +22,9 @@ const initialState: InitialState = {
     LastMessageModel: undefined,
   },
   listMessage:[],
+  listMessageWithMedia:[],
   selectedChat: '',
+  selectedMessage: '',
   countTotalUnreadMessages: 0
 };
 
@@ -71,15 +71,18 @@ export const ChatSlice = createSlice({
 
     setListMessages: (state, action: PayloadAction<Message[]>) => {
       state.listMessage = action.payload;
-      console.log("---->>> ini adalah save message ke local storage");
-      console.log("---->>> ini adalah save message ke local storage1 : "+lc.LCName.Messages+state.selectedChat);
-      console.log("---->>> ini adalah save message ke local storage2 : "+JSON.stringify(action.payload));
       lc.setItemLC(lc.LCName.Messages+state.selectedChat,action.payload)
       console.log(action.payload)
     },
 
     setSelectedChat: (state, action: PayloadAction<string>) => {
       state.selectedChat = action.payload;
+      console.log(action.payload)
+    },    
+
+
+    setSelectedMessage: (state, action: PayloadAction<string>) => {
+      state.selectedMessage = action.payload;
       console.log(action.payload)
     },    
 
