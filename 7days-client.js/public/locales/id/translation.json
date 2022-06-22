@@ -126,5 +126,16 @@
   "Notif.Info.Empty": "Tidak ada pemberitahuan",
   "Notif.Info.Title": "Pemberitahuan",
   "Notif.info.Alerts": "Peringatan",
-  "Notif.info.From": "Dari"
+  "Notif.info.From": "Dari",
+
+  "BS.Title.BroadcastSetup": "Pengaturan Siaran",
+  "BS.Info.TemplateTitle": "Judul Template",
+  "BS.Input.Templatetitle": "Pilih Judul Template",
+  "BS.Info.Languages": "Bahasa",
+  "BS.Input.Languages": "Pilih Bahasa",
+  "BS.Info.BodyMessage": "Template Pesan",
+  "BS.Input.Parameter": "Masukkan parameter",
+  "BS.Info.Scheduled time": "Dijadwalkan Pada",
+  "BS.Button.SendMessage": "Kirim Pesan",
+  "BS.Info.Sent": "Pesanmu berhasil terkirim !"
 }

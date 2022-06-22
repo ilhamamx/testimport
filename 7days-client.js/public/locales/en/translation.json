@@ -129,14 +129,14 @@
   "Notif.info.Alerts": "Alerts",
   "Notif.info.From": "From",
 
-  "BS.Title.BroadcastSetup": "",
-  "BS.Info.TemplateTitle": "",
-  "BS.Input.Templatetitle": "",
-  "BS.Info.Languages": "",
-  "BS.Input.Languages": "",
-  "BS.Info.BodyMessage": "",
-  "BS.Input.Parameter": "",
-  "BS.Info.Scheduled time": "",
-  "BS.Button.SendMessage": "",
-  "BS.Info.Sent": ""
+  "BS.Title.BroadcastSetup": "Broadcast Setup",
+  "BS.Info.TemplateTitle": "Template Title",
+  "BS.Input.Templatetitle": "Select Template Title",
+  "BS.Info.Languages": "Languages",
+  "BS.Input.Languages": "Select Languages",
+  "BS.Info.BodyMessage": "Body Message",
+  "BS.Input.Parameter": "Enter content",
+  "BS.Info.Scheduled time": "Scheduled time",
+  "BS.Button.SendMessage": "Send Message",
+  "BS.Info.Sent": "Your Message has been successfully sent !"
 }
