@@ -71,13 +71,4 @@ app.use(function onError(err, req, res, next) {
 });
 // End Of Sentry set up
 
-// app.use(allowCrossDomain);
-// app.use(cors())
-// app.use(router);
-// app.use(wa_router);
-// app.use(sendMessageRouter);
-// app.use(wa_deliveryreport);
-// loginSuperUser(email, password);
-
-
 module.exports = app;

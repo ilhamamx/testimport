@@ -22,7 +22,4 @@ router.post('/whatsapp/receive', jsonParser, async(req, res) => {
   }
 });
 
-//test
-
-
 module.exports = router;
