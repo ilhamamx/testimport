@@ -1,20 +1,31 @@
 import react, { useState, useEffect } from "react";
 import { ID, KTSVG } from "../../../resources/helpers";
 import { useFormik } from "formik";
+import * as Yup from "yup";
 import {
-  HandledMessageListItem,
+  HandledMessageListItem as Mcollaboration,
   Templates,
   Language,
+  Account,
+  Customer,
+  Message,
+  MessageStatus,
 } from "../chat/models/ChatItem.model";
 import { createRef } from "../../../db/connection";
 import * as server from "../../../api/server/templateMessage";
 import * as serviceMessage from "../../../db/serviceMessage";
+import * as serviceCustomer from "../../../db/serviceCustomer";
 import * as serviceTemplate from "../../../db/serviceTemplate";
+import * as serviceCollaboration from "../../../db/serviceCollaborations";
 import * as lc from "../../../app/modules/localstorage/index";
+import * as serviceAccount from "../../../db/serviceAccount";
 import { useTranslation } from "react-i18next";
+import { Timestamp } from "../../../db";
+import AlertModal from "./AlertModal";
 
 interface IProps {
   customerId: ID;
+  indexId: number;
 }
 
 function BroadcastModal(props: IProps) {
@@ -29,11 +40,9 @@ function BroadcastModal(props: IProps) {
   const [templateLanguage, setTemplateLanguage] = useState<Language[]>();
   const [template, setTemplate] = useState<Language>();
 
-  // component parameter
-
-
   // on render, set dropdown id "template-title" list
   useEffect(() => {
+    console.log("customer id x: ", props.customerId);
     serviceTemplate
       .getListTemplateByCompany(companyID)
       .then(async (listTemplate) => {
@@ -57,19 +66,27 @@ function BroadcastModal(props: IProps) {
   });
 
   const onChangeTemplate = (e: any) => {
+    console.log("customer id y: ", props.customerId);
+
     console.log("ini template ===>>>" + e.target.value);
     const templateId = e.target.value;
-    // enable language list
-    setDisable(false);
-    // fill language list from Template on templates
-    serviceTemplate
-      .getLanguageListByTemplateId(templateId)
-      .then((listLanguage) => {
-        const newLanguage = listLanguage.map((language) => {
-          return language as Language;
+    setDisable(true);
+    setTemplateLanguage(undefined);
+    formik.setFieldValue("body_message", "");
+    formik.setFieldValue("body_param", []);
+    if (templateId !== "") {
+      formik.setFieldValue("templateTitle", e.target.selectedOptions[0].text);
+      // fill language list from Template on templates
+      serviceTemplate
+        .getLanguageListByTemplateId(templateId)
+        .then((listLanguage) => {
+          setDisable(false);
+          const newLanguage = listLanguage.map((language) => {
+            return language as Language;
+          });
+          setTemplateLanguage(newLanguage);
         });
-        setTemplateLanguage(newLanguage);
-      });
+    }
     setTemplate(undefined);
   };
 
@@ -85,149 +102,221 @@ function BroadcastModal(props: IProps) {
   const onChangeLanguage = (e: any) => {
     console.log("ini language ===>>>" + e.target.value);
     const languageId = e.target.value;
-    templateLanguage?.map((language) => {
-      if (language.id === languageId) {
-        setTemplate(language);
-      }
-    });
+    setTemplate(undefined);
+    formik.setFieldValue("body_param", []);
+    if (languageId !== "") {
+      formik.setFieldValue(
+        "templateLanguage",
+        e.target.selectedOptions[0].text
+      );
+      templateLanguage?.map((language) => {
+        if (language.id === languageId) {
+          formik.setFieldValue("body_message", language.body);
+          setTemplate(language);
+        }
+      });
+    }
   };
 
-  // generate parameter input html by bodyParamCount on selected template language
-  const generateParameter = () => {
-    return <div> test </div>
-    
-    // const bodyParamCount = template?.bodyParamCount ?? 0;
-    // let bodyParam = '';
-    // for (let i = 0; i < bodyParamCount; i++) {
-    //   bodyParam +=
-    //     <div className="pt-2" key={i}>
-    //       <input
-    //         className="form-control"
-    //         type="text"
-    //         placeholder={`Enter content for {{${i}}}`}
-    //         aria-label="default input example"
-    //         {...formik.getFieldProps(`bodyParam${i}`)}
-    //         disabled={disable}
-    //       ></input>
-    //     </div>
-    //   ;
-    // }
-    // //return component bodyParam as component react
-    // return bodyParam;
+  const onSubmitBroadcast = (e: any) => {
+    console.log("ini submit broadcast ===>>>" + JSON.stringify(formik.values));
+    // get active collaboration by customerId and companyId
+    let collaboration: Mcollaboration | undefined;
+    console.log("ini customerId ===>>>" + props.customerId?.toString());
+    serviceCollaboration
+      .getActiveCollaborationByCustomerIdAndCompanyId(
+        props.customerId!.toString(),
+        companyID
+      )
+      .then((collaborations) => {
+        console.log("ini collaboration ===>>>" + collaborations);
+        if (collaborations && collaborations.length > 0) {
+          collaboration = collaborations[0] as Mcollaboration;
+          console.log("ini collaboration ===>>>" + collaboration.id);
+        }
+        // get active account by companyID and type whatsapp
+        let account: Account | undefined;
+        serviceAccount
+          .getAccountByCompanyAndChannel(companyID, "whatsapp")
+          .then((accounts) => {
+            console.log("1 ini account ====>>" + accounts);
+            if (accounts) {
+              account = accounts[0] as Account;
+              console.log("2 ini account ====>> " + account.id);
+            }
+            // get customer by id
+            let customer: Customer | undefined;
+            serviceCustomer
+              .getCustomerByID(props.customerId!.toString())
+              .then((customers) => {
+                console.log("ini customer ====>>" + customers);
+                if (customers) {
+                  customer = customers as Customer;
+                  console.log("ini customer ====>> " + customer.id);
+                }
+                console.log("ini customer ====>> " + customer);
+                console.log("ini account ====>> " + account);
+                console.log("ini collaboration ====>> " + collaboration);
+                if (collaboration && account && customer) {
+                  // create new model Message
+                  let newMessage: Message = {
+                    channel: "whatsapp",
+                    createdAt: Timestamp.now(),
+                    updatedAt: Timestamp.now(),
+                    isActive: true,
+                    destination: "outbound",
+                    customer: collaboration.customer,
+                    user: collaboration.toUser,
+                    messageType: "template",
+                    textContent: formik.values.body_message,
+                    templateName: formik.values.templateTitle,
+                    templateLanguage: formik.values.templateLanguage,
+                    body: template?.body,
+                    bodyParams: formik.values.body_param,
+                    voice: false,
+                    collaboration: createRef(
+                      "collaborations",
+                      collaboration.id
+                    ),
+                  };
+                  console.log(
+                    "ini newMessage ====>> " + JSON.stringify(newMessage)
+                  );
 
+                  sendBroadcast(
+                    newMessage,
+                    companyID,
+                    account.whatsappNumber,
+                    customer.phoneNumber
+                  );
+
+                  // //create emelent in list message
+                  // let triggerDummyButton = document.createElement("button");
+                  // triggerDummyButton.setAttribute("data-bs-toggle", "modal");
+                  // triggerDummyButton.setAttribute(
+                  //   "data-bs-target",
+                  //   "#modal_broadcast_alert"
+                  // );
+
+                  // //togle button click
+                  // triggerDummyButton.click();
+                  
+                  onClose();
+
+                  let triggerDummyButtonClose = document.getElementById(
+                    `close-modal${props.indexId}`
+                  );
+                  triggerDummyButtonClose?.click();
+                }
+              });
+          });
+      });
+  };
+
+  const formSchema = Yup.object().shape({
+    templateTitle: Yup.string(),
+    templateLanguage: Yup.string(),
+  });
+
+  const initialValues = {
+    templateTitle: "",
+    templateLanguage: "",
+    body_message: "",
+    body_param: [],
   };
 
   const formik = useFormik({
-    initialValues: {
-      title: "",
-      language: "",
-      params: [],
-    },
+    initialValues: initialValues,
+    validationSchema: formSchema,
     onSubmit: (values) => {
-      // TODO: check tile and language is not null
-      // if param is not null, check if param is valid
-      // get active collaboration by selected customer
-      let collaboration: HandledMessageListItem;
-
-      // get account by company and channel
-      // put input parameters into array String
-
-      //Create New Message Model
-      // let newMessage: Message = {
-      //   channel: "whatsapp",
-      //   createdAt: Timestamp.now(),
-      //   updatedAt: Timestamp.now(),
-      //   isActive: true,
-      //   destination: "outbound",
-      //   customer: collaboration?.customer,
-      //   user: collaboration?.toUser,
-      //   messageType: "template",
-      //   textContent: values.message,
-      //   templateName: values.title,
-      //   templateLanguage: values.language,
-      //   body: selectedTemplate.body,
-      //   bodyParams:
-      //   voice: false,
-      //   collaboration: createRef("collaborations", collaboration?.id)
-      // };
-
-      console.log(values);
+      console.log("ini values ===>>>" + JSON.stringify(values));
     },
   });
 
-  // const sendBroadcast = (Mmessage: Message, companyID: string, from, to) => {
-  //   server.sendRequestMessage(
-  //     Mmessage.channel,
-  //     companyID,
-  //     from,
-  //     to,
-  //     Mmessage.templateName,
-  //     Mmessage.templateLanguage,
-  //     Mmessage.bodyParams
-  //   ).then((response) => {
-  //     const resp = JSON.parse(response);
-  //     if (resp.responseCode && resp.response) {
-  //       if(resp.responseCode!==""){
-  //         Mmessage.responseCode=resp.responseCode;
-  //       }
-  //       if (resp.response!=="") {
-  //         let tempResponse = resp.response;
-  //         const messageChannel = Mmessage.channel;
-  //         if (tempResponse.resultCode && resp.resultCode!=="") {
-  //           Mmessage.resultCode = tempResponse.resultCode;
-  //         }
-  //         if (tempResponse.message && resp.message!=="") {
-  //           Mmessage.resultMessage = tempResponse.message;
-  //         }
-  //         if (tempResponse.messageID && resp.messageID!=="") {
-  //           Mmessage.resultMessageId = tempResponse.messageID;
-  //         }
-  //         if (tempResponse.errorCode && resp.errorCode!=="") {
-  //           Mmessage.errorCode = tempResponse.errorCode;
-  //         }
-  //         if(Mmessage.channel==="whatsapp"){
-  //           if (tempResponse.whatsapp && resp.whatsapp!=="") {
-  //             Mmessage.responseJson = tempResponse.whatsapp;
-  //           }
-  //         }
-  //       }
-  //       return message.createMessage(Mmessage);
-  //     } else if (resp.responseCode && !resp.response) {
-  //       if(resp.responseCode && resp.responseCode!==""){
-  //         Mmessage.responseCode= resp.responseCode;
-  //       }
-  //     } else {
-  //       Mmessage.messageStatus = MessageStatus.failed;
-  //       Mmessage.resultMessage = "No response or reponsecode from server side."
-  //       return message.createMessage(Mmessage);
-  //     }
-  //   }).catch(
-  //     function (error) {
-  //       console.log("Error : "+error);
-  //       Mmessage.messageStatus = MessageStatus.failed;
-  //       Mmessage.resultMessage = error.message
-  //       return message.createMessage(Message);
-  //     }
-  //   ) ;
-  // }
+  const sendBroadcast = (
+    Mmessage: Message,
+    companyID: string,
+    from: string,
+    to: string
+  ) => {
+    server
+      .sendRequestMessage(
+        Mmessage.channel,
+        companyID,
+        from,
+        to,
+        Mmessage.templateName!,
+        Mmessage.templateLanguage!,
+        Mmessage.bodyParams!,
+        (responseCode: string, responseJson: JSON) => {
+          console.log("ini responseCode ===>>>" + responseCode);
+          console.log("ini responseJson ===>>>" + JSON.stringify(responseJson));
+          Mmessage.responseCode = responseCode ?? "500";
+          if (responseJson) {
+            let newResponseJson = JSON.parse(JSON.stringify(responseJson));
+            Mmessage.resultCode = newResponseJson.resultCode ?? "";
+            Mmessage.resultMessage = newResponseJson.message ?? "";
+            Mmessage.resultMessageId = newResponseJson.messageID ?? "";
+            Mmessage.errorCode = newResponseJson.errorCode ?? "";
+            if (newResponseJson.error)
+              Mmessage.responseJson = JSON.stringify(newResponseJson);
+            if (newResponseJson.whatsapp)
+              Mmessage.responseJson = newResponseJson.whatsapp ?? "";
+          } else {
+            Mmessage.messageStatus = MessageStatus.failed;
+            Mmessage.resultMessage =
+              "No response or reponsecode from server side.";
+          }
+          serviceMessage.createMessage(Mmessage);
+        }
+      )
+      .then((response) => {})
+      .catch(function (error) {
+        console.log("Error : " + error);
+        Mmessage.messageStatus = MessageStatus.failed;
+        Mmessage.resultMessage = error.message;
+        serviceMessage.createMessage(Mmessage);
+      });
+  };
+  const onClose = () => {
+    // setTemplates([]);
+    let titleSelected = document.getElementById(
+      `title${props.indexId}`
+    ) as HTMLSelectElement;
+    titleSelected.value = "";
+    setTemplate(undefined);
+    setTemplateLanguage(undefined);
+    formik.setFieldValue("templateTitle", "");
+    formik.setFieldValue("templateLanguage", "");
+    formik.setFieldValue("body_message", "");
+    // formik.setFieldValue("body_param", [])
+    console.log("ini close modal ===>>", templates);
+    setDisable(true);
+  };
 
   return (
     <form
-    // id="kt_modal_add_user_form"
-    // className="form"
-    // onSubmit={formik.handleSubmit}
+      id="modal-broadcast"
+      // className="form"
+      // onSubmit={formik.handleSubmit}
     >
-      <div className="modal fade" tabIndex={-1} id="broadcast_user_modal">
+      <div
+        className="modal fade"
+        tabIndex={-1}
+        id={`broadcast_user_modal${props.indexId}`}
+      >
         <div className="modal-dialog">
           <div className="modal-content">
             <div className="modal-header">
               <div>
-                <h4 className="text-center">{t('BS.Title.BroadcastSetup')}</h4>
+                <h4 className="text-center">{t("BS.Title.BroadcastSetup")}</h4>
               </div>
               <div
                 className="btn btn-icon btn-sm btn-active-light-primary ms-2"
+                id={`close-modal${props.indexId}`}
                 data-bs-dismiss="modal"
                 aria-label="Close"
+                onClick={onClose}
               >
                 <KTSVG
                   path="/media/icons/duotune/arrows/arr061.svg"
@@ -238,103 +327,111 @@ function BroadcastModal(props: IProps) {
             <div className="modal-body scroll-y mx-5 mx-xl-1 my-7">
               <div className="form">
                 <div className="pt-2 mb-5">
-                  <h6 className="text-start">{t('BS.Info.TemplateTitle')}</h6>
+                  <h6 className="text-start">{t("BS.Info.TemplateTitle")}</h6>
                   <select
                     className="form-select form-control form-control-solid mb-3 mb-lg-0"
-                    name="template-title"
-                    id="template-title"
+                    id={`title${props.indexId}`}
                     onChange={onChangeTemplate}
                   >
-                    <option value="">{t('BS.Input.Templatetitle')}</option>
+                    <option key="" value="">
+                      {t("BS.Input.Templatetitle")}
+                    </option>
                     {optionTemplate}
                   </select>
                 </div>
                 <div className="pt-2 mb-5">
-                  <h6 className="text-start">{t('BS.Info.Languages')}</h6>
+                  <h6 className="text-start">{t("BS.Info.Languages")}</h6>
                   <select
                     className="form-select form-control form-control-solid mb-3 mb-lg-0"
-                    {...formik.getFieldProps("template-title")}
-                    name="language"
                     onChange={onChangeLanguage}
                     disabled={disable}
                   >
-                    <option value="">{t('BS.Input.Languages')} . . .</option>
+                    <option value="">{t("BS.Input.Languages")} . . .</option>
                     {optionLanguage}
                     {/* <option diambil dari firebase template tergantung dengan template yang di select */}
                   </select>
                 </div>
                 <div className="pt-2 mb-5">
-                  <h6 className="text-start">{t('BS.Info.BodyMessage')}</h6>
+                  <h6 className="text-start">{t("BS.Info.BodyMessage")}</h6>
                   {/* <label className="form-label">Body Message</label> */}
                   <textarea
                     className="form-control"
                     id="body-message"
-                    {...formik.getFieldProps("body-message")}
+                    {...formik.getFieldProps("body_message")}
                     disabled
-                    value={template ? template.body : ""}
+                    value={formik.getFieldProps("body_message").value ?? ""}
                   >
                     {" "}
                   </textarea>
                   {/* diambil dari body template berdasarkan language yang dipilih */}
                 </div>
-                <div className="pt-2 mb-5">
-                  { template?.bodyParamCount ?? 0 > 0 ? (
+                <div className="pt-2 mb-3">
+                  {template?.bodyParamCount ?? 0 > 0 ? (
                     <div>
-                      <h6 className="text-start">{t('BS.Input.Parameter')}</h6>
+                      <h6 className="text-start">{t("BS.Input.Parameter")}</h6>
                       {
-                        //make a loop to generate input parameter as much as bodyParamCount number is
+                        //make a loop to generate input parameter as much as bodyParamCount number
+                        //make a controlled input element for each parameter
                         Array.from(
                           { length: template?.bodyParamCount ?? 0 },
                           (_, index) => (
-                            <div key={index}>
+                            <div key={index} className="pb-2">
                               <input
-                                type = "text"
+                                type="text"
                                 aria-label="default input example"
                                 className="form-control"
                                 placeholder={`Parameter {{${index + 1}}}`}
-                                id="body-parameter"
-                                {...formik.getFieldProps(`body-parameter-${index}`)}
-                                disabled={disable}
+                                id={`body-parameter-${index + 1}`}
+                                {...formik.getFieldProps(
+                                  `body_param[${index}]`
+                                )}
+                                value={
+                                  formik.getFieldProps(`body_param[${index}]`)
+                                    .value ?? ""
+                                }
+                                required={true}
+                                onChange={(e) => {
+                                  let message_body = template?.body ?? "";
+                                  message_body = message_body.replace(
+                                    `{{${index + 1}}}`,
+                                    e.target.value
+                                  );
+                                  formik.setFieldValue(
+                                    `body_param[${index}]`,
+                                    e.target.value
+                                  );
+                                  if (formik.values.body_param.length > 0) {
+                                    for (
+                                      let i = 0;
+                                      i < formik.values.body_param.length;
+                                      i++
+                                    ) {
+                                      message_body = message_body.replace(
+                                        "{{" + (i + 1) + "}}",
+                                        formik.values.body_param[i]
+                                      );
+                                    }
+                                  }
+                                  formik.setFieldValue(
+                                    "body_message",
+                                    message_body
+                                  );
+                                }}
                               />
                             </div>
                           )
                         )
-
-                      //   <input
-                      //   className="form-control"
-                      //   type="text"
-                      //   placeholder="Enter content for {{1}}"
-                      //   aria-label="default input example"
-                      //   {...formik.getFieldProps("param-1")}
-                      //   disabled={disable}
-                      // ></input>
                       }
                     </div>
-                  ) : ''}
-                  {/* <div>
-                    <input
-                      className="form-control"
-                      type="text"
-                      placeholder="Enter content for {{1}}"
-                      aria-label="default input example"
-                      {...formik.getFieldProps("param-1")}
-                      disabled={disable}
-                    ></input>
-                  </div>
-                  <div className="pt-2">
-                    <input
-                      className="form-control"
-                      type="text"
-                      placeholder="Enter content for {{2}}"
-                      aria-label="default input example"
-                      {...formik.getFieldProps("param-2")}
-                      disabled={disable}
-                    ></input>
-  </div> */}
+                  ) : (
+                    ""
+                  )}
                 </div>
                 <div className="mb-5">
                   <div className="form-check form-switch form-check-custom form-check-solid me-10">
-                    <h6 className="pe-2 text-start mt-3">{t('BS.Info.Scheduled time')}</h6>
+                    <h6 className="pe-2 text-start mt-3">
+                      {t("BS.Info.Scheduled time")}
+                    </h6>
                     <input
                       className="form-check-input h-20px w-30px ps-2"
                       type="checkbox"
@@ -344,14 +441,6 @@ function BroadcastModal(props: IProps) {
                         setSchedule(!schedule);
                       }}
                     />
-                    {/* <label className="form-check-label" htmlFor="flexSwitch20x30">
-                  20px x 30px
-                </label> */}
-                    {/* <label className="fw-bold fs-6 mb-2">Birthdate</label> */}
-
-                    {/* <input type="date" className="form-control form-control-solid mb-3 mb-lg-0" id="birthdate"/> */}
-
-                    {/* <label htmlFor="birthdaytime">Birthday (date and time):</label> */}
                   </div>
                   <div className="text-start">
                     <input
@@ -367,19 +456,28 @@ function BroadcastModal(props: IProps) {
               </div>
             </div>
             <div className="modal-footer">
-              {/* <button
-          type="button"
-          className="btn btn-light"
-          data-bs-dismiss="modal"
-        >
-          Close
-        </button> */}
-              <button type="button" className="btn btn-primary">
+              <button
+                type="button"
+                onClick={onSubmitBroadcast}
+                className="btn btn-primary"
+                disabled={
+                  //if any null or "" in body_param, disable submit button
+                  formik.getFieldProps("body_param").value.includes("") ||
+                  formik.getFieldProps("body_param").value.includes(null)
+                    ? true
+                    : //if body_param is not equal to bodyParamCount, disable submit button
+                    template?.bodyParamCount !==
+                      formik.getFieldProps("body_param").value.length
+                    ? true
+                    : //if body_param is equal to bodyParamCount, enable submit button
+                      false
+                }
+              >
                 <KTSVG
                   path="/media/icons/duotune/general/gen016.svg"
                   className="svg-icon svg-icon-2x"
                 />
-                {t('BS.Button.SendMessage')}
+                {t("BS.Button.SendMessage")}
               </button>
             </div>
           </div>

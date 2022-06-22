@@ -1,4 +1,5 @@
 import axios from "axios";
+import { sendMessage } from "./connection";
 
 export const sendRequestMessage = async (
   type: string,
@@ -7,10 +8,10 @@ export const sendRequestMessage = async (
   to: string,
   templateName: string,
   templateLanguage: string,
-  bodyParameters: Array<string>
+  bodyParameters: Array<string>,
+  callback: any
 ) => {
-  const url = "http://192.168.20.27:3001/messages/sendMessage";
-
+  console.log("sendRequestMessage");
   const component = () => {
     let jsonComponent = ``
     //if any parameter found
@@ -33,7 +34,7 @@ export const sendRequestMessage = async (
         ]
       }, <<component>>`)
     }
-    jsonComponent = jsonComponent.replace("<<component>>", "")
+    jsonComponent = jsonComponent.replace(", <<component>>", "")
     return jsonComponent;
   }
 
@@ -53,33 +54,9 @@ export const sendRequestMessage = async (
     }
   }`;
 
-  let defaultResponse = `
-  {
-    "responseCode" : <<responseCode>>,
-    "response" : <<response>>
-  }`;
+  console.log(jsonMessage);
 
-  try {
-    //using axios
-    const response = await axios.post(url, JSON.parse(jsonMessage), {
-      headers: {
-        "Content-Type": "application/json",
-        "Access-Control-Allow-Origin": "*",
-        Authorization:
-          "Bearer $2a$10$SoOcDYU6M6tg7oUe00UVQeCgji/yfRpvYfRqU4H9kIKY1.SEC0c5a",
-      },
-    });
-    //convert response to json
-    const responseJson = await response.data;
-    const responseCode = await response.status;
-    defaultResponse = defaultResponse
-      .replace("<<responseCode>>", "" + responseCode)
-      .replace("<<response>>", JSON.stringify(responseJson));
-    return defaultResponse;
-  } catch (error) {
-    defaultResponse = defaultResponse
-      .replace("<<responseCode>>", "400")
-      .replace("<<response>>", "Error " + error);
-    return defaultResponse;
-  }
+  return await sendMessage(jsonMessage, (responseCode:string, responseJson:JSON) => {
+    callback(responseCode, responseJson);
+  });
 };

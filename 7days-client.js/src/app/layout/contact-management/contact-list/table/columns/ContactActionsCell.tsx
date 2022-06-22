@@ -12,9 +12,10 @@ import BroadcastModal from "../../../../broadcast/BroadcastModal";
 
 type Props = {
   id: ID;
+  indexId: number;
 };
 
-const ContactActionsCell: FC<Props> = ({ id }) => {
+const ContactActionsCell: FC<Props> = ({ id, indexId }) => {
   const { setItemIdForUpdate } = useListView();
   const { query } = useQueryResponse();
   const queryClient = useQueryClient();
@@ -114,30 +115,23 @@ const ContactActionsCell: FC<Props> = ({ id }) => {
           className="dropdown-item btn btn-light btn-active-light-primary btn-sm"
           data-kt-users-table-filter="delete_row"
           onClick={async () => await deleteItem.mutateAsync()}
+          
         >
           {t("Contacts.Menu.Delete")}
         </a>
           </li>
           <li>
-          {/* <a
-          // className="menu-link px-3"
-          className="dropdown-item btn btn-light btn-active-light-primary btn-sm"
-          // data-kt-users-table-filter="delete_row"
-          onClick={openAddUserModal}
-        >
-          Broadcast
-        </a> */}
             <a type="button"
                 className="dropdown-item btn btn-light btn-active-light-primary btn-sm"
                 data-bs-toggle="modal"
-                data-bs-target="#broadcast_user_modal"
+                data-bs-target={`#broadcast_user_modal${indexId}`}
                 
             >
-            Broadcast
+              {t("Contacts.Menu.Broadcast")}
             </a>
           </li>
         </ul>
-        <BroadcastModal customerId={id} />
+        <BroadcastModal customerId={id} indexId={indexId} />
       </div>
     </>
   );

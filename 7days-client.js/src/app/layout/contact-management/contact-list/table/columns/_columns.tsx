@@ -59,7 +59,7 @@ const contactsColumns: ReadonlyArray<Column<Contact>> = [
       <ContactCustomHeader tableProps={props} title="Contacts.Column.Actions" className='text-end min-w-100px' />
     ),
     id: 'actions',
-    Cell: ({...props}) => <ContactActionsCell id={props.data[props.row.index].id} />,
+    Cell: ({...props}) => <ContactActionsCell id={props.data[props.row.index].id} indexId={props.row.index}/>,
   },
 ]
 

@@ -134,8 +134,8 @@
   "BS.Info.Languages": "Bahasa",
   "BS.Input.Languages": "Pilih Bahasa",
   "BS.Info.BodyMessage": "Template Pesan",
-  "BS.Input.Parameter": "Masukkan parameter",
-  "BS.Info.Scheduled time": "Dijadwalkan Pada",
+  "BS.Input.Parameter": "Masukkan Parameter",
+  "BS.Info.Scheduled time": "Dijadwalkan pada",
   "BS.Button.SendMessage": "Kirim Pesan",
   "BS.Info.Sent": "Pesanmu berhasil terkirim !"
 }

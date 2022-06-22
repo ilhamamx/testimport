@@ -135,7 +135,7 @@
   "BS.Info.Languages": "Languages",
   "BS.Input.Languages": "Select Languages",
   "BS.Info.BodyMessage": "Body Message",
-  "BS.Input.Parameter": "Enter content",
+  "BS.Input.Parameter": "Enter Content",
   "BS.Info.Scheduled time": "Scheduled time",
   "BS.Button.SendMessage": "Send Message",
   "BS.Info.Sent": "Your Message has been successfully sent !"

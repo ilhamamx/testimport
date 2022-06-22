@@ -42,3 +42,23 @@ export const fetchCollaborationsByUser_2 = (uid: string, company: string ) => {
       return collaborations;
     });
 }
+
+export const getActiveCollaborationByCustomerIdAndCompanyId = (customerId: string, companyId: string) => {
+  const customerRef = conn.createRef("customers", customerId);
+  const companyRef = conn.createRef("company", companyId);
+
+  return db
+    .collection("collaborations")
+    .where("customer", "==", customerRef)
+    .where("company", "==", companyRef)
+    .where("isActive", "==", true)
+    .withConverter(converter2<HandledMessageListItem>())
+    .get()
+    .then(snapshot => {
+      const collaborations = snapshot.docs.map(doc => {
+        return ({...doc.data(), id: doc.id})      
+      })
+      return collaborations;
+    }
+    );
+}

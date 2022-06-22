@@ -45,6 +45,7 @@ export const createMessage = (Message: any) => {
     .collection("messages")
     .add(Message)
     .then((docRef) => {
+      console.log("Document written with ID: ", docRef.id);
     })
     .catch((err) => {
       console.error("Error create customer : ", err);
