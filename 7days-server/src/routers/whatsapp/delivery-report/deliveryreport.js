@@ -1,7 +1,6 @@
 const express = require('express');
 var bodyParser = require('body-parser');
 const { parseJSONWhatsAppDeliveryReport } = require('../../../api/whatsapp/delivery-report/deliveryreport');
-
 const router = express.Router();
 var jsonParser = bodyParser.json()
 
