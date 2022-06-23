@@ -76,6 +76,8 @@ const ChatInner: FC<Props> = ({ isDrawer = false }, props) => {
       if(arryFileType===undefined || arryFileType.length < 1 || arryFileType[0]=== undefined){
         //return error
         alert(t("HC.Error.InvalidURL"));
+        setFileName(t("HC.Error.InvalidURL"))
+        setFile(undefined);
         return;
       }else{
         // const [result, error] = checkFile2("image","jpg",5);
@@ -83,8 +85,12 @@ const ChatInner: FC<Props> = ({ isDrawer = false }, props) => {
         if(error !== undefined){
           if (maxSize !== 0) {
             alert(t("HC.Error."+error).replace("<<size>>",maxSize+" MB"));
+            setFileName(t("HC.Error."+error).replace("<<size>>",maxSize+" MB"))
+            setFile(undefined);
           } else {
             alert(t("HC.Error."+error));
+            setFileName(t("HC.Error."+error))
+            setFile(undefined);
           }
           return;
         }
@@ -118,6 +124,9 @@ const ChatInner: FC<Props> = ({ isDrawer = false }, props) => {
         })
         .catch((error) => {
           console.log("error : " + error.message);
+          alert(t("HC.Error.FailedUpload"));
+          setFileName(t("HC.Error.FailedUpload"))
+          setFile(undefined);
         });
     }
     return fileURL 
@@ -164,6 +173,8 @@ const ChatInner: FC<Props> = ({ isDrawer = false }, props) => {
       firebaseMediaURL = await Promise.resolve(uploadFile(companyID));
       if(firebaseMediaURL === "" || firebaseMediaURL === undefined){
         alert(t("HC.Error.FailedUpload"));
+        setFileName(t("HC.Error.FailedUpload"))
+        setFile(undefined);
         return
       }
     }else{
@@ -210,18 +221,10 @@ const ChatInner: FC<Props> = ({ isDrawer = false }, props) => {
       newListMessage.push(newMessage);
       setMessages(newListMessage);
       dispatch(chat.setListMessages(newListMessage));
-      // setMessages(prevMessage => [
-      //   ...prevMessage,newMessage]); 
     }
 
     const onFetchAccountFinished = (accountChat: Account|undefined) => {
       if(accountChat){
-        //Save New Message to Firebase
-        // const NewListMessages = [...messages,newMessage];
-        // setNewMessage(newMessage);
-        // setMessages(NewListMessages);
-        //Save New Message To Redux
-        // dispatch(chat.setListMessages(messages));
         Chat.createCollaborationMessage(newMessage, companyID ,selectedChat, accountChat, customerChat);
 
         setNewMessage(newMessage);
