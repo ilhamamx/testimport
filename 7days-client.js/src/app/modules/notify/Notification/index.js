@@ -2,7 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import { createPortal } from "react-dom";
 import cn from "classnames";
-import { getIconChannelUrl, KTSVG } from "../../../../resources/helpers";
+import { getIconChannelUrl, KTSVG, toAbsoluteUrl } from "../../../../resources/helpers";
 import createContainer from "../createContainer";
 import { ReactComponent as Times } from "./times.svg";
 import styles from "./Notification.module.css";
@@ -129,7 +129,7 @@ export default function Notification({
             <div className="symbol symbol symbol-40px me-4">
               <div className="symbol-label fs-3 fw-bold">
                 <img
-                  src={`${contact.avatar}`}
+                  src={contact.avatar ? `${contact.avatar}` : toAbsoluteUrl("/media/icons/avatar/def-avatar.png")}
                   alt={contact.firstName}
                   className="w-75"
                 ></img>

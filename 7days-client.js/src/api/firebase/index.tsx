@@ -38,8 +38,8 @@ export const subsToMessages = (
             await getCustomerByID(doc.data().customer.id)
               .then(async (doc) => {
                 // console.log("get customer by id new message: " + JSON.stringify(doc));
-                dataContact = doc as Contact;
-                // console.log("Test : " + JSON.stringify(contactData));
+                dataContact =await doc as Contact;
+                console.log("Test data : " + JSON.stringify(dataContact));
               })
               .catch((err) => {
                 console.log("Error get customer for notif : ", err);
@@ -48,10 +48,9 @@ export const subsToMessages = (
             let notif: Notification = {
               avatar: dataContact.avatar!,
               notifType: "newMessage",
-              name:
-                dataContact.firstName! + dataContact.lastName
-                  ? " " + dataContact.lastName!
-                  : "",
+              name: dataContact.lastName
+                  ?  dataContact.firstName! + " " + dataContact.lastName!
+                  :  dataContact.firstName!,
               phoneNumber: dataContact.phoneNumber!,
               channel: doc.data().channel,
               createdAt: doc.data().createdAt,
