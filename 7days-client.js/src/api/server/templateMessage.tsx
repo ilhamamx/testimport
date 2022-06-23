@@ -15,12 +15,8 @@ export const sendRequestMessage = async (
   const component = () => {
     let jsonComponent = ``
     //if any parameter found
-    if(bodyParameters){
-      jsonComponent = `
-      , "components" : [
-        <<component>>
-      ]
-      `
+    if(bodyParameters.length>0){
+      
     }
     //TODO: Add more components for header
 

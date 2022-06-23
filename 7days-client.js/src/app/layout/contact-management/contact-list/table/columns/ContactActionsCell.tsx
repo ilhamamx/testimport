@@ -9,6 +9,7 @@ import { deleteContact } from "../../core/_requests";
 import { useTranslation } from "react-i18next";
 import { useQueryRequest } from "../../core/QueryRequestProvider";
 import BroadcastModal from "../../../../broadcast/BroadcastModal";
+import AlertModal from "../../../../broadcast/AlertModal";
 
 type Props = {
   id: ID;
@@ -31,6 +32,13 @@ const ContactActionsCell: FC<Props> = ({ id, indexId }) => {
   const openEditModal = () => {
     setItemIdForUpdate(id);
   };
+
+  const onSuccessSubmit = () => {
+    //create emelent in list message
+    console.log("onSuccessSubmit");
+                 let triggerDummyButton = document.getElementById("triggerAlert") as HTMLButtonElement;
+                 triggerDummyButton.click();
+ }
 
   const deleteItem = useMutation(() => deleteContact(id), {
     
@@ -88,6 +96,11 @@ const ContactActionsCell: FC<Props> = ({ id, indexId }) => {
       {/* </div>
       end::Menu */} 
 
+      {/* invisible button*/}
+      <button id='triggerAlert' data-bs-toggle="modal"
+                data-bs-target="#modal_broadcast_alert" hidden></button>
+      <AlertModal />
+
       <div className="dropdown">
         <a
           className="btn btn-light btn-active-light-primary btn-sm"
@@ -131,7 +144,7 @@ const ContactActionsCell: FC<Props> = ({ id, indexId }) => {
             </a>
           </li>
         </ul>
-        <BroadcastModal customerId={id} indexId={indexId} />
+        <BroadcastModal customerId={id} indexId={indexId} onSuccessSubmit={onSuccessSubmit}/>
       </div>
     </>
   );

@@ -26,6 +26,7 @@ import AlertModal from "./AlertModal";
 interface IProps {
   customerId: ID;
   indexId: number;
+  onSuccessSubmit: () => void;
 }
 
 function BroadcastModal(props: IProps) {
@@ -189,24 +190,6 @@ function BroadcastModal(props: IProps) {
                     account.whatsappNumber,
                     customer.phoneNumber
                   );
-
-                  // //create emelent in list message
-                  // let triggerDummyButton = document.createElement("button");
-                  // triggerDummyButton.setAttribute("data-bs-toggle", "modal");
-                  // triggerDummyButton.setAttribute(
-                  //   "data-bs-target",
-                  //   "#modal_broadcast_alert"
-                  // );
-
-                  // //togle button click
-                  // triggerDummyButton.click();
-                  
-                  onClose();
-
-                  let triggerDummyButtonClose = document.getElementById(
-                    `close-modal${props.indexId}`
-                  );
-                  triggerDummyButtonClose?.click();
                 }
               });
           });
@@ -268,6 +251,17 @@ function BroadcastModal(props: IProps) {
               "No response or reponsecode from server side.";
           }
           serviceMessage.createMessage(Mmessage);
+          onClose();
+
+                  let triggerDummyButtonClose = document.getElementById(
+                    `close-modal${props.indexId}`
+                  );
+                  triggerDummyButtonClose?.click();
+
+          if(responseCode === "200"){
+            props.onSuccessSubmit();
+          }
+
         }
       )
       .then((response) => {})
