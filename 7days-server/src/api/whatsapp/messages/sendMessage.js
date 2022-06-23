@@ -108,7 +108,6 @@ const sendWhatsappMessage = async (req, callback) => {
 
   await sendRequest(header, facebookEndpoint, jsonWhatsapp, function (error, response, responseCode) {
     if (error) {
-      console.log("error json response from whatsapp : " + JSON.stringify(error.whatsapp.error));
       Sentry.setContext("Error", {
         json : error.whatsapp.error,
         response_code: responseCode
