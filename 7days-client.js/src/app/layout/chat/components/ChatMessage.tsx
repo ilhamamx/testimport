@@ -90,24 +90,10 @@ const ChatMessage: FC<MessageProps> = (props) => {
   } mb-10`;
 
   const saveMedia = () => {
-    console.log(
-      "check Isi Variable : " + message.mediaUrl + " --- " + message.filename
-    );
     if (message.mediaUrl && message.filename) {
       return saveMessageMedia(message.mediaUrl, message.filename);
     } else {
       return alert(t("HC.Error.FailedUpload"));
-    }
-  };
-
-  const openDialog = () => {
-    if (
-      message.mediaUrl !== undefined &&
-      message.id !== undefined &&
-      message.messageType !== undefined
-    ) {
-      // <ChatFileView />
-      console.log("Clicked : " + message.mediaUrl + " --- " + message.id);
     }
   };
 
@@ -213,7 +199,6 @@ const ChatMessage: FC<MessageProps> = (props) => {
           )}
 
           {/* Message Type: Image */}
-          {console.log("ModalID: kt_modal_"+message.messageType+"_"+message.id)}
           {(message.messageType === "image" ||
             message.messageType === "video") && (
             //bubble chat

@@ -4,10 +4,8 @@ interface InitialState {
   chatList: HandledMessageListItem[];
   selectedCollaboration: HandledMessageListItem;
   listMessage: Message[];
-  listMessageWithMedia: Message[];
   selectedChat: string;
   countTotalUnreadMessages: number;
-  selectedMessage: string;
 
 }
 const UpdateChatListAction: string = "UpdateChatList";

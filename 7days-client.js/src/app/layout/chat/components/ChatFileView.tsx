@@ -39,7 +39,6 @@ const ChatFileView: FC<ChatMediaProps> = (props) => {
   if(previousMedia!=="" && previousMedia!==undefined){
     checkFirst = ""
   } 
-  console.log("MODAL ID : "+`kt_modal_${messageType}_${messageId}`);
   
   return (
     <div className="modal" tabIndex={-1} id={`kt_modal_${messageType}_${messageId}`}>

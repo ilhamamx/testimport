@@ -63,7 +63,6 @@ const ChatInner: FC<Props> = ({ isDrawer = false }, props) => {
   }
 
   useEffect(() => {
-    console.log(">>> ISI FIle : "+file);
     if(file){
       //Set File Attribut
       const size: number = file.size;
@@ -80,7 +79,6 @@ const ChatInner: FC<Props> = ({ isDrawer = false }, props) => {
         return;
       }else{
         // const [result, error] = checkFile2("image","jpg",5);
-        // console.log("---->>"+result+"----"+error);
         const [result, error,maxSize] = checkFile(arryFileType[0],arryFileType[1],size);
         if(error !== undefined){
           if (maxSize !== 0) {
@@ -115,7 +113,6 @@ const ChatInner: FC<Props> = ({ isDrawer = false }, props) => {
             .child(fileName)
             .getDownloadURL()
             .then((url) => {
-              console.log("media url : " + url);
               fileURL = url;
             });
         })

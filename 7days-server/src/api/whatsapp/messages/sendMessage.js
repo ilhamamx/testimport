@@ -94,9 +94,6 @@ const sendWhatsappMessage = async (req, callback) => {
   if(!dataAccount[0]){
     return callback(resultCode("SM", "02", "company/from"), null, 400);
   }
-  console.log("data account : " + dataAccount);
-  console.log("json : " + JSON.stringify(jsonWhatsapp, null, 2));
-  console.log("access_token : " + dataAccount[0].access_token);
   const header = {
     "Content-Type": "application/json",
     "Authorization": `Bearer ${dataAccount[0].access_token}`
@@ -117,7 +114,6 @@ const sendWhatsappMessage = async (req, callback) => {
 };
 
 async function sendRequest(header, url, json, callback) {
-  console.log("masuk send request");
   await axios({
     method: "POST", // Required, HTTP method, a string, e.g. POST, GET
     // url: "https://coordinated-honey-taste.glitch.me/test", //for testing purpose using sandbox

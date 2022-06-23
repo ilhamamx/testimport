@@ -12,7 +12,6 @@ var jsonParser = bodyParser.json();
 router.post("/messages/sendMessage", jsonParser, authSU, async (req, res) => {
   try {
     let data = req.body;
-    console.log(JSON.stringify(req.body, null, 2));
     // cek type message
     // if whatsapp, call sendWhatsappMessage
     if (req.body.type) {

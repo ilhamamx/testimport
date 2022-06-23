@@ -22,9 +22,7 @@ const initialState: InitialState = {
     LastMessageModel: undefined,
   },
   listMessage:[],
-  listMessageWithMedia:[],
   selectedChat: '',
-  selectedMessage: '',
   countTotalUnreadMessages: 0
 };
 
@@ -77,12 +75,6 @@ export const ChatSlice = createSlice({
 
     setSelectedChat: (state, action: PayloadAction<string>) => {
       state.selectedChat = action.payload;
-      console.log(action.payload)
-    },    
-
-
-    setSelectedMessage: (state, action: PayloadAction<string>) => {
-      state.selectedMessage = action.payload;
       console.log(action.payload)
     },    
 
