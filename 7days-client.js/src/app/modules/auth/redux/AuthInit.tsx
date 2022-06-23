@@ -62,48 +62,48 @@ const AuthInit: FC<PropsFromRedux> = (props) => {
     // eslint-disable-next-line
   }, [])
 
-  // useEffect(() => {
-  //   if (currentUser === null && userSessionToken === null) {
-  //     dispatch(props.setAuth(false))
-  //   }
-  //   if (userSessionToken !== null && currentUser !== null) {
-  //     let session = async () => {
-  //       await getSessionToken(currentUser.uid)
-  //         .then((response) => {
-  //           if (response) {
-  //             if (userSessionToken !== response) {
-  //               userSessionToken = null;
-  //               logout()
-  //                 .then(() => {
-  //                   const user = lc.getItemLC(lc.LCName.User);
-  //                   const sessionid = lc.getItemLC(lc.LCName.SessionID);
-  //                   dispatch(props.deleteUser());
-  //                   lc.removeSession()
-  //                   dispatch(props.setAuth(false));
-  //                   alert("You are loggin in other device");
-  //                   // window.location.reload();
-  //                   nav("/auth")
-  //                 })
-  //                 .catch((error) => {
-  //                   console.log("error: " + error);
-  //                   Log.SDayslogger(
-  //                     nav,
-  //                     "Testing Error Message",
-  //                     Log.SDLOGGER_INFO,
-  //                     false,
+  useEffect(() => {
+    if (currentUser === null && userSessionToken === null) {
+      dispatch(props.setAuth(false))
+    }
+    if (userSessionToken !== null && currentUser !== null) {
+      let session = async () => {
+        await getSessionToken(currentUser.uid)
+          .then((response) => {
+            if (response) {
+              if (userSessionToken !== response) {
+                userSessionToken = null;
+                logout()
+                  .then(() => {
+                    const user = lc.getItemLC(lc.LCName.User);
+                    const sessionid = lc.getItemLC(lc.LCName.SessionID);
+                    dispatch(props.deleteUser());
+                    lc.removeSession()
+                    dispatch(props.setAuth(false));
+                    alert("You are loggin in other device");
+                    // window.location.reload();
+                    nav("/auth")
+                  })
+                  .catch((error) => {
+                    console.log("error: " + error);
+                    Log.SDayslogger(
+                      nav,
+                      "Testing Error Message",
+                      Log.SDLOGGER_INFO,
+                      false,
 
-  //                     true
-  //                   );
-  //                   console.log("failed logout");
+                      true
+                    );
+                    console.log("failed logout");
 
-  //                 });
-  //             }
-  //           }
-  //         });
-  //     }
-  //     session();
-  //   }
-  // }, [nav])
+                  });
+              }
+            }
+          });
+      }
+      session();
+    }
+  }, [nav])
   return showLoading ? <div>Loading...</div> : <>{props.children}</>
 }
 export default connector(AuthInit);
