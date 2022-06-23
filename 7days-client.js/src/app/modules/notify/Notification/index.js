@@ -6,22 +6,20 @@ import { getIconChannelUrl, KTSVG, toAbsoluteUrl } from "../../../../resources/h
 import createContainer from "../createContainer";
 import { ReactComponent as Times } from "./times.svg";
 import styles from "./Notification.module.css";
-import clsx from "clsx";
-import Icon from "../../../../styles/components/Icon";
 import Avatar from "../../../../styles/components/Avatar";
 import { Contact } from "../../../layout/contact-management/contact-list/core/_models";
-import { format } from "date-fns";
 import { useTranslation } from "react-i18next";
-import { Link } from "react-router-dom";
 import moment from 'moment';
 import "moment/locale/id";
+import { useDispatch } from "react-redux";
+import * as chat from "../../../../app/modules/chat/redux/ChatSlice"
+import { Link, useLocation } from "react-router-dom";
 
 const container = createContainer();
-
 let timeToDelete = 1000;
 let timeToClose = 1000 * 10;
 
-export default function Notification({
+export default function Notification ({
   color = Color.info,
   autoClose = false,
   onDelete,
@@ -30,7 +28,7 @@ export default function Notification({
   contact,
 }) {
   const [isClosing, setIsClosing] = React.useState(false);
-  
+  const dispatch = useDispatch();
   const { t,i18n } = useTranslation();
   moment.locale(i18n.language)
 
@@ -53,7 +51,6 @@ export default function Notification({
       };
     }
   }, [autoClose]);
-
   //custom notification style
   return createPortal(
     // <div className="alert alert-dismissible bg-light-primary d-flex flex-column flex-sm-row p-5 mb-10">
@@ -77,8 +74,6 @@ export default function Notification({
     //     <span className="svg-icon svg-icon-1 svg-icon-primary">...</span>
     //   </button>
     // </div>,
-    
-    
     <div className={cn([styles.container, { [styles.shrink]: isClosing }])}>
       <div
         className={cn([
@@ -113,7 +108,7 @@ export default function Notification({
             <div className="ps-3">
               <span>
                 {message.createdAt
-                  ? moment(new Date(message.createdAt.seconds*1000)).fromNow()
+                  ? moment(new Date(message.createdAt.seconds * 1000)).fromNow()
                   : moment(new Date()).fromNow()}
               </span>
             </div>
@@ -129,7 +124,11 @@ export default function Notification({
             <div className="symbol symbol symbol-40px me-4">
               <div className="symbol-label fs-3 fw-bold">
                 <img
-                  src={contact.avatar ? `${contact.avatar}` : toAbsoluteUrl("/media/icons/avatar/def-avatar.png")}
+                  src={
+                    contact.avatar
+                      ? `${contact.avatar}`
+                      : toAbsoluteUrl("/media/icons/avatar/def-avatar.png")
+                  }
                   alt={contact.firstName}
                   className="w-75"
                 ></img>
@@ -174,9 +173,10 @@ export default function Notification({
             <div className="align-text-bottom list-inline mb-4 mb-lg-1 d-flex flex-row justify-content-end flex-fill w-auto ">
               <a
                 href="/handled-customer"
-                // onClick={() => {
-                //   dispatch(chat.setSelectedChat(message.collaboration.id));
-                // }}
+                onClick={() => {
+                  console.log("masuk dispatch");
+                  dispatch(chat.setSelectedChat(message.collaboration.id));
+                }}
                 className="btn btn-primary btn-sm align-text-bottom p-7 pt-1 pb-1 mt-2"
               >
                 {t("Notif.Button.Reply")}
@@ -194,8 +194,8 @@ export default function Notification({
           {/* <i className="bi bi-x fw-bold fs-6"></i> */}
         </button>
       </div>
-    </div>
-    ,container
+    </div>,
+    container
   );
 }
 

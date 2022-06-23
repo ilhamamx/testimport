@@ -4,18 +4,21 @@ import ReactDOM from "react-dom";
 import NotificationsManager from "./NotificationsManager";
 import Notification, { Color } from "./Notification";
 import createContainer from "./createContainer";
+import store from "../../../setup/redux/store";
+import { Provider } from "react-redux";
 
 const containerElement = createContainer();
 let notify;
 
 ReactDOM.render(
-  
-  <NotificationsManager
-    setNotify={(notifyFn) => {
-      notify = notifyFn;
-    }}
-  />,
-  containerElement,
+  <Provider store={store}>
+    <NotificationsManager
+      setNotify={(notifyFn) => {
+        notify = notifyFn;
+      }}
+    />
+  </Provider>,
+  containerElement
 );
 
 export { Notification, Color };

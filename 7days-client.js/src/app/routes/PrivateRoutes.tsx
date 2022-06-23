@@ -27,7 +27,7 @@ const PrivateRoutes = () => {
   const onNewData = (messageContent: Message, customer: Contact) => {
     // TODO: tampilkan notification
     console.log("new Notif Exists : ", message);
-    dispatch(chat.setSelectedChat(messageContent.collaboration!.id))
+    // dispatch(chat.setSelectedChat(messageContent.collaboration!.id))
     dispatch(chat.addIncomingMessages(messageContent))
     message = messageContent.textContent;
     infoNewMessage(message, true, messageContent, customer);
