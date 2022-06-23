@@ -1,9 +1,7 @@
 const express = require("express");
 var bodyParser = require("body-parser");
 const { authSU } = require("../../middleware/auth");
-const {
-  sendWhatsappMessage,
-} = require("../../api/whatsapp/messages/sendMessage");
+const { sendWhatsappMessage } = require("../../api/whatsapp/messages/sendMessage");
 const { resultCode } = require("../../helper/resultCode");
 
 const router = express.Router();

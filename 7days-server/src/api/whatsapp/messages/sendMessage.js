@@ -4,6 +4,7 @@ const { getAccountByPhoneNumberTypeCompany } = require("../../account");
 const { resultCode } = require("../../../helper/resultCode");
 const axios = require("axios");
 const { formFreeMessageFormatFromClient, formTemplateMessageFormatFromClient } = require("./helper/formMessage")
+const Sentry = require("@sentry/node");
 
 const sendWhatsappMessage = async (req, callback) => {
   //parse JSON
@@ -104,6 +105,15 @@ const sendWhatsappMessage = async (req, callback) => {
 
   await sendRequest(header, facebookEndpoint, jsonWhatsapp, function (error, response, responseCode) {
     if (error) {
+      Sentry.setContext("Error", {
+        json : error.whatsapp.error,
+        response_code: responseCode
+      });
+      Sentry.withScope(function (scope) {
+        scope.setLevel("error");
+        Sentry.captureMessage("FAILED SEND MESSAGE TO WHATSAPP ==> Error code : " + error.errorCode 
+          + " , desc : " + error.whatsapp.error.message);
+      }); 
       console.log("error : " + JSON.stringify(error, null, responseCode));
       return callback(error, null, responseCode);
     } else {
