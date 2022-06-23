@@ -38,5 +38,10 @@
   background-color: #A1DDF9;
 }
 
+.audio-7days::-webkit-media-controls-panel {
+  background-color: #A1DDF9;
+}
 
-
+.audio-whatsapp::-webkit-media-controls-panel {
+  background-color: #199844;
+}

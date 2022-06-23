@@ -20,6 +20,8 @@ import { url } from "inspector";
 import { ChatFileView } from "./ChatFileView";
 import { Modal, ModalDialog } from "react-bootstrap";
 import { useDispatch } from "react-redux";
+import ReactWaves from "@dschoon/react-waves";
+import AudioItem from "./ChatAudio"
 
 interface MessageProps {
   message: newMessageModel;
@@ -40,6 +42,8 @@ const ChatMessage: FC<MessageProps> = (props) => {
   const [nextMedia, setNextMedia] =useState<string>("");
   const [currentMedia, setCurrentMedia] =useState<string>(`kt_modal_${message.messageType}_${message.id}`);
   let listMediaUrl: string[] = []; 
+  // Audio Message
+  const [playAudio, setPlayAudio] = useState(false);
 
   useEffect(() => {
     messages.forEach((obj) => {
@@ -89,6 +93,10 @@ const ChatMessage: FC<MessageProps> = (props) => {
     msgtype === "in" ? "start" : "end"
   } mb-10`;
 
+  const contentType = `justify-content-${
+    msgtype === "in" ? "start" : "end"
+  }`;
+
   const saveMedia = () => {
     if (message.mediaUrl && message.filename) {
       return saveMessageMedia(message.mediaUrl, message.filename);
@@ -118,7 +126,8 @@ const ChatMessage: FC<MessageProps> = (props) => {
       )}
 
       <div className="d-flex flex-column">
-        <div className="d-flex justify-content-end">
+        <div className={clsx("d-flex", `${contentType}`)}>
+        {/* <div className="d-flex justify-content-end"> */}
           {/* Message Type: Text */}
           {message.messageType === "text" && (
             <div
@@ -248,7 +257,7 @@ const ChatMessage: FC<MessageProps> = (props) => {
               {/***
                * Caption
                */}
-              {message.filename && message.filename !== "" && (
+              {message.textContent && message.textContent !== "" && (
                 <div
                   className={clsx(
                     "p-3 rounded",
@@ -257,7 +266,7 @@ const ChatMessage: FC<MessageProps> = (props) => {
                   )}
                   style={{ color: txChat }}
                 >
-                  {message.filename}
+                  {message.textContent}
                 </div>
               )}
               {/***
@@ -283,6 +292,9 @@ const ChatMessage: FC<MessageProps> = (props) => {
 
 
           {/* Message Type: Audio */}
+          {message.messageType === "audio" &&
+              <audio className={`audio-${message.channel}`} src={message.mediaUrl} controls></audio>
+          }
 
           {/* Message Type: Location */}
 

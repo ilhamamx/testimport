@@ -67,10 +67,10 @@ export const fetchMessageCollaboration = (collaborationid: string) => {
   }
 };
 
-export const createCollaborationMessage = (newMessage: Message,companyID: string,selectedChat: string,account: Account | undefined,customer: Customer | undefined) => {
+export const createCollaborationMessage = async (newMessage: Message,companyID: string,selectedChat: string,account: Account | undefined,customer: Customer | undefined, callback: any) => {
   //Send Request To Server Side
-  console.log("---->>> Check Isi Message : " + JSON.stringify(newMessage));
   let Message: Message;
+  let resultMessageID: string;
   if (newMessage !== undefined) {
     /***
      * Convert Object To Updatable
@@ -96,7 +96,7 @@ export const createCollaborationMessage = (newMessage: Message,companyID: string
           Message.textContent,
           Message.mediaUrl
         )
-        .then((response) => {
+        .then(async (response) => {
           console.log("Response Request Server Side : " + response);
           const resp = JSON.parse(response);
           if (resp.responseCode && resp.response) {
@@ -139,7 +139,16 @@ export const createCollaborationMessage = (newMessage: Message,companyID: string
                 }
               }
             }
-            return message.createMessage(Message);
+            await message.createMessage(Message)
+            .then(async(response) => {
+              console.log(">>>>>>>>>> Hasil Pengiriman pesan ID : "+response);
+              if (response && response !== "") {
+                Message.id = response;
+                callback(Message, null);
+              }
+            }); 
+            console.log(">>>>>>>>>> Hasil Pengiriman Pesan : "+JSON.stringify(Message));
+            return Message;
           } else if (resp.responseCode && !resp.response) {
             if (resp.responseCode && resp.responseCode !== "") {
               Message.responseCode = resp.responseCode;
@@ -152,12 +161,30 @@ export const createCollaborationMessage = (newMessage: Message,companyID: string
               Message.messageStatus = MessageStatus.failed;
             }
             Message.resultMessage = "Exmpty Response From Server Side";
-            return message.createMessage(Message);
+            message.createMessage(Message)
+            .then(async(response) => {
+              console.log(">>>>>>>>>> Hasil Pengiriman pesan ID : "+response);
+              if (response && response !== "") {
+                Message.id = response;
+                callback(Message, null);
+              }
+            }); 
+            console.log(">>>>>>>>>> Hasil Pengiriman Pesan : "+JSON.stringify(Message));
+            return Message;
           } else {
             Message.messageStatus = MessageStatus.failed;
             Message.resultMessage =
               "No response or reponsecode from server side.";
-            return message.createMessage(Message);
+            message.createMessage(Message)
+            .then(async(response) => {
+              console.log(">>>>>>>>>> Hasil Pengiriman pesan ID : "+response);
+              if (response && response !== "") {
+                Message.id = response;
+                callback(Message, null);
+              }
+            }); 
+            console.log(">>>>>>>>>> Hasil Pengiriman Pesan : "+JSON.stringify(Message));
+            return Message;
           }
         });
     } else {
@@ -170,7 +197,16 @@ export const createCollaborationMessage = (newMessage: Message,companyID: string
       } else {
         Message.resultMessage = "No data account was found.";
       }
-      return message.createMessage(Message);
+      message.createMessage(Message)
+      .then(async(response) => {
+        console.log(">>>>>>>>>> Hasil Pengiriman pesan ID : "+response);
+        if (response && response !== "") {
+          Message.id = response;
+          callback(Message, null);
+        }
+      }); 
+      console.log(">>>>>>>>>> Hasil Pengiriman pesan return : "+Message);
+      return Message;
     }
   }
 };

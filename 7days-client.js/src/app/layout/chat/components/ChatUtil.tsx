@@ -59,6 +59,8 @@ export const checkFile = (FileType:string|undefined,FileExtensionType:string|und
     result= "image";
   }else if(FileType.toLocaleLowerCase() === "video"){
     result= "video";
+  }else if(FileType.toLocaleLowerCase() === "audio"){
+    result= "audio";
   }else{
     error ="InvalidURL";
   }
@@ -78,6 +80,11 @@ export const checkFile = (FileType:string|undefined,FileExtensionType:string|und
       maxSize = 16;
       error ="MaxSize";
     }
+    if (result === "audio" && sizeInMB >= 16) {
+      maxSize = 16;
+      error ="MaxSize";
+    }
+
   }
 
   // Check File Extension
@@ -89,6 +96,9 @@ export const checkFile = (FileType:string|undefined,FileExtensionType:string|und
       error="InvalidFileType"
     }
     if (result === "video" && (FileExtensionType !== undefined) && (VideoMediaType.includes(FileExtensionType) === false)) {
+      error="InvalidFileType"
+    }
+    if (result === "audio" && (FileExtensionType !== undefined) && (AudioMediaType.includes(FileExtensionType) === false)) {
       error="InvalidFileType"
     }
   }

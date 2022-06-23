@@ -17,7 +17,7 @@ interface ChatMediaProps {
 const mapState = (state: RootState) => ({ chat: state.Chat })
 
 const ChatFileView: FC<ChatMediaProps> = (props) => {
-  const {messageType, mediaURL, messageId, mediaName, nextMedia,currentMedia,previousMedia } = props;
+  let {messageType, mediaURL, messageId, mediaName, nextMedia,currentMedia,previousMedia } = props;
 
   const { t } = useTranslation();
   useEffect(() => {
@@ -29,9 +29,17 @@ const ChatFileView: FC<ChatMediaProps> = (props) => {
 
   const saveMedia = () => {
     if (mediaURL && mediaName) {
-      return saveMessageMedia(mediaURL, mediaName);
+      if(mediaName!==undefined && mediaName !== ""){
+        return saveMessageMedia(mediaURL, mediaName);
+      }else{
+        return saveMessageMedia(mediaURL, messageId);
+      }
     } else {
-      return alert(t("HC.Error.FailedUpload"));
+      if(messageId){
+        mediaName=messageId;
+      }else{
+        return alert(t("HC.Error.FailedUpload"));
+      }
     }
   };
 
@@ -39,7 +47,7 @@ const ChatFileView: FC<ChatMediaProps> = (props) => {
   if(previousMedia!=="" && previousMedia!==undefined){
     checkFirst = ""
   } 
-  
+  console.log("--->> Ini adalah modal : "+currentMedia+" -- "+mediaURL);
   return (
     <div className="modal" tabIndex={-1} id={`kt_modal_${messageType}_${messageId}`}>
     <div className="modal-dialog">

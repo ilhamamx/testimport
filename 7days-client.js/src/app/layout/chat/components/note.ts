@@ -68,23 +68,23 @@ import { Link } from "react-router-dom";
  * 6. last sent vidio or image file
  * 7. update collaboration on firebase 
  * 8. update collaboration on local (lastInteractionMessage, lastInteractionChannel, lastInteractionAt,lastInteractionType)
- * 9. maximal bubble chat need to check in mobile view
+ * usul ke ayu untuk vidio dan image di samakan kayak document untuk downloadnya,
  */
 
 /***
  * NOTE BUG
- * 1. pesan hilang ketika di reload - Bug last sent messages              
- * 2. list message - update last message                                      
- * 3. batasan type file
- * 5. siapin file document untuk di test (pdf, excel, word, txt, ods, dll)    
- * 6. siapin file image untuk di test (jpg, png, jpeg, bitmap, gif, dll)   
- * 7. siapin file video untuk di test (mp4, 3gp, mov)   
- * 8. check maximmum size file
- * 9. chatlist tidak urut
- */
-
-
-/**
- * Translate
- * 1. Failed to download file (ChatMessage doc, ChatFileView)
+ * 1. pesan hilang ketika di reload - Bug last sent messages                          (done)           
+ * 2. list message - update last message                                              (done)                                       
+ * 3. batasan type file 
+ * 5. siapin file document untuk di test (pdf, excel, word, txt, ods, dll)            (done)   
+ * 6. siapin file image untuk di test (jpg, png, jpeg, bitmap, gif, dll)              (done)  
+ * 7. siapin file video untuk di test (mp4, 3gp, mov)                                 (done)  
+ * 8. check maximmum size file                                                        (done)  
+ * 9. chatlist tidak urut                                                             (done)  
+ * 10. chat listnya juga blm full sampek bawah containernya                           (done)
+ * 11. chatnya ga otomatis scroll kebawah
+ * 12. pesan yg sudah dikirim tidak bisa langsung di klik                             (done)                        
+ * 13. tombol download untuk pesan yg baru (gak ada filename                          (done)
+ * 14.
+ * 
  */

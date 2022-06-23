@@ -16,6 +16,7 @@ import * as lc from "../../../modules/localstorage/index"
 import { storage } from "../../../../../src/db"
 import { checkFile,formatSize } from "./ChatUtil"
 import { v4 as uuidv4 } from 'uuid';
+import { ChatFileView } from "./ChatFileView";
 
 
 const mapState = (state: RootState) => ({ chat: state.Chat })
@@ -54,6 +55,7 @@ const ChatInner: FC<Props> = ({ isDrawer = false }, props) => {
   const [mediaURL, setMediaURL] =useState<string|undefined>("");
   const [messageType, setmessageType] =useState<string|undefined>("text");
   const [prevFile, setPrevFile] = useState("");
+  let listMediaUrl: string[] = []; 
 
   //Get Uploaded File
   const setPreviewFile = async (event: any) => {
@@ -223,11 +225,10 @@ const ChatInner: FC<Props> = ({ isDrawer = false }, props) => {
       dispatch(chat.setListMessages(newListMessage));
     }
 
-    const onFetchAccountFinished = (accountChat: Account|undefined) => {
-      if(accountChat){
-        Chat.createCollaborationMessage(newMessage, companyID ,selectedChat, accountChat, customerChat);
-
-        setNewMessage(newMessage);
+    const callback =(responseMessage: newMessageModel, error: string) => {
+      console.log("Response Message : "+JSON.stringify(responseMessage));
+      if(responseMessage!== undefined){
+        setNewMessage(responseMessage);
         const newCollabList: HandledMessageListItem[]= [];
         if(collabs!== undefined){
           let newCollab = collabs;
@@ -259,6 +260,53 @@ const ChatInner: FC<Props> = ({ isDrawer = false }, props) => {
           setcollabs(newCollab);
           dispatch(chat.setChatList(newCollabList));   
         }
+
+        if ((responseMessage.messageType !== undefined && (responseMessage.messageType === "image" || responseMessage.messageType === "video")
+          ) && 
+          responseMessage.mediaUrl !== undefined &&
+          responseMessage.id !== undefined &&
+          responseMessage.filename !== undefined ){
+          
+            messages.forEach((obj) => {
+            if(obj.messageType!== undefined && (obj.messageType === "video" || obj.messageType === "image")){
+              listMediaUrl.push(`kt_modal_${obj.messageType}_${obj.id}`);
+            }
+          });
+
+          let currentMedia = `kt_modal_${responseMessage.messageType}_${responseMessage.id}`;
+          let nextMedia = "";
+          let previousMedia = "";
+          for (let index = 0; index < listMediaUrl.length; index++) {
+            if (listMediaUrl[index] === currentMedia ) {
+                nextMedia=listMediaUrl[index+1];
+                previousMedia=listMediaUrl[index-1];
+            }
+          }
+
+          <ChatFileView
+            messageType={responseMessage.messageType}
+            mediaURL={responseMessage.mediaUrl}
+            messageId={responseMessage.id}
+            mediaName={responseMessage.filename}
+            previousMedia={previousMedia}
+            nextMedia={nextMedia}
+            currentMedia={currentMedia}                    
+          />
+        }
+      }else{
+        //severe
+        console.log("Failed To Sent Message");
+      }
+    }
+
+    const onFetchAccountFinished = async (accountChat: Account|undefined) => {
+      if(accountChat){
+        let messagesss:newMessageModel|undefined;
+        Chat.createCollaborationMessage(newMessage, companyID ,selectedChat, accountChat, customerChat,
+          (responseCode:newMessageModel, responseJson:string) => {
+          callback(responseCode, responseJson);
+        });
+
       }else{
         //severe
         console.log("Check Account Pengiriman No Data Account");
@@ -291,7 +339,7 @@ const ChatInner: FC<Props> = ({ isDrawer = false }, props) => {
     >
       <div
         className={clsx("scroll-y me-n5 pe-5", {
-          "h-500px ": !isDrawer,//h-lg-auto
+          "h-400px ": !isDrawer,//h-lg-auto
         })}
         data-kt-element="messages"
         data-kt-scroll="true"
