@@ -251,17 +251,17 @@ function BroadcastModal(props: IProps) {
               "No response or reponsecode from server side.";
           }
           serviceMessage.createMessage(Mmessage);
+
           onClose();
 
-                  let triggerDummyButtonClose = document.getElementById(
-                    `close-modal${props.indexId}`
-                  );
-                  triggerDummyButtonClose?.click();
+          let triggerDummyButtonClose = document.getElementById(
+            `close-modal${props.indexId}`
+          );
+          triggerDummyButtonClose?.click();
 
-          if(responseCode === "200"){
+          if(responseCode == "200"){
             props.onSuccessSubmit();
           }
-
         }
       )
       .then((response) => {})
