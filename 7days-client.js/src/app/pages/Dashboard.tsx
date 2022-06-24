@@ -119,6 +119,7 @@ export function Dashboard() {
     isActive: true,
     createdAt: Timestamp.now(),
     updateAt: Timestamp.now(),
+    lastInteractionAt: Timestamp.now(),
     messageType: "text",
     textContent: "Ini pesan : " + uuidv4(),
     notifiedAt: null,

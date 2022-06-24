@@ -15,6 +15,7 @@ import { KTSVG } from "../../../resources/helpers";
 import { HeaderNotificationsMenu } from "./header-menus/HeaderNotificationsMenu";
 import { EditHeaderNotificationsMenu } from "./header-menus/EditHeaderNotificationsMenu";
 import { getItemLC, LCName, setItemLC } from "../../../app/modules/localstorage";
+import { deleteMessage } from "../../modules/chat/redux/ChatSlice";
 
 const CustomHeader: FC = () => {
   const { t } = useTranslation();
@@ -60,6 +61,7 @@ const CustomHeader: FC = () => {
           dispatch(deleteUser());
           lc.removeSession();
           dispatch(setAuth(false));
+          dispatch(deleteMessage)
           nav("/auth");
         })
         .catch((error) => {

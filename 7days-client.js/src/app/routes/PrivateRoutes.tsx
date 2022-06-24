@@ -6,9 +6,8 @@ import { CustomerInQueue } from "../pages/CustomerInQueue";
 import { Dashboard } from "../pages/Dashboard";
 import { Faq } from "../pages/FAQ";
 import { HandledCustomer } from "../pages/HandledCustomer";
-import { ContactDetail } from "../pages/ContactDetail";
 import AccountPage from "../modules/accounts/AccountPage"
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { subsToMessages } from "../../api/firebase";
 import { Message } from "../../app/layout/chat/models/ChatItem.model";
 import { infoNewMessage } from "../modules/notify";

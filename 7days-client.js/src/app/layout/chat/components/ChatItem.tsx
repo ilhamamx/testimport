@@ -89,9 +89,9 @@ const ChatItem: FC<ChatItemProps> = (props) => {
       </div>
 
       <div className="d-flex flex-column align-items-end ms-2">
-        {item.lastInteractionAt && 
+      {item.lastInteractionAt && 
           <span className="text-muted fs-7 mb-1">
-            {ChatTime(item.lastInteractionAt.toDate())}
+            {ChatTime( new Date (item.lastInteractionAt.seconds * 1000))}
           </span>
         }
         <div className="symbol-group symbol-hover">

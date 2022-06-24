@@ -13,7 +13,7 @@ import { AsideDefault } from "./aside/AsideDefault";
 import { DropdownDefault } from "./dropdown/DropdownDefault";
 import { ShortcutBar } from "./Shorcut";
 import { deleteUser, setAuth } from "../modules/auth/redux/AuthSlice";
-import { setSelectedChat } from "../modules/chat/redux/ChatSlice";
+import { deleteMessage, setSelectedChat } from "../modules/chat/redux/ChatSlice";
 import { useDispatch } from "react-redux";
 import { logout } from "../../api/index";
 import * as Log from "../../util/SDayslogger";
@@ -61,6 +61,7 @@ const MasterLayout = () => {
           lc.removeSession()
           dispatch(setAuth(false));
           dispatch(setSelectedChat(""));
+          dispatch(deleteMessage)
           nav("/auth")
         })
         .catch((error) => {

@@ -2,10 +2,8 @@
 import clsx from "clsx";
 import { FC, useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import { KTSVG, getIconChannelUrl, toAbsoluteUrl } from "../../../resources/helpers";
+import { getIconChannelUrl, toAbsoluteUrl } from "../../../resources/helpers";
 import Avatar from "../../../styles/components/Avatar";
-import { defaultNotifcation } from "../../modules/notify/Notification/model";
-import { format } from "date-fns";
 import { getItemLC, LCName } from "../../modules/localstorage";
 import { Notification } from "../../modules/notify/Notification/model";
 import { useTranslation } from "react-i18next";

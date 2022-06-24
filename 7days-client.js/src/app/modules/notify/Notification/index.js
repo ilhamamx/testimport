@@ -13,7 +13,6 @@ import moment from 'moment';
 import "moment/locale/id";
 import { useDispatch } from "react-redux";
 import * as chat from "../../../../app/modules/chat/redux/ChatSlice"
-import { Link, useLocation } from "react-router-dom";
 
 const container = createContainer();
 let timeToDelete = 1000;
