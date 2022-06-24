@@ -116,7 +116,6 @@ export const ChatSlice = createSlice({
         LastMessageModel: undefined,
       };
       state.countTotalUnreadMessages = 0;
-      state.messageList = [];
     },
   },
 });
