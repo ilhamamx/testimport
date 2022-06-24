@@ -293,7 +293,7 @@ const ChatMessage: FC<MessageProps> = (props) => {
 
           {/* Message Type: Audio */}
           {message.messageType === "audio" &&
-              <audio className={`audio-${message.channel}`} src={message.mediaUrl} controls></audio>
+              <audio className={`audio-${bgChat}`} src={message.mediaUrl} controls></audio>
           }
 
           {/* Message Type: Location */}
@@ -341,9 +341,7 @@ const ChatMessage: FC<MessageProps> = (props) => {
           <img
             alt="Pic"
             src={toAbsoluteUrl(
-              `/media/icons/channel/${message.channel
-                .toString()
-                .toLowerCase()}.png`
+              getIconChannelUrl(message.channel.toLowerCase())
             )}
           />
         </div>

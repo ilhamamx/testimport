@@ -38,10 +38,26 @@
   background-color: #A1DDF9;
 }
 
-.audio-7days::-webkit-media-controls-panel {
+.audio-cl-7days::-webkit-media-controls-panel {
   background-color: #A1DDF9;
 }
 
-.audio-whatsapp::-webkit-media-controls-panel {
+.audio-cl-whatsapp::-webkit-media-controls-panel {
   background-color: #199844;
+}
+
+.audio-cl-tokopedia::-webkit-media-controls-panel {
+  background-color: #84c468;
+}
+
+.audio-cl-shopee::-webkit-media-controls-panel {
+  background-color: #EE4E2C;
+}
+
+.audio-cl-sabunzone::-webkit-media-controls-panel {
+  background-color: #F8EDCC;
+}
+
+.audio-cl-blibli::-webkit-media-controls-panel {
+  background-color: #008BD2;
 }
