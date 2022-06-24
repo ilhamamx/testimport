@@ -4,6 +4,8 @@ import { useTranslation } from "react-i18next";
 import { useMediaQuery } from "react-responsive";
 import axios from "axios"
 import * as api from "../../api"
+import * as action from "../../actions/playground"
+import Button from "../../styles/components/Button";
 
  const axiosPost = async () => {
    console.log("axios post")
@@ -41,12 +43,21 @@ const Playground: FC = () => {
   const { t } = useTranslation();
   //axiosPost();
   // fetchDataTesting()
-  api.logout()
   return (
     <>
       <div className="fw-bold fs-3 text-gray-400 mb-15" data-testid="faq-page">
         <h2>Playground Page</h2>
         <DeviceTest />
+
+        <Button
+        id="btnError"
+        className="btn btn-lg btn-primary fw-bolder"
+        onClick={async () => {
+          action.deleteUnused()
+        }}
+      >
+        Delete Message 
+        </Button>
       </div>
 
       
