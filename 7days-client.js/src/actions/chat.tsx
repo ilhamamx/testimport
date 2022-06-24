@@ -97,7 +97,6 @@ export const createCollaborationMessage = async (newMessage: Message,companyID: 
           Message.mediaUrl
         )
         .then(async (response) => {
-          console.log("Response Request Server Side : " + response);
           const resp = JSON.parse(response);
           if (resp.responseCode && resp.response) {
             if (resp.responseCode && resp.responseCode !== "") {
@@ -141,13 +140,11 @@ export const createCollaborationMessage = async (newMessage: Message,companyID: 
             }
             await message.createMessage(Message)
             .then(async(response) => {
-              console.log(">>>>>>>>>> Hasil Pengiriman pesan ID : "+response);
               if (response && response !== "") {
                 Message.id = response;
                 callback(Message, null);
               }
             }); 
-            console.log(">>>>>>>>>> Hasil Pengiriman Pesan : "+JSON.stringify(Message));
             return Message;
           } else if (resp.responseCode && !resp.response) {
             if (resp.responseCode && resp.responseCode !== "") {
@@ -163,13 +160,11 @@ export const createCollaborationMessage = async (newMessage: Message,companyID: 
             Message.resultMessage = "Exmpty Response From Server Side";
             message.createMessage(Message)
             .then(async(response) => {
-              console.log(">>>>>>>>>> Hasil Pengiriman pesan ID : "+response);
               if (response && response !== "") {
                 Message.id = response;
                 callback(Message, null);
               }
             }); 
-            console.log(">>>>>>>>>> Hasil Pengiriman Pesan : "+JSON.stringify(Message));
             return Message;
           } else {
             Message.messageStatus = MessageStatus.failed;
@@ -177,13 +172,11 @@ export const createCollaborationMessage = async (newMessage: Message,companyID: 
               "No response or reponsecode from server side.";
             message.createMessage(Message)
             .then(async(response) => {
-              console.log(">>>>>>>>>> Hasil Pengiriman pesan ID : "+response);
               if (response && response !== "") {
                 Message.id = response;
                 callback(Message, null);
               }
             }); 
-            console.log(">>>>>>>>>> Hasil Pengiriman Pesan : "+JSON.stringify(Message));
             return Message;
           }
         });
@@ -199,13 +192,11 @@ export const createCollaborationMessage = async (newMessage: Message,companyID: 
       }
       message.createMessage(Message)
       .then(async(response) => {
-        console.log(">>>>>>>>>> Hasil Pengiriman pesan ID : "+response);
         if (response && response !== "") {
           Message.id = response;
           callback(Message, null);
         }
       }); 
-      console.log(">>>>>>>>>> Hasil Pengiriman pesan return : "+Message);
       return Message;
     }
   }

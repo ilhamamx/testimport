@@ -226,7 +226,7 @@ const ChatInner: FC<Props> = ({ isDrawer = false }, props) => {
     }
 
     const callback =(responseMessage: newMessageModel, error: string) => {
-      console.log("Response Message : "+JSON.stringify(responseMessage));
+      // console.log("Response Message : "+JSON.stringify(responseMessage));
       if(responseMessage!== undefined){
         setNewMessage(responseMessage);
         const newCollabList: HandledMessageListItem[]= [];

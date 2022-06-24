@@ -12,8 +12,6 @@ const ChatMediaPreview: FC<ChatMediaProps> = (props) => {
   const mediaURL = props.mediaURL;
   const messageId = props.messageId;
 //   const modalId = props.modalId;
-
-    console.log("Preview Modal >> "+mediaURL);
     
   return (
     <div className="modal fade" tabIndex={-1} id="kt_modal_video">
