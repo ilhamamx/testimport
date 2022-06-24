@@ -89,9 +89,11 @@ const ChatItem: FC<ChatItemProps> = (props) => {
       </div>
 
       <div className="d-flex flex-column align-items-end ms-2">
-        <span className="text-muted fs-7 mb-1">
-          {ChatTime(item.lastInteractionAt.toDate())}
-        </span>
+        {item.lastInteractionAt && 
+          <span className="text-muted fs-7 mb-1">
+            {ChatTime(item.lastInteractionAt.toDate())}
+          </span>
+        }
         <div className="symbol-group symbol-hover">
           {item.unreadMessages?.map(
             (unreadMessages) =>

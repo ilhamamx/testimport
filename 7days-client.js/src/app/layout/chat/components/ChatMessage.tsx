@@ -292,7 +292,10 @@ const ChatMessage: FC<MessageProps> = (props) => {
 
 
           {/* Message Type: Audio */}
-          {message.messageType === "audio" &&
+          {message.messageType === "audio" && message.channel !== "7days" &&
+              <audio className={`audio-${bgChat} audio-white`} src={message.mediaUrl} controls></audio>
+          }
+          {message.messageType === "audio" && message.channel === "7days" &&
               <audio className={`audio-${bgChat}`} src={message.mediaUrl} controls></audio>
           }
 

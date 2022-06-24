@@ -19,7 +19,8 @@
 }
 
 .cl-whatsapp {
-  background-color: #199844;
+  /* background-color: #199844; */
+  background-color: #45BD6E;
 }
 
 .cl-shopee {
@@ -42,22 +43,218 @@
   background-color: #A1DDF9;
 }
 
+/* Set Up Audio UI Whatsapp*/
 .audio-cl-whatsapp::-webkit-media-controls-panel {
-  background-color: #199844;
+  /* background-color: #32e186; */
+  background-color: #45BD6E;
 }
 
+.audio-cl-whatsapp::-webkit-media-controls-mute-button {
+  background-color: #ffffff53;
+  border-radius:50%;
+} 
+
+.audio-cl-whatsapp::-webkit-media-controls-play-button {
+  background-color: #ffffff53; 
+  border-radius: 50%;
+}
+
+.audio-cl-whatsapp::-webkit-media-controls-play-button:hover {
+  background-color: rgb(255, 255, 255);
+  opacity: 50%;
+}
+
+/* 
+.audio-cl-whatsapp::-webkit-media-controls-current-time-display {
+  color: #fff;
+}
+
+.audio-cl-whatsapp::-webkit-media-controls-time-remaining-display {
+  color: #fff;
+} */
+
+.audio-cl-whatsapp::-webkit-media-controls-timeline {
+  background-color: #ffffff53;
+  border-radius: 25px;
+  margin-left: 10px;
+  margin-right: 10px;
+}
+
+.audio-cl-whatsapp::-webkit-media-controls-volume-slider {
+  background-color: #ffffff53;
+  border-radius: 25px;
+  padding-left: 8px;
+  padding-right: 8px;
+}
+
+
+
+
+/* Set Up Audio UI Tokopedia*/
 .audio-cl-tokopedia::-webkit-media-controls-panel {
   background-color: #84c468;
 }
 
+.audio-cl-tokopedia::-webkit-media-controls-mute-button {
+  background-color: #ffffff53;
+  border-radius:50%;
+} 
+
+.audio-cl-tokopedia::-webkit-media-controls-play-button {
+  background-color: #ffffff53;
+  border-radius: 50%;
+}
+
+.audio-cl-tokopedia::-webkit-media-controls-play-button:hover {
+  background-color: rgb(255, 255, 255);
+  opacity: 50%;
+}
+
+/* 
+.audio-cl-tokopedia::-webkit-media-controls-current-time-display {
+  color: #fff;
+}
+
+.audio-cl-tokopedia::-webkit-media-controls-time-remaining-display {
+  color: #fff;
+} */
+
+.audio-cl-tokopedia::-webkit-media-controls-timeline {
+  background-color: #ffffff53;
+  border-radius: 25px;
+  margin-left: 10px;
+  margin-right: 10px;
+}
+
+.audio-cl-tokopedia::-webkit-media-controls-volume-slider {
+  background-color: #ffffff53;
+  border-radius: 25px;
+  padding-left: 8px;
+  padding-right: 8px;
+}
+
+
+
+/* Set Up Audio UI Shopee*/
 .audio-cl-shopee::-webkit-media-controls-panel {
   background-color: #EE4E2C;
 }
 
+.audio-cl-shopee::-webkit-media-controls-mute-button {
+  background-color: #ffffff53;
+  border-radius:50%;
+} 
+
+.audio-cl-shopee::-webkit-media-controls-play-button {
+  background-color: #ffffff53;
+  border-radius: 50%;
+}
+
+.audio-cl-shopee::-webkit-media-controls-play-button:hover {
+  background-color: rgb(255, 255, 255);
+  opacity: 50%;
+}
+
+/* 
+.audio-cl-shopee::-webkit-media-controls-current-time-display {
+  color: #fff;
+}
+
+.audio-cl-shopee::-webkit-media-controls-time-remaining-display {
+  color: #fff;
+} */
+
+.audio-cl-shopee::-webkit-media-controls-timeline {
+  background-color: #ffffff53;
+  border-radius: 25px;
+  margin-left: 10px;
+  margin-right: 10px;
+}
+
+.audio-cl-shopee::-webkit-media-controls-volume-slider {
+  background-color: #ffffff53;
+  border-radius: 25px;
+  padding-left: 8px;
+  padding-right: 8px;
+}
+
+
+
+
+/* Set Up Audio UI sabunzone*/
 .audio-cl-sabunzone::-webkit-media-controls-panel {
   background-color: #F8EDCC;
 }
 
+.audio-cl-shopee::-webkit-media-controls-mute-button {
+  background-color: #ffffff53;
+  border-radius:50%;
+} 
+
+.audio-cl-shopee::-webkit-media-controls-play-button {
+  background-color: #ffffff53;
+  border-radius: 50%;
+}
+
+.audio-cl-shopee::-webkit-media-controls-play-button:hover {
+  background-color: rgb(255, 255, 255);
+  opacity: 50%;
+}
+
+.audio-cl-shopee::-webkit-media-controls-timeline {
+  background-color: #ffffff53;
+  border-radius: 25px;
+  margin-left: 10px;
+  margin-right: 10px;
+}
+
+.audio-cl-shopee::-webkit-media-controls-volume-slider {
+  background-color: #ffffff53;
+  border-radius: 25px;
+  padding-left: 8px;
+  padding-right: 8px;
+}
+
+
+
+/* Set Up Audio UI blibli*/
 .audio-cl-blibli::-webkit-media-controls-panel {
   background-color: #008BD2;
+}
+
+.audio-cl-blibli::-webkit-media-controls-mute-button {
+  background-color: #ffffff53;
+  border-radius:50%;
+} 
+
+.audio-cl-blibli::-webkit-media-controls-play-button {
+  background-color: #ffffff53;
+  border-radius: 50%;
+}
+
+.audio-cl-blibli::-webkit-media-controls-play-button:hover {
+  background-color: rgb(255, 255, 255);
+  opacity: 50%;
+}
+
+/* .audio-cl-blibli::-webkit-media-controls-current-time-display {
+  color: #fff;
+}
+
+.audio-cl-blibli::-webkit-media-controls-time-remaining-display {
+  color: #fff;
+} */
+
+.audio-cl-blibli::-webkit-media-controls-timeline {
+  background-color: #ffffff53;
+  border-radius: 25px;
+  margin-left: 10px;
+  margin-right: 10px;
+}
+
+.audio-cl-blibli::-webkit-media-controls-volume-slider {
+  background-color: #ffffff53;
+  border-radius: 25px;
+  padding-left: 8px;
+  padding-right: 8px;
 }
