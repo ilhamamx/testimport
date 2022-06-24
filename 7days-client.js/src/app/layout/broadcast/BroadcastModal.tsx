@@ -104,6 +104,7 @@ function BroadcastModal(props: IProps) {
     console.log("ini language ===>>>" + e.target.value);
     const languageId = e.target.value;
     setTemplate(undefined);
+    formik.setFieldValue("body_message", "");
     formik.setFieldValue("body_param", []);
     if (languageId !== "") {
       formik.setFieldValue(
@@ -262,6 +263,10 @@ function BroadcastModal(props: IProps) {
           if(responseCode == "200"){
             props.onSuccessSubmit();
           }
+          serviceCollaboration.updateLastInteraction(
+            Mmessage.collaboration.id,
+            Mmessage
+          )
         }
       )
       .then((response) => {})
@@ -326,6 +331,7 @@ function BroadcastModal(props: IProps) {
                     className="form-select form-control form-control-solid mb-3 mb-lg-0"
                     id={`title${props.indexId}`}
                     onChange={onChangeTemplate}
+                    name="templateTitle"
                   >
                     <option key="" value="">
                       {t("BS.Input.Templatetitle")}
@@ -339,6 +345,7 @@ function BroadcastModal(props: IProps) {
                     className="form-select form-control form-control-solid mb-3 mb-lg-0"
                     onChange={onChangeLanguage}
                     disabled={disable}
+                    name="templateLanguage"
                   >
                     <option value="">{t("BS.Input.Languages")} . . .</option>
                     {optionLanguage}
@@ -354,6 +361,7 @@ function BroadcastModal(props: IProps) {
                     {...formik.getFieldProps("body_message")}
                     disabled
                     value={formik.getFieldProps("body_message").value ?? ""}
+                    name="body_message"
                   >
                     {" "}
                   </textarea>

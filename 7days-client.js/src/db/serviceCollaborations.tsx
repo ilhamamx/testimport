@@ -2,6 +2,7 @@ import db from ".";
 import * as conn from "./connection"
 import { converter2 } from "./converter";
 import { HandledMessageListItem } from "../app/layout/chat/models/ChatItem.model";
+import { Message } from "../app/layout/chat/models/ChatItem.model";
 
 export const fetchCollaborationsByUser = (uid: string, company: string ) => {
   
@@ -62,3 +63,22 @@ export const getActiveCollaborationByCustomerIdAndCompanyId = (customerId: strin
     }
     );
 }
+
+export const updateLastInteraction = (
+  collaborationid: string,
+  newMessage: Message
+) => {
+  let lastMessage = newMessage.textContent;
+  if (
+    (newMessage.textContent === "" || newMessage.textContent === undefined) &&
+    newMessage.filename !== undefined
+  ) {
+    lastMessage = newMessage.filename;
+  }
+  db.collection("collaborations").doc(collaborationid).update({
+    lastInteractionChannel: newMessage.channel,
+    lastInteractionAt: newMessage.createdAt,
+    lastInteractionType: newMessage.messageType,
+    lastInteractionMessage: lastMessage,
+  });
+};

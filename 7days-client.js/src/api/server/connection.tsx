@@ -28,7 +28,7 @@ export const setUserOffline = (uid: any, sessionid: string ) => {
 
 export const sendMessage = async(jsonMessage: string, callback: any) => {
 
-  const url = "http://localhost:3001/messages/sendMessage";
+  const url = "http://192.168.20.22:3001/messages/sendMessage";
   // const token = "$2a$10$gtpkSOpm5dadvQgF4f4FP.apK6mlyhFoPrUMQ/dejkKjld0VPWS";
 
   const token = "$2a$10$gtpkSOpm5dadvQgF4f4FP.apK6mlyhFoPrU1EMQ/dejkKjld0VPWS";

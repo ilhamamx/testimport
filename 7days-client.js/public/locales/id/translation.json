@@ -137,5 +137,6 @@
   "BS.Input.Parameter": "Masukkan Parameter",
   "BS.Info.Scheduled time": "Dijadwalkan pada",
   "BS.Button.SendMessage": "Kirim Pesan",
-  "BS.Info.Sent": "Pesanmu berhasil terkirim !"
+  "BS.Info.Sent": "Pesanmu berhasil terkirim !",
+  "BS.Button.Close": "Saya Mengerti"
 }

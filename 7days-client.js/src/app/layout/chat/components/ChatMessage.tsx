@@ -285,6 +285,23 @@ const ChatMessage: FC<MessageProps> = (props) => {
           {/* Message Type: Audio */}
 
           {/* Message Type: Location */}
+
+          {/* Message Type: Template */}
+          {message.messageType === "template" && (
+            <div
+              style={{ color: txChat }}
+              className={clsx(
+                "p-5 rounded",
+                `${bgChat}`,
+                " fw-bold mw-lg-400px"
+              )}
+            >
+              {/* TODO for header */}
+              {message.textContent}
+              {/* TODO for footer */}
+              {/* TODO for button */}
+            </div>
+          )}
         </div>
         <div
           className={clsx(

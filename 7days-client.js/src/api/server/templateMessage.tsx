@@ -16,12 +16,17 @@ export const sendRequestMessage = async (
     let jsonComponent = ``
     //if any parameter found
     if(bodyParameters.length>0){
-      
+      jsonComponent = `
+      , "components" : [
+        <<component>>
+      ]
+      `
     }
     //TODO: Add more components for header
 
     //
     if(bodyParameters.length>0){
+      
       jsonComponent = jsonComponent.replace("<<component>>", 
       `{
         "type" : "body",

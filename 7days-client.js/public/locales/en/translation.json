@@ -138,5 +138,6 @@
   "BS.Input.Parameter": "Enter Content",
   "BS.Info.Scheduled time": "Scheduled time",
   "BS.Button.SendMessage": "Send Message",
-  "BS.Info.Sent": "Your Message has been successfully sent !"
+  "BS.Info.Sent": "Your Message has been successfully sent !",
+  "BS.Button.Close": "OK, got it!"
 }
