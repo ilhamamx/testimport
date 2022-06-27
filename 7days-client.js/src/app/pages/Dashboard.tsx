@@ -46,7 +46,7 @@ const error = async (nav: NavigateFunction) => {
   const axios = await require("axios").default;
   try {
     const response = await axios.get(
-      "http://localhost:3000/auth/reset-password"
+      `${process.env.SERVER_URL}/auth/reset-password`
     );
     console.log(response);
   } catch (err) {

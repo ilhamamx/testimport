@@ -28,16 +28,10 @@ export const setUserOffline = (uid: any, sessionid: string ) => {
 
 export const sendMessage = async(jsonMessage: string, callback: any) => {
 
-  const url = "http://192.168.20.22:3001/messages/sendMessage";
+  const url: string = process.env.SERVER_URL! + '/messages/sendMessage';
   // const token = "$2a$10$gtpkSOpm5dadvQgF4f4FP.apK6mlyhFoPrUMQ/dejkKjld0VPWS";
 
-  const token = "$2a$10$gtpkSOpm5dadvQgF4f4FP.apK6mlyhFoPrU1EMQ/dejkKjld0VPWS";
-
-  let defaultResponse = `
-  {
-    "responseCode" : <<responseCode>>,
-    "response" : <<response>>
-  }`;
+  const token: string = process.env.SERVER_TOKEN!;
 
   try {
     await axios.post(url, JSON.parse(jsonMessage), {

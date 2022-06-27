@@ -3,7 +3,7 @@ import axios from "axios";
 export const sendRequestMessage = async (
     type: string, 
     company: string, from: string, to: string, msgtype: string|undefined, previewurl:boolean|undefined, text: string, fileURL : string|undefined) => {
-  const url = "http://192.168.20.27:3001/messages/sendMessage";
+  const url : string = process.env.SERVER_URL! + '/messages/sendMessage';
 
   const jsonMessageText = `
   {
@@ -113,7 +113,7 @@ export const sendRequestMessage = async (
           "Content-Type": "application/json",
           "Access-Control-Allow-Origin": "*",
           Authorization:
-            "Bearer $2a$10$SoOcDYU6M6tg7oUe00UVQeCgji/yfRpvYfRqU4H9kIKY1.SEC0c5a",
+           `Bearer ${process.env.SERVER_TOKEN}`,
         },
       }
     );
