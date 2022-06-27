@@ -28,10 +28,10 @@ export const setUserOffline = (uid: any, sessionid: string ) => {
 
 export const sendMessage = async(jsonMessage: string, callback: any) => {
 
-  const url: string = process.env.SERVER_URL! + '/messages/sendMessage';
+  const url: string = process.env.REACT_APP_SERVER_URL! + '/messages/sendMessage';
   // const token = "$2a$10$gtpkSOpm5dadvQgF4f4FP.apK6mlyhFoPrUMQ/dejkKjld0VPWS";
 
-  const token: string = process.env.SERVER_TOKEN!;
+  const token: string = `$2a$10$${process.env.REACT_APP_SERVER_TOKEN}`;
 
   try {
     await axios.post(url, JSON.parse(jsonMessage), {

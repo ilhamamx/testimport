@@ -1,7 +1,7 @@
 import axios from "axios";
 
 export const getEmailFromPhone = async (phoneNumber: string) => {
-  const url = process.env.SERVER_URL!;
+  const url = process.env.REACT_APP_SERVER_URL!;
 
   try {
     //using axios
@@ -13,7 +13,7 @@ export const getEmailFromPhone = async (phoneNumber: string) => {
           "Content-Type": "application/json",
           "Access-Control-Allow-Origin": "*",
           Authorization:
-            `Bearer ${process.env.SERVER_TOKEN}`,
+            `Bearer $2a$10$${process.env.REACT_APP_SERVER_TOKEN}`,
         },
       }
     );

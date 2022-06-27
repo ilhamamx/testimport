@@ -3,7 +3,7 @@ import axios from "axios";
 export const sendRequestMessage = async (
     type: string, 
     company: string, from: string, to: string, msgtype: string|undefined, previewurl:boolean|undefined, text: string, fileURL : string|undefined) => {
-  const url : string = process.env.SERVER_URL! + '/messages/sendMessage';
+  const url : string = process.env.REACT_APP_SERVER_URL! + '/messages/sendMessage';
 
   const jsonMessageText = `
   {
@@ -104,6 +104,8 @@ export const sendRequestMessage = async (
 
   console.log("----->>> Hasil Json : "+RequestValue());
   try {
+    // env cant have any $, so we need to replace it manually
+    console.log(`token $2a$10$${process.env.REACT_APP_SERVER_TOKEN}`);
     //using axios
     const response = await axios.post(
       url,
@@ -113,7 +115,7 @@ export const sendRequestMessage = async (
           "Content-Type": "application/json",
           "Access-Control-Allow-Origin": "*",
           Authorization:
-           `Bearer ${process.env.SERVER_TOKEN}`,
+           `Bearer $2a$10$${process.env.REACT_APP_SERVER_TOKEN}`,
         },
       }
     );
